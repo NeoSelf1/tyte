@@ -58,7 +58,6 @@ struct DayView: View {
                     
                     Text(date.formattedDay)
                         .font(isSelected || isToday ? ._subhead2 : ._body2)
-                        .frame(maxWidth: 64,maxHeight: 64,alignment: .bottomTrailing)
                         .padding(.bottom, 2)
                         .padding(.trailing, 2)
                         .foregroundColor(.gray90)
@@ -73,6 +72,7 @@ struct DayView: View {
                             }
                             , alignment: .bottom
                         )
+                        .frame(maxWidth: 64,maxHeight: 64,alignment: .bottomTrailing)
                 }
             }
             .frame(width: 64, height: 64)

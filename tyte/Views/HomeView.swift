@@ -25,6 +25,7 @@ struct HomeView: View {
                         .font(._subhead1)
                         .foregroundColor(.gray50)
                         .frame(maxWidth: .infinity,alignment: .leading)
+                    
                     HStack(alignment: .center,spacing: 8){
                         Circle()
                             .fill(.red)
@@ -36,15 +37,15 @@ struct HomeView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     
-                    ScrollView(.horizontal){
+                    ScrollView(.horizontal, showsIndicators: false){
                         HStack{
                             SortMenuButton(sortOption: $sortOption)
                             
                             TagSelector(selectedTags: $selectedTags)
-                                
                         }
                     }
                 }
+                .padding(.horizontal)
                 
                 ScrollView {
                     Spacer().frame(height:16)
@@ -74,9 +75,10 @@ struct HomeView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
+                .padding(.horizontal)
                 .background(.gray10)
             }
-            .padding()
+
         }
         .background(.gray00)
     }
