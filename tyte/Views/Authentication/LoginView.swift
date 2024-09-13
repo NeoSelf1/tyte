@@ -31,7 +31,7 @@ struct LoginView: View {
                     }
                 }
             }
-            .navigationTitle("Loginss")
+            .navigationTitle("로그인")
             .alert(item: Binding<AlertItem?>(
                 get: { viewModel.errorMessage.map { AlertItem(message: $0) } },
                 set: { _ in viewModel.errorMessage = nil }
