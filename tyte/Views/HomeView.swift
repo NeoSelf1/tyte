@@ -2,106 +2,57 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var viewModel : TodoListViewModel
-    @EnvironmentObject private var authViewModel : AuthViewModel
     
     @State private var todoInput = ""
-    @State private var dueDate = Date()
     @State private var showSortMenu = false
     @State private var sortOption = "마감 임박순"
+    @State private var selectedTags: [String] = []
     
+    
+    // @State 프로퍼트를 직접 초기화하려 할 경우, 버그 발생 우려 -> onAppear 수정자에 값 설정 로직 추가
+    // SwiftUI 뷰는 값 구조체이며 @State 변경 시 새로운 인스턴스가 생성됨. 즉 뷰가 자주 재생성 된다.
+    // @State는 SwiftUI 재생성 로직과 직결되는만큼 뷰의 생명주기와 구분되는 별도의 저장소에 저장 및 관리된다.
+    // 허나 init() 메서드는 뷰가 생성될 때마다 호출되기에, 뷰 재생성때마다 상태가 리셋되어 예상치 못한 동작이 발생할 수 있음. 따라서, onAppear 수정자 사용 혹은, initialValue을 통해 뷰가 처음 나타날때만 호출하게끔 해야 함.
+//    init(initialTags: [String]) {
+//        _selectedTags = State(initialValue: initialTags)
+//    }
     var body: some View {
         
         VStack(spacing: 0) {
-            // 상단 파란색 영역
-            HStack{
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack{
-                        Text("안녕하세요. \(authViewModel.username)님")
-                            .font(._subhead1)
-                            .foregroundColor(.gray20)
-                        
-                        Spacer()
-                        
-                        Text("워라벨 분석 보기")
-                            .font(._body3)
-                            .foregroundColor(.gray10)
-                            .overlay(
-                                Rectangle()
-                                    .frame(height: 2)
-                                    .offset(y: 0), alignment: .bottom
-                            )
-                    }
-                    HStack(alignment: .top, spacing:6){
+            VStack(alignment:.leading, spacing: 16) {
+                VStack (spacing: 8) {
+                    Text("안녕하세요. 사용자1님")
+                        .font(._subhead1)
+                        .foregroundColor(.gray50)
+                        .frame(maxWidth: .infinity,alignment: .leading)
+                    HStack(alignment: .center,spacing: 8){
                         Circle()
                             .fill(.red)
                             .frame(width: 8, height: 8)
-                            .padding(.top,8)
                         
-                        Text("업무량이 조금씩 증가하고 있습니다. 주의를 기울이세요.")
-                            .font(._headline2)
-                            .foregroundColor(.gray00)
-                        
-                        Spacer()
-                    }
-                }
-            }
-            .padding()
-            .background(.blue30)
-            
-            VStack(alignment:.leading, spacing: 4) {
-                
-                ScrollView {
-                    HStack {
-                        Text("전체 Todo")
+                        Text("상태 메시지")
                             .font(._headline2)
                             .foregroundColor(.gray90)
-                        
-                        Text(Date().formattedDate)
-                            .font(._title)
-                            .foregroundColor(.gray)
-                        
-                        Spacer()
-                        
-                        Menu {
-                            Button("마감 임박") {
-                                sortOption = "마감 임박순"
-                                viewModel.fetchTodos(mode: "default")
-                            }
-                            Button("최근 추가") {
-                                sortOption = "최근 추가순"
-                                viewModel.fetchTodos(mode: "recent")
-                            }
-                            Button("중요도") {
-                                sortOption = "중요도순"
-                                viewModel.fetchTodos(mode: "important")
-                            }
-                        } label: {
-                            HStack(spacing:8){
-                                Text(sortOption)
-                                    .font(._body4)
-                                    .foregroundColor(.gray90)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    
+                    ScrollView(.horizontal){
+                        HStack{
+                            SortMenuButton(sortOption: $sortOption)
+                            
+                            TagSelector(selectedTags: $selectedTags)
                                 
-                                Image(systemName: "arrow.up.arrow.down")
-                                    .resizable()
-                                    .frame(width: 16, height: 16)
-                                    .foregroundColor(.gray60)
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(.gray00)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(.gray50 , lineWidth: 1)
-                            )
-                            .shadow(color: .gray90.opacity(0.08), radius: 4)
-                            .padding(1)
                         }
                     }
-                    // Todo 리스트 영역
+                }
+                
+                ScrollView {
+                    Spacer().frame(height:16)
+                    
                     if (viewModel.totalTodos.count>0){
                         TodoListContent(
-                            isHome:true
+                            isHome:true,
+                            selectedTags: $selectedTags
                         )
                         .onAppear {
                             print("onAppear in Home")
@@ -125,6 +76,7 @@ struct HomeView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
+                .background(.gray10)
             }
             .padding()
         }
@@ -136,6 +88,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(TodoListViewModel())
-            .environmentObject(AuthViewModel())
+            .environmentObject(TagEditViewModel())
     }
 }
