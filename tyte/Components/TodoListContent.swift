@@ -21,7 +21,7 @@ struct TodoListContent: View {
     
     
     let isHome: Bool
-    
+    @Binding var selectedTags: [String]
     private var shouldPresentSheet: Binding<Bool> {
         Binding(
             get: { isBottomSheetPresented && selectedTodo != nil },
@@ -35,7 +35,11 @@ struct TodoListContent: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing:16) {
-            ForEach(isHome ? viewModel.totalTodos : viewModel.todosForDate) { todo in
+            ForEach(isHome ?
+                    viewModel.totalTodos.filter { todo in
+                guard let todoTagId = todo.tagId?.id else { return false }
+                return selectedTags.contains(todoTagId)
+            } : viewModel.todosForDate) { todo in
                 HStack (spacing:12) {
                     Button(action: {
                         viewModel.toggleTodo(todo.id,isTotal: isHome)

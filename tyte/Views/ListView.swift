@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var viewModel: TodoListViewModel
-//    @State var isWeek: Bool = true
     
     var body: some View {
         VStack (spacing:0){
@@ -40,18 +39,11 @@ struct ListView: View {
             .frame(height:56)
             .padding(.horizontal)
             
-//            if (isWeek){
                 WeeklyCalendar(
                     selectedDate: $viewModel.selectedDate,
                     currentMonth:$viewModel.currentMonth,
                     dailyStats:viewModel.dailyStats
                 )
-//            } else {
-//                CalenderView(
-//                    selectedDate: $viewModel.selectedDate,
-//                    month: viewModel.selectedDate
-//                )
-//            }
             
             Spacer().frame(height:16)
             
@@ -64,9 +56,7 @@ struct ListView: View {
                 Spacer().frame(height:16)
                 
                 if (viewModel.todosForDate.count>0){
-                    TodoListContent(
-                        isHome:false
-                    )
+                    TodoListContent(isHome: false, selectedTags: Binding.constant(["tag1"]))
                     .onAppear {
                         viewModel.fetchAllDailyStats()
                         viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
