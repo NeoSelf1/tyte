@@ -99,7 +99,7 @@ struct WeeklyCalendar: View {
                     }
                     
                 } else {
-                    MeshGradientView(colors: [.gray50], center: [0.5,0.5], isSelected: isSelected)
+                    MeshGradientView(colors: [.gray20], center: [0.5,0.5], isSelected: isSelected)
                         .frame(width: 64, height: 64)
                     
                     VStack(alignment: .trailing, spacing: 0) {

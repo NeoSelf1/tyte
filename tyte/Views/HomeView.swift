@@ -55,11 +55,9 @@ struct HomeView: View {
                             selectedTags: $selectedTags
                         )
                         .onAppear {
-                            print("onAppear in Home")
                             viewModel.fetchTodos()
                         }
                         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                            print("onReceive in Home")
                             viewModel.fetchTodos()
                         }
                     } else {

@@ -10,7 +10,7 @@ import Foundation
 func getColorsForDay(_ dailyStat: DailyStat) -> [Color] {
     // tagStats가 비어있으면 기본 색상 반환
     guard !dailyStat.tagStats.isEmpty else {
-        return Array(repeating: Color.gray, count: 9)
+        return Array(repeating: .gray20, count: 9)
     }
     
     // 각 태그의 색상과 카운트를 저장할 배열
