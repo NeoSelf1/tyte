@@ -1,0 +1,1025 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */; };
+		997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */; };
+		AB21F0992C903EBC00AAADAB /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F0982C903EBC00AAADAB /* TagEditViewModel.swift */; };
+		AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */; };
+		AB21F09E2C90DBB500AAADAB /* EnvironmentKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F09D2C90DBB500AAADAB /* EnvironmentKeys.swift */; };
+		AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4498822C8992B000B2B74A /* TodoEditBottomSheet.swift */; };
+		AB4498852C89930500B2B74A /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4498842C89930500B2B74A /* String+.swift */; };
+		AB44988B2C8ACCFE00B2B74A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */; };
+		AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2772C836C0400DC4D72 /* tyteApp.swift */; };
+		AB5BB27C2C836C0500DC4D72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */; };
+		AB5BB27F2C836C0500DC4D72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */; };
+		AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2882C836C0600DC4D72 /* tyteTests.swift */; };
+		AB5BB2932C836C0600DC4D72 /* tyteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */; };
+		AB5BB2952C836C0600DC4D72 /* tyteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */; };
+		AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB2A12C836C5A00DC4D72 /* Podfile */; };
+		AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */; };
+		AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F742C8AE5A000254299 /* CalendarView.swift */; };
+		AB6A0F772C8E45F100254299 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
+		AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F782C8EAF5500254299 /* Tag.swift */; };
+		AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */; };
+		AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F832C8EB02300254299 /* APIManager.swift */; };
+		AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F852C8EB02E00254299 /* APIError.swift */; };
+		AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F872C8EB03600254299 /* APIEndpoint.swift */; };
+		AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8A2C8EB32900254299 /* AuthService.swift */; };
+		AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8C2C8EB43600254299 /* TodoService.swift */; };
+		AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8E2C8EB68700254299 /* TagService.swift */; };
+		AB6A0F922C8EB6CA00254299 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F912C8EB6CA00254299 /* LoginRequest.swift */; };
+		AB6A0F942C8EB6D400254299 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F932C8EB6D400254299 /* LoginResponse.swift */; };
+		AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatService.swift */; };
+		AB6A0F982C8EC56700254299 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F972C8EC56700254299 /* LoginView.swift */; };
+		AB6A0F9A2C8EC67500254299 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F992C8EC67500254299 /* SignUpView.swift */; };
+		AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F9B2C8EE85100254299 /* TagEditView.swift */; };
+		AB6A495F2C8606AF00B782A1 /* Int+Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+Priority.swift */; };
+		AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */; };
+		AB84C5312C918EA9000164AC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB84C5302C918EA9000164AC /* Utils.swift */; };
+		ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */; };
+		ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */; };
+		ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
+		ABA9207C2C8988E200B9F8F1 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
+		ABA9207D2C8988E200B9F8F1 /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */; };
+		ABA9207E2C8988E200B9F8F1 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
+		ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
+		ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */; };
+		ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666B52C83733E0005D3C1 /* HomeView.swift */; };
+		ABD666BC2C83735F0005D3C1 /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* TodoListViewModel.swift */; };
+		ABD666BE2C83736A0005D3C1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BD2C83736A0005D3C1 /* User.swift */; };
+		ABD666C02C8373700005D3C1 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
+		ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */; };
+		ABDE8B922C86EF6800F3CB68 /* TodoListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */; };
+		ABDE8B942C86F2A900F3CB68 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B932C86F2A900F3CB68 /* ListView.swift */; };
+		ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */; };
+		ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B972C86FEE000F3CB68 /* Date+.swift */; };
+		C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB5BB2852C836C0600DC4D72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5BB26C2C836C0400DC4D72 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB5BB2732C836C0400DC4D72;
+			remoteInfo = tyte;
+		};
+		AB5BB28F2C836C0600DC4D72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5BB26C2C836C0400DC4D72 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AB5BB2732C836C0400DC4D72;
+			remoteInfo = tyte;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.debug.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_tyteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.debug.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.debug.xcconfig"; sourceTree = "<group>"; };
+		435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.release.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.release.xcconfig"; sourceTree = "<group>"; };
+		4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB21F0982C903EBC00AAADAB /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
+		AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerBottomSheet.swift; sourceTree = "<group>"; };
+		AB21F09D2C90DBB500AAADAB /* EnvironmentKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKeys.swift; sourceTree = "<group>"; };
+		AB4498822C8992B000B2B74A /* TodoEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditBottomSheet.swift; sourceTree = "<group>"; };
+		AB4498842C89930500B2B74A /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AB5394FD2C85981500A9D1FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5BB2742C836C0400DC4D72 /* tyte.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tyte.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB5BB2772C836C0400DC4D72 /* tyteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteApp.swift; sourceTree = "<group>"; };
+		AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AB5BB2842C836C0600DC4D72 /* tyteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tyteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB5BB2882C836C0600DC4D72 /* tyteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteTests.swift; sourceTree = "<group>"; };
+		AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tyteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITests.swift; sourceTree = "<group>"; };
+		AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AB5BB2A12C836C5A00DC4D72 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		AB6A0F742C8AE5A000254299 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		AB6A0F762C8E45F100254299 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		AB6A0F782C8EAF5500254299 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		AB6A0F832C8EB02300254299 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		AB6A0F852C8EB02E00254299 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		AB6A0F872C8EB03600254299 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
+		AB6A0F8A2C8EB32900254299 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		AB6A0F8C2C8EB43600254299 /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
+		AB6A0F8E2C8EB68700254299 /* TagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagService.swift; sourceTree = "<group>"; };
+		AB6A0F912C8EB6CA00254299 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		AB6A0F932C8EB6D400254299 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		AB6A0F952C8EBBC400254299 /* DailyStatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatService.swift; sourceTree = "<group>"; };
+		AB6A0F972C8EC56700254299 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AB6A0F992C8EC67500254299 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		AB6A0F9B2C8EE85100254299 /* TagEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditView.swift; sourceTree = "<group>"; };
+		AB6A495E2C8606AE00B782A1 /* Int+Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Priority.swift"; sourceTree = "<group>"; };
+		AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
+		AB84C5302C918EA9000164AC /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStat.swift; sourceTree = "<group>"; };
+		ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBox.swift; sourceTree = "<group>"; };
+		ABA920762C897FC000B9F8F1 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
+		ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
+		ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.ttf"; sourceTree = "<group>"; };
+		ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
+		ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWheelPicker.swift; sourceTree = "<group>"; };
+		ABD666B52C83733E0005D3C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		ABD666BB2C83735F0005D3C1 /* TodoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
+		ABD666BD2C83736A0005D3C1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		ABD666BF2C8373700005D3C1 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListContent.swift; sourceTree = "<group>"; };
+		ABDE8B932C86F2A900F3CB68 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyCalender.swift; sourceTree = "<group>"; };
+		ABDE8B972C86FEE000F3CB68 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
+		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AB5BB2712C836C0400DC4D72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB5BB2812C836C0600DC4D72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB5BB28B2C836C0600DC4D72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		58595DA58C486F0F79F4315A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */,
+				06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */,
+				51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB21F09C2C90DBA000AAADAB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AB21F09D2C90DBB500AAADAB /* EnvironmentKeys.swift */,
+				AB84C5302C918EA9000164AC /* Utils.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		AB5BB26B2C836C0400DC4D72 = {
+			isa = PBXGroup;
+			children = (
+				AB5BB2A12C836C5A00DC4D72 /* Podfile */,
+				AB5BB2762C836C0400DC4D72 /* tyte */,
+				AB5BB2872C836C0600DC4D72 /* tyteTests */,
+				AB5BB2912C836C0600DC4D72 /* tyteUITests */,
+				AB5BB2752C836C0400DC4D72 /* Products */,
+				F31225ED6139D10585A1FF21 /* Pods */,
+				58595DA58C486F0F79F4315A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AB5BB2752C836C0400DC4D72 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5BB2742C836C0400DC4D72 /* tyte.app */,
+				AB5BB2842C836C0600DC4D72 /* tyteTests.xctest */,
+				AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AB5BB2762C836C0400DC4D72 /* tyte */ = {
+			isa = PBXGroup;
+			children = (
+				AB21F09C2C90DBA000AAADAB /* Helpers */,
+				AB6A0F812C8EB01300254299 /* Networking */,
+				ABA920732C897E9A00B9F8F1 /* Font */,
+				AB6A495D2C86069B00B782A1 /* Extensions */,
+				AB6A0F7C2C8EAF7400254299 /* Components */,
+				ABD666B42C83732E0005D3C1 /* Views */,
+				ABD666B32C8373270005D3C1 /* ViewModels */,
+				ABD666B22C83731F0005D3C1 /* Models */,
+				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
+				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
+				AB5BB27D2C836C0500DC4D72 /* Preview Content */,
+				AB5394FD2C85981500A9D1FE /* Info.plist */,
+				AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */,
+			);
+			path = tyte;
+			sourceTree = "<group>";
+		};
+		AB5BB27D2C836C0500DC4D72 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AB5BB2872C836C0600DC4D72 /* tyteTests */ = {
+			isa = PBXGroup;
+			children = (
+				AB5BB2882C836C0600DC4D72 /* tyteTests.swift */,
+			);
+			path = tyteTests;
+			sourceTree = "<group>";
+		};
+		AB5BB2912C836C0600DC4D72 /* tyteUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */,
+				AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */,
+			);
+			path = tyteUITests;
+			sourceTree = "<group>";
+		};
+		AB6A0F7A2C8EAF5E00254299 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F972C8EC56700254299 /* LoginView.swift */,
+				AB6A0F992C8EC67500254299 /* SignUpView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		AB6A0F7C2C8EAF7400254299 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */,
+				ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */,
+				AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */,
+				ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */,
+				AB6A0F742C8AE5A000254299 /* CalendarView.swift */,
+				AB4498822C8992B000B2B74A /* TodoEditBottomSheet.swift */,
+				AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */,
+				AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */,
+				ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		AB6A0F812C8EB01300254299 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F902C8EB6BD00254299 /* DTOs */,
+				AB6A0F892C8EB03900254299 /* Services */,
+				AB6A0F822C8EB01900254299 /* Base */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		AB6A0F822C8EB01900254299 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F832C8EB02300254299 /* APIManager.swift */,
+				AB6A0F852C8EB02E00254299 /* APIError.swift */,
+				AB6A0F872C8EB03600254299 /* APIEndpoint.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		AB6A0F892C8EB03900254299 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
+				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
+				AB6A0F8E2C8EB68700254299 /* TagService.swift */,
+				AB6A0F952C8EBBC400254299 /* DailyStatService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AB6A0F902C8EB6BD00254299 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F912C8EB6CA00254299 /* LoginRequest.swift */,
+				AB6A0F932C8EB6D400254299 /* LoginResponse.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		AB6A495D2C86069B00B782A1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A495E2C8606AE00B782A1 /* Int+Priority.swift */,
+				ABDE8B972C86FEE000F3CB68 /* Date+.swift */,
+				ABA920762C897FC000B9F8F1 /* Font+.swift */,
+				AB4498842C89930500B2B74A /* String+.swift */,
+				AB6A0F762C8E45F100254299 /* Color+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		ABA920732C897E9A00B9F8F1 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */,
+				ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */,
+				ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */,
+				ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		ABD666B22C83731F0005D3C1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				ABD666BD2C83736A0005D3C1 /* User.swift */,
+				ABD666BF2C8373700005D3C1 /* Todo.swift */,
+				ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */,
+				AB6A0F782C8EAF5500254299 /* Tag.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		ABD666B32C8373270005D3C1 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				ABD666BB2C83735F0005D3C1 /* TodoListViewModel.swift */,
+				AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */,
+				AB21F0982C903EBC00AAADAB /* TagEditViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		ABD666B42C83732E0005D3C1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
+				ABD666B52C83733E0005D3C1 /* HomeView.swift */,
+				ABDE8B932C86F2A900F3CB68 /* ListView.swift */,
+				AB6A0F7A2C8EAF5E00254299 /* Authentication */,
+				AB6A0F9B2C8EE85100254299 /* TagEditView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F31225ED6139D10585A1FF21 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */,
+				B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */,
+				01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */,
+				EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */,
+				4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */,
+				435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AB5BB2732C836C0400DC4D72 /* tyte */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB5BB2982C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyte" */;
+			buildPhases = (
+				388C035316B68ACB7116F318 /* [CP] Check Pods Manifest.lock */,
+				AB5BB2702C836C0400DC4D72 /* Sources */,
+				AB5BB2712C836C0400DC4D72 /* Frameworks */,
+				AB5BB2722C836C0400DC4D72 /* Resources */,
+				8AD7FF0506FA52C8C984962E /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tyte;
+			productName = tyte;
+			productReference = AB5BB2742C836C0400DC4D72 /* tyte.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AB5BB2832C836C0600DC4D72 /* tyteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB5BB29B2C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyteTests" */;
+			buildPhases = (
+				14ECBA80144931856E8312B7 /* [CP] Check Pods Manifest.lock */,
+				AB5BB2802C836C0600DC4D72 /* Sources */,
+				AB5BB2812C836C0600DC4D72 /* Frameworks */,
+				AB5BB2822C836C0600DC4D72 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB5BB2862C836C0600DC4D72 /* PBXTargetDependency */,
+			);
+			name = tyteTests;
+			productName = tyteTests;
+			productReference = AB5BB2842C836C0600DC4D72 /* tyteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AB5BB28D2C836C0600DC4D72 /* tyteUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB5BB29E2C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyteUITests" */;
+			buildPhases = (
+				E91B375946D51BF527D8D933 /* [CP] Check Pods Manifest.lock */,
+				AB5BB28A2C836C0600DC4D72 /* Sources */,
+				AB5BB28B2C836C0600DC4D72 /* Frameworks */,
+				AB5BB28C2C836C0600DC4D72 /* Resources */,
+				D25D42FDEDFB38E2624CDE8B /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB5BB2902C836C0600DC4D72 /* PBXTargetDependency */,
+			);
+			name = tyteUITests;
+			productName = tyteUITests;
+			productReference = AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AB5BB26C2C836C0400DC4D72 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					AB5BB2732C836C0400DC4D72 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					AB5BB2832C836C0600DC4D72 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = AB5BB2732C836C0400DC4D72;
+					};
+					AB5BB28D2C836C0600DC4D72 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = AB5BB2732C836C0400DC4D72;
+					};
+				};
+			};
+			buildConfigurationList = AB5BB26F2C836C0400DC4D72 /* Build configuration list for PBXProject "tyte" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AB5BB26B2C836C0400DC4D72;
+			productRefGroup = AB5BB2752C836C0400DC4D72 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AB5BB2732C836C0400DC4D72 /* tyte */,
+				AB5BB2832C836C0600DC4D72 /* tyteTests */,
+				AB5BB28D2C836C0600DC4D72 /* tyteUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AB5BB2722C836C0400DC4D72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABA9207C2C8988E200B9F8F1 /* Pretendard-Medium.ttf in Resources */,
+				ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */,
+				AB44988B2C8ACCFE00B2B74A /* LaunchScreen.storyboard in Resources */,
+				AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */,
+				AB5BB27F2C836C0500DC4D72 /* Preview Assets.xcassets in Resources */,
+				AB5BB27C2C836C0500DC4D72 /* Assets.xcassets in Resources */,
+				ABA9207E2C8988E200B9F8F1 /* Pretendard-Bold.ttf in Resources */,
+				ABA9207D2C8988E200B9F8F1 /* Pretendard-Black.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB5BB2822C836C0600DC4D72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB5BB28C2C836C0600DC4D72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		14ECBA80144931856E8312B7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyteTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		388C035316B68ACB7116F318 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyte-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8AD7FF0506FA52C8C984962E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D25D42FDEDFB38E2624CDE8B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E91B375946D51BF527D8D933 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyte-tyteUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AB5BB2702C836C0400DC4D72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */,
+				AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */,
+				ABDE8B922C86EF6800F3CB68 /* TodoListContent.swift in Sources */,
+				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
+				AB6A0F922C8EB6CA00254299 /* LoginRequest.swift in Sources */,
+				AB84C5312C918EA9000164AC /* Utils.swift in Sources */,
+				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
+				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
+				AB21F0992C903EBC00AAADAB /* TagEditViewModel.swift in Sources */,
+				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
+				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
+				AB21F09E2C90DBB500AAADAB /* EnvironmentKeys.swift in Sources */,
+				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
+				ABD666BE2C83736A0005D3C1 /* User.swift in Sources */,
+				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
+				AB6A0F9A2C8EC67500254299 /* SignUpView.swift in Sources */,
+				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
+				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,
+				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
+				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
+				ABD666BC2C83735F0005D3C1 /* TodoListViewModel.swift in Sources */,
+				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
+				AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */,
+				AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */,
+				AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */,
+				AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */,
+				AB4498852C89930500B2B74A /* String+.swift in Sources */,
+				AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */,
+				AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */,
+				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
+				ABDE8B942C86F2A900F3CB68 /* ListView.swift in Sources */,
+				ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */,
+				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
+				AB6A0F942C8EB6D400254299 /* LoginResponse.swift in Sources */,
+				ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */,
+				ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */,
+				AB6A0F982C8EC56700254299 /* LoginView.swift in Sources */,
+				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
+				AB6A495F2C8606AF00B782A1 /* Int+Priority.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB5BB2802C836C0600DC4D72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB5BB28A2C836C0600DC4D72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB5BB2952C836C0600DC4D72 /* tyteUITestsLaunchTests.swift in Sources */,
+				AB5BB2932C836C0600DC4D72 /* tyteUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB5BB2862C836C0600DC4D72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB5BB2732C836C0400DC4D72 /* tyte */;
+			targetProxy = AB5BB2852C836C0600DC4D72 /* PBXContainerItemProxy */;
+		};
+		AB5BB2902C836C0600DC4D72 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AB5BB2732C836C0400DC4D72 /* tyte */;
+			targetProxy = AB5BB28F2C836C0600DC4D72 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AB5BB2962C836C0600DC4D72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AB5BB2972C836C0600DC4D72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AB5BB2992C836C0600DC4D72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"tyte/Preview Content\"";
+				DEVELOPMENT_TEAM = HRHP6HYY39;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/neoself/Desktop/front-app/tyte/tyte/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyte;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AB5BB29A2C836C0600DC4D72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"tyte/Preview Content\"";
+				DEVELOPMENT_TEAM = HRHP6HYY39;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "/Users/neoself/Desktop/front-app/tyte/tyte/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyte;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AB5BB29C2C836C0600DC4D72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tyte.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tyte";
+			};
+			name = Debug;
+		};
+		AB5BB29D2C836C0600DC4D72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tyte.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tyte";
+			};
+			name = Release;
+		};
+		AB5BB29F2C836C0600DC4D72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = tyte;
+			};
+			name = Debug;
+		};
+		AB5BB2A02C836C0600DC4D72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = tyte;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AB5BB26F2C836C0400DC4D72 /* Build configuration list for PBXProject "tyte" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB5BB2962C836C0600DC4D72 /* Debug */,
+				AB5BB2972C836C0600DC4D72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB5BB2982C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyte" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB5BB2992C836C0600DC4D72 /* Debug */,
+				AB5BB29A2C836C0600DC4D72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB5BB29B2C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB5BB29C2C836C0600DC4D72 /* Debug */,
+				AB5BB29D2C836C0600DC4D72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB5BB29E2C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyteUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB5BB29F2C836C0600DC4D72 /* Debug */,
+				AB5BB2A02C836C0600DC4D72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AB5BB26C2C836C0400DC4D72 /* Project object */;
+}
