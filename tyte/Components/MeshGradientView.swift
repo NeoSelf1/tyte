@@ -40,14 +40,13 @@ struct MeshGradientView: View {
     
     var body: some View {
         if #available(iOS 18.0, *) {
-            let gradientColors = optimizeColorDistribution()
             MeshGradient(
                 width: 3, height: 3, points: [
                     [0.0, 0.0], [0.5, 0], [1.0, 0.0],
                     [0.0, 0.5], center, [1.0, 0.5],
                     [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
                 ],
-                colors: gradientColors,
+                colors: optimizeColorDistribution(),
                 smoothsColors: true,
                 colorSpace: .perceptual
             )
@@ -61,7 +60,7 @@ struct MeshGradientView: View {
             LinearGradientMeshFallback(colors: optimizeColorDistribution())
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .rotationEffect(.degrees(45))
-                .padding(14)
+                .padding(isSelected ? 14 : 20)
                 .frame(width: 64, height: 64)
         }
     }
