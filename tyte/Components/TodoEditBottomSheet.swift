@@ -139,7 +139,6 @@ struct TodoEditBottomSheet: View {
                                 .onTapGesture {
                                     withAnimation(.easeOut(duration: 0.3)){
                                         if(editedTodo.tagId == tag){
-                                            print("heelo")
                                             editedTodo.tagId = nil
                                         } else {
                                             editedTodo.tagId = tag

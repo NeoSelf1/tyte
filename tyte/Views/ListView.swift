@@ -19,15 +19,6 @@ struct ListView: View {
                 
                 Spacer()
                 
-//                Button(action: {
-//                    isWeek.toggle()
-//                }, label: {
-//                    Image(systemName: isWeek ? "calendar" : "rectangle.split.3x1.fill")
-//                        .resizable()
-//                        .frame(width: 24,height:24)
-//                        .foregroundColor(.gray90)
-//                        .padding(12)
-//                })
                 NavigationLink(destination: TagEditView()) {
                     Image(systemName: "tag.fill")
                         .resizable()

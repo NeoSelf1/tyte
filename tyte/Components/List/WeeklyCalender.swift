@@ -60,11 +60,6 @@ struct WeeklyCalendar: View {
         let isToday = calendar.isDateInToday(date)
         
         return DayView(dailyStats: dailyStats, date: date, isSelected: isSelected, isToday: isToday)
-            .onAppear {
-                if let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date }) {
-                    print(dailyStats[index].tagStats)
-                }
-            }
             .onTapGesture {
                 withAnimation(.easeOut(duration: 0.2)) {
                     selectedDate = date
