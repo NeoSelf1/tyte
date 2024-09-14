@@ -34,7 +34,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    @State private var selectedTab = 1
+				<string>    @State private var selectedTab = 0
 </string>
 				<key>leading</key>
 				<string>    @EnvironmentObject var viewModel : TodoListViewModel
@@ -55,15 +55,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>13</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>40</string>
+					<string>27</string>
 					<key>StartingColumnNumber</key>
-					<string>8</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>40</string>
+					<string>19</string>
 					<key>Timestamp</key>
-					<string>747896367.7378941</string>
+					<string>747994849.909003</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -79,19 +79,25 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>guard</string>
+				<string>    private init() {
+#if DEBUG
+        isDevelopment = true
+#else
+        isDevelopment = false
+#endif
+        baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
+    }
+</string>
 				<key>leading</key>
-				<string>        
-        // MARK: Production용
-//        </string>
+				<string>    private let baseURL: String
+    
+</string>
 				<key>trailing</key>
-				<string> let token = self.getToken() else {
-//            print("Token not valid")
-//            return
+				<string>    
+    func getToken() -&gt; String? {
+        return UserDefaults.standard.string(forKey: "authToken")
 </string>
 			</dict>
-			<key>title</key>
-			<string>운영, 개발 버전 분기 시 수정 필수!</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
