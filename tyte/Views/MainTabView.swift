@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var viewModel : TodoListViewModel
     
-    @State private var selectedTab = 1
+    @State private var selectedTab = 2
     @State private var todoInput = ""
     @FocusState private var isInputFocused: Bool
     
@@ -31,8 +31,8 @@ struct MainTabView: View {
                                 TabBarItem(icon: "calendar",  text: "일정 관리")
                             }
                             .tag(1)
-                        
-                        HomeView()
+                         
+                        MyPageView()
                             .tabItem {
                                 TabBarItem(icon: "person.fill", text: "MY")
                             }
