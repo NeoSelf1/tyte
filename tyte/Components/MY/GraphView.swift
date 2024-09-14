@@ -2,47 +2,75 @@ import SwiftUI
 import Charts
 
 struct GraphView: View {
-    // MARK: 1. 환경객체로 TodoListViewModel을 사용하고 있기에, GraphView는 해당 모델의 변경사항을 관찰하고 있음
-    // 즉, Model 내부 Published 변수가 변경될 경우, Graphview 무효화 및 다시 그림 = body 프로퍼티 재평가
     @EnvironmentObject var viewModel: MyPageViewModel
     // MARK: @State 프로토콜 변수가 변경되면 뷰를 다시 그림.
-    @State var currentTab: String = "week"
     
-    @State var currentActiveItem: DailyStatForGraph?
     @State var plotWidth: CGFloat = 0
-    @State var isLineGraph: Bool = false
+    @State private var animationAmount: CGFloat = 1.0
     
     var body: some View {
-        NavigationStack{
-            VStack{
-                // MARK: New Chart API
-                VStack(alignment: .leading, spacing: 12){
-                    HStack{
-                        Text("생산지수")
-                            .fontWeight(.semibold)
-                        
-                        Picker("", selection: $currentTab) {
-                            Text("주간")
-                                .tag("week")
-                            Text("월간")
-                                .tag("month")
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.leading,80)
-                    }
-                    AnimatedChart()
+        // MARK: New Chart API
+        VStack(alignment: .leading, spacing:0 ){
+            HStack{
+                Text("생산지수")
+                    .fontWeight(.semibold)
+                
+                Spacer().frame(width: 64)
+                
+                Picker("", selection: $viewModel.currentTab) {
+                    Text("주간")
+                        .tag("week")
+                    Text("월간")
+                        .tag("month")
                 }
-                .padding()
+                .pickerStyle(.segmented)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding()
-            // MARK: Simply Updating Values For Segmented Tabs
-            .onChange(of: currentTab) { (oldValue, newValue) in
-                viewModel.animateGraph(fromChange: true)
-            }
-            .onAppear {
-                print("onAppear")
-                viewModel.animateGraph()
+            
+            if (viewModel.graphData.isEmpty){
+                Text("데이터가 없어요!")
+                    .frame(maxWidth: .infinity, maxHeight: 250, alignment: .center)
+                    .padding(.horizontal)
+            } else {
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        AnimatedChart()
+                            .frame(width: viewModel.zoomInOut())
+                            .id("chart")
+                            .scaleEffect(animationAmount)
+                            .animation(.easeInOut(duration: 0.5), value: viewModel.currentTab)
+                            .padding()
+                    }
+                    .onAppear(){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            withAnimation {
+                                proxy.scrollTo("chart", anchor: .trailing)
+                            }
+                        }
+                    }
+                    .onChange(of: viewModel.currentTab) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            withAnimation {
+                                proxy.scrollTo("chart", anchor: .trailing)
+                            }
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: 250, alignment: .top)
+                .padding(.horizontal)
+                .onChange(of: viewModel.currentTab) {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        animationAmount = 0.7
+                        plotWidth = viewModel.zoomInOut()
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation(.easeInOut(duration: 0.4)) {
+                            animationAmount = 1.0
+                        }
+                        
+                    }
+                }
             }
         }
     }
@@ -54,7 +82,7 @@ struct GraphView: View {
         }?.productivityNum ?? 0)
         
         Chart {
-            ForEach(viewModel.graphData){dailyStat in
+            ForEach(viewModel.graphData){ dailyStat in
                 LineMark(
                     x: .value("Date", dailyStat.date.parsedDate),
                     y: .value("ProductivityNum", dailyStat.animate ? dailyStat.productivityNum : 0)
@@ -66,64 +94,62 @@ struct GraphView: View {
                     x: .value("Date", dailyStat.date.parsedDate),
                     y: .value("ProductivityNum", dailyStat.animate ? dailyStat.productivityNum : 0)
                 )
-                .foregroundStyle(Color(.blue30).opacity(0.2).gradient)
+                .foregroundStyle(Color(.blue30).opacity(0.1).gradient)
                 .interpolationMethod(.catmullRom)
                 
                 
                 // MARK: Rule Mark For Currently Dragging Item 버그
-                //                if let currentActiveItem,currentActiveItem.date == dailyStat.date {
-                //                    RuleMark(x: .value("Date", currentActiveItem.date))
-                //                        .lineStyle(.init(lineWidth: 2, miterLimit: 2, dash: [2], dashPhase: 5))
-                //                        .annotation(position: .top) {
-                //                            VStack(alignment: .leading, spacing: 6) {
-                //                                Text("\(currentActiveItem.date.apiFormat)의 생산지수")
-                //                                    .font(.caption)
-                //                                    .foregroundColor(.gray)
-                //
-                //                                Text("\(currentActiveItem.productivityNum)")
-                //                                    .font(.title3.bold())
-                //                            }
-                //                            .padding(.horizontal, 10)
-                //                            .padding(.vertical, 4)
-                //                            .background {
-                //                                RoundedRectangle(cornerRadius: 6, style: .continuous)
-                //                                    .fill((Color.white).shadow(.drop(radius: 2)))
-                //                            }
-                //                        }
-                //                }
+//                if let currentActiveItem,currentActiveItem.date == dailyStat.date {
+//                    RuleMark(x: .value("Date", currentActiveItem.date.parsedDate))
+//                        .lineStyle(.init(lineWidth: 2, miterLimit: 2, dash: [2], dashPhase: 5))
+//                        .annotation(position: .top) {
+//                            VStack(alignment: .leading, spacing: 6) {
+//                                Text("\(currentActiveItem.date)의 생산지수")
+//                                    .font(.caption)
+//                                    .foregroundColor(.gray)
+//                                
+//                                Text("\(currentActiveItem.productivityNum)")
+//                                    .font(.title3.bold())
+//                            }
+//                            .padding(.horizontal, 10)
+//                            .padding(.vertical, 4)
+//                            .background {
+//                                RoundedRectangle(cornerRadius: 6, style: .continuous)
+//                                    .fill((Color.white).shadow(.drop(radius: 2)))
+//                            }
+//                        }
+//                }
             }
         }
         .chartXAxis {
-            // 날짜에 대한 점선 렌더링 로직
-            AxisMarks(values: .stride(by: .day)) { value in
+            AxisMarks(values: .stride(by: .day)) {
                 AxisGridLine()
                 AxisTick()
                 AxisValueLabel(format: .dateTime.day())
             }
         }
-        .chartYScale(domain: 0...(max + 20))
-        .chartOverlay { proxy in
-            GeometryReader { innerProxy in
-                Rectangle()
-                    .fill(.clear).contentShape(Rectangle())
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                let location = value.location
-                                if let date: Date = proxy.value(atX: location.x) {
-                                    if let currentItem = viewModel.graphData.first(where: { item in
-                                        Calendar.current.isDate(item.date.parsedDate, inSameDayAs: date)
-                                    }) {
-                                        self.currentActiveItem = currentItem
-                                        self.plotWidth = proxy.plotSize.width
-                                    }
-                                }
-                            }.onEnded { _ in
-                                self.currentActiveItem = nil
-                            }
-                    )
-            }
-        }
+        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date(), upper: viewModel.graphData.last?.date.parsedDate ?? Date())))
+        .chartYScale(domain: -1...(max + 2))
+//        .chartOverlay { proxy in
+//            GeometryReader { innerProxy in
+//                Rectangle()
+//                    .fill(.clear).contentShape(Rectangle())
+//                    .gesture(
+//                        TapGesture()
+//                            .onEnded { location in
+//                                if let date: Date = proxy.value(atX: location.x) {
+//                                    if let currentItem = viewModel.graphData.first(where: { item in
+//                                        Calendar.current.isDate(item.date.parsedDate, inSameDayAs: date)
+//                                    }) {
+//                                        print(currentItem.date)
+//                                        self.currentActiveItem = currentItem
+//                                        self.plotWidth = proxy.plotSize.width
+//                                    }
+//                                }
+//                            }
+//                    )
+//            }
+//        }
         .frame(height: 250)
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var viewModel : TodoListViewModel
+    @EnvironmentObject var myPageVM : MyPageViewModel
     
     @State private var selectedTab = 2
     @State private var todoInput = ""
@@ -41,6 +42,8 @@ struct MainTabView: View {
                     .onChange(of: selectedTab) { oldValue, newValue in
                         if newValue == 0 {
                             viewModel.fetchTodos()
+                        } else if newValue == 2 {
+                            myPageVM.fetchGraphData()
                         }
                     }
                 }

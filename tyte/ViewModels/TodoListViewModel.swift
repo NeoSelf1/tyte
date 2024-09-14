@@ -8,7 +8,7 @@ class TodoListViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var dailyStats: [DailyStat] = []
     
-    @Published var currentMonth: String // 추후 가로형 스크롤 피커에서 실시간 재렌더를 트리커하고자 생성.
+//    @Published var currentMonth: String // 추후 가로형 스크롤 피커에서 실시간 재렌더를 트리커하고자 생성.
     @Published var selectedDate :Date = Date() {
         didSet {
             todosForDate=[]
@@ -26,7 +26,6 @@ class TodoListViewModel: ObservableObject {
     init(todoService: TodoService = TodoService(), dailyStatService: DailyStatService = DailyStatService()) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
-        self.currentMonth = Date().formattedMonth
         self.selectedDate = Date()
         
         // 모든 프로퍼티 초기화 후 메서드 호출

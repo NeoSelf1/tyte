@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>13</string>
+					<string>14</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>12</string>
+					<string>13</string>
 					<key>Timestamp</key>
-					<string>747721281.326234</string>
+					<string>748026720.284147</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -37,7 +37,7 @@
 				<string>    @State private var selectedTab = 2
 </string>
 				<key>leading</key>
-				<string>    @EnvironmentObject var viewModel : TodoListViewModel
+				<string>    @EnvironmentObject var myPageVM : MyPageViewModel
     
 </string>
 				<key>trailing</key>

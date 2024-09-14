@@ -2,7 +2,7 @@ import SwiftUI
 
 struct WeeklyCalendar: View {
     @Binding var selectedDate: Date
-    @Binding var currentMonth: String
+//    @Binding var currentMonth: String
     
     let dailyStats:[DailyStat]
     
@@ -11,11 +11,9 @@ struct WeeklyCalendar: View {
     
     init(
         selectedDate: Binding<Date>,
-        currentMonth:Binding<String>,
         dailyStats:[DailyStat]
     ) {
         self._selectedDate = selectedDate
-        self._currentMonth = currentMonth
         self.dailyStats = dailyStats
     }
     

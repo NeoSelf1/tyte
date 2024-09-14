@@ -20,8 +20,14 @@ class DailyStatService {
             }
         }.eraseToAnyPublisher()
     }
-//    func fetchDailyStatForDate(_ date: String) -> AnyPublisher<DailyStat, APIError> {
-//        let endpoint = APIEndpoint.fetchDailyStatForDate(date)
-//        return apiManager.request(endpoint)
-//    }
+    
+    func fetchDailyStatsForMonth(yearMonth:String) -> AnyPublisher<[DailyStat], APIError> {
+        let endpoint = APIEndpoint.fetchDailyStatsForMonth(yearMonth)
+        
+        return Future { promise in
+            self.apiManager.request(endpoint) { (result: Result<[DailyStat], APIError>) in
+                promise(result)
+            }
+        }.eraseToAnyPublisher()
+    }
 }

@@ -25,9 +25,12 @@ struct DailyStatForGraph: Identifiable {
 
 class MyPageViewModel: ObservableObject {
     @Published var graphData: [DailyStatForGraph] = []
-    
+    @Published var isLoaded = false
     @Published var isLoading: Bool = false
+    @Published var currentTab: String = "week"
     @Published var errorMessage: String?
+    
+    @Published var currentDate: Date = Date()
     
     private let dailyStatService: DailyStatService
     
@@ -40,50 +43,83 @@ class MyPageViewModel: ObservableObject {
     }
     
     func fetchGraphData() {
-        dailyStatService.fetchAllDailyStats()
+        isLoading = true
+        errorMessage = nil
+        dailyStatService.fetchDailyStatsForMonth(yearMonth:currentDate.YYYY_MM)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                self?.isLoading = false
                 if case .failure(let error) = completion {
                     self?.errorMessage = error.localizedDescription
+                    print(error.localizedDescription)
                 }
             } receiveValue: { [weak self] dailyStats in
-                let calendar = Calendar.current
-                let dateRange = (0..<31).map { dayOffset in
-                    calendar.date(byAdding: .day, value: -(31 - 1 - dayOffset), to: Date())!
-                }
-                print("fetchGraphData Done")
-                let filteredDailyStats = dateRange.map { date in
-                    if let existingStat = dailyStats.first(where: { $0.date == date.apiFormat }) {
-                        return DailyStatForGraph(
-                            date: existingStat.date,
-                            productivityNum: existingStat.productivityNum
-                        )
-                    } else {
-                        return DailyStatForGraph(
-                            date: date.apiFormat,
-                            productivityNum: 0
-                        )
-                    }
-                }
-                print(filteredDailyStats.debugDescription)
-                self?.graphData = filteredDailyStats
+                guard let self = self else { return }
                 
+                let calendar = Calendar.current
+                
+                let firstDayOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self.currentDate)))!
+                
+                if dailyStats.isEmpty {
+                    graphData = []
+                    isLoaded = true
+                } else {
+                    // 첫 날짜부터 현재 날짜까지의 날짜 범위 생성
+                    let dateRange = calendar.dateComponents([.day], from: firstDayOfMonth, to: self.currentDate).day! + 2
+                    
+                    let filteredDailyStats = (0..<dateRange).compactMap { dayOffset -> DailyStatForGraph? in
+                        guard let date = calendar.date(byAdding: .day, value: dayOffset, to: firstDayOfMonth) else { return nil }
+                        
+                        if let existingStat = dailyStats.first(where: { $0.date == date.apiFormat }) {
+                            return DailyStatForGraph(
+                                date: existingStat.date,
+                                productivityNum: existingStat.productivityNum
+                            )
+                        } else {
+                            return DailyStatForGraph(
+                                date: date.apiFormat,
+                                productivityNum: 0
+                            )
+                        }
+                    }
+                    graphData = filteredDailyStats
+                    isLoaded = true
+                    animateGraph()
+                }
             }
             .store(in: &cancellables)
+        
+    }
+    
+    func zoomInOut() -> CGFloat {
+        let baseWidth = UIScreen.main.bounds.width - 40
+        let dataPointCount = graphData.count
+        let spacingMultiplier: CGFloat = currentTab == "week" ? 2 : 1
+        
+        return max(baseWidth, CGFloat(dataPointCount) * 20 * spacingMultiplier)
     }
     
     func animateGraph(fromChange: Bool = false){
-        for (index,_) in self.graphData.enumerated(){
+        for (index,_) in graphData.enumerated(){
             // For Some Reason Delay is Not Working
             // Using Dispatch Queue Delay
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)){
                 withAnimation(fromChange ?
-                    .easeInOut(duration: 0.6) :
+                    .easeInOut(duration: 0.2) :
                         .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)
                 ){
                     self.graphData[index].animate = true
                 }
             }
         }
+    }
+    func previousMonth() {
+        currentDate = Calendar.current.date(byAdding: .month, value: -1, to: currentDate)!
+        fetchGraphData()
+    }
+    
+    func nextMonth() {
+        currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)!
+        fetchGraphData()
     }
 }

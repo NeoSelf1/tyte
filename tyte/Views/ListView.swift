@@ -32,7 +32,7 @@ struct ListView: View {
             
                 WeeklyCalendar(
                     selectedDate: $viewModel.selectedDate,
-                    currentMonth:$viewModel.currentMonth,
+//                    currentMonth:$viewModel.currentMonth,
                     dailyStats:viewModel.dailyStats
                 )
             
