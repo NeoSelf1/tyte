@@ -14,10 +14,17 @@ import Alamofire
 class APIManager {
     static let shared = APIManager()
     
-    private init() {}
+    private let isDevelopment: Bool
+    private let baseURL: String
     
-//            private let baseURL = "http://43.201.140.227:8080/api"
-    private let baseURL = "http://localhost:8080/api"
+    private init() {
+#if DEBUG
+        isDevelopment = true
+#else
+        isDevelopment = false
+#endif
+        baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
+    }
     
     func getToken() -> String? {
         return UserDefaults.standard.string(forKey: "authToken")
@@ -36,22 +43,20 @@ class APIManager {
                                parameters: Parameters? = nil,
                                completion: @escaping (Result<T, APIError>) -> Void) {
         let url = baseURL + endpoint.path
-        
-        // MARK: Production용
-//        guard let token = self.getToken() else {
-//            print("Token not valid")
-//            return
-//        }
-        // MARK: 끝
-        
-        // MARK: Debug 용으로 명시한 임시 사용자 객체. 디버그 완료 시 위 주석으로 대체
-        let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmUzYzQ3ZGNlOTUyOWNiZmZlNDZiODgiLCJpYXQiOjE3MjYyMDM1NTZ9.VlowxWlmN_9_7n2D0fXys3CQ5IbfVzF-h0Ki6vdT6UQ"
-//
-        // MARK: 끝
-        
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)"
+        var headers: HTTPHeaders = [
+            "Authorization": ""
         ]
+        
+        if (isDevelopment) {
+            headers = [ "Authorization": "Bearer dummyToken" ]
+        } else {
+            guard let token = self.getToken() else {
+                print("Token not valid")
+                return
+            }
+            headers = [ "Authorization": "Bearer \(token)" ]
+        }
+        
         AF.request(url,
                    method: method,
                    parameters: parameters,
