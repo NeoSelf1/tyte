@@ -13,7 +13,7 @@ struct DailyStat: Codable, Identifiable {
     let user: String
     
     let balanceData: BalanceData
-    let productivityNum: Int
+    let productivityNum: Double
     
     let tagStats: [TagStat]
     
@@ -58,7 +58,7 @@ extension DailyStat {
         date: String,
         user: String,
         balanceData: BalanceData,
-        productivityNum: Int,
+        productivityNum: Double,
         tagStats: [TagStat],
         center: SIMD2<Float>
     ) {
