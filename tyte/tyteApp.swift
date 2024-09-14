@@ -13,6 +13,7 @@ struct tyteApp: App {
     @StateObject private var todoListViewModel = TodoListViewModel()
     @StateObject private var tagEditViewModel = TagEditViewModel()
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var myPageViewModel = MyPageViewModel()
     
     @State private var isLoggedIn = false
     
@@ -23,6 +24,7 @@ struct tyteApp: App {
                     .environmentObject(todoListViewModel)
                     .environmentObject(tagEditViewModel)
                     .environmentObject(authViewModel)
+                    .environmentObject(MyPageViewModel())
 
             } else {
                 LoginView(isLoggedIn: $isLoggedIn)

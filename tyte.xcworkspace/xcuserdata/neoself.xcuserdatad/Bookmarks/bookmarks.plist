@@ -34,7 +34,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    @State private var selectedTab = 0
+				<string>    @State private var selectedTab = 2
 </string>
 				<key>leading</key>
 				<string>    @EnvironmentObject var viewModel : TodoListViewModel

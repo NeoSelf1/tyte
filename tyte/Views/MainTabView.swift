@@ -101,4 +101,5 @@ struct TabBarItem: View {
         .environmentObject(TodoListViewModel())
         .environmentObject(TagEditViewModel())
         .environmentObject(AuthViewModel())
+        .environmentObject(MyPageViewModel())
 }

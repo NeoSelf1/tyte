@@ -15,5 +15,5 @@ struct MyPageView: View {
 
 #Preview {
     MyPageView()
-        .environmentObject(TodoListViewModel())
+        .environmentObject(MyPageViewModel())
 }
