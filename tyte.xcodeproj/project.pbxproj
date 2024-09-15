@@ -290,7 +290,6 @@
 				ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */,
 				AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */,
 				ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */,
-				AB6A0F742C8AE5A000254299 /* CalendarView.swift */,
 				AB4498822C8992B000B2B74A /* TodoEditBottomSheet.swift */,
 				AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */,
 				AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */,
@@ -419,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				ABF93D292C95835E00C7D2BC /* GraphView.swift */,
+				AB6A0F742C8AE5A000254299 /* CalendarView.swift */,
 			);
 			path = MY;
 			sourceTree = "<group>";

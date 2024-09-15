@@ -15,12 +15,12 @@ extension Font {
     static let _headline1 = Font.custom("Pretendard-Black", size: 32)
     static let _headline2 = Font.custom("Pretendard-Bold", size: 20).weight(.bold)
     
-    static let _subhead1 = Font.custom("Pretendard-Bold", size: 17).weight(.bold)
-    static let _subhead2 = Font.custom("Pretendard-Bold", size: 15).weight(.bold)
-    static let _title = Font.custom("Pretendard-Medium", size: 17).weight(.medium)
+    static let _subhead1 = Font.custom("Pretendard-Bold", size: 16).weight(.bold)
+    static let _subhead2 = Font.custom("Pretendard-Bold", size: 14).weight(.bold)
+    static let _title = Font.custom("Pretendard-Medium", size: 16).weight(.medium)
     
-    static let _body1 = Font.custom("Pretendard-Regular", size: 17).weight(.regular)
-    static let _body2 = Font.custom("Pretendard-Bold", size: 15).weight(.regular)
+    static let _body1 = Font.custom("Pretendard-Regular", size: 16).weight(.regular)
+    static let _body2 = Font.custom("Pretendard-Bold", size: 14).weight(.regular)
     static let _body3 = Font.custom("Pretendard-Bold", size: 13).weight(.bold)
     static let _body4 = Font.custom("Pretendard-Regular", size: 13).weight(.regular)
     
