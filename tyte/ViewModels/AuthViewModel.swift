@@ -34,9 +34,10 @@ class AuthViewModel: ObservableObject {
             } receiveValue: { [weak self] loginResponse in
                 // 로그인 성공 처리
                 print("Login successful for user: \(loginResponse.user.username)")
-                print("Login successful for user: \(loginResponse.token)")
+//                print("Login successful for user: \(loginResponse.token)")
 
                 self?.isLoginSuccessful = true
+                self?.username = loginResponse.user.username
                 
                 // 토큰 저장
                 UserDefaults.standard.set(loginResponse.token, forKey: "authToken")

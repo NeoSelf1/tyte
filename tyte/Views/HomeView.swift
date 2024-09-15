@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var viewModel : TodoListViewModel
+    @EnvironmentObject private var authVM : AuthViewModel
     
     @State private var todoInput = ""
     @State private var showSortMenu = false
@@ -21,7 +22,7 @@ struct HomeView: View {
         VStack(spacing: 0) {
             VStack(alignment:.leading, spacing: 16) {
                 VStack (spacing: 8) {
-                    Text("안녕하세요. 사용자1님")
+                    Text("안녕하세요. \(authVM.username)님")
                         .font(._subhead1)
                         .foregroundColor(.gray50)
                         .frame(maxWidth: .infinity,alignment: .leading)
@@ -41,7 +42,7 @@ struct HomeView: View {
                         HStack{
                             SortMenuButton(sortOption: $sortOption)
                             
-                            TagSelector(selectedTags: $selectedTags)
+                            TagSelector()
                         }
                     }
                 }
@@ -52,8 +53,7 @@ struct HomeView: View {
                     
                     if (viewModel.totalTodos.count>0){
                         TodoListContent(
-                            isHome:true,
-                            selectedTags: $selectedTags
+                            isHome:true
                         )
                         .onAppear {
                             viewModel.fetchTodos()
@@ -89,5 +89,6 @@ struct ContentView_Previews: PreviewProvider {
         HomeView()
             .environmentObject(TodoListViewModel())
             .environmentObject(TagEditViewModel())
+            .environmentObject(AuthViewModel())
     }
 }
