@@ -15,6 +15,16 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    static let calendarDayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy dd"
+        return formatter
+      }()
+      
+      var formattedCalendarDayDate: String {
+        return Date.calendarDayDateFormatter.string(from: self)
+      }
+    
     var formattedDate: String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")

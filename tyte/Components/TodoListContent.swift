@@ -18,10 +18,9 @@ struct TodoListContent: View {
 //    @ObservedObject var viewModel: TodoListViewModel
     
     @EnvironmentObject var viewModel: TodoListViewModel
-    
+    @EnvironmentObject var tagModel: TagEditViewModel
     
     let isHome: Bool
-    @Binding var selectedTags: [String]
     private var shouldPresentSheet: Binding<Bool> {
         Binding(
             get: { isBottomSheetPresented && selectedTodo != nil },
@@ -37,8 +36,11 @@ struct TodoListContent: View {
         VStack(alignment: .leading, spacing:16) {
             ForEach(isHome ?
                     viewModel.totalTodos.filter { todo in
-                guard let todoTagId = todo.tagId?.id else { return false }
-                return selectedTags.contains(todoTagId)
+                if tagModel.selectedTags.contains("default") {
+                    return todo.tagId == nil || (todo.tagId != nil && tagModel.selectedTags.contains(todo.tagId!.id))
+                } else {
+                    return todo.tagId != nil && tagModel.selectedTags.contains(todo.tagId!.id)
+                }
             } : viewModel.todosForDate) { todo in
                 HStack (spacing:12) {
                     Button(action: {

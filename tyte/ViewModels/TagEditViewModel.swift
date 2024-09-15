@@ -8,6 +8,7 @@ class TagEditViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var selectedTags: [String] = []
     
     private var cancellables = Set<AnyCancellable>()
     private let tagService: TagService
@@ -37,8 +38,21 @@ class TagEditViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
+                var tagIds = tags.map { $0.id }
+                tagIds.append("default")
+                self?.selectedTags = tagIds
             }
             .store(in: &cancellables)
+    }
+    
+    func toggleTag(id:String){
+        if let index = selectedTags.firstIndex(of: id){
+            if(selectedTags.count>1){
+                selectedTags.remove(at: index)
+            }
+        } else {
+            selectedTags.append(id)
+        }
     }
     
     //MARK: Todo 추가

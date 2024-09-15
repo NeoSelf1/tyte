@@ -9,39 +9,51 @@ import SwiftUI
 
 struct TagSelector: View {
     @EnvironmentObject private var viewModel : TagEditViewModel
-    @Binding var selectedTags: [String]
+    
     
     var body: some View {
+        HStack (spacing:8) {
+            Circle().fill(Color(hex:"747474)")).frame(width:6)
+            
+            Text("태그없음")
+                .font(._body2)
+                .foregroundStyle(.gray90)
+            
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 6)
+        .background(.blue10)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(viewModel.selectedTags.contains("default") ? .blue30 : .gray50.opacity(0.0) , lineWidth: 1)
+        )
+        .padding(1)
+        .onTapGesture {
+            viewModel.toggleTag(id: "default")
+        }
+        
         ForEach(viewModel.tags) { tag in
             HStack (spacing:8) {
                 Circle().fill(Color(hex:"#\(tag.color)")).frame(width:6)
                 
                 Text(tag.name)
-                    .font(selectedTags.contains(tag.id) ? ._subhead1 : ._title)
-                    .foregroundColor(.gray90 )
+                    .font(._body2)
+                    .foregroundStyle(.gray90)
                 
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 8)
             .padding(.vertical, 6)
             .background(.blue10)
             .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 24)
-                    .stroke(selectedTags.contains(tag.id) ? .blue30 : .gray50.opacity(0.0) , lineWidth: 1)
+                    .stroke(viewModel.selectedTags.contains(tag.id) ? .blue30 : .gray50.opacity(0.0) , lineWidth: 1)
             )
             .padding(1)
             .onTapGesture {
-                if let index = selectedTags.firstIndex(of: tag.id){
-                    if(selectedTags.count>1){
-                        selectedTags.remove(at: index)
-                    }
-                } else {
-                    selectedTags.append(tag.id)
-                }
+                viewModel.toggleTag(id:  tag.id)
             }
-        }
-        .onAppear {
-            selectedTags = viewModel.tags.map { $0.id }
         }
     }
 }
