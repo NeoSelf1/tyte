@@ -12,32 +12,22 @@ struct MyPageView: View {
     
     var body: some View {
         VStack{
-            HStack {
-                Button(action: {
-                }) {
-                    Image(systemName: "chevron.left")
-                }
-                
-                Spacer()
-                
-                Text(Date().formattedMonth)
-                    .font(.headline)
-                
-                Spacer()
-                
-                Button(action: {
-                }) {
-                    Image(systemName: "chevron.right")
-                }
+            Picker("", selection: $viewModel.currentTab) {
+                Text("생산지수 그래프")
+                    .tag("graph")
+                Text("달력")
+                    .tag("calender")
             }
-            .padding(.horizontal)
-            
-            
-            GraphView()
-                .onChange(of: viewModel.isLoaded){
-                    viewModel.animateGraph()
-                }
-
+            .pickerStyle(.segmented)
+            .padding()
+            if (viewModel.currentTab == "graph"){
+                GraphView()
+                    .onChange(of: viewModel.isLoaded){
+                        viewModel.animateGraph()
+                    }
+            } else {
+                CalenderView()
+            }
             Spacer()
         }
         

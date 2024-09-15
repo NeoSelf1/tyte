@@ -24,19 +24,15 @@ struct GraphView: View {
                 
                 Menu {
                     Button("1주") {
-                        viewModel.currentMode = "week"
+                        viewModel.graphRange = "week"
                     }
                     
                     Button("1개월") {
-                        viewModel.currentMode = "month"
-                    }
-                    
-                    Button("6개월") {
-                        viewModel.currentMode = "6month"
+                        viewModel.graphRange = "month"
                     }
                 } label: {
                     HStack(spacing:8) {
-                        Text(viewModel.currentMode.formattedRange)
+                        Text(viewModel.graphRange.formattedRange)
                             .font(._body3)
                             .foregroundColor(.gray90)
                         
@@ -50,14 +46,6 @@ struct GraphView: View {
                     .background(.blue10)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
-                
-//                Picker("", selection: $viewModel.currentTab) {
-//                    Text("주간")
-//                        .tag("week")
-//                    Text("월간")
-//                        .tag("month")
-//                }
-//                .pickerStyle(.segmented)
             }
             .padding()
             
@@ -72,29 +60,10 @@ struct GraphView: View {
                             .frame(width: viewModel.zoomInOut())
                             .id("chart")
                             .scaleEffect(animationAmount)
-                            .animation(.easeInOut(duration: 0.5), value: viewModel.currentMode)
+                            .animation(.easeInOut(duration: 0.5), value: viewModel.graphRange)
                             .padding()
                     }
-                    .onAppear(){
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            withAnimation {
-                                proxy.scrollTo("chart", anchor: .trailing)
-                            }
-                        }
-                    }
-                    .onChange(of: viewModel.currentMode) {
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            animationAmount = 0.7
-                            plotWidth = viewModel.zoomInOut()
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            withAnimation(.easeInOut(duration: 0.4)) {
-                                animationAmount = 1.0
-                            }
-                            
-                        }
-                        
+                    .onChange(of: viewModel.graphRange) {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             withAnimation {
                                 proxy.scrollTo("chart", anchor: .trailing)
@@ -104,6 +73,18 @@ struct GraphView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 250, alignment: .top)
                 .padding(.horizontal)
+                .onChange(of: viewModel.graphRange) {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        animationAmount = 0.7
+                        plotWidth = viewModel.zoomInOut()
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation(.easeInOut(duration: 0.4)) {
+                            animationAmount = 1.0
+                        }
+                    }
+                }
             }
         }
     }
@@ -132,12 +113,10 @@ struct GraphView: View {
             }
         }
         .chartXAxis {
-            if (viewModel.currentMode != "6month"){
-                AxisMarks(values: .stride(by: .day)) {
-                    AxisGridLine()
-                    AxisTick()
-                    AxisValueLabel(format: .dateTime.day())
-                }
+            AxisMarks(values: .stride(by: .day)) {
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel(format: .dateTime.day())
             }
         }
         .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date(), upper: viewModel.graphData.last?.date.parsedDate ?? Date())))

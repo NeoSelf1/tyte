@@ -9,43 +9,33 @@ import Foundation
 import Combine
 import SwiftUI
 
-struct DailyStatForGraph: Identifiable {
-    let id: String  // date를 id로 사용
-    let date: String
-    let productivityNum: Double
-    var animate: Bool = false
-    
-    init(date: String, productivityNum: Double, animate: Bool = false) {
-        self.id = date  // date를 id로 설정
-        self.date = date
-        self.productivityNum = productivityNum
-        self.animate = animate
-    }
-}
-
 class MyPageViewModel: ObservableObject {
-    @Published var graphData: [DailyStatForGraph] = []
     @Published var isLoaded = false
     @Published var isLoading: Bool = false
-    @Published var currentMode: String = "week" {
-        didSet {
-            fetchGraphData()
-        }
-    }
-    
     @Published var errorMessage: String?
-    
-    private let dailyStatService: DailyStatService
-    
     private var cancellables = Set<AnyCancellable>()
     
+    @Published var currentMonth: Date = Date()
+    @Published var selectedDate: Date = Date()
+    
+    @Published var currentTab: String = "graph"
+    @Published var graphRange: String = "week" {
+        didSet {
+            fetchDailyStats()
+        }
+    }
+    private let dailyStatService: DailyStatService
+    
+    @Published var calenderData: [DailyStat_DayView] = []
+    @Published var graphData: [DailyStat_Graph] = []
+
     init(dailyStatService: DailyStatService = DailyStatService()) {
         self.dailyStatService = dailyStatService
         print("MyPageViewModel init")
-        self.fetchGraphData()
+        self.fetchDailyStats()
     }
     
-    func fetchGraphData() {
+    func fetchDailyStats() {
         isLoading = true
         errorMessage = nil
         
@@ -53,14 +43,11 @@ class MyPageViewModel: ObservableObject {
         let currentDate = Date()
         var startDate: Date
         
-        switch self.currentMode {
+        switch self.graphRange {
         case "week":
             startDate = calendar.date(byAdding: .day, value: -6, to: currentDate)!
-        case "month":
-            startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
         default:
-            // 기본값으로 6개월 전 날짜 사용
-            startDate = calendar.date(byAdding: .month, value: -6, to: currentDate)!
+            startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
         }
         
         dailyStatService.fetchDailyStatsForMonth(range:"\(startDate.apiFormat),\(currentDate.apiFormat)")
@@ -71,30 +58,36 @@ class MyPageViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                     print(error.localizedDescription)
                 }
-            } receiveValue: { [weak self] dailyStats in
+            } receiveValue: { [weak self] _dailyStats in
                 guard let self = self else { return }
-                if dailyStats.isEmpty {
-                    graphData = []
+                if _dailyStats.isEmpty {
                     isLoaded = true
                 } else {
-                    let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
+                    calenderData = _dailyStats.map { dailyStat -> DailyStat_DayView in
+                        return DailyStat_DayView(
+                            date: dailyStat.date,
+                            balanceData: dailyStat.balanceData,
+                            tagStats: dailyStat.tagStats,
+                            center: dailyStat.center
+                        )
+                    }
                     
-                    let filteredDailyStats = (0..<dateRange).compactMap { dayOffset -> DailyStatForGraph? in
+                    let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
+                    graphData = (0..<dateRange).compactMap { dayOffset -> DailyStat_Graph? in
                         guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
                         
-                        if let existingStat = dailyStats.first(where: { $0.date == date.apiFormat }) {
-                            return DailyStatForGraph(
+                        if let existingStat = _dailyStats.first(where: { $0.date == date.apiFormat }) {
+                            return DailyStat_Graph(
                                 date: existingStat.date,
                                 productivityNum: existingStat.productivityNum
                             )
                         } else {
-                            return DailyStatForGraph(
+                            return DailyStat_Graph(
                                 date: date.apiFormat,
                                 productivityNum: 0
                             )
                         }
                     }
-                    graphData = filteredDailyStats
                     isLoaded = true
                     animateGraph()
                 }
@@ -105,15 +98,7 @@ class MyPageViewModel: ObservableObject {
     func zoomInOut() -> CGFloat {
         let baseWidth = UIScreen.main.bounds.width - 40
         let dataPointCount = graphData.count
-        var spacingMultiplier: CGFloat = 1
-        switch(currentMode){
-        case "week":
-            spacingMultiplier = 2
-        case "month":
-            spacingMultiplier = 1
-        default:
-            spacingMultiplier = 0.08
-        }
+        let spacingMultiplier: CGFloat = graphRange == "week" ? 2: 1
         
         return max(baseWidth, CGFloat(dataPointCount) * 20 * spacingMultiplier)
     }
