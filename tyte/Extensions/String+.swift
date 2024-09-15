@@ -16,4 +16,15 @@ extension String {
         
         return dateFormatter.date(from: self)!
     }
+    
+    var formattedRange: String {
+        switch(self){
+        case "week":
+            return "1주"
+        case "month":
+            return "1개월"
+        default:
+            return "6개월"
+        }
+    }
 }

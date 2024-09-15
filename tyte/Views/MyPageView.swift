@@ -14,20 +14,18 @@ struct MyPageView: View {
         VStack{
             HStack {
                 Button(action: {
-                    viewModel.previousMonth()
                 }) {
                     Image(systemName: "chevron.left")
                 }
                 
                 Spacer()
                 
-                Text(viewModel.currentDate.formattedMonth)
+                Text(Date().formattedMonth)
                     .font(.headline)
                 
                 Spacer()
                 
                 Button(action: {
-                    viewModel.nextMonth()
                 }) {
                     Image(systemName: "chevron.right")
                 }

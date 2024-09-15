@@ -12,18 +12,52 @@ struct GraphView: View {
         // MARK: New Chart API
         VStack(alignment: .leading, spacing:0 ){
             HStack{
-                Text("생산지수")
-                    .fontWeight(.semibold)
-                
-                Spacer().frame(width: 64)
-                
-                Picker("", selection: $viewModel.currentTab) {
-                    Text("주간")
-                        .tag("week")
-                    Text("월간")
-                        .tag("month")
+                VStack (alignment: .leading){
+                    Text("\(viewModel.graphData.reduce(0) {$0 + $1.productivityNum}.formatted())")
+                        .font(._headline2)
+                    
+                    Text("총 생산지수")
+                        .font(._body3)
+                        .foregroundStyle(.gray50)
                 }
-                .pickerStyle(.segmented)
+                Spacer()
+                
+                Menu {
+                    Button("1주") {
+                        viewModel.currentMode = "week"
+                    }
+                    
+                    Button("1개월") {
+                        viewModel.currentMode = "month"
+                    }
+                    
+                    Button("6개월") {
+                        viewModel.currentMode = "6month"
+                    }
+                } label: {
+                    HStack(spacing:8) {
+                        Text(viewModel.currentMode.formattedRange)
+                            .font(._body3)
+                            .foregroundColor(.gray90)
+                        
+                        Image(systemName: "chevron.down")
+                            .resizable()
+                            .frame(width: 12, height: 8)
+                            .foregroundColor(.gray60)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(.blue10)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                
+//                Picker("", selection: $viewModel.currentTab) {
+//                    Text("주간")
+//                        .tag("week")
+//                    Text("월간")
+//                        .tag("month")
+//                }
+//                .pickerStyle(.segmented)
             }
             .padding()
             
@@ -38,7 +72,7 @@ struct GraphView: View {
                             .frame(width: viewModel.zoomInOut())
                             .id("chart")
                             .scaleEffect(animationAmount)
-                            .animation(.easeInOut(duration: 0.5), value: viewModel.currentTab)
+                            .animation(.easeInOut(duration: 0.5), value: viewModel.currentMode)
                             .padding()
                     }
                     .onAppear(){
@@ -48,7 +82,19 @@ struct GraphView: View {
                             }
                         }
                     }
-                    .onChange(of: viewModel.currentTab) {
+                    .onChange(of: viewModel.currentMode) {
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            animationAmount = 0.7
+                            plotWidth = viewModel.zoomInOut()
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation(.easeInOut(duration: 0.4)) {
+                                animationAmount = 1.0
+                            }
+                            
+                        }
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             withAnimation {
                                 proxy.scrollTo("chart", anchor: .trailing)
@@ -58,19 +104,6 @@ struct GraphView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 250, alignment: .top)
                 .padding(.horizontal)
-                .onChange(of: viewModel.currentTab) {
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        animationAmount = 0.7
-                        plotWidth = viewModel.zoomInOut()
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        withAnimation(.easeInOut(duration: 0.4)) {
-                            animationAmount = 1.0
-                        }
-                        
-                    }
-                }
             }
         }
     }
@@ -96,36 +129,15 @@ struct GraphView: View {
                 )
                 .foregroundStyle(Color(.blue30).opacity(0.1).gradient)
                 .interpolationMethod(.catmullRom)
-                
-                
-                // MARK: Rule Mark For Currently Dragging Item 버그
-//                if let currentActiveItem,currentActiveItem.date == dailyStat.date {
-//                    RuleMark(x: .value("Date", currentActiveItem.date.parsedDate))
-//                        .lineStyle(.init(lineWidth: 2, miterLimit: 2, dash: [2], dashPhase: 5))
-//                        .annotation(position: .top) {
-//                            VStack(alignment: .leading, spacing: 6) {
-//                                Text("\(currentActiveItem.date)의 생산지수")
-//                                    .font(.caption)
-//                                    .foregroundColor(.gray)
-//                                
-//                                Text("\(currentActiveItem.productivityNum)")
-//                                    .font(.title3.bold())
-//                            }
-//                            .padding(.horizontal, 10)
-//                            .padding(.vertical, 4)
-//                            .background {
-//                                RoundedRectangle(cornerRadius: 6, style: .continuous)
-//                                    .fill((Color.white).shadow(.drop(radius: 2)))
-//                            }
-//                        }
-//                }
             }
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day)) {
-                AxisGridLine()
-                AxisTick()
-                AxisValueLabel(format: .dateTime.day())
+            if (viewModel.currentMode != "6month"){
+                AxisMarks(values: .stride(by: .day)) {
+                    AxisGridLine()
+                    AxisTick()
+                    AxisValueLabel(format: .dateTime.day())
+                }
             }
         }
         .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date(), upper: viewModel.graphData.last?.date.parsedDate ?? Date())))

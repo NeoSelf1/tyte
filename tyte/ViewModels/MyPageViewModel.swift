@@ -27,10 +27,13 @@ class MyPageViewModel: ObservableObject {
     @Published var graphData: [DailyStatForGraph] = []
     @Published var isLoaded = false
     @Published var isLoading: Bool = false
-    @Published var currentTab: String = "week"
-    @Published var errorMessage: String?
+    @Published var currentMode: String = "week" {
+        didSet {
+            fetchGraphData()
+        }
+    }
     
-    @Published var currentDate: Date = Date()
+    @Published var errorMessage: String?
     
     private let dailyStatService: DailyStatService
     
@@ -45,7 +48,22 @@ class MyPageViewModel: ObservableObject {
     func fetchGraphData() {
         isLoading = true
         errorMessage = nil
-        dailyStatService.fetchDailyStatsForMonth(yearMonth:currentDate.YYYY_MM)
+        
+        let calendar = Calendar.current
+        let currentDate = Date()
+        var startDate: Date
+        
+        switch self.currentMode {
+        case "week":
+            startDate = calendar.date(byAdding: .day, value: -6, to: currentDate)!
+        case "month":
+            startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
+        default:
+            // 기본값으로 6개월 전 날짜 사용
+            startDate = calendar.date(byAdding: .month, value: -6, to: currentDate)!
+        }
+        
+        dailyStatService.fetchDailyStatsForMonth(range:"\(startDate.apiFormat),\(currentDate.apiFormat)")
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -55,20 +73,14 @@ class MyPageViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                
-                let calendar = Calendar.current
-                
-                let firstDayOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self.currentDate)))!
-                
                 if dailyStats.isEmpty {
                     graphData = []
                     isLoaded = true
                 } else {
-                    // 첫 날짜부터 현재 날짜까지의 날짜 범위 생성
-                    let dateRange = calendar.dateComponents([.day], from: firstDayOfMonth, to: self.currentDate).day! + 2
+                    let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
                     
                     let filteredDailyStats = (0..<dateRange).compactMap { dayOffset -> DailyStatForGraph? in
-                        guard let date = calendar.date(byAdding: .day, value: dayOffset, to: firstDayOfMonth) else { return nil }
+                        guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
                         
                         if let existingStat = dailyStats.first(where: { $0.date == date.apiFormat }) {
                             return DailyStatForGraph(
@@ -88,13 +100,20 @@ class MyPageViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-        
     }
     
     func zoomInOut() -> CGFloat {
         let baseWidth = UIScreen.main.bounds.width - 40
         let dataPointCount = graphData.count
-        let spacingMultiplier: CGFloat = currentTab == "week" ? 2 : 1
+        var spacingMultiplier: CGFloat = 1
+        switch(currentMode){
+        case "week":
+            spacingMultiplier = 2
+        case "month":
+            spacingMultiplier = 1
+        default:
+            spacingMultiplier = 0.08
+        }
         
         return max(baseWidth, CGFloat(dataPointCount) * 20 * spacingMultiplier)
     }
@@ -112,14 +131,5 @@ class MyPageViewModel: ObservableObject {
                 }
             }
         }
-    }
-    func previousMonth() {
-        currentDate = Calendar.current.date(byAdding: .month, value: -1, to: currentDate)!
-        fetchGraphData()
-    }
-    
-    func nextMonth() {
-        currentDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate)!
-        fetchGraphData()
     }
 }
