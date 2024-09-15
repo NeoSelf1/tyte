@@ -11,12 +11,9 @@ struct DailyStat: Codable, Identifiable {
     let id: String
     let date: String
     let user: String
-    
     let balanceData: BalanceData
     let productivityNum: Double
-    
     let tagStats: [TagStat]
-    
     let center: SIMD2<Float>
      
     enum CodingKeys: String, CodingKey {
@@ -67,6 +64,45 @@ extension DailyStat {
         self.user = user
         self.balanceData = balanceData
         self.productivityNum = productivityNum
+        self.tagStats = tagStats
+        self.center = center
+    }
+}
+
+struct DailyStat_Graph: Identifiable,Codable {
+    let id: String
+    let date: String
+    let productivityNum: Double
+    var animate: Bool = false
+    
+    init(
+        date: String,
+        productivityNum: Double,
+        animate: Bool = false
+    ) {
+        self.id = date  // date를 id로 설정
+        self.date = date
+        self.productivityNum = productivityNum
+        self.animate = animate
+    }
+}
+
+struct DailyStat_DayView: Identifiable,Codable {
+    let id: String
+    let date: String
+    let balanceData: BalanceData
+    let tagStats: [TagStat]
+    let center: SIMD2<Float>
+    
+    init(
+        date: String,
+        balanceData:BalanceData,
+        tagStats:[TagStat],
+        center:SIMD2<Float>
+    ) {
+        self.id = date  // date를 id로 설정
+        self.date = date
+        self.balanceData = balanceData
         self.tagStats = tagStats
         self.center = center
     }

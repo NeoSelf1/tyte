@@ -30,30 +30,26 @@ struct ListView: View {
             .frame(height:56)
             .padding(.horizontal)
             
-                WeeklyCalendar(
-                    selectedDate: $viewModel.selectedDate,
-//                    currentMonth:$viewModel.currentMonth,
-                    dailyStats:viewModel.dailyStats
-                )
+                WeeklyCalendar(selectedDate: $viewModel.selectedDate)
             
             Spacer().frame(height:16)
             
             ScrollView {
-                if let index = viewModel.dailyStats.firstIndex(where: {
+                if let index = viewModel.weekCalenderData.firstIndex(where: {
                     viewModel.selectedDate.apiFormat == $0.date
                 }){
-                    StatusBoxContent(balanceData:viewModel.dailyStats[index].balanceData)
+                    StatusBoxContent(balanceData:viewModel.weekCalenderData[index].balanceData)
                 }
                 Spacer().frame(height:16)
                 
                 if (viewModel.todosForDate.count>0){
-                    TodoListContent(isHome: false, selectedTags: Binding.constant(["tag1"]))
+                    TodoListContent(isHome: false)
                     .onAppear {
-                        viewModel.fetchAllDailyStats()
+                        viewModel.fetchWeekCalenderData()
                         viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
                     }
                     .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                        viewModel.fetchAllDailyStats()
+                        viewModel.fetchWeekCalenderData()
                         viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
                     }
                 } else {

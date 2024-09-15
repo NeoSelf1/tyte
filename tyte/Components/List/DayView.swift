@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DayView: View {
-    let dailyStats: [DailyStat]
+    let dailyStats: [DailyStat_DayView]
     let date: Date
     let isSelected: Bool
     let isToday: Bool

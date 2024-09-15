@@ -11,7 +11,7 @@ struct MainTabView: View {
     @EnvironmentObject var viewModel : TodoListViewModel
     @EnvironmentObject var myPageVM : MyPageViewModel
     
-    @State private var selectedTab = 2
+    @State private var selectedTab = 0
     @State private var todoInput = ""
     @FocusState private var isInputFocused: Bool
     
@@ -43,7 +43,7 @@ struct MainTabView: View {
                         if newValue == 0 {
                             viewModel.fetchTodos()
                         } else if newValue == 2 {
-                            myPageVM.fetchGraphData()
+                            myPageVM.fetchDailyStats()
                         }
                     }
                 }

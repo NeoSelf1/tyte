@@ -6,7 +6,7 @@ import Alamofire
 class TodoListViewModel: ObservableObject {
     @Published var totalTodos: [Todo] = []
     @Published var todosForDate: [Todo] = []
-    @Published var dailyStats: [DailyStat] = []
+    @Published var weekCalenderData: [DailyStat_DayView] = []
     
 //    @Published var currentMonth: String // 추후 가로형 스크롤 피커에서 실시간 재렌더를 트리커하고자 생성.
     @Published var selectedDate :Date = Date() {
@@ -23,7 +23,10 @@ class TodoListViewModel: ObservableObject {
     private let todoService: TodoService
     private let dailyStatService: DailyStatService
     
-    init(todoService: TodoService = TodoService(), dailyStatService: DailyStatService = DailyStatService()) {
+    init(
+        todoService: TodoService = TodoService(),
+        dailyStatService: DailyStatService = DailyStatService()
+    ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
         self.selectedDate = Date()
@@ -39,8 +42,8 @@ class TodoListViewModel: ObservableObject {
         $totalTodos
             .dropFirst() // 초기값 무시
             .sink { [weak self] _ in
-                if self?.dailyStats.isEmpty == true {
-                    self?.fetchAllDailyStats()
+                if self?.weekCalenderData.isEmpty == true {
+                    self?.fetchWeekCalenderData()
                 }
             }
             .store(in: &cancellables)
@@ -87,7 +90,7 @@ class TodoListViewModel: ObservableObject {
     }
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
-    func fetchAllDailyStats() {
+    func fetchWeekCalenderData() {
         dailyStatService.fetchAllDailyStats()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -95,7 +98,15 @@ class TodoListViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] dailyStats in
-                self?.dailyStats = dailyStats
+                let convertedStats = dailyStats.map { dailyStat -> DailyStat_DayView in
+                    return DailyStat_DayView(
+                        date: dailyStat.date,
+                        balanceData: dailyStat.balanceData,
+                        tagStats: dailyStat.tagStats,
+                        center: dailyStat.center
+                    )
+                }
+                self?.weekCalenderData = convertedStats
             }
             .store(in: &cancellables)
     }
@@ -111,7 +122,7 @@ class TodoListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _ in
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? "")
-                self?.fetchAllDailyStats()
+                self?.fetchWeekCalenderData()
                 self?.fetchTodos()
             }
             .store(in: &cancellables)
@@ -146,7 +157,7 @@ class TodoListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _ in
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? "")
-                self?.fetchAllDailyStats()
+                self?.fetchWeekCalenderData()
             }
             .store(in: &cancellables)
     }
@@ -161,7 +172,7 @@ class TodoListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _ in
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? "")
-                self?.fetchAllDailyStats()
+                self?.fetchWeekCalenderData()
             }
             .store(in: &cancellables)
     }

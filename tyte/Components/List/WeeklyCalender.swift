@@ -1,24 +1,25 @@
 import SwiftUI
 
 struct WeeklyCalendar: View {
+    @EnvironmentObject var viewModel: TodoListViewModel
+    
     @Binding var selectedDate: Date
-//    @Binding var currentMonth: String
-    
-    let dailyStats:[DailyStat]
-    
     private let calendar = Calendar.current
     @State private var visibleMonth: String = ""
     
     init(
-        selectedDate: Binding<Date>,
-        dailyStats:[DailyStat]
+        selectedDate: Binding<Date>
     ) {
         self._selectedDate = selectedDate
-        self.dailyStats = dailyStats
     }
     
     var body: some View {
         ScrollViewReader { scrollProxy in
+            
+            Button(action: {withAnimation {
+                scrollProxy.scrollTo(0, anchor: .center)
+            }}, label: {Text("Today")})
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(-4...4, id: \.self) { weekOffset in
@@ -29,8 +30,11 @@ struct WeeklyCalendar: View {
                 .padding(.horizontal)
             }
             .onAppear {
-                scrollProxy.scrollTo(0, anchor: .center)
-                updateVisibleMonth(weekOffset: 0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    withAnimation {
+                        scrollProxy.scrollTo(0, anchor: .center)
+                    }
+                }
             }
             .simultaneousGesture(
                 DragGesture()
@@ -45,7 +49,7 @@ struct WeeklyCalendar: View {
     
     private func weekView(for date: Date) -> some View {
         HStack(spacing: 8) {
-            ForEach(0..<7) { dayOffset in
+            ForEach(-3...3,id:\.self) { dayOffset in
                 if let dayDate = calendar.date(byAdding: .day, value: dayOffset, to: date) {
                     dayView(for: dayDate)
                 }
@@ -57,7 +61,7 @@ struct WeeklyCalendar: View {
         let isSelected = calendar.isDate(date, inSameDayAs: selectedDate)
         let isToday = calendar.isDateInToday(date)
         
-        return DayView(dailyStats: dailyStats, date: date, isSelected: isSelected, isToday: isToday)
+        return DayView(dailyStats: viewModel.weekCalenderData, date: date, isSelected: isSelected, isToday: isToday)
             .onTapGesture {
                 withAnimation(.easeOut(duration: 0.2)) {
                     selectedDate = date
