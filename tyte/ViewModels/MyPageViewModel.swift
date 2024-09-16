@@ -103,14 +103,14 @@ class MyPageViewModel: ObservableObject {
         return max(baseWidth, CGFloat(dataPointCount) * 20 * spacingMultiplier)
     }
     
-    func animateGraph(fromChange: Bool = false){
+    func animateGraph(){
         for (index,_) in graphData.enumerated(){
             // For Some Reason Delay is Not Working
             // Using Dispatch Queue Delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (fromChange ? 0.03 : 0.05)){
-                withAnimation(fromChange ?
-                    .easeInOut(duration: 0.2) :
-                        .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.8)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(graphRange == "week" ? 0.5 : 0) + Double(index) * (graphRange == "week" ? 0.05 : 0.03)){
+                withAnimation(
+                    // 현재 BlendDuration은 어떠한 시각적 효과가 없음.
+                        .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.3)
                 ){
                     self.graphData[index].animate = true
                 }
