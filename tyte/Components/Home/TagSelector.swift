@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct TagSelector: View {
-    @EnvironmentObject private var viewModel : TagEditViewModel
-    
+    @EnvironmentObject private var viewModel : HomeViewModel
     
     var body: some View {
         HStack (spacing:8) {

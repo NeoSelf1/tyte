@@ -8,30 +8,24 @@
 import SwiftUI
 
 struct SortMenuButton: View {
-    @EnvironmentObject var viewModel : TodoListViewModel
-    
-    @Binding var sortOption: String
+    @EnvironmentObject var viewModel : HomeViewModel
     
     var body: some View {
         Menu {
             Button("마감 임박") {
-                sortOption = "마감 임박순"
-                viewModel.fetchTodos(mode: "default")
+                viewModel.setSortOption("default")
             }
             
             Button("최근 추가") {
-                sortOption = "최근 추가순"
-                viewModel.fetchTodos(mode: "recent")
+                viewModel.setSortOption("recent")
             }
             
             Button("중요도") {
-                sortOption = "중요도순"
-                viewModel.fetchTodos(mode: "important")
+                viewModel.setSortOption("important")
             }
         } label: {
-            
             HStack(spacing:8) {
-                Text(sortOption)
+                Text(viewModel.sortOption.buttonText)
                     .font(._body4)
                     .foregroundColor(.gray90)
                 

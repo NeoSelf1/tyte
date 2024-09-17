@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var viewModel : TodoListViewModel
+    @EnvironmentObject private var viewModel : HomeViewModel
     @EnvironmentObject private var authVM : AuthViewModel
     
     @State private var todoInput = ""
@@ -14,81 +14,69 @@ struct HomeView: View {
     // SwiftUI 뷰는 값 구조체이며 @State 변경 시 새로운 인스턴스가 생성됨. 즉 뷰가 자주 재생성 된다.
     // @State는 SwiftUI 재생성 로직과 직결되는만큼 뷰의 생명주기와 구분되는 별도의 저장소에 저장 및 관리된다.
     // 허나 init() 메서드는 뷰가 생성될 때마다 호출되기에, 뷰 재생성때마다 상태가 리셋되어 예상치 못한 동작이 발생할 수 있음. 따라서, onAppear 수정자 사용 혹은, initialValue을 통해 뷰가 처음 나타날때만 호출하게끔 해야 함.
-//    init(initialTags: [String]) {
-//        _selectedTags = State(initialValue: initialTags)
-//    }
+    //    init(initialTags: [String]) {
+    //        _selectedTags = State(initialValue: initialTags)
+    //    }
+    
     var body: some View {
         
         VStack(spacing: 0) {
-            VStack(alignment:.leading, spacing: 16) {
+            VStack(alignment:.leading, spacing: 0) {
                 VStack (spacing: 8) {
                     Text("안녕하세요. \(authVM.username)님")
                         .font(._subhead1)
                         .foregroundColor(.gray50)
                         .frame(maxWidth: .infinity,alignment: .leading)
                     
-                    HStack(alignment: .center,spacing: 8){
-                        Circle()
-                            .fill(.red)
-                            .frame(width: 8, height: 8)
-                        
-                        Text("상태 메시지")
-                            .font(._headline2)
-                            .foregroundColor(.gray90)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack{
-                            SortMenuButton(sortOption: $sortOption)
+                            SortMenuButton()
                             
                             TagSelector()
                         }
                     }
+                    
+                    TodoViewSelector()
                 }
                 .padding(.horizontal)
                 
-                ScrollView {
-                    Spacer().frame(height:16)
-                    
-                    if (viewModel.totalTodos.count>0){
-                        TodoListContent(
-                            isHome:true
-                        )
-                        .onAppear {
-                            viewModel.fetchTodos()
+                TabView(selection: $viewModel.currentTab) {
+                    ScrollView {
+                        ForEach(viewModel.inProgressTodos.filter { todo in
+                            if viewModel.selectedTags.contains("default") {
+                                return todo.tagId == nil || (todo.tagId != nil && viewModel.selectedTags.contains(todo.tagId!.id))
+                            } else {
+                                return todo.tagId != nil && viewModel.selectedTags.contains(todo.tagId!.id)
+                            }
+                        }) { todo in
+                            TodoItemView(todo: todo, isHome: true) {_ in viewModel.toggleTodo(todo.id)}
                         }
-                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                            viewModel.fetchTodos()
-                        }
-                    } else {
-                        HStack{
-                            Spacer()
-                            
-                            Text("Todo가 없어요")
-                                .font(._subhead1)
-                                .foregroundColor(.gray50)
-                                .padding()
-                            
-                            Spacer()
-                        }
+                        Spacer().frame(height:80)
                     }
+                    .scrollIndicators(.hidden)
+                    .padding(.horizontal)
+                    .background(.gray10)
+                    .tag(0)
+                    
+                    ScrollView {
+                        ForEach(viewModel.completedTodos.filter { todo in
+                            if viewModel.selectedTags.contains("default") {
+                                return todo.tagId == nil || (todo.tagId != nil && viewModel.selectedTags.contains(todo.tagId!.id))
+                            } else {
+                                return todo.tagId != nil && viewModel.selectedTags.contains(todo.tagId!.id)
+                            }
+                        }) { todo in
+                            TodoItemView(todo: todo, isHome: true) {_ in viewModel.toggleTodo(todo.id)}
+                        }
+                        Spacer().frame(height:80)
+                    }
+                    .scrollIndicators(.hidden)
+                    .padding(.horizontal)
+                    .background(.gray10)
+                    .tag(1)
                 }
-                .scrollIndicators(.hidden)
-                .padding(.horizontal)
-                .background(.gray10)
             }
-
         }
         .background(.gray00)
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(TodoListViewModel())
-            .environmentObject(TagEditViewModel())
-            .environmentObject(AuthViewModel())
     }
 }
