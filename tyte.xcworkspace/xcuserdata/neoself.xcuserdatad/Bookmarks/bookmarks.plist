@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>14</string>
+					<string>15</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>13</string>
+					<string>14</string>
 					<key>Timestamp</key>
-					<string>748026720.284147</string>
+					<string>748192432.1087869</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,10 +34,10 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    @State private var selectedTab = 2
+				<string>    @State private var selectedTab = 1
 </string>
 				<key>leading</key>
-				<string>    @EnvironmentObject var myPageVM : MyPageViewModel
+				<string>    @EnvironmentObject var authVM: AuthViewModel
     
 </string>
 				<key>trailing</key>
@@ -55,15 +55,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
+					<string>35</string>
 					<key>EndingLineNumber</key>
-					<string>27</string>
+					<string>16</string>
 					<key>StartingColumnNumber</key>
-					<string>0</string>
+					<string>31</string>
 					<key>StartingLineNumber</key>
-					<string>19</string>
+					<string>16</string>
 					<key>Timestamp</key>
-					<string>747994849.909003</string>
+					<string>748193275.310861</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -79,23 +79,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    private init() {
-#if DEBUG
-        isDevelopment = true
-#else
-        isDevelopment = false
-#endif
-        baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
-    }
-</string>
+				<string>Bool</string>
 				<key>leading</key>
-				<string>    private let baseURL: String
+				<string>    static let shared = APIManager()
     
-</string>
+    private let isDevelopment: </string>
 				<key>trailing</key>
-				<string>    
-    func getToken() -&gt; String? {
-        return UserDefaults.standard.string(forKey: "authToken")
+				<string> = true
+    private let baseURL: String
+    
 </string>
 			</dict>
 			<key>type</key>

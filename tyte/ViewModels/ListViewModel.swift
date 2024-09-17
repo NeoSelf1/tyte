@@ -3,12 +3,10 @@ import Combine
 import Alamofire
 
 
-class TodoListViewModel: ObservableObject {
-    @Published var totalTodos: [Todo] = []
+class ListViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var weekCalenderData: [DailyStat_DayView] = []
     
-//    @Published var currentMonth: String // 추후 가로형 스크롤 피커에서 실시간 재렌더를 트리커하고자 생성.
     @Published var selectedDate :Date = Date() {
         didSet {
             todosForDate=[]
@@ -31,42 +29,13 @@ class TodoListViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.selectedDate = Date()
         
-        // 모든 프로퍼티 초기화 후 메서드 호출
-        self.setupInitialFetch()
+        self.setupInitialFetch() // 모든 프로퍼티 초기화 후 메서드 호출
     }
     
     private func setupInitialFetch() {
         fetchTodosForDate(selectedDate.apiFormat)
-        fetchTodos()
-        // totalTodos에 대한 didSet 로직을 여기로 이동
-        $totalTodos
-            .dropFirst() // 초기값 무시
-            .sink { [weak self] _ in
-                if self?.weekCalenderData.isEmpty == true {
-                    self?.fetchWeekCalenderData()
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    //MARK: 모든 투두 객체 fetch
-    func fetchTodos(mode: String = "default") {
-        isLoading = true
-        errorMessage = nil
-        todoService.fetchAllTodos(mode:mode)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] todos in
-                self?.totalTodos = todos
-            }
-            .store(in: &cancellables)
+        fetchWeekCalenderData()
+
     }
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
@@ -111,25 +80,9 @@ class TodoListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    //MARK: Todo 추가
-    func addTodo(_ text: String) {
-        todoService.createTodo(text: text)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                if case .failure(let error) = completion {
-                    print(error.localizedDescription)
-                    self?.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] _ in
-                self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? "")
-                self?.fetchWeekCalenderData()
-                self?.fetchTodos()
-            }
-            .store(in: &cancellables)
-    }
-    
     //MARK: Todo 토글
-    func toggleTodo(_ id: String, isTotal: Bool) {
+    func toggleTodo(_ id: String) {
+        print("toggleTodo")
         todoService.toggleTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -137,9 +90,6 @@ class TodoListViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] updatedTodo in
-                if let index = self?.totalTodos.firstIndex(where: { $0.id == id }) {
-                    self?.totalTodos[index] = updatedTodo
-                }
                 if let index = self?.todosForDate.firstIndex(where: { $0.id == id }) {
                     self?.todosForDate[index] = updatedTodo
                 }
@@ -175,9 +125,5 @@ class TodoListViewModel: ObservableObject {
                 self?.fetchWeekCalenderData()
             }
             .store(in: &cancellables)
-    }
-    
-    private func updateMetrics() {
-        print("UpdateMetrics Called")
     }
 }
