@@ -1,36 +1,23 @@
-//
-//  tyteApp.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/1/24.
-//
-
 import SwiftUI
 
 @main
 struct tyteApp: App {
-    // 모든 ViewModel을 Environment에 주입
-    @StateObject private var listViewModel = ListViewModel()
-    @StateObject private var tagEditViewModel = TagEditViewModel()
-    @StateObject private var homeViewModel = HomeViewModel()
-    @StateObject private var authViewModel = AuthViewModel()
-    @StateObject private var myPageViewModel = MyPageViewModel()
+    @StateObject private var authVM = AuthViewModel()
     
     var body: some Scene {
         WindowGroup {
-            if (authViewModel.isLoggedIn) {
+            if authVM.isLoggedIn {
                 MainTabView()
-                    .environmentObject(homeViewModel)
-                    .environmentObject(listViewModel)
-                    .environmentObject(tagEditViewModel)
-                    .environmentObject(authViewModel)
-                    .environmentObject(myPageViewModel)
-
+                    .environmentObject(authVM)
+                    .environment(\.shared, SharedTodoKey.defaultValue)
+                    .environment(\.home, HomeKey.defaultValue)
+                    .environment(\.list, ListKey.defaultValue)
+                    .environment(\.tag, TagKey.defaultValue)
+                    .environment(\.myPage, MyPageKey.defaultValue)
             } else {
                 LoginView()
-                    .environmentObject(authViewModel)
+                    .environmentObject(authVM)
             }
         }
     }
 }
-

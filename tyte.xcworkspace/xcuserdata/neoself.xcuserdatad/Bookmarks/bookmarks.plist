@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>15</string>
+					<string>17</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>14</string>
+					<string>16</string>
 					<key>Timestamp</key>
-					<string>748192432.1087869</string>
+					<string>748278257.625829</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,10 +34,10 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    @State private var selectedTab = 1
+				<string>    @State private var selectedTab = 0
 </string>
 				<key>leading</key>
-				<string>    @EnvironmentObject var authVM: AuthViewModel
+				<string>    @Environment(\.list) var listVM
     
 </string>
 				<key>trailing</key>

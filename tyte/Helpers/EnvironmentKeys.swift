@@ -2,58 +2,62 @@
 //  EnvironmentKeys.swift
 //  tyte
 //
-//  Created by 김 형석 on 9/11/24.
+//  Created by 김 형석 on 9/17/24.
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 
-private struct HomeViewModelKey: EnvironmentKey {
-    static let defaultValue = HomeViewModel()
+// MARK: 즉시 실행되지 않으며, 선언 시 제공된 초기화(= SharedTodoViewModel())는 인스턴스 생성이 아니라 기본값으로 취급
+//MARK: 실제로 인스턴스가 생성되는 구문 @StateObject sharedTodoViewModel의 Projected 값에 접근하기에 실제 초기화를 제어
+
+struct SharedTodoKey: EnvironmentKey {
+    static let defaultValue = SharedTodoViewModel()
 }
 
-private struct ListViewModelKey: EnvironmentKey {
-    // EnvironmentKey 프로토콜의 필수 요구사항
-    static let defaultValue = ListViewModel()
+struct HomeKey: EnvironmentKey {
+    static var defaultValue: HomeViewModel {
+        HomeViewModel(sharedTodoViewModel: SharedTodoKey.defaultValue)
+    }
 }
 
-private struct TagEditViewModelKey: EnvironmentKey {
+struct ListKey: EnvironmentKey {
+    static var defaultValue: ListViewModel {
+        ListViewModel(sharedTodoViewModel: SharedTodoKey.defaultValue)
+    }
+}
+
+struct TagKey: EnvironmentKey {
     static let defaultValue = TagEditViewModel()
 }
 
-private struct MyPageViewModelKey: EnvironmentKey {
+struct MyPageKey: EnvironmentKey {
     static let defaultValue = MyPageViewModel()
 }
 
-private struct AuthViewModelKey: EnvironmentKey {
-    static let defaultValue = AuthViewModel()
-}
-
-
-
 extension EnvironmentValues {
-    var homeViewModel: HomeViewModel {
-        get { self[HomeViewModelKey.self] }
-        set { self[HomeViewModelKey.self] = newValue }
+    var shared: SharedTodoViewModel {
+        get { self[SharedTodoKey.self] }
+        set { self[SharedTodoKey.self] = newValue }
     }
     
-    var listViewModel: ListViewModel {
-        get { self[ListViewModelKey.self] }
-        set { self[ListViewModelKey.self] = newValue }
+    var home: HomeViewModel {
+        get { self[HomeKey.self] }
+        set { self[HomeKey.self] = newValue }
     }
     
-    var tagEditViewModel: TagEditViewModel {
-        get { self[TagEditViewModelKey.self] }
-        set { self[TagEditViewModelKey.self] = newValue }
+    var list: ListViewModel {
+        get { self[ListKey.self] }
+        set { self[ListKey.self] = newValue }
     }
     
-    var myPageViewModel: MyPageViewModel {
-        get { self[MyPageViewModelKey.self] }
-        set { self[MyPageViewModelKey.self] = newValue }
+    var tag: TagEditViewModel {
+        get { self[TagKey.self] }
+        set { self[TagKey.self] = newValue }
     }
     
-    var authViewModel: AuthViewModel {
-        get { self[AuthViewModelKey.self] }
-        set { self[AuthViewModelKey.self] = newValue }
+    var myPage: MyPageViewModel {
+        get { self[MyPageKey.self] }
+        set { self[MyPageKey.self] = newValue }
     }
 }
