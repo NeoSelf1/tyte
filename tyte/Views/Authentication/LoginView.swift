@@ -1,54 +1,48 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject private var viewModel = AuthViewModel()
-    @Binding var isLoggedIn: Bool
+    @EnvironmentObject var viewModel: AuthViewModel
+    
+    @State private var email: String = ""
+    @State private var password: String = ""
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Credentials")) {
-                    TextField("Email", text: $viewModel.email)
+                    TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
-                    SecureField("Password", text: $viewModel.password)
+                    SecureField("Password", text: $password)
                 }
                 
                 Section {
-                    Button(action: viewModel.login) {
+                    Button(action: {
+                        viewModel.login(email: email, password: password)
+                    }) {
                         if viewModel.isLoading {
                             ProgressView()
                         } else {
                             Text("Log In")
                         }
                     }
-                    .disabled(viewModel.isLoginButtonDisabled)
+                    .disabled(isLoginButtonDisabled)
                 }
                 
                 Section {
-                    NavigationLink(destination: SignUpView(isLoggedIn: $isLoggedIn)) {
+                    NavigationLink(destination: SignUpView()) {
                         Text("Don't have an account? Sign Up")
                     }
                 }
             }
             .navigationTitle("로그인")
-            .alert(item: Binding<AlertItem?>(
-                get: { viewModel.errorMessage.map { AlertItem(message: $0) } },
-                set: { _ in viewModel.errorMessage = nil }
-            )) { alertItem in
+            .alert(item: $viewModel.errorMessage) { alertItem in
                 Alert(title: Text("Error"), message: Text(alertItem.message), dismissButton: .default(Text("OK")))
-            }
-            .onChange(of: viewModel.isLoginSuccessful) { success in
-                if success {
-                    isLoggedIn = true
-                }
             }
         }
     }
-}
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView(isLoggedIn: .constant(false))
+    
+    private var isLoginButtonDisabled: Bool {
+        email.isEmpty || password.isEmpty || viewModel.isLoading
     }
 }

@@ -14,48 +14,71 @@ import Alamofire
 class APIManager {
     static let shared = APIManager()
     
-    private let isDevelopment: Bool
+    private let isDevelopment: Bool = true
     private let baseURL: String
     
     private init() {
-#if DEBUG
-        isDevelopment = true
-#else
-        isDevelopment = false
-#endif
         baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
+        print("\(baseURL)")
     }
     
-    func getToken() -> String? {
-        return UserDefaults.standard.string(forKey: "authToken")
+    private func getToken() -> String? {
+        guard let email = UserDefaults.standard.string(forKey: "lastLoggedInEmail") else {
+            return nil
+        }
+        
+        do {
+            return try KeychainManager.retrieve(service: AuthConstants.tokenService,
+                                                account: AuthConstants.tokenAccount(for: email))
+        } catch {
+            print("Failed to retrieve token: \(error.localizedDescription)")
+            return nil
+        }
     }
     
-    func saveToken(_ token: String) {
-        UserDefaults.standard.set(token, forKey: "authToken")
+    func saveToken(_ token: String, for email: String) {
+        do {
+            try KeychainManager.save(token: token,
+                                     service: AuthConstants.tokenService,
+                                     account: AuthConstants.tokenAccount(for: email))
+            UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
+        } catch {
+            print("Failed to save token: \(error.localizedDescription)")
+        }
     }
-    
+        
     func clearToken() {
-        UserDefaults.standard.removeObject(forKey: "authToken")
+        guard let email = UserDefaults.standard.string(forKey: "lastLoggedInEmail") else {
+            return
+        }
+        
+        do {
+            try KeychainManager.delete(service: AuthConstants.tokenService,
+                                       account: AuthConstants.tokenAccount(for: email))
+            UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
+        } catch {
+            print("Failed to clear token: \(error.localizedDescription)")
+        }
     }
     
     func request<T: Decodable>(_ endpoint: APIEndpoint,
-                               method: HTTPMethod = .get,
-                               parameters: Parameters? = nil,
+                                   method: HTTPMethod = .get,
+                                   parameters: Parameters? = nil,
                                completion: @escaping (Result<T, APIError>) -> Void) {
         let url = baseURL + endpoint.path
-        var headers: HTTPHeaders = [
-            "Authorization": ""
-        ]
+        var headers: HTTPHeaders = [:]
         
-        if (isDevelopment) {
-            headers = [ "Authorization": "Bearer dummyToken" ]
+        if let token = self.getToken() {
+            headers = ["Authorization": "Bearer \(token)"]
         } else {
-            guard let token = self.getToken() else {
-                print("Token not valid")
+            if (isDevelopment){
+                headers = ["Authorization": "Bearer dummyToken"]
+            } else {
+                completion(.failure(APIError.unauthorized))
                 return
             }
-            headers = [ "Authorization": "Bearer \(token)" ]
         }
+        
         
         AF.request(url,
                    method: method,
@@ -68,7 +91,7 @@ class APIManager {
             case .success(let value):
                 completion(.success(value))
             case .failure(let error):
-                print("Request Failed in : \(endpoint.path), \(method) -> \(error.localizedDescription)")
+                print("Request Failed: \(endpoint.path), \(method) -> \(error.localizedDescription)")
                 let apiError = APIError(afError: error)
                 completion(.failure(apiError))
             }
@@ -97,3 +120,4 @@ class APIManager {
         }
     }
 }
+ 

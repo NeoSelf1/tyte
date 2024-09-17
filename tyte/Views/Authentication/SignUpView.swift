@@ -1,51 +1,43 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject private var viewModel = AuthViewModel()
+    @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.dismiss) private var dismiss
-    @Binding var isLoggedIn: Bool
+    
+    @State private var username: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
     
     var body: some View {
         Form {
             Section(header: Text("User Information")) {
-                TextField("Username", text: $viewModel.username)
-                TextField("Email", text: $viewModel.email)
+                TextField("Username", text: $username)
+                TextField("Email", text: $email)
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
-                SecureField("Password", text: $viewModel.password)
+                SecureField("Password", text: $password)
             }
             
             Section {
-                Button(action: viewModel.signUp) {
+                Button(action: {
+                    viewModel.signUp(username: username, email: email, password: password)
+                }) {
                     if viewModel.isLoading {
                         ProgressView()
                     } else {
                         Text("Sign Up")
                     }
                 }
-                .disabled(viewModel.isLoading)
+                .disabled(isSignUpButtonDisabled)
             }
         }
         .navigationTitle("Sign Up")
-        .alert(item: Binding<AlertItem?>(
-            get: { viewModel.errorMessage.map { AlertItem(message: $0) } },
-            set: { _ in viewModel.errorMessage = nil }
-        )) { alertItem in
+        .alert(item: $viewModel.errorMessage) { alertItem in
             Alert(title: Text("Error"), message: Text(alertItem.message), dismissButton: .default(Text("OK")))
         }
-        .onChange(of: viewModel.isSignUpSuccessful) { success in
-            if success {
-                isLoggedIn = true
-                dismiss()
-            }
-        }
     }
-}
-
-struct SignUpView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            SignUpView(isLoggedIn: .constant(false))
-        }
+    
+    private var isSignUpButtonDisabled: Bool {
+        username.isEmpty || email.isEmpty || password.isEmpty || viewModel.isLoading
     }
 }
