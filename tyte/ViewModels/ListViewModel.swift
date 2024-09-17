@@ -7,7 +7,12 @@ class ListViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var weekCalenderData: [DailyStat_DayView] = []
     
-    @Published var selectedDate :Date = Date()
+    @Published var selectedDate :Date = Date(){
+        didSet {
+            todosForDate=[]
+            fetchTodosForDate(selectedDate.apiFormat)
+        }
+    }
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -31,12 +36,6 @@ class ListViewModel: ObservableObject {
             .compactMap { $0 }
             .sink { [weak self] _ in
                 self?.fetchData()
-            }
-            .store(in: &cancellables)
-        
-        $selectedDate
-            .sink { [weak self] _ in
-                self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().apiFormat)
             }
             .store(in: &cancellables)
     }

@@ -58,7 +58,7 @@ struct GraphView: View {
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
                         AnimatedChart()
-                            .frame(width: viewModel.zoomInOut())
+                            .frame(width: viewModel.zoomInOut(),alignment: .trailing)
                             .id("chart")
                             .scaleEffect(animationAmount)
                             .animation(.easeInOut(duration: 0.5), value: viewModel.graphRange)

@@ -12,7 +12,7 @@ struct MainTabView: View {
     @StateObject private var homeVM = HomeViewModel()
     @StateObject private var listVM = ListViewModel()
     
-    @State private var selectedTab = 1
+    @State private var selectedTab = 0
     @State private var todoInput = ""
     
     @FocusState private var isInputFocused: Bool

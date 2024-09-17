@@ -18,7 +18,6 @@ struct HomeView: View {
     //    }
     
     var body: some View {
-        
         VStack(spacing: 0) {
             VStack(alignment:.leading, spacing: 0) {
                 VStack (spacing: 8) {
@@ -74,6 +73,7 @@ struct HomeView: View {
                     .background(.gray10)
                     .tag(1)
                 }
+                .background(.gray10)
             }
         }
         .background(.gray00)
