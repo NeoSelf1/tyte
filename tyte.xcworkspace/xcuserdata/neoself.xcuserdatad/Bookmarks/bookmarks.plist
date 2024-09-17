@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>15</string>
+					<string>18</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>14</string>
+					<string>17</string>
 					<key>Timestamp</key>
-					<string>748285979.043456</string>
+					<string>748290729.5258451</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -37,8 +37,8 @@
 				<string>    @FocusState private var isInputFocused: Bool
 </string>
 				<key>leading</key>
-				<string>    @State private var selectedTab = 1
-    @State private var todoInput = ""
+				<string>    @State private var todoInput = ""
+    
 </string>
 				<key>trailing</key>
 				<string>    

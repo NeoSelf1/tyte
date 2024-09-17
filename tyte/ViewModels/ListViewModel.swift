@@ -7,12 +7,7 @@ class ListViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var weekCalenderData: [DailyStat_DayView] = []
     
-    @Published var selectedDate :Date = Date() {
-        didSet {
-            todosForDate=[]
-            fetchTodosForDate(selectedDate.apiFormat)
-        }
-    }
+    @Published var selectedDate :Date = Date()
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -20,28 +15,33 @@ class ListViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let todoService: TodoService
     private let dailyStatService: DailyStatService
-    private let sharedTodoVM: SharedTodoViewModel
 
     init(
         todoService: TodoService = TodoService(),
-        dailyStatService: DailyStatService = DailyStatService(),
-        sharedTodoVM: SharedTodoViewModel
+        dailyStatService: DailyStatService = DailyStatService()
     ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
         self.selectedDate = Date()
-        self.sharedTodoVM = sharedTodoVM
+        self.fetchData()
+    }
+    
+    func setupBindings(sharedVM: SharedTodoViewModel) {
+        sharedVM.$lastAddedTodoId
+            .compactMap { $0 }
+            .sink { [weak self] _ in
+                self?.fetchData()
+            }
+            .store(in: &cancellables)
         
-        // 모든 프로퍼티 초기화 후 메서드 호출
-        sharedTodoVM.$allTodos
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] todos in
-                self?.setupInitialFetch()
+        $selectedDate
+            .sink { [weak self] _ in
+                self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().apiFormat)
             }
             .store(in: &cancellables)
     }
     
-    private func setupInitialFetch() {
+    private func fetchData() {
         fetchTodosForDate(selectedDate.apiFormat)
         fetchWeekCalenderData()
         

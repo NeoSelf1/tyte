@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var viewModel : SharedTodoViewModel
+    @StateObject private var sharedVM = SharedTodoViewModel()
+    @StateObject private var homeVM = HomeViewModel()
+    @StateObject private var listVM = ListViewModel()
     
     @State private var selectedTab = 1
     @State private var todoInput = ""
+    
     @FocusState private var isInputFocused: Bool
     
     var body: some View {
@@ -20,13 +23,13 @@ struct MainTabView: View {
                 Spacer().frame(height: 12)  // 상단에 24pt의 패딩 추가
                 NavigationStack {
                     TabView(selection: $selectedTab) {
-                        HomeView()
+                        HomeView(viewModel: homeVM)
                             .tabItem {
                                 TabBarItem(icon: "house.fill", text: "홈")
                             }
                             .tag(0)
                         
-                        ListView()
+                        ListView(viewModel: listVM)
                             .tabItem {
                                 TabBarItem(icon: "calendar",  text: "일정 관리")
                             }
@@ -37,6 +40,10 @@ struct MainTabView: View {
                                 TabBarItem(icon: "person.fill", text: "MY")
                             }
                             .tag(2)
+                    }
+                    .onAppear {
+                        homeVM.setupBindings(sharedVM: sharedVM)
+                        listVM.setupBindings(sharedVM: sharedVM)
                     }
 //                    .onChange(of: selectedTab) { oldValue, newValue in
 //                        if newValue == 0 {
@@ -59,7 +66,7 @@ struct MainTabView: View {
                 )
                 .focused($isInputFocused)
                 .onSubmit {
-                    viewModel.addTodo(todoInput)
+                    sharedVM.addTodo(todoInput)
                     todoInput = ""
                 }
                 .foregroundColor(.gray90)
@@ -100,5 +107,4 @@ struct TabBarItem: View {
 
 #Preview {
     MainTabView()
-        .environmentObject(SharedTodoViewModel())
 }

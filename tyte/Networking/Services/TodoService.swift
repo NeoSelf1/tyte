@@ -31,7 +31,6 @@ class TodoService {
     }
     
     func createTodo(text: String) -> AnyPublisher<[Todo], APIError> {
-        print("createTodo \(text)")
         let endpoint = APIEndpoint.createTodo
         let parameters: [String: Any] = [
             "text": text

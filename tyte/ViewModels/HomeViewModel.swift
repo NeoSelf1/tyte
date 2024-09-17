@@ -2,8 +2,7 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var totalTodos: [Todo] = []
-    @Published var inProgressTodos: [Todo] = [] {didSet{print(inProgressTodos.debugDescription)}}
+    @Published var inProgressTodos: [Todo] = []
     @Published var completedTodos: [Todo] = []
     
     @Published var tags: [Tag] = []
@@ -15,45 +14,30 @@ class HomeViewModel: ObservableObject {
     private let todoService: TodoService
     private let tagService: TagService
     
-    private let sharedTodoVM: SharedTodoViewModel
-
-
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
     init(
         todoService: TodoService = TodoService(),
-        tagService: TagService = TagService(),
-        sharedTodoVM: SharedTodoViewModel
+        tagService: TagService = TagService()
     ) {
         self.todoService = todoService
         self.tagService = tagService
-        self.sharedTodoVM = sharedTodoVM
-        setupBindings()
         fetchTags()
     }
     
-    private func setupBindings() {
-        print("setupBindings")
-        // totalTodos가 변경될 때마다 inProgressTodos와 completedTodos 업데이트
-        $totalTodos
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] todos in
-                self?.inProgressTodos = todos.filter { !$0.isCompleted }
-                self?.completedTodos = todos.filter { $0.isCompleted }
-            }
-            .store(in: &cancellables)
-        
+    func setupBindings(sharedVM: SharedTodoViewModel) {
+        print("setupBindings in HomeViewModel")
         // SharedTodoViewModel의 allTodos가 변경될 때마다 totalTodos를 업데이트
-        sharedTodoVM.$allTodos
+        sharedVM.$lastAddedTodoId
             .receive(on: DispatchQueue.main)
             .sink { [weak self] todos in
-                self?.totalTodos = todos
+                self?.fetchTodos(mode: self?.sortOption ?? "default")
             }
             .store(in: &cancellables)
     }
-
+    
     func fetchTodos(mode: String = "default") {
         isLoading = true
         errorMessage = nil
@@ -66,11 +50,12 @@ class HomeViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] todos in
-                self?.totalTodos = todos
+                self?.inProgressTodos = todos.filter { !$0.isCompleted }
+                self?.completedTodos = todos.filter { $0.isCompleted }
             }
             .store(in: &cancellables)
     }
-
+    
     func fetchTags() {
         tagService.fetchAllTags()
             .receive(on: DispatchQueue.main)
@@ -86,7 +71,7 @@ class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     func toggleTag(id: String) {
         if let index = selectedTags.firstIndex(of: id) {
             if selectedTags.count > 1 {
@@ -105,13 +90,25 @@ class HomeViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] updatedTodo in
-                if let index = self?.totalTodos.firstIndex(where: { $0.id == id }) {
-                    self?.totalTodos[index] = updatedTodo
+                guard let self = self else { return }
+                
+                if updatedTodo.isCompleted {
+                    // Todo가 완료됨: inProgressTodos에서 제거하고 completedTodos에 추가
+                    if let index = self.inProgressTodos.firstIndex(where: { $0.id == id }) {
+                        _ = self.inProgressTodos.remove(at: index)
+                        self.completedTodos.append(updatedTodo)
+                    }
+                } else {
+                    // Todo가 미완료됨: completedTodos에서 제거하고 inProgressTodos에 추가
+                    if let index = self.completedTodos.firstIndex(where: { $0.id == id }) {
+                        _ = self.completedTodos.remove(at: index)
+                        self.inProgressTodos.append(updatedTodo)
+                    }
                 }
             }
             .store(in: &cancellables)
     }
-
+    
     func setSortOption(_ option: String) {
         sortOption = option
         fetchTodos(mode: option)

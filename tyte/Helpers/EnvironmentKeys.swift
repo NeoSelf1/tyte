@@ -15,31 +15,10 @@ struct SharedTodoKey: EnvironmentKey {
     static let defaultValue = SharedTodoViewModel()
 }
 
-struct HomeKey: EnvironmentKey {
-    static var defaultValue: HomeViewModel {
-        HomeViewModel(sharedTodoVM: SharedTodoKey.defaultValue)
-    }
-}
-
-struct ListKey: EnvironmentKey {
-    static var defaultValue: ListViewModel {
-        ListViewModel(sharedTodoVM: SharedTodoKey.defaultValue)
-    }
-}
 
 extension EnvironmentValues {
     var shared: SharedTodoViewModel {
         get { self[SharedTodoKey.self] }
         set { self[SharedTodoKey.self] = newValue }
-    }
-    
-    var home: HomeViewModel {
-        get { self[HomeKey.self] }
-        set { self[HomeKey.self] = newValue }
-    }
-    
-    var list: ListViewModel {
-        get { self[ListKey.self] }
-        set { self[ListKey.self] = newValue }
     }
 }

@@ -1,13 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var sharedVM : SharedTodoViewModel
-    @StateObject private var viewModel: HomeViewModel
-    
-    init() {
-        let shared = SharedTodoKey.defaultValue
-        _viewModel = StateObject(wrappedValue: HomeViewModel(sharedTodoVM: shared))
-    }
+    @ObservedObject var viewModel: HomeViewModel
     
     @State private var todoInput = ""
     @State private var showSortMenu = false

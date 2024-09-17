@@ -9,8 +9,10 @@ import Foundation
 import Combine
 
 class SharedTodoViewModel: ObservableObject {
-    @Published var allTodos: [Todo] = []
     private let todoService: TodoService
+    
+    @Published var allTodos: [Todo] = []
+    @Published var lastAddedTodoId: String?
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -48,8 +50,9 @@ class SharedTodoViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] newTodos in
+                print("addedTodo in SHaredViewModel \(text)")
                 guard let self = self else { return }
-                self.allTodos.append(contentsOf: newTodos)
+                self.lastAddedTodoId = newTodos.last?.id
             }
             .store(in: &cancellables)
     }

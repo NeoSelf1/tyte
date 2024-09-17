@@ -8,14 +8,8 @@
 import SwiftUI
 
 struct ListView: View {
-    @EnvironmentObject private var sharedVM : SharedTodoViewModel
-    @StateObject private var viewModel: ListViewModel
-    
-    init() {
-        let shared = SharedTodoKey.defaultValue
-        _viewModel = StateObject(wrappedValue: ListViewModel(sharedTodoVM: shared))
-    }
-    
+    @ObservedObject var viewModel: ListViewModel = ListViewModel()
+   
     var body: some View {
         VStack (spacing:0){
             HStack {
