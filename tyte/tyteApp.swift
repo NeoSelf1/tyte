@@ -10,24 +10,25 @@ import SwiftUI
 @main
 struct tyteApp: App {
     // 모든 ViewModel을 Environment에 주입
-    @StateObject private var todoListViewModel = TodoListViewModel()
+    @StateObject private var listViewModel = ListViewModel()
     @StateObject private var tagEditViewModel = TagEditViewModel()
+    @StateObject private var homeViewModel = HomeViewModel()
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var myPageViewModel = MyPageViewModel()
     
-    @State private var isLoggedIn = false
-    
     var body: some Scene {
         WindowGroup {
-            if isLoggedIn {
+            if (authViewModel.isLoggedIn) {
                 MainTabView()
-                    .environmentObject(todoListViewModel)
+                    .environmentObject(homeViewModel)
+                    .environmentObject(listViewModel)
                     .environmentObject(tagEditViewModel)
                     .environmentObject(authViewModel)
-                    .environmentObject(MyPageViewModel())
+                    .environmentObject(myPageViewModel)
 
             } else {
-                LoginView(isLoggedIn: $isLoggedIn)
+                LoginView()
+                    .environmentObject(authViewModel)
             }
         }
     }

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var viewModel : TodoListViewModel
+    @EnvironmentObject var viewModel : HomeViewModel
     @EnvironmentObject var myPageVM : MyPageViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
     @State private var todoInput = ""
     @FocusState private var isInputFocused: Bool
     
@@ -32,20 +33,20 @@ struct MainTabView: View {
                                 TabBarItem(icon: "calendar",  text: "일정 관리")
                             }
                             .tag(1)
-                         
+                        
                         MyPageView()
                             .tabItem {
                                 TabBarItem(icon: "person.fill", text: "MY")
                             }
                             .tag(2)
                     }
-                    .onChange(of: selectedTab) { oldValue, newValue in
-                        if newValue == 0 {
-                            viewModel.fetchTodos()
-                        } else if newValue == 2 {
-                            myPageVM.fetchDailyStats()
-                        }
-                    }
+//                    .onChange(of: selectedTab) { oldValue, newValue in
+//                        if newValue == 0 {
+//                            viewModel.fetchTodos()
+//                        } else if newValue == 2 {
+//                            myPageVM.fetchDailyStats()
+//                        }
+//                    }
                 }
             }
             .ignoresSafeArea()
@@ -80,6 +81,11 @@ struct MainTabView: View {
                     }
                 } : nil
         )
+        .onReceive(authVM.$isLoggedIn) { isLoggedIn in
+            if isLoggedIn {
+                viewModel.fetchTodos()
+            }
+        }
     }
 }
 
@@ -101,8 +107,9 @@ struct TabBarItem: View {
 
 #Preview {
     MainTabView()
-        .environmentObject(TodoListViewModel())
+        .environmentObject(ListViewModel())
         .environmentObject(TagEditViewModel())
         .environmentObject(AuthViewModel())
         .environmentObject(MyPageViewModel())
+        .environmentObject(HomeViewModel())
 }
