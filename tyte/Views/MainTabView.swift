@@ -20,7 +20,6 @@ struct MainTabView: View {
     var body: some View {
         ZStack{
             VStack(spacing: 0) {
-                Spacer().frame(height: 12)  // 상단에 24pt의 패딩 추가
                 NavigationStack {
                     TabView(selection: $selectedTab) {
                         HomeView(viewModel: homeVM)
@@ -45,13 +44,6 @@ struct MainTabView: View {
                         homeVM.setupBindings(sharedVM: sharedVM)
                         listVM.setupBindings(sharedVM: sharedVM)
                     }
-//                    .onChange(of: selectedTab) { oldValue, newValue in
-//                        if newValue == 0 {
-//                            viewModel.fetchTodos()
-//                        } else if newValue == 2 {
-//                            myPageVM.fetchDailyStats()
-//                        }
-//                    }
                 }
             }
             .ignoresSafeArea()

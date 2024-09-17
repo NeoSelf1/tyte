@@ -49,7 +49,7 @@ struct HomeView: View {
                         }) { todo in
                             TodoItemView(todo: todo, isHome: true) {_ in viewModel.toggleTodo(todo.id)}
                         }
-                        Spacer().frame(height:80)
+                        Spacer().frame(maxWidth:.infinity, maxHeight:80)
                     }
                     .scrollIndicators(.hidden)
                     .padding(.horizontal)
@@ -66,7 +66,7 @@ struct HomeView: View {
                         }) { todo in
                             TodoItemView(todo: todo, isHome: true) {_ in viewModel.toggleTodo(todo.id)}
                         }
-                        Spacer().frame(height:80)
+                        Spacer().frame(maxWidth:.infinity, maxHeight:80)
                     }
                     .scrollIndicators(.hidden)
                     .padding(.horizontal)
