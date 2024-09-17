@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WeeklyCalendar: View {
-    @EnvironmentObject var viewModel: TodoListViewModel
+    @EnvironmentObject var viewModel: ListViewModel
     
     @Binding var selectedDate: Date
     private let calendar = Calendar.current
