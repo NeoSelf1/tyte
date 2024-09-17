@@ -2,20 +2,22 @@ import SwiftUI
 
 struct CalenderView: View {
     @EnvironmentObject var viewModel: MyPageViewModel
+    private let dayViewSize:CGFloat = 48
     
     var body: some View {
         VStack {
             headerView
             calendarGridView
         }
-        .padding()
+        .padding(.horizontal)
+        .padding(.bottom,24)
     }
     
     // MARK: - 헤더 뷰
     private var headerView: some View {
-        VStack (){
+        VStack {
             yearMonthView
-                .frame(maxWidth: .infinity,alignment: .center)
+                .frame(maxWidth: .infinity, alignment: .center)
             
             HStack {
                 ForEach(Self.weekdaySymbols.indices, id: \.self) { symbol in
@@ -25,7 +27,6 @@ struct CalenderView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
-            .padding(.bottom, 5)
         }
     }
     
@@ -44,11 +45,13 @@ struct CalenderView: View {
                         .foregroundColor(canMoveToPreviousMonth() ? .black : . gray)
                 }
             )
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical,6)
             .disabled(!canMoveToPreviousMonth())
             
             Text(viewModel.currentMonth.formattedMonth)
                 .font(._subhead1)
+                .foregroundStyle(.gray90)
             
             Button(
                 action: {
@@ -62,7 +65,8 @@ struct CalenderView: View {
                         .foregroundColor(canMoveToNextMonth() ? .black : .gray)
                 }
             )
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical,6)
             .disabled(!canMoveToNextMonth())
         }
     }
@@ -75,22 +79,26 @@ struct CalenderView: View {
         let numberOfRows = Int(ceil(Double(daysInMonth + firstWeekday) / 7.0))
         let visibleDaysOfNextMonth = numberOfRows * 7 - (daysInMonth + firstWeekday)
         
+        
         return LazyVGrid(columns: Array(repeating: GridItem(), count: 7)) {
             ForEach(-firstWeekday ..< daysInMonth + visibleDaysOfNextMonth, id: \.self) { index in
-                Group {
+                Group() {
                     if index > -1 && index < daysInMonth {
                         let date = getDate(for: index)
-                        let isSelected = viewModel.selectedDate == date
                         let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         
-                        DayView(dailyStats: viewModel.calenderData, date: date, isSelected: isSelected, isToday: isToday)
+                        DayView(dailyStats: viewModel.calenderData, date: date, isSelected: true, isToday: isToday)
+                            .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
+                            .onTapGesture {
+                                viewModel.selectedDate = date
+                            }
                     } else if let prevMonthDate = Calendar.current.date(
                         byAdding: .day,
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
                     ) {
-                        let day = Calendar.current.component(.day, from: prevMonthDate)
-                        CellView(day: day, isCurrentMonthDay: false)
+                        DayView(dailyStats: viewModel.calenderData, date: prevMonthDate, isSelected: false, isToday: false)
+                            .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
                     }
                 }
                 .onTapGesture {
@@ -103,65 +111,7 @@ struct CalenderView: View {
         }
     }
 }
-
-// MARK: - 일자 셀 뷰
-private struct CellView: View {
-  private var day: Int
-  private var clicked: Bool
-  private var isToday: Bool
-  private var isCurrentMonthDay: Bool
-  private var textColor: Color {
-    if clicked {
-      return Color.white
-    } else if isCurrentMonthDay {
-      return Color.black
-    } else {
-      return Color.gray
-    }
-  }
-  private var backgroundColor: Color {
-    if clicked {
-      return Color.black
-    } else if isToday {
-      return Color.gray
-    } else {
-      return Color.white
-    }
-  }
-  
-  fileprivate init(
-    day: Int,
-    clicked: Bool = false,
-    isToday: Bool = false,
-    isCurrentMonthDay: Bool = true
-  ) {
-    self.day = day
-    self.clicked = clicked
-    self.isToday = isToday
-    self.isCurrentMonthDay = isCurrentMonthDay
-  }
-  
-  fileprivate var body: some View {
-    VStack {
-      Circle()
-        .fill(backgroundColor)
-        .overlay(Text(String(day)))
-        .foregroundColor(textColor)
-      
-      Spacer()
-      
-      if clicked {
-        RoundedRectangle(cornerRadius: 10)
-          .fill(.red)
-          .frame(width: 10, height: 10)
-      } else {
-        Spacer()
-          .frame(height: 10)
-      }
-    }
-    .frame(height: 50)
-  }
-}
+// MARK: -
 
 private extension CalenderView {
   var today: Date {

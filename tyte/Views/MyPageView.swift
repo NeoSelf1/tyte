@@ -9,32 +9,53 @@ import SwiftUI
 
 struct MyPageView: View {
     @EnvironmentObject var viewModel: MyPageViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
         VStack{
-            Picker("", selection: $viewModel.currentTab) {
-                Text("생산지수 그래프")
-                    .tag("graph")
-                Text("달력")
-                    .tag("calender")
+            VStack (spacing:0){
+                HStack (alignment: .center){
+                    Text("내 정보")
+                        .font(._headline2)
+                        .foregroundColor(.gray90)
+                    
+                    Spacer()
+                        .frame(width:120)
+                    
+                    ViewSelector()
+                }
+                .frame(height:56)
+                .padding(.horizontal)
+                
+                if (viewModel.currentTab == 0){
+                    CalenderView()
+                        .frame(maxHeight: 360)
+                } else {
+                    GraphView()
+                        .frame(maxHeight: 360)
+                }
+            }.background(.gray00)
+            
+            Button(action: {
+                authViewModel.logout()
+            }) {
+                Text("로그아웃")
+                    .font(._body1)
+                    .foregroundColor(.blue30)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(.blue10)
+                    .cornerRadius(8)
             }
-            .pickerStyle(.segmented)
             .padding()
-            if (viewModel.currentTab == "graph"){
-                GraphView()
-                    .onChange(of: viewModel.isLoaded){
-                        viewModel.animateGraph()
-                    }
-            } else {
-                CalenderView()
-            }
+            
             Spacer()
-        }
-        
+        }.background(.gray10)
     }
 }
 
 #Preview {
     MyPageView()
         .environmentObject(MyPageViewModel())
+        .environmentObject(AuthViewModel())
 }

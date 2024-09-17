@@ -15,6 +15,7 @@ struct GraphView: View {
                 VStack (alignment: .leading){
                     Text("\(viewModel.graphData.reduce(0) {$0 + $1.productivityNum}.formatted())")
                         .font(._headline2)
+                        .foregroundStyle(.gray90)
                     
                     Text("총 생산지수")
                         .font(._body3)
@@ -47,7 +48,7 @@ struct GraphView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
-            .padding()
+            .padding(.horizontal)
             
             if (viewModel.graphData.isEmpty){
                 Text("데이터가 없어요!")
@@ -64,14 +65,14 @@ struct GraphView: View {
                             .padding()
                     }
                     .onChange(of: viewModel.graphRange) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + Animation.Duration.medium) {
                             withAnimation {
                                 proxy.scrollTo("chart", anchor: .trailing)
                             }
                         }
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: 250, alignment: .top)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal)
                 .onChange(of: viewModel.graphRange) {
                     withAnimation(.easeInOut(duration: 0.5)) {
@@ -114,9 +115,9 @@ struct GraphView: View {
         }
         .chartXAxis {
             AxisMarks(values: .stride(by: .day)) {
-                AxisGridLine()
-                AxisTick()
-                AxisValueLabel(format: .dateTime.day())
+                AxisGridLine().foregroundStyle(.gray50)
+                AxisTick().foregroundStyle(.gray50)
+                AxisValueLabel(format: .dateTime.day()).foregroundStyle(.gray50)
             }
         }
         .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date(), upper: viewModel.graphData.last?.date.parsedDate ?? Date())))
