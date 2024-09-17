@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var viewModel: AuthViewModel
     
     @State private var email: String = ""
     @State private var password: String = ""
@@ -30,15 +30,18 @@ struct LoginView: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: SignUpView()) {
+                    NavigationLink(destination: SignUpView(viewModel: viewModel)) {
                         Text("Don't have an account? Sign Up")
                     }
                 }
             }
             .navigationTitle("로그인")
-            .alert(item: $viewModel.errorMessage) { alertItem in
-                Alert(title: Text("Error"), message: Text(alertItem.message), dismissButton: .default(Text("OK")))
-            }
+//            .alert(item: Binding(
+//                get: { viewModel.errorMessage.map { AlertItem(message: $0) } },
+//                set: { _ in viewModel.errorMessage = nil }
+//            )) { alertItem in
+//                Alert(title: Text("Error"), message: Text(alertItem.message), dismissButton: .default(Text("OK")))
+//            }
         }
     }
     

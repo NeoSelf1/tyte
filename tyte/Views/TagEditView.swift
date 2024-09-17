@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TagEditView: View {
-    @EnvironmentObject var viewModel: TagEditViewModel
+    @StateObject private var viewModel: TagEditViewModel = TagEditViewModel()
     
     @State private var tagInput = ""
     @State private var selectedColor: String = "FF0000" // Default red color

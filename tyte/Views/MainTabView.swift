@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var viewModel : HomeViewModel
-    @EnvironmentObject var myPageVM : MyPageViewModel
-    @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var viewModel : SharedTodoViewModel
     
     @State private var selectedTab = 1
     @State private var todoInput = ""
@@ -81,11 +79,6 @@ struct MainTabView: View {
                     }
                 } : nil
         )
-        .onReceive(authVM.$isLoggedIn) { isLoggedIn in
-            if isLoggedIn {
-                viewModel.fetchTodos()
-            }
-        }
     }
 }
 
@@ -107,9 +100,5 @@ struct TabBarItem: View {
 
 #Preview {
     MainTabView()
-        .environmentObject(ListViewModel())
-        .environmentObject(TagEditViewModel())
-        .environmentObject(AuthViewModel())
-        .environmentObject(MyPageViewModel())
-        .environmentObject(HomeViewModel())
+        .environmentObject(SharedTodoViewModel())
 }

@@ -1,17 +1,10 @@
 import SwiftUI
 
 struct WeeklyCalendar: View {
-    @EnvironmentObject var viewModel: ListViewModel
+    @ObservedObject var viewModel : ListViewModel
     
-    @Binding var selectedDate: Date
     private let calendar = Calendar.current
     @State private var visibleMonth: String = ""
-    
-    init(
-        selectedDate: Binding<Date>
-    ) {
-        self._selectedDate = selectedDate
-    }
     
     var body: some View {
         ScrollViewReader { scrollProxy in
@@ -58,13 +51,13 @@ struct WeeklyCalendar: View {
     }
     
     private func dayView(for date: Date) -> some View {
-        let isSelected = calendar.isDate(date, inSameDayAs: selectedDate)
+        let isSelected = calendar.isDate(date, inSameDayAs: viewModel.selectedDate)
         let isToday = calendar.isDateInToday(date)
         
         return DayView(dailyStats: viewModel.weekCalenderData, date: date, isSelected: isSelected, isToday: isToday)
             .onTapGesture {
                 withAnimation(.easeOut(duration: 0.2)) {
-                    selectedDate = date
+                    viewModel.selectedDate = date
                 }
             }
     }
@@ -77,7 +70,7 @@ struct WeeklyCalendar: View {
     
     private func backgroundForDate(_ date: Date) -> some View {
         Group {
-            if calendar.isDate(date, inSameDayAs: selectedDate) {
+            if calendar.isDate(date, inSameDayAs: viewModel.selectedDate) {
                 Color.blue30
             } else if calendar.isDateInToday(date) {
                 Color.blue10

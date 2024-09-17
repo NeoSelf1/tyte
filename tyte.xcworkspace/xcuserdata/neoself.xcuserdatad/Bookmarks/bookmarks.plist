@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>17</string>
+					<string>15</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>16</string>
+					<string>14</string>
 					<key>Timestamp</key>
-					<string>748278257.625829</string>
+					<string>748285979.043456</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    @State private var selectedTab = 0
+				<string>    @FocusState private var isInputFocused: Bool
 </string>
 				<key>leading</key>
-				<string>    @Environment(\.list) var listVM
-    
+				<string>    @State private var selectedTab = 1
+    @State private var todoInput = ""
 </string>
 				<key>trailing</key>
-				<string>    @State private var todoInput = ""
-    @FocusState private var isInputFocused: Bool
-    
+				<string>    
+    var body: some View {
+        ZStack{
 </string>
 			</dict>
 			<key>type</key>

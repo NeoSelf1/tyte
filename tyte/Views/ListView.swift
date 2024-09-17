@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ListView: View {
-    @EnvironmentObject var viewModel: TodoListViewModel
+    @EnvironmentObject private var sharedVM : SharedTodoViewModel
+    @StateObject private var viewModel: ListViewModel
+    
+    init() {
+        let shared = SharedTodoKey.defaultValue
+        _viewModel = StateObject(wrappedValue: ListViewModel(sharedTodoVM: shared))
+    }
     
     var body: some View {
         VStack (spacing:0){
@@ -30,7 +36,7 @@ struct ListView: View {
             .frame(height:56)
             .padding(.horizontal)
             
-                WeeklyCalendar(selectedDate: $viewModel.selectedDate)
+            WeeklyCalendar(viewModel:viewModel)
             
             Spacer().frame(height:16)
             
@@ -43,15 +49,22 @@ struct ListView: View {
                 Spacer().frame(height:16)
                 
                 if (viewModel.todosForDate.count>0){
-                    TodoListContent(isHome: false)
-                    .onAppear {
-                        viewModel.fetchWeekCalenderData()
-                        viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
+                    ScrollView {
+                        ForEach(viewModel.todosForDate) { todo in
+                            TodoItemView(todo: todo, isHome: false ){ _ in viewModel.toggleTodo(todo.id)}
+                        }
+                        Spacer().frame(height:80)
                     }
-                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                        viewModel.fetchWeekCalenderData()
-                        viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
-                    }
+                    .scrollIndicators(.hidden)
+                    .background(.gray10)
+                        .onAppear {
+                            viewModel.fetchWeekCalenderData()
+                            viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
+                        }
+                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                            viewModel.fetchWeekCalenderData()
+                            viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
+                        }
                 } else {
                     HStack{
                         Spacer()
@@ -75,4 +88,5 @@ struct ListView: View {
 
 #Preview {
     ListView()
+        .environmentObject(SharedTodoViewModel())
 }

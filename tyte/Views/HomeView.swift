@@ -1,8 +1,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var viewModel : HomeViewModel
-    @EnvironmentObject private var authVM : AuthViewModel
+    @EnvironmentObject private var sharedVM : SharedTodoViewModel
+    @StateObject private var viewModel: HomeViewModel
+    
+    init() {
+        let shared = SharedTodoKey.defaultValue
+        _viewModel = StateObject(wrappedValue: HomeViewModel(sharedTodoVM: shared))
+    }
     
     @State private var todoInput = ""
     @State private var showSortMenu = false
@@ -23,20 +28,20 @@ struct HomeView: View {
         VStack(spacing: 0) {
             VStack(alignment:.leading, spacing: 0) {
                 VStack (spacing: 8) {
-                    Text("안녕하세요. \(authVM.username)님")
+                    Text("안녕하세요. 김형석님")
                         .font(._subhead1)
                         .foregroundColor(.gray50)
                         .frame(maxWidth: .infinity,alignment: .leading)
                     
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack{
-                            SortMenuButton()
+                            SortMenuButton(viewModel: viewModel)
                             
-                            TagSelector()
+                            TagSelector(viewModel: viewModel)
                         }
                     }
                     
-                    TodoViewSelector()
+                    TodoViewSelector(viewModel: viewModel)
                 }
                 .padding(.horizontal)
                 

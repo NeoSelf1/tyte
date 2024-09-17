@@ -17,22 +17,14 @@ struct SharedTodoKey: EnvironmentKey {
 
 struct HomeKey: EnvironmentKey {
     static var defaultValue: HomeViewModel {
-        HomeViewModel(sharedTodoViewModel: SharedTodoKey.defaultValue)
+        HomeViewModel(sharedTodoVM: SharedTodoKey.defaultValue)
     }
 }
 
 struct ListKey: EnvironmentKey {
     static var defaultValue: ListViewModel {
-        ListViewModel(sharedTodoViewModel: SharedTodoKey.defaultValue)
+        ListViewModel(sharedTodoVM: SharedTodoKey.defaultValue)
     }
-}
-
-struct TagKey: EnvironmentKey {
-    static let defaultValue = TagEditViewModel()
-}
-
-struct MyPageKey: EnvironmentKey {
-    static let defaultValue = MyPageViewModel()
 }
 
 extension EnvironmentValues {
@@ -49,15 +41,5 @@ extension EnvironmentValues {
     var list: ListViewModel {
         get { self[ListKey.self] }
         set { self[ListKey.self] = newValue }
-    }
-    
-    var tag: TagEditViewModel {
-        get { self[TagKey.self] }
-        set { self[TagKey.self] = newValue }
-    }
-    
-    var myPage: MyPageViewModel {
-        get { self[MyPageKey.self] }
-        set { self[MyPageKey.self] = newValue }
     }
 }

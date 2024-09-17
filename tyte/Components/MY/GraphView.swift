@@ -2,8 +2,8 @@ import SwiftUI
 import Charts
 
 struct GraphView: View {
-    @EnvironmentObject var viewModel: MyPageViewModel
     // MARK: @State 프로토콜 변수가 변경되면 뷰를 다시 그림.
+    @ObservedObject var viewModel : MyPageViewModel
     
     @State var plotWidth: CGFloat = 0
     @State private var animationAmount: CGFloat = 1.0
@@ -147,6 +147,5 @@ struct GraphView: View {
 }
 
 #Preview{
-        GraphView()
-        .environmentObject(MyPageViewModel())
+    GraphView(viewModel: MyPageViewModel())
 }

@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct TodoEditBottomSheet: View {
-    @EnvironmentObject var viewModel: TagEditViewModel
-
+    var tags : [Tag]
     
     @State private var editedTodo: Todo
     
@@ -20,10 +19,12 @@ struct TodoEditBottomSheet: View {
         return startDate...endDate
     }()
     
-    init(todo: Todo,
+    init(tags:[Tag],
+        todo: Todo,
          onUpdate: @escaping (Todo) -> Void,
          onDelete: @escaping (String) -> Void
     ) {
+        self.tags = tags
         _editedTodo = State(initialValue: todo)
         self.onUpdate = onUpdate
         self.onDelete = onDelete
@@ -118,7 +119,7 @@ struct TodoEditBottomSheet: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
-                            ForEach(viewModel.tags) { tag in
+                            ForEach(tags) { tag in
                                 HStack (spacing:8) {
                                     Circle().fill(Color(hex:"#\(tag.color)")).frame(width:6)
                                     
@@ -218,24 +219,23 @@ struct TodoEditBottomSheet: View {
     }
 }
 
-#Preview {
-    TodoEditBottomSheet(
-        todo: Todo(
-            id: "66e09aa49257522f515f0655",
-            user: "66dea7d2df1974ec7353476b",
-            tagId: nil,
-            raw: "학교 10시에 가기",
-            title: "학교 가기",
-            isImportant: false,
-            isLife: true,
-            difficulty: 2,
-            estimatedTime: 60,
-            deadline: "2024-09-11",
-            isCompleted: false),
-        onUpdate: {_ in print("onUpdate")},
-        onDelete: {_ in print("onDelete")
-        })
-    .environmentObject(TagEditViewModel())
-    .frame(height: 600) // 여기에 원하는 높이 값을 지정
-    .border(Color.red, width: 1) // 테두리 추가
-}
+//#Preview {
+//    TodoEditBottomSheet(
+//        todo: Todo(
+//            id: "66e09aa49257522f515f0655",
+//            user: "66dea7d2df1974ec7353476b",
+//            tagId: nil,
+//            raw: "학교 10시에 가기",
+//            title: "학교 가기",
+//            isImportant: false,
+//            isLife: true,
+//            difficulty: 2,
+//            estimatedTime: 60,
+//            deadline: "2024-09-11",
+//            isCompleted: false),
+//        onUpdate: {_ in print("onUpdate")},
+//        onDelete: {_ in print("onDelete")
+//        })
+//    .frame(height: 600) // 여기에 원하는 높이 값을 지정
+//    .border(Color.red, width: 1) // 테두리 추가
+//}

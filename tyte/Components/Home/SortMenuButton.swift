@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SortMenuButton: View {
-    @EnvironmentObject var viewModel : HomeViewModel
+    @ObservedObject var viewModel : HomeViewModel
     
     var body: some View {
         Menu {

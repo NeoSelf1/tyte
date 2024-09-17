@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @EnvironmentObject var viewModel: MyPageViewModel
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
+    @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
     
     var body: some View {
         VStack{
@@ -22,16 +22,16 @@ struct MyPageView: View {
                     Spacer()
                         .frame(width:120)
                     
-                    ViewSelector()
+                    ViewSelector(viewModel: viewModel)
                 }
                 .frame(height:56)
                 .padding(.horizontal)
                 
                 if (viewModel.currentTab == 0){
-                    CalenderView()
+                    CalenderView(viewModel: viewModel)
                         .frame(maxHeight: 360)
                 } else {
-                    GraphView()
+                    GraphView(viewModel: viewModel)
                         .frame(maxHeight: 360)
                 }
             }.background(.gray00)
@@ -56,6 +56,4 @@ struct MyPageView: View {
 
 #Preview {
     MyPageView()
-        .environmentObject(MyPageViewModel())
-        .environmentObject(AuthViewModel())
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TodoViewSelector: View {
-    @EnvironmentObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: HomeViewModel
     private let animationDuration: Double = 0.2
     
     var body: some View {

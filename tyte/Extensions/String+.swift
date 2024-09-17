@@ -27,4 +27,15 @@ extension String {
             return "6개월"
         }
     }
+    
+    var buttonText: String {
+        switch(self){
+        case "default":
+            return "마감 임박순"
+        case "recent":
+            return "최근 추가순"
+        default:
+            return "중요도순"
+        }
+    }
 }

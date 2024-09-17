@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CalenderView: View {
-    @EnvironmentObject var viewModel: MyPageViewModel
+    @ObservedObject var viewModel : MyPageViewModel
     private let dayViewSize:CGFloat = 48
     
     var body: some View {
@@ -209,6 +209,5 @@ private extension CalenderView {
 }
 
 #Preview{
-    CalenderView()
-        .environmentObject(MyPageViewModel())
+    CalenderView(viewModel: MyPageViewModel())
 }

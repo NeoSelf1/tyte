@@ -20,22 +20,31 @@ class ListViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let todoService: TodoService
     private let dailyStatService: DailyStatService
-    
+    private let sharedTodoVM: SharedTodoViewModel
+
     init(
         todoService: TodoService = TodoService(),
-        dailyStatService: DailyStatService = DailyStatService()
+        dailyStatService: DailyStatService = DailyStatService(),
+        sharedTodoVM: SharedTodoViewModel
     ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
         self.selectedDate = Date()
+        self.sharedTodoVM = sharedTodoVM
         
-        self.setupInitialFetch() // 모든 프로퍼티 초기화 후 메서드 호출
+        // 모든 프로퍼티 초기화 후 메서드 호출
+        sharedTodoVM.$allTodos
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] todos in
+                self?.setupInitialFetch()
+            }
+            .store(in: &cancellables)
     }
     
     private func setupInitialFetch() {
         fetchTodosForDate(selectedDate.apiFormat)
         fetchWeekCalenderData()
-
+        
     }
     
     //MARK: 특정 날짜에 대한 Todo들 fetch

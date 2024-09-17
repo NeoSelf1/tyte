@@ -14,7 +14,7 @@ func getColorsForDay(_ dailyStat: DailyStat_DayView) -> [Color] {
     }
     
     // 각 태그의 색상과 카운트를 저장할 배열
-    var colorCounts: [(color: Color, count: Int)] = [(color: .blue30, count:1)]
+    var colorCounts: [(color: Color, count: Int)] = [(color: .blue30.opacity(0.7), count:1)]
     
     // tagStats를 순회하며 색상과 카운트 정보를 저장
     for tagStat in dailyStat.tagStats {
@@ -41,3 +41,5 @@ func getColorsForDay(_ dailyStat: DailyStat_DayView) -> [Color] {
     
     return resultColors
 }
+
+
