@@ -9,7 +9,7 @@ import Foundation
 
 struct Tag: Codable, Identifiable, Equatable {
     let id: String
-    let name: String
+    var name: String
     let color: String
     let user: String
     

@@ -20,7 +20,7 @@ struct TodoViewSelector: View {
              
             }
         }
-        .frame(height: 40)
+        .frame(height: 48)
     }
     
     private func tabButton(title: String, tab: Int, geometry: GeometryProxy) -> some View {
@@ -30,9 +30,9 @@ struct TodoViewSelector: View {
             }
         }) {
             Text(title)
-                .font(._subhead2)
+                .font(._subhead1)
                 .foregroundStyle(viewModel.currentTab == tab ? .gray90 : .gray50)
-                .frame(width: geometry.size.width / 2, height: 37, alignment: .center)
+                .frame(width: geometry.size.width / 2, height: 45, alignment: .center)
         }
         .animation(.easeOut(duration: animationDuration), value: viewModel.currentTab)
     }
