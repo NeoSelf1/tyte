@@ -19,11 +19,11 @@ extension Date {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy dd"
         return formatter
-      }()
-      
-      var formattedCalendarDayDate: String {
+    }()
+    
+    var formattedCalendarDayDate: String {
         return Date.calendarDayDateFormatter.string(from: self)
-      }
+    }
     
     var formattedDate: String {
         let formatter = DateFormatter()
@@ -51,5 +51,14 @@ extension Date {
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "d"
         return formatter.string(from: self)
+    }
+    
+    var koreanDate: Date {
+        let seconds = TimeInterval(TimeZone(identifier: "Asia/Seoul")!.secondsFromGMT(for: self))
+        return self.addingTimeInterval(seconds)
+    }
+    
+    var startOfMonth: Date {
+        Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) ?? self
     }
 }

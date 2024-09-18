@@ -87,7 +87,7 @@ struct CalenderView: View {
                         let date = getDate(for: index)
                         let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         
-                        DayView(dailyStats: viewModel.calenderData, date: date, isSelected: true, isToday: isToday)
+                        DayView(dailyStats: viewModel.calenderData, date: date, isSelected: true, isToday: isToday, isDayVisible: false)
                             .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
                             .onTapGesture {
                                 viewModel.selectedDate = date
@@ -97,7 +97,7 @@ struct CalenderView: View {
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
                     ) {
-                        DayView(dailyStats: viewModel.calenderData, date: prevMonthDate, isSelected: false, isToday: false)
+                        DayView(dailyStats: viewModel.calenderData, date: prevMonthDate, isSelected: false, isToday: false, isDayVisible: false)
                             .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
                     }
                 }
@@ -114,11 +114,11 @@ struct CalenderView: View {
 // MARK: -
 
 private extension CalenderView {
-  var today: Date {
-    let now = Date()
-    let components = Calendar.current.dateComponents([.year, .month, .day], from: now)
-    return Calendar.current.date(from: components)!
-  }
+    var today: Date {
+        let now = Date().koreanDate
+        let components = Calendar.current.dateComponents([.year, .month, .day], from: now)
+        return Calendar.current.date(from: components)!
+    }
   
   static let weekdaySymbols: [String] = Calendar.current.shortWeekdaySymbols
 }
@@ -134,7 +134,7 @@ private extension CalenderView {
         day: 1
       )
     ) else {
-      return Date()
+        return Date().koreanDate
     }
     
     var dateComponents = DateComponents()
@@ -144,7 +144,7 @@ private extension CalenderView {
     let offset = Double(timeZone.secondsFromGMT(for: firstDayOfMonth))
     dateComponents.second = Int(offset)
     
-    let date = calendar.date(byAdding: dateComponents, to: firstDayOfMonth) ?? Date()
+      let date = calendar.date(byAdding: dateComponents, to: firstDayOfMonth) ?? Date().koreanDate
     return date
   }
   
@@ -177,7 +177,7 @@ private extension CalenderView {
   
   /// 이전 월로 이동 가능한지 확인
   func canMoveToPreviousMonth() -> Bool {
-    let currentDate = Date()
+    let currentDate = Date().koreanDate
     let calendar = Calendar.current
     let targetDate = calendar.date(byAdding: .month, value: -3, to: currentDate) ?? currentDate
     
@@ -189,7 +189,7 @@ private extension CalenderView {
   
   /// 다음 월로 이동 가능한지 확인
   func canMoveToNextMonth() -> Bool {
-    let currentDate = Date()
+    let currentDate = Date().koreanDate
     let calendar = Calendar.current
     let targetDate = calendar.date(byAdding: .month, value: 3, to: currentDate) ?? currentDate
     

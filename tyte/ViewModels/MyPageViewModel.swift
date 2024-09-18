@@ -15,8 +15,8 @@ class MyPageViewModel: ObservableObject {
     @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var currentMonth: Date = Date()
-    @Published var selectedDate: Date = Date()
+    @Published var currentMonth: Date = Date().koreanDate
+    @Published var selectedDate: Date = Date().koreanDate
     
     @Published var currentTab: Int = 0
     @Published var graphRange: String = "week" {
@@ -45,7 +45,7 @@ class MyPageViewModel: ObservableObject {
         errorMessage = nil
         
         let calendar = Calendar.current
-        let currentDate = Date()
+        let currentDate = Date().koreanDate
         var startDate: Date
         
         switch self.graphRange {

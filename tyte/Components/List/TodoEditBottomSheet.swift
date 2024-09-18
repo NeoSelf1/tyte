@@ -10,10 +10,10 @@ struct TodoEditBottomSheet: View {
     
     @State private var dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
-        let startComponents = DateComponents(year: calendar.component(.year, from: Date()), month: calendar.component(.month, from: Date()), day: calendar.component(.day, from: Date()))
+        let startComponents = DateComponents(year: calendar.component(.year, from: Date().koreanDate), month: calendar.component(.month, from: Date().koreanDate), day: calendar.component(.day, from: Date().koreanDate))
         let startDate = calendar.date(from: startComponents)!
         
-        let endComponents = DateComponents(year: calendar.component(.year, from: Date()) + 1, month: 12, day: 31)
+        let endComponents = DateComponents(year: calendar.component(.year, from: Date().koreanDate) + 1, month: 12, day: 31)
         let endDate = calendar.date(from: endComponents)!
         
         return startDate...endDate
@@ -98,7 +98,7 @@ struct TodoEditBottomSheet: View {
                         DatePicker(
                             "",
                             selection: Binding(
-                                get: { editedTodo.deadline.parsedDate ?? Date() },
+                                get: { editedTodo.deadline.parsedDate ?? Date().koreanDate },
                                 set: { editedTodo.deadline = $0.apiFormat }
                             ),
                             in: dateRange,
@@ -128,8 +128,8 @@ struct TodoEditBottomSheet: View {
                                         .foregroundColor(.gray90 )
                                     
                                 }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 6)
                                 .background(.blue10)
                                 .cornerRadius(20)
                                 .overlay(
@@ -138,7 +138,7 @@ struct TodoEditBottomSheet: View {
                                 )
                                 .padding(1)
                                 .onTapGesture {
-                                    withAnimation(.easeOut(duration: 0.3)){
+                                    withAnimation(.fastEaseOut){
                                         if(editedTodo.tagId == tag){
                                             editedTodo.tagId = nil
                                         } else {
@@ -194,9 +194,9 @@ struct TodoEditBottomSheet: View {
                         Text("삭제하기")
                             .font(._title)
                             .padding()
-                            .background(.gray10)
-                            .foregroundColor(.gray90)
-                            .cornerRadius(10)
+                            .background(.gray20)
+                            .foregroundStyle(.gray60)
+                            .cornerRadius(8)
                     }
                     
                     Button(action: {
@@ -207,8 +207,8 @@ struct TodoEditBottomSheet: View {
                             .font(._title)
                             .padding()
                             .background(.blue30)
-                            .foregroundColor(.gray00)
-                            .cornerRadius(10)
+                            .foregroundStyle(.gray00)
+                            .cornerRadius(8)
                     }
                 }
             }

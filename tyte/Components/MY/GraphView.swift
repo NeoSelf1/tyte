@@ -120,7 +120,7 @@ struct GraphView: View {
                 AxisValueLabel(format: .dateTime.day()).foregroundStyle(.gray50)
             }
         }
-        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date(), upper: viewModel.graphData.last?.date.parsedDate ?? Date())))
+        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date().koreanDate, upper: viewModel.graphData.last?.date.parsedDate ?? Date().koreanDate)))
         .chartYScale(domain: -1...(max + 2))
 //        .chartOverlay { proxy in
 //            GeometryReader { innerProxy in
