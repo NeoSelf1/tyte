@@ -52,17 +52,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "26F1676F-0044-4F97-A27B-50E962E50941"
-            shouldBeEnabled = "Yes"
+            uuid = "9561E2ED-972C-4090-B24E-C56B8181DD4C"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "tyte/Views/ListView.swift"
+            filePath = "tyte/ViewModels/HomeViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "7"
+            endingLineNumber = "7"
+            landmarkName = "HomeViewModel"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

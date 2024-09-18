@@ -60,7 +60,6 @@
 		ABD666BE2C83736A0005D3C1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BD2C83736A0005D3C1 /* User.swift */; };
 		ABD666C02C8373700005D3C1 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
 		ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */; };
-		ABDE8B922C86EF6800F3CB68 /* TodoListContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */; };
 		ABDE8B942C86F2A900F3CB68 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B932C86F2A900F3CB68 /* ListView.swift */; };
 		ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */; };
 		ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B972C86FEE000F3CB68 /* Date+.swift */; };
@@ -72,6 +71,8 @@
 		ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D202C99842C00A76680 /* TodoItemView.swift */; };
 		ABEF7D272C99B9F900A76680 /* SharedTodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D262C99B9F900A76680 /* SharedTodoViewModel.swift */; };
 		ABEF7D292C99C3CD00A76680 /* EnvironmentKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D282C99C3CD00A76680 /* EnvironmentKeys.swift */; };
+		ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B062C9A39C900947DA4 /* MonthPicker.swift */; };
+		ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */; };
 		ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF93D292C95835E00C7D2BC /* GraphView.swift */; };
 		C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */; };
 /* End PBXBuildFile section */
@@ -155,7 +156,6 @@
 		ABD666BD2C83736A0005D3C1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ABD666BF2C8373700005D3C1 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListContent.swift; sourceTree = "<group>"; };
 		ABDE8B932C86F2A900F3CB68 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyCalender.swift; sourceTree = "<group>"; };
 		ABDE8B972C86FEE000F3CB68 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -167,6 +167,8 @@
 		ABEF7D202C99842C00A76680 /* TodoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemView.swift; sourceTree = "<group>"; };
 		ABEF7D262C99B9F900A76680 /* SharedTodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTodoViewModel.swift; sourceTree = "<group>"; };
 		ABEF7D282C99C3CD00A76680 /* EnvironmentKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKeys.swift; sourceTree = "<group>"; };
+		ABF02B062C9A39C900947DA4 /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
+		ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditBottomSheet.swift; sourceTree = "<group>"; };
 		ABF93D292C95835E00C7D2BC /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
 		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,12 +306,13 @@
 			children = (
 				ABEF7D202C99842C00A76680 /* TodoItemView.swift */,
 				ABC6CFB22C94267700C7DF1D /* DayView.swift */,
-				ABDE8B912C86EF6800F3CB68 /* TodoListContent.swift */,
 				AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */,
 				ABF93D272C95834900C7D2BC /* MY */,
 				ABC6CFB12C94265E00C7DF1D /* List */,
 				ABE79CD02C9412A400D59871 /* Home */,
 				AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */,
+				ABF02B062C9A39C900947DA4 /* MonthPicker.swift */,
+				ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -709,7 +712,6 @@
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				ABEF7D1D2C99787B00A76680 /* HomeViewModel.swift in Sources */,
 				ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */,
-				ABDE8B922C86EF6800F3CB68 /* TodoListContent.swift in Sources */,
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
 				AB6A0F922C8EB6CA00254299 /* LoginRequest.swift in Sources */,
 				AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */,
@@ -726,6 +728,7 @@
 				AB6A0F9A2C8EC67500254299 /* SignUpView.swift in Sources */,
 				ABE79CD22C9412B300D59871 /* SortMenuButton.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
+				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
 				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
@@ -752,6 +755,7 @@
 				ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */,
 				ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */,
 				ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */,
+				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* LoginView.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
 				AB6A495F2C8606AF00B782A1 /* Int+Priority.swift in Sources */,
