@@ -51,13 +51,14 @@ struct TodoItemView: View {
                                 .font(._caption)
                                 .foregroundColor(.gray60)
                         }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 4)
                         .background(.blue10)
                         .cornerRadius(20)
                     }
                 }
             }
+            .frame(height:68)
         }
     }
 }

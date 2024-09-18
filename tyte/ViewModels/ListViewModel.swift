@@ -1,13 +1,14 @@
 import Foundation
 import Combine
 import Alamofire
-
+import SwiftUI
 
 class ListViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var weekCalenderData: [DailyStat_DayView] = []
     
-    @Published var selectedDate :Date = Date(){
+    @Published var tags: [Tag] = []
+    @Published var selectedDate :Date {
         didSet {
             todosForDate=[]
             fetchTodosForDate(selectedDate.apiFormat)
@@ -16,18 +17,22 @@ class ListViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    
     private var cancellables = Set<AnyCancellable>()
+    
     private let todoService: TodoService
+    private let tagService: TagService
     private let dailyStatService: DailyStatService
 
     init(
         todoService: TodoService = TodoService(),
-        dailyStatService: DailyStatService = DailyStatService()
+        dailyStatService: DailyStatService = DailyStatService(),
+        tagService: TagService = TagService()
     ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
-        self.selectedDate = Date()
+        self.tagService = tagService
+        self.selectedDate = Date().koreanDate
+        print(selectedDate.description)
         self.fetchData()
     }
     
@@ -43,7 +48,30 @@ class ListViewModel: ObservableObject {
     private func fetchData() {
         fetchTodosForDate(selectedDate.apiFormat)
         fetchWeekCalenderData()
-        
+        fetchTags()
+    }
+    
+    func scrollToToday(proxy: ScrollViewProxy? = nil) {
+        withAnimation {
+            selectedDate = Date().koreanDate
+            fetchTodosForDate(selectedDate.apiFormat)
+            if let proxy = proxy {
+                proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
+            }
+        }
+    }
+    
+    func fetchTags() {
+        tagService.fetchAllTags()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] tags in
+                self?.tags = tags
+            }
+            .store(in: &cancellables)
     }
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
@@ -68,6 +96,7 @@ class ListViewModel: ObservableObject {
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
     func fetchWeekCalenderData() {
+        print("Heelo")
         dailyStatService.fetchAllDailyStats()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -76,6 +105,7 @@ class ListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 let convertedStats = dailyStats.map { dailyStat -> DailyStat_DayView in
+                    print(dailyStat.tagStats.description)
                     return DailyStat_DayView(
                         date: dailyStat.date,
                         balanceData: dailyStat.balanceData,
