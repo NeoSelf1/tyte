@@ -43,7 +43,7 @@ struct MeshGradientView: View {
             MeshGradient(
                 width: 3, height: 3, points: [
                     [0.0, 0.0], [0.5, 0], [1.0, 0.0],
-                    [0.0, 0.5], center, [1.0, 0.5],
+                    [0.0, 0.5], isSelected ? center : [0.5,0.5], [1.0, 0.5],
                     [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
                 ],
                 colors: optimizeColorDistribution(),
@@ -53,15 +53,13 @@ struct MeshGradientView: View {
             .clipShape(RoundedRectangle(cornerRadius: 6))
             .rotationEffect(.degrees(45))
             .padding(isSelected ? 14 : 20)
-            .saturation(isSelected ? 1.0 : 0.6)
-            .opacity(isSelected ? 1.0 : 0.6)
-            .frame(width: 64, height: 64)
+            .saturation(isSelected ? 1.0 : 0.5)
+            .opacity(isSelected ? 1.0 : 0.5)
         } else {
             LinearGradientMeshFallback(colors: optimizeColorDistribution())
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .rotationEffect(.degrees(45))
                 .padding(isSelected ? 14 : 20)
-                .frame(width: 64, height: 64)
         }
     }
 }
