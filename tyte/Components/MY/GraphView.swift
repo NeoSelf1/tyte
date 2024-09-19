@@ -120,32 +120,16 @@ struct GraphView: View {
                 AxisValueLabel(format: .dateTime.day()).foregroundStyle(.gray50)
             }
         }
-        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date().koreanDate, upper: viewModel.graphData.last?.date.parsedDate ?? Date().koreanDate)))
+        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date().koreanDate, upper: viewModel.graphData.last?.date.parsedDate ?? Date().koreanDate))) 
         .chartYScale(domain: -1...(max + 2))
-//        .chartOverlay { proxy in
-//            GeometryReader { innerProxy in
-//                Rectangle()
-//                    .fill(.clear).contentShape(Rectangle())
-//                    .gesture(
-//                        TapGesture()
-//                            .onEnded { location in
-//                                if let date: Date = proxy.value(atX: location.x) {
-//                                    if let currentItem = viewModel.graphData.first(where: { item in
-//                                        Calendar.current.isDate(item.date.parsedDate, inSameDayAs: date)
-//                                    }) {
-//                                        print(currentItem.date)
-//                                        self.currentActiveItem = currentItem
-//                                        self.plotWidth = proxy.plotSize.width
-//                                    }
-//                                }
-//                            }
-//                    )
-//            }
-//        }
+        .chartYAxis {
+            AxisMarks { value in
+                AxisGridLine().foregroundStyle(.gray50)
+                AxisTick().foregroundStyle(.gray50)
+                AxisValueLabel()
+                    .foregroundStyle(.gray50)  // Y 축 레이블 텍스트 색상을 .gray50으로 설정
+            }
+        }
         .frame(height: 250)
     }
-}
-
-#Preview{
-    GraphView(viewModel: MyPageViewModel())
 }

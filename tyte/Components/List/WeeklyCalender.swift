@@ -28,7 +28,7 @@ struct MonthlyCalendar: View {
         return(
             DayView(dailyStats: viewModel.weekCalenderData, date: date, isSelected: isSelected, isToday: isToday,isDayVisible:true)
                 .onTapGesture {
-                    withAnimation(.longEaseOut) {
+                    withAnimation(.mediumEaseOut) {
                         viewModel.selectedDate = date
                     }
                 }
