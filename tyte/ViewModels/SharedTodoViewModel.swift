@@ -90,6 +90,7 @@ class SharedTodoViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] deletedTagId in
+                self?.fetchTags()
                 self?.lastAddedTodoId = deletedTagId
             }
             .store(in: &cancellables)
@@ -104,6 +105,7 @@ class SharedTodoViewModel: ObservableObject {
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] updatedTagId in
+                self?.fetchTags()
                 self?.lastAddedTodoId = updatedTagId
             }
             .store(in: &cancellables)
