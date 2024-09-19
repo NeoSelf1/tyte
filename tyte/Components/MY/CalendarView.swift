@@ -207,7 +207,3 @@ private extension CalenderView {
     return viewModel.currentMonth
   }
 }
-
-#Preview{
-    CalenderView(viewModel: MyPageViewModel())
-}

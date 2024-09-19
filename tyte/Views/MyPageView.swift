@@ -53,7 +53,3 @@ struct MyPageView: View {
         }.background(.gray10)
     }
 }
-
-#Preview {
-    MyPageView()
-}

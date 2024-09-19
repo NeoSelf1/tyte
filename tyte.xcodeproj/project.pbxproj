@@ -10,7 +10,6 @@
 		28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */; };
 		997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */; };
 		AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10144B2C980F7F00F9A9BC /* Animation+.swift */; };
-		AB21F0992C903EBC00AAADAB /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F0982C903EBC00AAADAB /* TagEditViewModel.swift */; };
 		AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */; };
 		AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EA2C986C6400906446 /* KeychainManager.swift */; };
 		AB2E88ED2C987FFC00906446 /* AuthConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EC2C987FFC00906446 /* AuthConstants.swift */; };
@@ -102,7 +101,6 @@
 		4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10144B2C980F7F00F9A9BC /* Animation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+.swift"; sourceTree = "<group>"; };
-		AB21F0982C903EBC00AAADAB /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
 		AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerBottomSheet.swift; sourceTree = "<group>"; };
 		AB2E88EA2C986C6400906446 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AB2E88EC2C987FFC00906446 /* AuthConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConstants.swift; sourceTree = "<group>"; };
@@ -409,7 +407,6 @@
 			children = (
 				ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */,
 				AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */,
-				AB21F0982C903EBC00AAADAB /* TagEditViewModel.swift */,
 				AB7846682C95E0A700349246 /* MyPageViewModel.swift */,
 				ABEF7D1C2C99787B00A76680 /* HomeViewModel.swift */,
 				ABEF7D262C99B9F900A76680 /* SharedTodoViewModel.swift */,
@@ -719,7 +716,6 @@
 				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
 				ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
-				AB21F0992C903EBC00AAADAB /* TagEditViewModel.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,

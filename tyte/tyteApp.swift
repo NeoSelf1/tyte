@@ -10,7 +10,6 @@ struct tyteApp: App {
                 MainTabView()
             } else {
                 LoginView(viewModel: authVM)
-                
             }
         }
     }
