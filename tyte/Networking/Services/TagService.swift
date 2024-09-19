@@ -14,23 +14,23 @@ class TagService {
         }.eraseToAnyPublisher()
     }
     
-    func createTag(name: String, color: String) -> AnyPublisher<Tag, APIError> {
+    func createTag(name: String, color: String) -> AnyPublisher<String, APIError> {
         let endpoint = APIEndpoint.createTag
         let parameters: [String: Any] = ["name": name, "color": color]
         
         return Future { promise in
-            self.apiManager.request(endpoint, method: .post, parameters: parameters) { (result: Result<Tag, APIError>) in
+            self.apiManager.request(endpoint, method: .post, parameters: parameters) { (result: Result<String, APIError>) in
                 promise(result)
             }
         }.eraseToAnyPublisher()
     }
     
-    func updateTag(tag: Tag) -> AnyPublisher<Tag, APIError> {
+    func updateTag(tag: Tag) -> AnyPublisher<String, APIError> {
         let endpoint = APIEndpoint.updateTag(tag.id)
         let parameters = tag.dictionary
         
         return Future { promise in
-            self.apiManager.request(endpoint, method: .put, parameters: parameters) { (result: Result<Tag, APIError>) in
+            self.apiManager.request(endpoint, method: .put, parameters: parameters) { (result: Result<String, APIError>) in
                 promise(result)
             }
         }.eraseToAnyPublisher()
