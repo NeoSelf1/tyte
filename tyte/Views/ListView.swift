@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ListView: View {
-    @ObservedObject var viewModel: ListViewModel = ListViewModel()
+    @ObservedObject var viewModel: ListViewModel
+    @ObservedObject var sharedVM: SharedTodoViewModel
     
     @State private var selectedTodo: Todo?
     @State private var isBottomSheetPresented = false
@@ -63,7 +64,7 @@ struct ListView: View {
                         .padding(1)
                     }
                     
-                    NavigationLink(destination: TagEditView()) {
+                    NavigationLink(destination: TagEditView(viewModel:sharedVM)) {
                         Image(systemName: "tag.fill")
                             .resizable()
                             .frame(width: 24,height:24)
@@ -158,7 +159,3 @@ struct ListView: View {
     }
 }
 
-#Preview {
-    ListView()
-        .environmentObject(SharedTodoViewModel())
-}

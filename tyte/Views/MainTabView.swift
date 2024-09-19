@@ -28,7 +28,7 @@ struct MainTabView: View {
                             }
                             .tag(0)
                         
-                        ListView(viewModel: listVM)
+                        ListView(viewModel: listVM, sharedVM: sharedVM)
                             .tabItem {
                                 TabBarItem(icon: "calendar",  text: "일정 관리")
                             }

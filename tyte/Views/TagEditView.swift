@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TagEditView: View {
-    @StateObject private var viewModel: TagEditViewModel = TagEditViewModel()
+    @ObservedObject var viewModel: SharedTodoViewModel
     
     @State private var tagInput = ""
     @State private var selectedColor: String = "FF0000" // Default red color
@@ -128,8 +128,4 @@ struct TagEditView: View {
             }
         }
     }
-}
-
-#Preview {
-    TagEditView()
 }
