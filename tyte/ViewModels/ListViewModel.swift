@@ -32,23 +32,25 @@ class ListViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.tagService = tagService
         self.selectedDate = Date().koreanDate
-        print(selectedDate.description)
-        self.fetchData()
     }
     
     func setupBindings(sharedVM: SharedTodoViewModel) {
         sharedVM.$lastAddedTodoId
-            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.fetchData()
+                print("Todo Creation Detected from ListViewModel")
+                self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().koreanDate.apiFormat)
+                self?.fetchWeekCalenderData()
             }
             .store(in: &cancellables)
-    }
-    
-    private func fetchData() {
-        fetchTodosForDate(selectedDate.apiFormat)
-        fetchWeekCalenderData()
-        fetchTags()
+        
+        sharedVM.$lastUpdatedTagId
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                print("Tag Update Detected from ListViewModel")
+                self?.fetchTags()
+            }
+            .store(in: &cancellables)
     }
     
     func scrollToToday(proxy: ScrollViewProxy? = nil) {
@@ -96,22 +98,21 @@ class ListViewModel: ObservableObject {
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
     func fetchWeekCalenderData() {
-        print("Heelo")
         dailyStatService.fetchAllDailyStats()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
+                    print("failure")
                     self?.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] dailyStats in
                 let convertedStats = dailyStats.map { dailyStat -> DailyStat_DayView in
-                    print(dailyStat.tagStats.description)
                     return DailyStat_DayView(
-                        date: dailyStat.date,
-                        balanceData: dailyStat.balanceData,
-                        tagStats: dailyStat.tagStats,
-                        center: dailyStat.center
-                    )
+                           date: dailyStat.date,
+                           balanceData: dailyStat.balanceData,
+                           tagStats: dailyStat.tagStats,
+                           center: dailyStat.center
+                       )
                 }
                 self?.weekCalenderData = convertedStats
             }

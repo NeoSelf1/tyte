@@ -32,8 +32,17 @@ class HomeViewModel: ObservableObject {
         // SharedTodoViewModel의 allTodos가 변경될 때마다 totalTodos를 업데이트
         sharedVM.$lastAddedTodoId
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] todos in
+            .sink { [weak self] _ in
+                print("Todo Creation Detected from HomeViewModel")
                 self?.fetchTodos(mode: self?.sortOption ?? "default")
+            }
+            .store(in: &cancellables)
+        
+        sharedVM.$lastUpdatedTagId
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                print("Tag Update Detected from HomeViewModel")
+                self?.fetchTags()
             }
             .store(in: &cancellables)
     }
@@ -41,7 +50,6 @@ class HomeViewModel: ObservableObject {
     func fetchTodos(mode: String = "default") {
         isLoading = true
         errorMessage = nil
-        print("fetchTodos")
         todoService.fetchAllTodos(mode: mode)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

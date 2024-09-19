@@ -10,36 +10,44 @@ import Combine
 
 class SharedTodoViewModel: ObservableObject {
     private let todoService: TodoService
+    private let tagService: TagService
     
-    @Published var allTodos: [Todo] = []
+    @Published var tags: [Tag] = []
     @Published var lastAddedTodoId: String?
+    @Published var lastUpdatedTagId: String?
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
-
-    init(todoService: TodoService = TodoService()) {
+    
+    init(
+        todoService: TodoService = TodoService(),
+        tagService: TagService = TagService()
+    ) {
         self.todoService = todoService
-        fetchTodos()
+        self.tagService = tagService
     }
-
-    func fetchTodos(mode: String = "default") {
-        print("fetching Todos in SharedTodoViewModel")
+    
+    func fetchTags() {
         isLoading = true
         errorMessage = nil
-        todoService.fetchAllTodos(mode: mode)
+        tagService.fetchAllTags()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                if case .failure(let error) = completion {
-                    print(error.localizedDescription)
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
                     self?.errorMessage = error.localizedDescription
                 }
-            } receiveValue: { [weak self] todos in
-                self?.allTodos = todos
+            } receiveValue: { [weak self] tags in
+                self?.tags = tags
             }
             .store(in: &cancellables)
     }
+
+    
     //MARK: Todo 추가
     func addTodo(_ text: String) {
         todoService.createTodo(text: text)
@@ -53,6 +61,50 @@ class SharedTodoViewModel: ObservableObject {
                 print("addedTodo in SHaredViewModel \(text)")
                 guard let self = self else { return }
                 self.lastAddedTodoId = newTodos.last?.id
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: Tag 추가
+    func addTag(name: String, color: String) {
+        tagService.createTag(name: name,color:color)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    print(error.localizedDescription)
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] newTagId in
+                self?.fetchTags()
+                self?.lastAddedTodoId = newTagId
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: Todo 삭제
+    func deleteTag(id: String) {
+        tagService.deleteTag(id: id)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] deletedTagId in
+                self?.lastAddedTodoId = deletedTagId
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: Todo 수정
+    func editTodo(_ tag: Tag) {
+        tagService.updateTag(tag: tag)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] updatedTagId in
+                self?.lastAddedTodoId = updatedTagId
             }
             .store(in: &cancellables)
     }
