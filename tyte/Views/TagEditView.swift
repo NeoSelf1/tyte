@@ -85,7 +85,8 @@ struct TagEditView: View {
         )
         .sheet(isPresented: $isColorPickerPresented) {
             ColorPickerBottomSheet(selectedColor: $selectedColor, colors: colors)
-                .presentationDetents([.height(240)])
+                .presentationDetents([.height(300)])
+                .presentationBackground(.gray00)
         }
         .sheet(isPresented: shouldPresentSheet, content: {
             if let tag = selectedTag {

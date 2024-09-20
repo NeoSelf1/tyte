@@ -51,7 +51,7 @@ struct MeshGradientView: View {
                 colorSpace: .perceptual
             )
             .clipShape(RoundedRectangle(cornerRadius: 6))
-            .rotationEffect(.degrees(45))
+            .rotationEffect(.degrees(isSelected ? 45 : 0))
             .padding(isSelected ? 14 : 20)
             .saturation(isSelected ? 1.0 : 0.5)
             .opacity(isSelected ? 1.0 : 0.5)
