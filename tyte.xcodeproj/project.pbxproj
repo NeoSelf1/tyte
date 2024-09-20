@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */; };
 		997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */; };
+		AB041EB32C9D313200F27D5A /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB041EB22C9D313200F27D5A /* TestView.swift */; };
 		AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10144B2C980F7F00F9A9BC /* Animation+.swift */; };
 		AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */; };
 		AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EA2C986C6400906446 /* KeychainManager.swift */; };
@@ -54,7 +55,9 @@
 		ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */; };
 		ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC3A4D22C95A53300F43796 /* MyPageView.swift */; };
 		ABC5D0462C9C010000676222 /* CreateTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5D0452C9C010000676222 /* CreateTodoView.swift */; };
+		ABC5D0482C9C020500676222 /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5D0472C9C020500676222 /* FloatingActionButton.swift */; };
 		ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6CFB22C94267700C7DF1D /* DayView.swift */; };
+		ABC96FAB2C9CDF5000F57D05 /* CustomPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */; };
 		ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666B52C83733E0005D3C1 /* HomeView.swift */; };
 		ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */; };
 		ABD666BE2C83736A0005D3C1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BD2C83736A0005D3C1 /* User.swift */; };
@@ -101,6 +104,7 @@
 		435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.release.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.release.xcconfig"; sourceTree = "<group>"; };
 		4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB041EB22C9D313200F27D5A /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		AB10144B2C980F7F00F9A9BC /* Animation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+.swift"; sourceTree = "<group>"; };
 		AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerBottomSheet.swift; sourceTree = "<group>"; };
 		AB2E88EA2C986C6400906446 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -149,7 +153,10 @@
 		ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWheelPicker.swift; sourceTree = "<group>"; };
 		ABC3A4D22C95A53300F43796 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		ABC5D0452C9C010000676222 /* CreateTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoView.swift; sourceTree = "<group>"; };
+		ABC5D0472C9C020500676222 /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
 		ABC6CFB22C94267700C7DF1D /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopup.swift; sourceTree = "<group>"; };
 		ABD666B52C83733E0005D3C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		ABD666BD2C83736A0005D3C1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -210,6 +217,14 @@
 				51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AB041EB12C9D312800F27D5A /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				AB041EB22C9D313200F27D5A /* TestView.swift */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 		AB21F09C2C90DBA000AAADAB /* Helpers */ = {
@@ -312,6 +327,8 @@
 				AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */,
 				ABF02B062C9A39C900947DA4 /* MonthPicker.swift */,
 				ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */,
+				ABC5D0472C9C020500676222 /* FloatingActionButton.swift */,
+				ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -418,12 +435,14 @@
 		ABD666B42C83732E0005D3C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AB041EB12C9D312800F27D5A /* Test */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
 				ABD666B52C83733E0005D3C1 /* HomeView.swift */,
 				ABDE8B932C86F2A900F3CB68 /* ListView.swift */,
 				ABC3A4D22C95A53300F43796 /* MyPageView.swift */,
 				AB6A0F7A2C8EAF5E00254299 /* Authentication */,
 				AB6A0F9B2C8EE85100254299 /* TagEditView.swift */,
+				ABC5D0452C9C010000676222 /* CreateTodoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -708,6 +727,7 @@
 				ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */,
 				AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
+				ABC96FAB2C9CDF5000F57D05 /* CustomPopup.swift in Sources */,
 				ABEF7D1D2C99787B00A76680 /* HomeViewModel.swift in Sources */,
 				ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */,
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
@@ -719,6 +739,7 @@
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
+				AB041EB32C9D313200F27D5A /* TestView.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
 				ABD666BE2C83736A0005D3C1 /* User.swift in Sources */,
 				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
@@ -727,6 +748,7 @@
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
 				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,
+				ABC5D0462C9C010000676222 /* CreateTodoView.swift in Sources */,
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
 				ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */,
@@ -746,6 +768,7 @@
 				AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */,
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
 				ABDE8B942C86F2A900F3CB68 /* ListView.swift in Sources */,
+				ABC5D0482C9C020500676222 /* FloatingActionButton.swift in Sources */,
 				ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */,
 				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
 				AB6A0F942C8EB6D400254299 /* LoginResponse.swift in Sources */,

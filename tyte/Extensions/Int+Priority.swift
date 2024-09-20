@@ -9,13 +9,6 @@ import Foundation
 import SwiftUI
 
 extension Int {
-//    var text: String {
-//        switch self {
-//        case 2: return "낮음"
-//        case 3: return "높음"
-//        default: return "Life"
-//        }
-//    }
     
     var statusTitleByBalance: String {
         switch self {
