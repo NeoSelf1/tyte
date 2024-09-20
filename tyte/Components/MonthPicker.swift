@@ -17,69 +17,64 @@ struct MonthYearPickerPopup: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.black.opacity(0.4)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    withAnimation (.fastEaseOut) {
-                        isShowing = false
-                    }
-                }
-            
-            VStack (spacing:0){
-                Button(action: {
+        VStack (spacing:0){
+            Button(action: {
+                withAnimation {
                     isShowing = false
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(.gray)
-                        .padding(8)
                 }
-                .frame(maxWidth: .infinity,alignment: .trailing)
-                
-                HStack {
-                    Picker("Year", selection: $currentYear) {
-                        ForEach(Array(1900...2100), id: \.self) { year in
-                            Text(String(year))
-                                .foregroundStyle(.gray60)
-                                .tag(year)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 100)
-                    .clipped()
-                    
-                    Picker("Month", selection: $currentMonth) {
-                        ForEach(0..<12) { month in
-                            Text("\(month+1)월")
-                                .foregroundStyle(.gray60)
-                                .tag(month)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 150)
-                    .clipped()
-                }
-                
-                Button(action: {
-                    let components = DateComponents(year: currentYear, month: currentMonth + 1, day: 1)
-                    if let newDate = calendar.date(from: components) {
-                        selectedDate = newDate.koreanDate
-                    }
-                    isShowing = false
-                }) {
-                    Text("변경하기")
-                        .frame(maxWidth: .infinity)
-                        .font(._title)
-                        .padding()
-                        .background(.blue30)
-                        .foregroundStyle(.gray00)
-                        .cornerRadius(8)
-                }
+            }) {
+                Image(systemName: "xmark")
+                    .foregroundColor(.gray)
+                    .padding(8)
             }
-            .padding()
-            .background(.gray10)
-            .cornerRadius(24)
-            .frame(width: 300, height: 300)
+            .frame(maxWidth: .infinity,alignment: .trailing)
+            
+            HStack {
+                Picker("Year", selection: $currentYear) {
+                    ForEach(Array(1900...2100), id: \.self) { year in
+                        Text(String(year))
+                            .foregroundStyle(.gray60)
+                            .tag(year)
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 100)
+                .clipped()
+                
+                Picker("Month", selection: $currentMonth) {
+                    ForEach(0..<12) { month in
+                        Text("\(month+1)월")
+                            .foregroundStyle(.gray60)
+                            .tag(month)
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 150)
+                .clipped()
+            }
+            
+            Button(action: {
+                let components = DateComponents(year: currentYear, month: currentMonth + 1, day: 1)
+                if let newDate = calendar.date(from: components) {
+                    selectedDate = newDate
+                }
+                withAnimation {
+                    isShowing = false
+                }
+            }) {
+                Text("변경하기")
+                    .frame(maxWidth: .infinity)
+                    .font(._title)
+                    .padding()
+                    .background(.blue30)
+                    .foregroundStyle(.gray00)
+                    .cornerRadius(8)
+            }
+        }
+        .frame(width: 300)
+        .padding(16)
+        .background{
+            RoundedRectangle(cornerRadius: 16).fill(.gray00)
         }
     }
 }

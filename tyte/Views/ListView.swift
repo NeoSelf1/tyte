@@ -27,7 +27,7 @@ struct ListView: View {
             ScrollViewReader { proxy in
                 HStack {
                     Button(action: {
-                        withAnimation (.fastEaseOut) {
+                        withAnimation (.bouncy) {
                             isShowingMonthPicker.toggle()
                         }
                     }) {
@@ -83,42 +83,57 @@ struct ListView: View {
                     }
             }
             
+            Divider().frame(minHeight:3).background(.gray10)
             
-            ScrollView {
-                if let index = viewModel.weekCalenderData.firstIndex(where: {
-                    viewModel.selectedDate.apiFormat == $0.date
-                }){
-                    StatusBoxContent(balanceData:viewModel.weekCalenderData[index].balanceData)
-                }
+            List {
+                StatusBoxContent(viewModel:viewModel)
+                    .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                    .listRowBackground(Color.clear)
+                    .padding(.horizontal)
+                    .padding(.top,12)
                 
-                if (viewModel.todosForDate.count>0){
-                    ForEach(viewModel.todosForDate) { todo in
-                        TodoItemView(todo: todo, isHome: false ){ _ in viewModel.toggleTodo(todo.id)}
-                            .onTapGesture {
-                                selectedTodo = todo
-                                isBottomSheetPresented = true
-                            }
-                    }
-                    
-                    Spacer().frame(height:80)
-                        .background(.gray10)
-                        
+                
+                if (viewModel.todosForDate.isEmpty){
+                    Spacer()
+                        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                        .listRowSeparator(.hidden) // 사이 선
+                        .listRowBackground(Color.clear)
+                        .padding(.top,16)
                 } else {
-                    HStack{
-                        Spacer()
-                        
-                        Text("Todo가 없어요")
-                            .font(._subhead1)
-                            .foregroundColor(.gray50)
-                            .padding()
-                        
-                        Spacer()
+                    ForEach(viewModel.todosForDate) { todo in
+                        HStack(spacing:12){
+                            Button(action: {
+                                withAnimation(.fastEaseInOut){
+                                    viewModel.toggleTodo(todo.id)
+                                }
+                            }) {
+                                Image(systemName: todo.isCompleted ? "checkmark.diamond.fill" : "diamond")
+                                    .resizable()
+                                    .frame(width: 40,height:40)
+                                    .foregroundColor(todo.isCompleted ? .gray50 : .gray60)
+                                    .contentTransition(.symbolEffect)
+                            }
+                            .padding(.leading,16)
+                            
+                            TodoItemView(todo: todo, isHome: false)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    selectedTodo = todo
+                                    isBottomSheetPresented = true
+                                }
+                        }
+                        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                        .listRowSeparator(.hidden) // 사이 선
+                        .listRowBackground(Color.clear)
+                        .padding(.top,16)
+                        .opacity(todo.isCompleted ? 0.6 : 1.0)
                     }
                 }
             }
-            .padding()
-            .scrollIndicators(.hidden)
             .background(.gray10)
+            .listStyle(PlainListStyle())
+            
+            .refreshable(action: {viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)})
             .onAppear {
                 viewModel.fetchWeekCalenderData()
                 viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
@@ -147,15 +162,28 @@ struct ListView: View {
             }
         }
         .overlay(
-            Group {
+            ZStack{
                 if isShowingMonthPicker {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation (.fastEaseOut) {
+                                isShowingMonthPicker = false
+                            }
+                        }
+                     
                     MonthYearPickerPopup(
                         selectedDate:$viewModel.selectedDate,
                         isShowing: $isShowingMonthPicker
+                    )
+                    .transition(
+                        .asymmetric(
+                            insertion: .opacity.combined(with: .move(edge: .top)),
+                            removal: .opacity.combined(with: .move(edge: .top))
+                        )
                     )
                 }
             }
         )
     }
 }
-
