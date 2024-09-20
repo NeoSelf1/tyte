@@ -3,6 +3,7 @@ import Alamofire
 
 enum APIError: Error {
     case invalidURL
+    case invalidTodo
     case noData
     case decodingError
     case networkError(String)
@@ -20,6 +21,8 @@ enum APIError: Error {
             self = .decodingError
         case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
             switch code {
+            case 208:
+                self = .invalidTodo
             case 401:
                 self = .unauthorized
             case 404:
@@ -36,10 +39,12 @@ enum APIError: Error {
 
     var localizedDescription: String {
         switch self {
+        case .invalidTodo:
+            return "AI가 Todo내용 인식을 실패했어요 :("
         case .invalidURL:
             return "Invalid URL"
         case .noData:
-            return "No data received"
+            return "유효한 내용이 입력되지 않았어요"
         case .decodingError:
             return "Failed to decode response"
         case .networkError(let message):
@@ -47,7 +52,7 @@ enum APIError: Error {
         case .serverError(let message):
             return message
         case .unauthorized:
-            return "Unauthorized access"
+            return "로그아웃 후 다시 이용해주세요"
         case .notFound:
             return "Resource not found"
         case .unknown:
