@@ -4,7 +4,7 @@ extension Animation {
     struct Duration {
         static let fast: Double = 0.1
         static let medium: Double = 0.2
-        static let slow: Double = 0.5
+        static let slow: Double = 1
     }
     
     struct Curve {
@@ -20,7 +20,7 @@ extension Animation {
         easeOut(duration: Duration.medium)
     }
     
-    static var longEaseOut: Animation {
+    static var longEaseInOut: Animation {
         easeInOut(duration: Duration.slow)
     }
     

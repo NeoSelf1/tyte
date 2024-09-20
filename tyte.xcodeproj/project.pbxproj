@@ -53,6 +53,7 @@
 		ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
 		ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */; };
 		ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC3A4D22C95A53300F43796 /* MyPageView.swift */; };
+		ABC5D0462C9C010000676222 /* CreateTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5D0452C9C010000676222 /* CreateTodoView.swift */; };
 		ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6CFB22C94267700C7DF1D /* DayView.swift */; };
 		ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666B52C83733E0005D3C1 /* HomeView.swift */; };
 		ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */; };
