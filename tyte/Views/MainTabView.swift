@@ -1,10 +1,3 @@
-//
-//  CustomTabBar.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/3/24.
-//
-
 import SwiftUI
 
 struct MainTabView: View {
@@ -13,90 +6,122 @@ struct MainTabView: View {
     @StateObject private var listVM = ListViewModel()
     
     @State private var selectedTab = 0
-    @State private var todoInput = ""
+    @State private var showCreateTodoView = false
+    @State private var isPopupPresented = false
     
-    @FocusState private var isInputFocused: Bool
-    
+    private let tabBarText = [
+        ("home","홈"),
+        ("calendar","일정관리"),("user","MY"),
+    ]
     var body: some View {
-        ZStack{
-            VStack(spacing: 0) {
-                NavigationStack {
-                    TabView(selection: $selectedTab) {
-                        HomeView(viewModel: homeVM)
-                            .tabItem {
-                                TabBarItem(icon: "house.fill", text: "홈")
-                            }
-                            .tag(0)
-                        
-                        ListView(viewModel: listVM, sharedVM: sharedVM)
-                            .tabItem {
-                                TabBarItem(icon: "calendar",  text: "일정 관리")
-                            }
-                            .tag(1)
-                        
-                        MyPageView()
-                            .tabItem {
-                                TabBarItem(icon: "person.fill", text: "MY")
-                            }
-                            .tag(2)
-                    }
-                    .onAppear {
-                        homeVM.setupBindings(sharedVM: sharedVM)
-                        listVM.setupBindings(sharedVM: sharedVM)
-                    }
+        NavigationStack {
+            ZStack {
+                if isPopupPresented,let message = sharedVM.todoAlertMessage {
+                    CustomPopup(message: message)
+                        .frame(maxHeight: .infinity,alignment: .top)
+                        .padding(.top,40)
+                        .zIndex(1)
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .move(edge: .top)),
+                            removal: .opacity.combined(with: .move(edge: .top))
+                        ))
+                        .animation(.easeInOut(duration: 0.3), value: sharedVM.todoAlertMessage)
                 }
-            }
-            .ignoresSafeArea()
-            
-            VStack {
-                Spacer()
                 
-                TextField("",
-                          text: $todoInput,
-                          prompt: Text("Todo를 자연스럽게 입력해주세요...")
-                    .foregroundColor(.gray50)
-                )
-                .focused($isInputFocused)
-                .onSubmit {
-                    sharedVM.addTodo(todoInput)
-                    todoInput = ""
+                VStack(spacing: 0) {
+                    switch(selectedTab) {
+                    case 0:
+                        HomeView(viewModel: homeVM)
+                    case 1:
+                        ListView(viewModel: listVM, sharedVM: sharedVM)
+                    default:
+                        MyPageView()
+                    }
+                    
+                    ZStack {
+                        Rectangle()
+                            .fill(.gray00)
+                            .shadow(color: .gray50.opacity(0.08), radius: 8)
+                        HStack(spacing: 0) {
+                            ForEach (0..<3,id:\.self) { index in
+                                TabBarButton(
+                                    icon: tabBarText[index].0,
+                                    text: tabBarText[index].1,
+                                    isSelected: selectedTab == index) {
+                                        withAnimation(.fastEaseInOut) {
+                                            selectedTab = index
+                                        }
+                                    }
+                            }
+                        }
+                        .background(.gray00)
+                    }
+                    .frame(height: 56)
+                }.background(.gray00)
+                
+                FloatingActionButton(action: {
+                    showCreateTodoView = true
+                })
+                .padding(.trailing, 24)
+                .padding(.bottom, 80)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            }
+            .onAppear {
+                listVM.setupBindings(sharedVM: sharedVM)
+                homeVM.setupBindings(sharedVM: sharedVM)
+            }
+            .sheet(isPresented: $showCreateTodoView) {
+                CreateTodoView(sharedVM: sharedVM, isShowing:$showCreateTodoView)
+                    .presentationDetents([.height(260)])
+                    .presentationDragIndicator(.visible)
+                    .presentationBackground(.gray00)
+            }
+            .onChange(of: sharedVM.todoAlertMessage) { _, newValue in
+                if newValue != nil {
+                    withAnimation {
+                        isPopupPresented = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        withAnimation {
+                            isPopupPresented = false
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            sharedVM.todoAlertMessage = nil
+                        }
+                    }
                 }
-                .foregroundColor(.gray90)
-                .padding()
-                .background(.gray00)
-                .cornerRadius(16)
-                .shadow(color: .gray90.opacity(0.05), radius: 10)
-                .padding(.horizontal)
-                .padding(.bottom, 64)  // 하단 여백 추가
             }
         }
-        .simultaneousGesture(
-            isInputFocused ? TapGesture()
-                .onEnded { _ in
-                    if isInputFocused {
-                        isInputFocused = false
-                    }
-                } : nil
-        )
-    }
-}
-
-struct TabBarItem: View {
-    let icon: String
-    let text: String
-    
-    var body: some View {
-        VStack (spacing:2) {
-            Image(systemName: icon)
-                .font(._caption)
-            Text(text)
-                .font(._caption)
-        }
-        .foregroundColor(.blue)
-        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
     MainTabView()
 }
+
+struct TabBarButton: View {
+    let icon: String
+    let text: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(icon)
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width:24,height: 24)
+                    .foregroundColor(isSelected ? .blue30 : .gray30)
+                    .font(._body4)
+                    
+                Text(text)
+                    .font(._caption)
+                    .foregroundColor(isSelected ? .blue30 : .gray50)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 16)
+        }
+    }
+}
+
