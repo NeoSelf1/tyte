@@ -11,6 +11,7 @@ class ListViewModel: ObservableObject {
     @Published var selectedDate :Date {
         didSet {
             todosForDate=[]
+            print(selectedDate.koreanDate.apiFormat)
             fetchTodosForDate(selectedDate.apiFormat)
         }
     }
@@ -56,6 +57,7 @@ class ListViewModel: ObservableObject {
     func scrollToToday(proxy: ScrollViewProxy? = nil) {
         withAnimation {
             selectedDate = Date().koreanDate
+            print("scroll\(Date().koreanDate)")
             fetchTodosForDate(selectedDate.apiFormat)
             if let proxy = proxy {
                 proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
@@ -121,12 +123,17 @@ class ListViewModel: ObservableObject {
     
     //MARK: Todo 토글
     func toggleTodo(_ id: String) {
-        print("toggleTodo")
+        // MARK: Guard를 사용할 경우, 조기 반환, 옵셔널 바인딩 언래핑, 조건에 사용한 let 변수에 대한 스코프 확장이 가능.
+        guard let index = todosForDate.firstIndex(where: { $0.id == id }) else { return }
+        todosForDate[index].isCompleted.toggle()
+        
         todoService.toggleTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    guard let self = self else { return }
+                    self.errorMessage = error.localizedDescription
+                    self.todosForDate[index].isCompleted.toggle()
                 }
             } receiveValue: { [weak self] updatedTodo in
                 if let index = self?.todosForDate.firstIndex(where: { $0.id == id }) {
@@ -135,6 +142,8 @@ class ListViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
+    
+    
     
     //MARK: Todo 삭제
     func deleteTodo(id: String) {
