@@ -1,64 +1,55 @@
-//
-//  Date+.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/3/24.
-//
-
 import Foundation
 
 extension Date {
-    var apiFormat: String{
+    private static let koreanTimeZone = TimeZone(identifier: "Asia/Seoul")!
+    
+    private static let sharedFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: self)
-    }
-    
-    static let calendarDayDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy dd"
+        formatter.timeZone = koreanTimeZone
         return formatter
     }()
     
+    private func string(withFormat format: String) -> String {
+        let formatter = Date.sharedFormatter
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+    
+    var apiFormat: String {
+        string(withFormat: "yyyy-MM-dd")
+    }
+    
     var formattedCalendarDayDate: String {
-        return Date.calendarDayDateFormatter.string(from: self)
+        string(withFormat: "MMMM yyyy dd")
     }
     
     var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "M월 d일 EEEE"
-        return formatter.string(from: self)
+        string(withFormat: "yyyy년 M월 d일")
     }
     
     var formattedMonth: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy년 MM월"
-        return formatter.string(from: self)
+        string(withFormat: "yyyy년 MM월")
     }
     
     var weekdayString: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "E"
-        return formatter.string(from: self)
+        string(withFormat: "E")
     }
     
     var formattedDay: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "d"
-        return formatter.string(from: self)
+        string(withFormat: "d")
     }
     
     var koreanDate: Date {
-        let seconds = TimeInterval(TimeZone(identifier: "Asia/Seoul")!.secondsFromGMT(for: self))
-        return self.addingTimeInterval(seconds)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)! // UTC
+        let components = calendar.dateComponents(in: Date.koreanTimeZone, from: self)
+        return calendar.date(from: components) ?? self
     }
     
     var startOfMonth: Date {
-        Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) ?? self
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = Date.koreanTimeZone
+        return calendar.date(from: calendar.dateComponents([.year, .month], from: self)) ?? self
     }
 }

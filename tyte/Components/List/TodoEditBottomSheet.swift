@@ -10,10 +10,10 @@ struct TodoEditBottomSheet: View {
     
     @State private var dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
-        let startComponents = DateComponents(year: calendar.component(.year, from: Date().koreanDate), month: calendar.component(.month, from: Date().koreanDate), day: calendar.component(.day, from: Date().koreanDate))
+        let startComponents = DateComponents(year: calendar.component(.year, from: Date()), month: calendar.component(.month, from: Date()), day: calendar.component(.day, from: Date()))
         let startDate = calendar.date(from: startComponents)!
         
-        let endComponents = DateComponents(year: calendar.component(.year, from: Date().koreanDate) + 1, month: 12, day: 31)
+        let endComponents = DateComponents(year: calendar.component(.year, from: Date()) + 1, month: 12, day: 31)
         let endDate = calendar.date(from: endComponents)!
         
         return startDate...endDate
@@ -83,8 +83,15 @@ struct TodoEditBottomSheet: View {
                             .foregroundColor(.gray60)
                             .padding(.leading,4)
                         
-                        Toggle("", isOn: $editedTodo.isImportant)
-                            .labelsHidden()
+                        Toggle("중요",
+                               systemImage: editedTodo.isImportant ? "exclamationmark.square.fill" : "exclamationmark.square",
+                               isOn: $editedTodo.isImportant
+                        )
+                        .font(._subhead1)
+                        .tint(.blue30)
+                        .toggleStyle(.button)
+                        .labelStyle(.iconOnly)
+                        .contentTransition(.symbolEffect)
                     }
                     
                     Spacer()
@@ -98,7 +105,7 @@ struct TodoEditBottomSheet: View {
                         DatePicker(
                             "",
                             selection: Binding(
-                                get: { editedTodo.deadline.parsedDate ?? Date().koreanDate },
+                                get: { editedTodo.deadline.parsedDate ?? Date() },
                                 set: { editedTodo.deadline = $0.apiFormat }
                             ),
                             in: dateRange,
@@ -218,24 +225,3 @@ struct TodoEditBottomSheet: View {
         .environment(\.colorScheme, .light)
     }
 }
-
-//#Preview {
-//    TodoEditBottomSheet(
-//        todo: Todo(
-//            id: "66e09aa49257522f515f0655",
-//            user: "66dea7d2df1974ec7353476b",
-//            tagId: nil,
-//            raw: "학교 10시에 가기",
-//            title: "학교 가기",
-//            isImportant: false,
-//            isLife: true,
-//            difficulty: 2,
-//            estimatedTime: 60,
-//            deadline: "2024-09-11",
-//            isCompleted: false),
-//        onUpdate: {_ in print("onUpdate")},
-//        onDelete: {_ in print("onDelete")
-//        })
-//    .frame(height: 600) // 여기에 원하는 높이 값을 지정
-//    .border(Color.red, width: 1) // 테두리 추가
-//}
