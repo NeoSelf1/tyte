@@ -15,6 +15,7 @@ class SharedTodoViewModel: ObservableObject {
     @Published var tags: [Tag] = []
     @Published var lastAddedTodoId: String?
     @Published var lastUpdatedTagId: String?
+    @Published var todoAlertMessage: String?
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -50,16 +51,24 @@ class SharedTodoViewModel: ObservableObject {
     
     //MARK: Todo 추가
     func addTodo(_ text: String) {
+        isLoading = true
+        
         todoService.createTodo(text: text)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                self?.isLoading = false
                 if case .failure(let error) = completion {
-                    print(error.localizedDescription)
-                    self?.errorMessage = error.localizedDescription
+                    guard let self = self else { return }
+                    self.todoAlertMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] newTodos in
-                print("addedTodo in SHaredViewModel \(text)")
                 guard let self = self else { return }
+                if newTodos.count == 1 {
+                    self.todoAlertMessage = "\(newTodos[0].deadline)에 투두가 추가되었습니다."
+                } else {
+                    self.todoAlertMessage = "총 \(newTodos.count)개의 투두가 추가되었습니다."
+                }
+                
                 self.lastAddedTodoId = newTodos.last?.id
             }
             .store(in: &cancellables)
