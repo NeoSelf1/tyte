@@ -8,8 +8,8 @@ struct TodoViewSelector: View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
-                    tabButton(title: "진행중 Todo (\(viewModel.inProgressTodos.count))", tab: 0, geometry: geometry)
-                    tabButton(title: "완료된 Todo (\(viewModel.completedTodos.count))", tab: 1, geometry: geometry)
+                    tabButton(title: "진행중 Todo",subTitle:"\(viewModel.inProgressTodos.count)개", tab: 0, geometry: geometry)
+                    tabButton(title: "완료된 Todo",subTitle:"\(viewModel.completedTodos.count)개", tab: 1, geometry: geometry)
                 }
                 
                 Rectangle()
@@ -23,16 +23,22 @@ struct TodoViewSelector: View {
         .frame(height: 48)
     }
     
-    private func tabButton(title: String, tab: Int, geometry: GeometryProxy) -> some View {
+    private func tabButton(title: String, subTitle: String, tab: Int, geometry: GeometryProxy) -> some View {
         Button(action: {
             withAnimation(.fastEaseOut) {
                 viewModel.currentTab = tab
             }
         }) {
-            Text(title)
-                .font(._subhead1)
-                .foregroundStyle(viewModel.currentTab == tab ? .gray90 : .gray50)
-                .frame(width: geometry.size.width / 2, height: 45, alignment: .center)
+            HStack(alignment: .bottom, spacing: 8){
+                Text(title)
+                    .font(._subhead1)
+                    .foregroundStyle(viewModel.currentTab == tab ? .gray90 : .gray50)
+                
+                Text(subTitle)
+                    .font(._subhead2)
+                    .foregroundStyle(.gray50)
+            }
+            .frame(width: geometry.size.width / 2, height: 45, alignment: .center)
         }
         .animation(.easeOut(duration: animationDuration), value: viewModel.currentTab)
     }
