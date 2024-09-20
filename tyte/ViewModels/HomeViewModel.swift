@@ -9,7 +9,7 @@ class HomeViewModel: ObservableObject {
     @Published var selectedTags: [String] = []
     
     @Published var sortOption: String = "default"
-    @Published var currentTab: Int = 0
+    @Published var currentTab: Int = 1
     
     private let todoService: TodoService
     private let tagService: TagService
@@ -25,6 +25,18 @@ class HomeViewModel: ObservableObject {
         self.todoService = todoService
         self.tagService = tagService
         fetchTags()
+    }
+    
+    // 값에 의존하는 상태가 변경될때마다 자동으로 재계산된다. 즉, currentTab 변경 시, inProgressTodos or completedTodos 배열 변경 시, selectedTags 배열 변경 시 ...
+    var filteredTodos: [Todo] {
+        let todos = currentTab == 0 ? inProgressTodos : completedTodos
+        return todos.filter { todo in
+            if selectedTags.contains("default") {
+                return todo.tagId == nil || (todo.tagId != nil && selectedTags.contains(todo.tagId!.id))
+            } else {
+                return todo.tagId != nil && selectedTags.contains(todo.tagId!.id)
+            }
+        }
     }
     
     func setupBindings(sharedVM: SharedTodoViewModel) {
