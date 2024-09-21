@@ -50,6 +50,10 @@ struct MyPageView: View {
             .padding()
             
             Spacer()
-        }.background(.gray10)
+        }
+        .background(.gray10)
+        .sheet(isPresented: $viewModel.isDetailViewPresented) {
+            DetailView(viewModel: viewModel)
+        }
     }
 }

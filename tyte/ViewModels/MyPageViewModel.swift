@@ -10,13 +10,20 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
-    @Published var isLoaded = false
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var currentMonth: Date = Date().koreanDate
+    @Published var dailyStats: [DailyStat] = []
+    @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
+    @Published var dailyStatForDate: DailyStat?
+    @Published var todosForDate: [Todo] = []
+    
+    @Published var currentMonth: Date = Date().koreanDate
+    @Published var tags: [Tag] = []
+    
+    @Published var isDetailViewPresented: Bool = false
     
     @Published var currentTab: Int = 0
     @Published var graphRange: String = "week" {
@@ -24,20 +31,66 @@ class MyPageViewModel: ObservableObject {
             fetchDailyStats()
         }
     }
-    private let dailyStatService: DailyStatService
-    private let authService: AuthService
     
-    @Published var calenderData: [DailyStat_DayView] = []
-    @Published var graphData: [DailyStat_Graph] = []
+    private let dailyStatService: DailyStatService
+    private let todoService: TodoService
+    private let tagService: TagService
+    private let authService: AuthService
 
     init(
         dailyStatService: DailyStatService = DailyStatService(),
-         authService: AuthService = AuthService()
+         authService: AuthService = AuthService(),
+        todoService: TodoService = TodoService(),
+        tagService: TagService = TagService()
     ) {
-        self.dailyStatService = dailyStatService 
-        self.authService = authService
         print("MyPageViewModel init")
+        self.dailyStatService = dailyStatService
+        self.todoService = todoService
+        self.tagService = tagService
+        self.authService = authService
+        self.fetchTags()
         self.fetchDailyStats()
+    }
+    
+    func selectDateForInsightData(date: Date) {
+        guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
+        dailyStatForDate = dailyStats[index]
+        fetchTodosForDate(date.apiFormat)
+        isDetailViewPresented = true
+    }
+    
+    func fetchTags() {
+        tagService.fetchAllTags()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    guard let self = self else { return }
+                    self.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] tags in
+                guard let self = self else { return }
+                self.tags = tags
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: 특정 날짜에 대한 Todo들 fetch
+    func fetchTodosForDate(_ deadline: String) {
+        isLoading = true
+        errorMessage = nil
+        todoService.fetchTodosForDate(deadline: deadline)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    guard let self = self else { return }
+                    self.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] todos in
+                self?.isLoading = false
+                guard let self = self else { return }
+                self.todosForDate = todos
+            }
+            .store(in: &cancellables)
     }
     
     func fetchDailyStats() {
@@ -65,37 +118,26 @@ class MyPageViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _dailyStats in
                 guard let self = self else { return }
-                if _dailyStats.isEmpty {
-                    isLoaded = true
-                } else {
-                    calenderData = _dailyStats.map { dailyStat -> DailyStat_DayView in
-                        return DailyStat_DayView(
-                            date: dailyStat.date,
-                            balanceData: dailyStat.balanceData,
-                            tagStats: dailyStat.tagStats,
-                            center: dailyStat.center
+                dailyStats = _dailyStats
+                
+                let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
+                graphData = (0..<dateRange).compactMap { dayOffset -> DailyStat_Graph? in
+                    guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
+                    
+                    // MARK: Graph의 경우, animate 속성값 및 데이터가 없는 날짜에 대한 더미데이터 생성이 필요하므로 필요한 필드로만 구성된 새로운 struct인 DailyStat_Graph 추가
+                    if let existingStat = _dailyStats.first(where: { $0.date == date.apiFormat }) {
+                        return DailyStat_Graph(
+                            date: existingStat.date,
+                            productivityNum: existingStat.productivityNum
+                        )
+                    } else {
+                        return DailyStat_Graph(
+                            date: date.apiFormat,
+                            productivityNum: 0
                         )
                     }
-                    
-                    let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
-                    graphData = (0..<dateRange).compactMap { dayOffset -> DailyStat_Graph? in
-                        guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
-                        
-                        if let existingStat = _dailyStats.first(where: { $0.date == date.apiFormat }) {
-                            return DailyStat_Graph(
-                                date: existingStat.date,
-                                productivityNum: existingStat.productivityNum
-                            )
-                        } else {
-                            return DailyStat_Graph(
-                                date: date.apiFormat,
-                                productivityNum: 0
-                            )
-                        }
-                    }
-                    isLoaded = true
-                    animateGraph()
                 }
+                animateGraph()
             }
             .store(in: &cancellables)
     }
