@@ -64,7 +64,7 @@ class SharedTodoViewModel: ObservableObject {
             } receiveValue: { [weak self] newTodos in
                 guard let self = self else { return }
                 if newTodos.count == 1 {
-                    self.todoAlertMessage = "\(newTodos[0].deadline)에 투두가 추가되었습니다."
+                    self.todoAlertMessage = "\(newTodos[0].deadline.parsedDate.formattedMonthDate)에 투두가 추가되었습니다."
                 } else {
                     self.todoAlertMessage = "총 \(newTodos.count)개의 투두가 추가되었습니다."
                 }

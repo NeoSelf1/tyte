@@ -7,39 +7,73 @@
 import SwiftUI
 import Foundation
 
-func getColorsForDay(_ dailyStat: DailyStat) -> [Color] {
-    // tagStats가 비어있으면 기본 색상 반환
+func getColors(_ dailyStat: DailyStat) -> [Color] {
+    // If tagStats is empty, return default colors
     guard !dailyStat.tagStats.isEmpty else {
         return Array(repeating: .gray20, count: 9)
     }
+    // Prepare color counts including the default color
+    var colorCounts = [(color: Color.blue30.opacity(0.7), count: 1)]
+    colorCounts += dailyStat.tagStats.map { (color: Color(hex: "#\($0.tag.color)"), count: $0.count) }
     
-    // 각 태그의 색상과 카운트를 저장할 배열
-    var colorCounts: [(color: Color, count: Int)] = [(color: .blue30.opacity(0.7), count:1)]
-    
-    // tagStats를 순회하며 색상과 카운트 정보를 저장
-    for tagStat in dailyStat.tagStats {
-        colorCounts.append((color: Color(hex: "#\(tagStat.tag.color)"), count: tagStat.count))
-    }
-    
-    // 총 카운트 계산
+    // Calculate total count and prepare result colors
     let totalCount = colorCounts.reduce(0) { $0 + $1.count }
-    
-    // 결과 색상 배열
     var resultColors: [Color] = []
     
+    // Distribute colors based on their counts
     for (color, count) in colorCounts {
         let colorCount = Int(round(Double(count) / Double(totalCount) * 9))
         resultColors.append(contentsOf: Array(repeating: color, count: colorCount))
     }
     
-    // 결과 배열의 크기를 9로 조정
+    // Adjust result array size to 9
     if resultColors.count > 9 {
         resultColors = Array(resultColors.prefix(9))
     } else if resultColors.count < 9 {
-        resultColors.append(contentsOf: Array(repeating: colorCounts.first!.color, count: 9 - resultColors.count))
+        resultColors.append(contentsOf: Array(repeating: colorCounts[0].color, count: 9 - resultColors.count))
     }
     
-    return resultColors
+    // Optimize color distribution
+//    let orderOfPositions = [0, 2, 6, 8, 1, 3, 5, 7, 4]
+    let orderOfPositions = [0, 1, 2, 8, 5, 7, 6, 4, 3]
+    var optimizedColors = [Color](repeating: .clear, count: 9)
+    
+    for (index, position) in orderOfPositions.enumerated() {
+        if (index == 8){
+            if #available(iOS 18.0, *) {
+                optimizedColors[position] = .white.mix(with:resultColors[index % resultColors.count],by:0.3)
+            } else {
+                optimizedColors[position] = resultColors[index % resultColors.count]
+            }
+        } else {
+            optimizedColors[position] = resultColors[index % resultColors.count]
+        }
+    }
+    
+    return optimizedColors
 }
 
 
+func calculateDailyBalance(for todos: [Todo]) -> (workPercentage: Double, lifePercentage: Double) {
+        var totalWorkTime: Int = 0
+        var totalLifeTime: Int = 0
+        
+        for todo in todos {
+            if todo.isLife {
+                totalLifeTime += todo.estimatedTime
+            } else {
+                totalWorkTime += todo.estimatedTime
+            }
+        }
+        
+        let totalTime = totalWorkTime + totalLifeTime
+        
+        guard totalTime > 0 else {
+            return (workPercentage: 0, lifePercentage: 0)
+        }
+        
+        let workPercentage = Double(totalWorkTime) / Double(totalTime) * 100
+        let lifePercentage = Double(totalLifeTime) / Double(totalTime) * 100
+        
+        return (workPercentage: workPercentage, lifePercentage: lifePercentage)
+    }
