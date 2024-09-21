@@ -42,11 +42,13 @@ struct TagStat: Codable, Identifiable {
 
 struct _Tag: Codable, Identifiable {
     let id: String
+    let name: String
     let color: String
+    let user: String
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case color
+        case color, name, user
     }
 }
 

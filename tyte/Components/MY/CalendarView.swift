@@ -3,8 +3,6 @@ import SwiftUI
 struct CalenderView: View {
     @ObservedObject var viewModel : MyPageViewModel
     
-    private let dayViewSize:CGFloat = 48
-    
     var body: some View {
         VStack {
             headerView
@@ -80,26 +78,27 @@ struct CalenderView: View {
         let numberOfRows = Int(ceil(Double(daysInMonth + firstWeekday) / 7.0))
         let visibleDaysOfNextMonth = numberOfRows * 7 - (daysInMonth + firstWeekday)
         
-        
         return LazyVGrid(columns: Array(repeating: GridItem(), count: 7)) {
             ForEach(-firstWeekday ..< daysInMonth + visibleDaysOfNextMonth, id: \.self) { index in
                 Group() {
                     if index > -1 && index < daysInMonth {
+                        let today = Date().koreanDate
                         let date = getDate(for: index)
-                        let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
-                        
-                        DayView(dailyStats: viewModel.dailyStats, date: date, isSelected: true, isToday: isToday, isDayVisible: false)
-                            .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
+                        let isToday = today.apiFormat == date.apiFormat
+                        let dailyStat = viewModel.dailyStats.first{ $0.date == date.apiFormat }
+
+                        DayView(dailyStat: dailyStat, date: date, isSelected: true, isToday: isToday, isDayVisible: false,size:64)
+                            .frame(height:48) // 64 사이즈의 DayView의 height를 48로 찌부시키기
                             .onTapGesture{
                                 viewModel.selectDateForInsightData(date: date)
                             }
-                    } else if let prevMonthDate = Calendar.current.date(
+                    } else if Calendar.current.date(
                         byAdding: .day,
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
-                    ) {
-                        DayView(dailyStats: viewModel.dailyStats, date: prevMonthDate, isSelected: false, isToday: false, isDayVisible: false)
-                            .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
+                    ) != nil {
+                        Rectangle()
+                            .foregroundStyle(Color.clear)
                     }
                 }
             }
@@ -109,12 +108,6 @@ struct CalenderView: View {
 // MARK: -
 
 private extension CalenderView {
-    var today: Date {
-        let now = Date().koreanDate
-        let components = Calendar.current.dateComponents([.year, .month, .day], from: now)
-        return Calendar.current.date(from: components)!
-    }
-  
   static let weekdaySymbols: [String] = Calendar.current.shortWeekdaySymbols
 }
 

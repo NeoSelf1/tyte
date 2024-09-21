@@ -18,10 +18,10 @@ class MyPageViewModel: ObservableObject {
     @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
     @Published var dailyStatForDate: DailyStat?
-    @Published var todosForDate: [Todo] = []
+        @Published var todosForDate: [Todo] = []
+    
     
     @Published var currentMonth: Date = Date().koreanDate
-    @Published var tags: [Tag] = []
     
     @Published var isDetailViewPresented: Bool = false
     
@@ -34,21 +34,17 @@ class MyPageViewModel: ObservableObject {
     
     private let dailyStatService: DailyStatService
     private let todoService: TodoService
-    private let tagService: TagService
     private let authService: AuthService
 
     init(
         dailyStatService: DailyStatService = DailyStatService(),
          authService: AuthService = AuthService(),
-        todoService: TodoService = TodoService(),
-        tagService: TagService = TagService()
+        todoService: TodoService = TodoService()
     ) {
         print("MyPageViewModel init")
         self.dailyStatService = dailyStatService
         self.todoService = todoService
-        self.tagService = tagService
         self.authService = authService
-        self.fetchTags()
         self.fetchDailyStats()
     }
     
@@ -56,22 +52,6 @@ class MyPageViewModel: ObservableObject {
         guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
         dailyStatForDate = dailyStats[index]
         fetchTodosForDate(date.apiFormat)
-        isDetailViewPresented = true
-    }
-    
-    func fetchTags() {
-        tagService.fetchAllTags()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    self.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] tags in
-                guard let self = self else { return }
-                self.tags = tags
-            }
-            .store(in: &cancellables)
     }
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
@@ -89,6 +69,7 @@ class MyPageViewModel: ObservableObject {
                 self?.isLoading = false
                 guard let self = self else { return }
                 self.todosForDate = todos
+                isDetailViewPresented = true
             }
             .store(in: &cancellables)
     }

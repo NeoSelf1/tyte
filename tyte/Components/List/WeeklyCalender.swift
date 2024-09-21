@@ -24,9 +24,10 @@ struct MonthlyCalendar: View {
     private func dayView(for date: Date) -> some View {
         let isSelected = calendar.isDate(date, inSameDayAs: viewModel.selectedDate)
         let isToday = calendar.isDateInToday(date)
+        let dailyStat = viewModel.weekCalendarData.first{$0.date == date.apiFormat}
         
         return(
-            DayView(dailyStats: viewModel.weekCalendarData, date: date, isSelected: isSelected, isToday: isToday,isDayVisible:true)
+            DayView(dailyStat: dailyStat, date: date, isSelected: isSelected, isToday: isToday,isDayVisible:true,size: 64)
                 .onTapGesture {
                     withAnimation(.mediumEaseOut) {
                         viewModel.selectedDate = date

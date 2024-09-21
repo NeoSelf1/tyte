@@ -1,41 +1,41 @@
 import SwiftUI
 
 struct DayView: View {
-    let dailyStats: [DailyStat]
+    let dailyStat: DailyStat?
     let date: Date
     let isSelected: Bool
     let isToday: Bool
     let isDayVisible: Bool
-    
-    private var dailyStat: DailyStat? {
-        dailyStats.first { date.apiFormat == $0.date }
-    }
-    
-    private var gradientColors: [Color] {
-        dailyStat.map { getColorsForDay($0) } ?? [.gray20]
-    }
-    
-    private var center: SIMD2<Float> {
-        dailyStat?.center ?? [0.5, 0.5]
-    }
+    let size: CGFloat
     
     var body: some View {
         ZStack {
-            MeshGradientView(colors: gradientColors, center: center, isSelected: isSelected)
-                .frame(width: 64,height: 64)
-            
-            VStack(alignment: .leading, spacing: 0) {
-                if let stat = dailyStat {
-                    balanceIndicator(for: stat)
+            if let dailyStat = dailyStat {
+                MeshGradientView(colors: getColors(dailyStat), center: dailyStat.center , isSelected: isSelected)
+                    .frame(width: size,height: size)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    balanceIndicator(for: dailyStat)
+                    Spacer()
+                    dateText()
                 }
+                .frame(width: size, height: size)
+            } else {
+                Rectangle()
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .rotationEffect(.degrees(isSelected ? 45 : 0))
+                .padding(isSelected ? 14 : 20)
+                .opacity(isSelected ? 1.0 : 0.5)
+                .foregroundStyle(.gray20)
+                .frame(width:size,height:size)
                 
-                Spacer()
-                
-                dateText()
+                VStack(alignment: .leading, spacing: 0) {
+                    Spacer()
+                    dateText()
+                }
+                .frame(width: size, height: size)
             }
         }
-        .frame(width: 64, height: 56)
-     
     }
     
     // 속성 래퍼 = 여러개의 뷰를 선언적 구문 형태로 선언 및 조합해 하나의 뷰 계층 구조를 만들수 있게 해주는 속성 래퍼

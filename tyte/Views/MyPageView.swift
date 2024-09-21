@@ -10,6 +10,7 @@ import SwiftUI
 struct MyPageView: View {
     @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
     @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
+    @State private var bottomSheetPosition: PresentationDetent = .height(720)
     
     var body: some View {
         VStack{
@@ -53,7 +54,9 @@ struct MyPageView: View {
         }
         .background(.gray10)
         .sheet(isPresented: $viewModel.isDetailViewPresented) {
-            DetailView(viewModel: viewModel)
+            MultiLayerBottomSheet(viewModel: viewModel, bottomSheetPosition: $bottomSheetPosition)
+                            .presentationDetents([.height(720), .large])
+                            .presentationDragIndicator(.hidden)
         }
     }
 }

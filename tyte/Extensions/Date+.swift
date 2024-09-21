@@ -32,6 +32,13 @@ extension Date {
         string(withFormat: "yyyy년 MM월")
     }
     
+    var formattedYear: String {
+        string(withFormat: "yyyy년")
+    }
+    var formattedMonthDate: String {
+        string(withFormat: "M월 d일")
+    }
+    
     var weekdayString: String {
         string(withFormat: "E")
     }
