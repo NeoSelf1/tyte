@@ -5,7 +5,7 @@ import SwiftUI
 
 class ListViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
-    @Published var weekCalenderData: [DailyStat_DayView] = []
+    @Published var weekCalendarData: [DailyStat] = []
     
     @Published var tags: [Tag] = []
     @Published var selectedDate :Date {
@@ -41,7 +41,6 @@ class ListViewModel: ObservableObject {
             .sink { [weak self] _ in
                 print("Todo Creation Detected from ListViewModel")
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().koreanDate.apiFormat)
-                self?.fetchWeekCalenderData()
             }
             .store(in: &cancellables)
         

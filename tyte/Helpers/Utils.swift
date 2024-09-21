@@ -7,7 +7,7 @@
 import SwiftUI
 import Foundation
 
-func getColorsForDay(_ dailyStat: DailyStat_DayView) -> [Color] {
+func getColorsForDay(_ dailyStat: DailyStat) -> [Color] {
     // tagStats가 비어있으면 기본 색상 반환
     guard !dailyStat.tagStats.isEmpty else {
         return Array(repeating: .gray20, count: 9)

@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct DayView: View {
-    let dailyStats: [DailyStat_DayView]
+    let dailyStats: [DailyStat]
     let date: Date
     let isSelected: Bool
     let isToday: Bool
     let isDayVisible: Bool
     
-    private var dailyStat: DailyStat_DayView? {
+    private var dailyStat: DailyStat? {
         dailyStats.first { date.apiFormat == $0.date }
     }
     
@@ -41,7 +41,7 @@ struct DayView: View {
     // 속성 래퍼 = 여러개의 뷰를 선언적 구문 형태로 선언 및 조합해 하나의 뷰 계층 구조를 만들수 있게 해주는 속성 래퍼
     // stat 인자를 받는 함수 형태로 구성했고, Circle, Spacer로 구성된 복합 뷰 구조이기에 ViewBuilder가 유용
     @ViewBuilder
-    private func balanceIndicator(for stat: DailyStat_DayView) -> some View {
+    private func balanceIndicator(for stat: DailyStat) -> some View {
         HStack {
             Circle()
                 .fill(stat.balanceData.balanceNum.colorByBalanceData)

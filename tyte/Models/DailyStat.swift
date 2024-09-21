@@ -86,24 +86,3 @@ struct DailyStat_Graph: Identifiable,Codable {
         self.animate = animate
     }
 }
-
-struct DailyStat_DayView: Identifiable,Codable {
-    let id: String
-    let date: String
-    let balanceData: BalanceData
-    let tagStats: [TagStat]
-    let center: SIMD2<Float>
-    
-    init(
-        date: String,
-        balanceData:BalanceData,
-        tagStats:[TagStat],
-        center:SIMD2<Float>
-    ) {
-        self.id = date  // date를 id로 설정
-        self.date = date
-        self.balanceData = balanceData
-        self.tagStats = tagStats
-        self.center = center
-    }
-}
