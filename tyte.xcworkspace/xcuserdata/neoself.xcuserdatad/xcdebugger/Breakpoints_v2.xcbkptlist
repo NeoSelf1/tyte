@@ -63,6 +63,134 @@
             endingLineNumber = "14"
             landmarkName = "SharedTodoViewModel"
             landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - 9437482d535454ca"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of tyte.SharedTodoViewModel.tags : Swift.Array&lt;tyte.Tag&gt;"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - 9758e326e38362e4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.tags.getter : Swift.Array&lt;tyte.Tag&gt;"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - 2bcd43921c8ac007"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.tags.setter : Swift.Array&lt;tyte.Tag&gt;"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - c2724d1369a23f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.tags.modify : Swift.Array&lt;tyte.Tag&gt;"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - ebbafa6305648628"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.tags.modify : Swift.Array&lt;tyte.Tag&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - efe964dad331939"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.$tags.getter : Combine.Published&lt;Swift.Array&lt;tyte.Tag&gt;&gt;.Publisher"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - f70b86c488b1d722"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.$tags.setter : Combine.Published&lt;Swift.Array&lt;tyte.Tag&gt;&gt;.Publisher"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - 886cb4d960fc7d13"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.$tags.modify : Combine.Published&lt;Swift.Array&lt;tyte.Tag&gt;&gt;.Publisher"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/neoself/Desktop/front-app/tyte/tyte/ViewModels/SharedTodoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15">
+               </Location>
+               <Location
+                  uuid = "427CCAA7-4E14-4960-86AA-A79FB39730A0 - 95af54b0e727371"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "tyte.SharedTodoViewModel.$tags.modify : Combine.Published&lt;Swift.Array&lt;tyte.Tag&gt;&gt;.Publisher with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "tyte.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
