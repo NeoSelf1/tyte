@@ -41,6 +41,7 @@ class ListViewModel: ObservableObject {
             .sink { [weak self] _ in
                 print("Todo Creation Detected from ListViewModel")
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().koreanDate.apiFormat)
+                self?.fetchWeekCalendarData()
             }
             .store(in: &cancellables)
         
@@ -98,24 +99,17 @@ class ListViewModel: ObservableObject {
     }
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
-    func fetchWeekCalenderData() {
+    func fetchWeekCalendarData() {
         dailyStatService.fetchAllDailyStats()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    print("failure")
-                    self?.errorMessage = error.localizedDescription
+                    guard let self = self else { return }
+                    self.errorMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] dailyStats in
-                let convertedStats = dailyStats.map { dailyStat -> DailyStat_DayView in
-                    return DailyStat_DayView(
-                           date: dailyStat.date,
-                           balanceData: dailyStat.balanceData,
-                           tagStats: dailyStat.tagStats,
-                           center: dailyStat.center
-                       )
-                }
-                self?.weekCalenderData = convertedStats
+                guard let self = self else { return }
+                self.weekCalendarData = dailyStats
             }
             .store(in: &cancellables)
     }
@@ -154,7 +148,7 @@ class ListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _ in
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? "")
-                self?.fetchWeekCalenderData()
+                self?.fetchWeekCalendarData()
             }
             .store(in: &cancellables)
     }
@@ -169,7 +163,7 @@ class ListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _ in
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? "")
-                self?.fetchWeekCalenderData()
+                self?.fetchWeekCalendarData()
             }
             .store(in: &cancellables)
     }

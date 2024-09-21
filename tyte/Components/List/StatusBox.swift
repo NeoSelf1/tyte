@@ -13,10 +13,10 @@ struct StatusBoxContent: View {
     
     init( viewModel: ListViewModel ) {
         self.viewModel = viewModel
-        if let index = viewModel.weekCalenderData.firstIndex(where: {
+        if let index = viewModel.weekCalendarData.firstIndex(where: {
             viewModel.selectedDate.apiFormat == $0.date
         }){
-            balanceData = viewModel.weekCalenderData[index].balanceData
+            balanceData = viewModel.weekCalendarData[index].balanceData
         } else {
             balanceData =
             BalanceData(

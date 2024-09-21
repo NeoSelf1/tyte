@@ -103,15 +103,12 @@ struct ListView: View {
                     ForEach(viewModel.todosForDate) { todo in
                         HStack(spacing:12){
                             Button(action: {
-                                withAnimation(.fastEaseInOut){
                                     viewModel.toggleTodo(todo.id)
-                                }
                             }) {
-                                Image(systemName: todo.isCompleted ? "checkmark.diamond.fill" : "diamond")
+                                Image(todo.isCompleted ? "checked" : "unchecked")
                                     .resizable()
                                     .frame(width: 40,height:40)
-                                    .foregroundColor(todo.isCompleted ? .gray50 : .gray60)
-                                    .contentTransition(.symbolEffect)
+                                    .foregroundStyle(todo.isCompleted ? .gray50 : .gray60)
                             }
                             .padding(.leading,16)
                             
@@ -135,11 +132,11 @@ struct ListView: View {
             
             .refreshable(action: {viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)})
             .onAppear {
-                viewModel.fetchWeekCalenderData()
+                viewModel.fetchWeekCalendarData()
                 viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                viewModel.fetchWeekCalenderData()
+                viewModel.fetchWeekCalendarData()
                 viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
             }
         }

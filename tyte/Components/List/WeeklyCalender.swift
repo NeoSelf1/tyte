@@ -26,7 +26,7 @@ struct MonthlyCalendar: View {
         let isToday = calendar.isDateInToday(date)
         
         return(
-            DayView(dailyStats: viewModel.weekCalenderData, date: date, isSelected: isSelected, isToday: isToday,isDayVisible:true)
+            DayView(dailyStats: viewModel.weekCalendarData, date: date, isSelected: isSelected, isToday: isToday,isDayVisible:true)
                 .onTapGesture {
                     withAnimation(.mediumEaseOut) {
                         viewModel.selectedDate = date

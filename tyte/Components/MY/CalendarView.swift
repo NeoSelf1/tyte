@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CalenderView: View {
     @ObservedObject var viewModel : MyPageViewModel
+    
     private let dayViewSize:CGFloat = 48
     
     var body: some View {
@@ -87,24 +88,18 @@ struct CalenderView: View {
                         let date = getDate(for: index)
                         let isToday = date.formattedCalendarDayDate == today.formattedCalendarDayDate
                         
-                        DayView(dailyStats: viewModel.calenderData, date: date, isSelected: true, isToday: isToday, isDayVisible: false)
+                        DayView(dailyStats: viewModel.dailyStats, date: date, isSelected: true, isToday: isToday, isDayVisible: false)
                             .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
-                            .onTapGesture {
-                                viewModel.selectedDate = date
+                            .onTapGesture{
+                                viewModel.selectDateForInsightData(date: date)
                             }
                     } else if let prevMonthDate = Calendar.current.date(
                         byAdding: .day,
                         value: index + lastDayOfMonthBefore,
                         to: previousMonth()
                     ) {
-                        DayView(dailyStats: viewModel.calenderData, date: prevMonthDate, isSelected: false, isToday: false, isDayVisible: false)
+                        DayView(dailyStats: viewModel.dailyStats, date: prevMonthDate, isSelected: false, isToday: false, isDayVisible: false)
                             .frame(width: dayViewSize, height: dayViewSize, alignment: .center)
-                    }
-                }
-                .onTapGesture {
-                    if 0 <= index && index < daysInMonth {
-                        let date = getDate(for: index)
-                        viewModel.selectedDate = date
                     }
                 }
             }
