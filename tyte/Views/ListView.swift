@@ -93,17 +93,17 @@ struct ListView: View {
                     .padding(.top,12)
                 
                 
-                if (viewModel.todosForDate.isEmpty){
+                if (sharedVM.todosForDate.isEmpty){
                     Spacer()
                         .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
                         .listRowSeparator(.hidden) // 사이 선
                         .listRowBackground(Color.clear)
                         .padding(.top,16)
                 } else {
-                    ForEach(viewModel.todosForDate) { todo in
+                    ForEach(sharedVM.todosForDate) { todo in
                         HStack(spacing:12){
                             Button(action: {
-                                    viewModel.toggleTodo(todo.id)
+                                sharedVM.toggleTodo(todo.id)
                             }) {
                                 Image(todo.isCompleted ? "checked" : "unchecked")
                                     .resizable()
@@ -144,14 +144,14 @@ struct ListView: View {
         .sheet(isPresented: shouldPresentSheet) {
             if let todo = selectedTodo {
                 TodoEditBottomSheet(
-                    tags:viewModel.tags,
+                    tags:sharedVM.tags,
                     todo: todo,
                     onUpdate: { updatedTodo in
-                        viewModel.editTodo(updatedTodo)
+                        sharedVM.editTodo(updatedTodo)
                         isBottomSheetPresented = false
                     },
                     onDelete: { id in
-                        viewModel.deleteTodo(id: id)
+                        sharedVM.deleteTodo(id: id)
                         isBottomSheetPresented = false
                     }
                 )

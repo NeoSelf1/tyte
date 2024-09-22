@@ -97,7 +97,7 @@ struct TagEditView: View {
                     ),
                     colors: colors,
                     onUpdate: { updatedTag in
-                        viewModel.editTodo(updatedTag)
+                        viewModel.editTag(updatedTag)
                     },
                     onDelete: { tagId in
                         viewModel.deleteTag(id: tagId)

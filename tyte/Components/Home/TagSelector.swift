@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TagSelector: View {
     @ObservedObject var viewModel : HomeViewModel
-    
+    @ObservedObject var sharedVM: SharedTodoViewModel
     var body: some View {
         HStack (spacing:8) {
             Circle().fill(Color(hex:"747474)")).frame(width:6)
@@ -32,7 +32,7 @@ struct TagSelector: View {
             viewModel.toggleTag(id: "default")
         }
         
-        ForEach(viewModel.tags) { tag in
+        ForEach(sharedVM.tags) { tag in
             HStack (spacing:8) {
                 Circle().fill(Color(hex:"#\(tag.color)")).frame(width:6)
                 

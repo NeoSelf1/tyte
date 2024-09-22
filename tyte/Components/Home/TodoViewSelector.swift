@@ -2,14 +2,15 @@ import SwiftUI
 
 struct TodoViewSelector: View {
     @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var sharedVM: SharedTodoViewModel
     private let animationDuration: Double = 0.2
     
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 0) {
-                    tabButton(title: "진행중 Todo",subTitle:"\(viewModel.inProgressTodos.count)개", tab: 0, geometry: geometry)
-                    tabButton(title: "완료된 Todo",subTitle:"\(viewModel.completedTodos.count)개", tab: 1, geometry: geometry)
+                    tabButton(title: "진행중 Todo",subTitle:"\(sharedVM.inProgressTodos.count)개", tab: 0, geometry: geometry)
+                    tabButton(title: "완료된 Todo",subTitle:"\(sharedVM.completedTodos.count)개", tab: 1, geometry: geometry)
                 }
                 
                 Rectangle()

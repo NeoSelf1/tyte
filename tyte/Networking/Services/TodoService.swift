@@ -53,12 +53,12 @@ class TodoService {
         }.eraseToAnyPublisher()
     }
     
-    func updateTodo(todo: Todo) -> AnyPublisher<String, APIError> {
+    func updateTodo(todo: Todo) -> AnyPublisher<Todo, APIError> {
         let endpoint = APIEndpoint.updateTodo(todo.id)
         let parameters = todo.dictionary
         
         return Future { promise in
-            self.apiManager.request(endpoint, method: .put, parameters: parameters) { (result: Result<String, APIError>) in
+            self.apiManager.request(endpoint, method: .put, parameters: parameters) { (result: Result<Todo, APIError>) in
                 promise(result)
             }
         }.eraseToAnyPublisher()

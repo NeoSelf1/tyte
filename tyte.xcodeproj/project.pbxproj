@@ -59,6 +59,7 @@
 		ABC5D0482C9C020500676222 /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5D0472C9C020500676222 /* FloatingActionButton.swift */; };
 		ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6CFB22C94267700C7DF1D /* DayView.swift */; };
 		ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC86D312C9F861C0089DC61 /* MultiLayerBottomSheet.swift */; };
+		ABC86D342C9F942B0089DC61 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC86D332C9F942B0089DC61 /* TabBarButton.swift */; };
 		ABC96FAB2C9CDF5000F57D05 /* CustomPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */; };
 		ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666B52C83733E0005D3C1 /* HomeView.swift */; };
 		ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */; };
@@ -160,6 +161,7 @@
 		ABC5D0472C9C020500676222 /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
 		ABC6CFB22C94267700C7DF1D /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		ABC86D312C9F861C0089DC61 /* MultiLayerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLayerBottomSheet.swift; sourceTree = "<group>"; };
+		ABC86D332C9F942B0089DC61 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopup.swift; sourceTree = "<group>"; };
 		ABD666B52C83733E0005D3C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */,
 				ABC5D0472C9C020500676222 /* FloatingActionButton.swift */,
 				ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */,
+				ABC86D332C9F942B0089DC61 /* TabBarButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */,
 				ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */,
 				ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */,
+				ABC86D342C9F942B0089DC61 /* TabBarButton.swift in Sources */,
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* LoginView.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,

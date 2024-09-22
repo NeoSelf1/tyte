@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var sharedVM: SharedTodoViewModel
     
     // @State 프로퍼트를 직접 초기화하려 할 경우, 버그 발생 우려 -> onAppear 수정자에 값 설정 로직 추가
     // SwiftUI 뷰는 값 구조체이며 @State 변경 시 새로운 인스턴스가 생성됨. 즉 뷰가 자주 재생성 된다.
@@ -23,10 +24,10 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             SortMenuButton(viewModel: viewModel)
-                            TagSelector(viewModel: viewModel)
+                            TagSelector(viewModel: viewModel,sharedVM:sharedVM)
                         }
                     }
-                    TodoViewSelector(viewModel: viewModel)
+                    TodoViewSelector(viewModel: viewModel,sharedVM:sharedVM)
                 }
                 .padding(.horizontal)
                 .background(.gray00)
@@ -38,7 +39,7 @@ struct HomeView: View {
                     ForEach(viewModel.filteredTodos) { todo in
                         HStack(spacing:12){
                             Button(action: {
-                                viewModel.toggleTodo(todo.id)
+                                sharedVM.toggleTodo(todo.id)
                             }) {
                                 Image(todo.isCompleted ? "checked" : "unchecked")
                                     .contentTransition(.symbolEffect(.replace))
@@ -60,7 +61,7 @@ struct HomeView: View {
                 .listStyle(PlainListStyle())
                 .scrollContentBackground(.hidden)
                 
-                .refreshable(action: {viewModel.fetchTodos()})
+//                .refreshable(action: {sharedVM.fetchAllTodos()})
             }
         }
     }

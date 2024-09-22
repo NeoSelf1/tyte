@@ -2,17 +2,21 @@ import SwiftUI
 
 struct MainTabView: View {
     @StateObject private var sharedVM = SharedTodoViewModel()
-    @StateObject private var homeVM = HomeViewModel()
-    @StateObject private var listVM = ListViewModel()
+    @StateObject private var homeVM: HomeViewModel
+    @StateObject private var listVM: ListViewModel
+    
+    init() {
+        let shared = SharedTodoViewModel()
+        _sharedVM = StateObject(wrappedValue: shared)
+        _homeVM = StateObject(wrappedValue: HomeViewModel(sharedVM: shared))
+        _listVM = StateObject(wrappedValue: ListViewModel(sharedVM: shared))
+    }
     
     @State private var selectedTab = 0
     @State private var showCreateTodoView = false
     @State private var isPopupPresented = false
     
-    private let tabBarText = [
-        ("home","홈"),
-        ("calendar","일정관리"),("user","MY"),
-    ]
+    private let tabBarText = [("home","홈"),("calendar","일정관리"),("user","MY")]
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,7 +35,7 @@ struct MainTabView: View {
                 VStack(spacing: 0) {
                     switch(selectedTab) {
                     case 0:
-                        HomeView(viewModel: homeVM)
+                        HomeView(viewModel: homeVM, sharedVM: sharedVM)
                     case 1:
                         ListView(viewModel: listVM, sharedVM: sharedVM)
                     default:
@@ -68,7 +72,6 @@ struct MainTabView: View {
             }
             .onAppear {
                 listVM.setupBindings(sharedVM: sharedVM)
-                homeVM.setupBindings(sharedVM: sharedVM)
             }
             .sheet(isPresented: $showCreateTodoView) {
                 CreateTodoView(sharedVM: sharedVM, isShowing:$showCreateTodoView)
@@ -97,31 +100,5 @@ struct MainTabView: View {
 
 #Preview {
     MainTabView()
-}
-
-struct TabBarButton: View {
-    let icon: String
-    let text: String
-    let isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                Image(icon)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width:24,height: 24)
-                    .foregroundColor(isSelected ? .blue30 : .gray30)
-                    .font(._body4)
-                    
-                Text(text)
-                    .font(._caption)
-                    .foregroundColor(isSelected ? .blue30 : .gray50)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, 16)
-        }
-    }
 }
 
