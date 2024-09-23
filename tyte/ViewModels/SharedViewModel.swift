@@ -12,8 +12,8 @@ class SharedTodoViewModel: ObservableObject {
     @Published var inProgressTodos: [Todo] = []
     @Published var completedTodos: [Todo] = []
     @Published var todosForDate: [Todo] = []
-    
     @Published var tags: [Tag] = []
+    
     @Published var lastAddedTodoId: String?
     @Published var lastUpdatedTagId: String?
     @Published var todoAlertMessage: String?
@@ -31,14 +31,12 @@ class SharedTodoViewModel: ObservableObject {
     ) {
         self.todoService = todoService
         self.tagService = tagService
-        print("heelo")
-        fetchAllTodos()
         fetchTags()
     }
     
     //MARK: - 로컬변수 갱신 로직
     // MARK: 로컬 변수값만 교체 / 별도 fetch동작 없음.
-    private func updateTodoGlobal(_ updatedTodo: Todo) {
+    func updateTodoGlobal(_ updatedTodo: Todo) {
         // TodosInListView 갱신
         if let index = todosForDate.firstIndex(where: { $0.id == updatedTodo.id }) {
             todosForDate[index] = updatedTodo
@@ -58,62 +56,20 @@ class SharedTodoViewModel: ObservableObject {
     }
     
     // MARK: listView에서 Todo를 조작 후 fetchTodosForDate 호출하면, homeView에 보이는 allTodos를 갱신
-    func updateTodosInHome(with newTodos: [Todo]) {
-        let dateString = newTodos.first?.deadline ?? ""
-        inProgressTodos.removeAll { $0.deadline == dateString }
-        completedTodos.removeAll { $0.deadline == dateString }
-        
-        for todo in newTodos {
-            if todo.isCompleted {
-                completedTodos.append(todo)
-            } else {
-                inProgressTodos.append(todo)
-            }
-        }
-    }
-    
-    
-    //MARK: - Todo api 함수
-    func fetchAllTodos(mode: String = "default") {
-        isLoading = true
-        errorMessage = nil
-        print("here")
-        todoService.fetchAllTodos(mode: mode)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                print("here1")
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] todos in
-                print("here2")
-                guard let self = self else { return }
-                print("here3")
-                inProgressTodos = todos.filter { !$0.isCompleted }
-                completedTodos = todos.filter { $0.isCompleted }
-            }
-    }
-    
-    //MARK: Todo 토글
-    func toggleTodo(_ id: String) {
-        // MARK: Guard를 사용할 경우, 조기 반환, 옵셔널 바인딩 언래핑, 조건에 사용한 let 변수에 대한 스코프 확장이 가능.
-        guard let index = todosForDate.firstIndex(where: { $0.id == id }) else { return }
-        todosForDate[index].isCompleted.toggle()
-        
-        todoService.toggleTodo(id: id)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    self.errorMessage = error.localizedDescription
-                    self.todosForDate[index].isCompleted.toggle()
-                }
-            } receiveValue: { [weak self] updatedTodo in
-                self?.updateTodoGlobal(updatedTodo)
-            }
-            .store(in: &cancellables)
-    }
+    // 불필요할듯. listview에서 fetch하는 경우는, 날짜 변경이기 때문에 전체 투두 내용 자체의 변화는 없음.
+//    func updateTodosInHome(with newTodos: [Todo]) {
+//        let dateString = newTodos.first?.deadline ?? ""
+//        inProgressTodos.removeAll { $0.deadline == dateString }
+//        completedTodos.removeAll { $0.deadline == dateString }
+//        
+//        for todo in newTodos {
+//            if todo.isCompleted {
+//                completedTodos.append(todo)
+//            } else {
+//                inProgressTodos.append(todo)
+//            }
+//        }
+//    }
     
     //MARK: Todo 추가
     func addTodo(_ text: String) {
@@ -138,39 +94,8 @@ class SharedTodoViewModel: ObservableObject {
                 // fetchTodoForDate도 여기서 호출하고 dailyStat 갱신만 거기서 하기로
                 // selectedDate에 대한 fetchTodosForDate가 필요하기 때문에 여기서 호출하기 부적절. 기각.
                 
-                // ListView 갱신용
+                // HomeView, ListView 갱신용
                 self.lastAddedTodoId = newTodos.last?.id
-                // HomeView todos 갱신용
-                self.updateTodosInHome(with: newTodos)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func editTodo(_ todo: Todo) {
-        todoService.updateTodo(todo: todo)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    print("Error editing todo: \(error)")
-                }
-            } receiveValue: { [weak self] updatedTodo in
-                self?.updateTodoGlobal(updatedTodo)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func deleteTodo(id: String) {
-        todoService.deleteTodo(id: id)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    print("Error deleting todo: \(error)")
-                }
-            } receiveValue: { [weak self] _ in
-                guard let self = self else { return }
-                inProgressTodos.removeAll { $0.id == id }
-                completedTodos.removeAll { $0.id == id }
-                todosForDate.removeAll { $0.id == id }
             }
             .store(in: &cancellables)
     }
@@ -193,6 +118,7 @@ class SharedTodoViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
+                print("tag fetched in Shared")
             }
             .store(in: &cancellables)
     }
@@ -212,7 +138,7 @@ class SharedTodoViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    //MARK: Todo 삭제
+    //MARK: tag 삭제
     func deleteTag(id: String) {
         tagService.deleteTag(id: id)
             .receive(on: DispatchQueue.main)
@@ -226,7 +152,7 @@ class SharedTodoViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    //MARK: Todo 수정
+    //MARK: tag 수정
     func editTag(_ tag: Tag) {
         tagService.updateTag(tag: tag)
             .receive(on: DispatchQueue.main)
