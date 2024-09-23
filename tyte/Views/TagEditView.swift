@@ -55,27 +55,16 @@ struct TagEditView: View {
             .cornerRadius(8)
             
             ForEach(viewModel.tags) { tag in
-                HStack(spacing: 8) {
-                    Circle()
-                        .fill(Color(hex:"#\(tag.color)"))
-                        .frame(width: 10, height: 10)
-                    Text(tag.name)
-                        .font(._subhead2)
-                        .foregroundColor(.gray90)
-                }
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
-                .onTapGesture {
-                    selectedTag = tag
-                    isEditBottomSheetPresented = true
+                if tag.name == "일" || tag.name == "자유시간" {
+                    specialTagView(tag)
+                } else {
+                    regularTagView(tag)
                 }
             }
             Spacer()
         }
         .padding()
         .navigationBarTitle("Tag 관리", displayMode: .inline)
-        .environment(\.colorScheme, .light)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
             leading: Button(action: { presentationMode.wrappedValue.dismiss() }){
@@ -117,6 +106,43 @@ struct TagEditView: View {
             viewModel.fetchTags()
         }
         .background(.gray00)
+    }
+    
+    private func specialTagView(_ tag: Tag) -> some View {
+        HStack(spacing: 8) {
+            Circle()
+                .fill(Color(hex:"#\(tag.color)"))
+                .frame(width: 10, height: 10)
+                .overlay(Circle().stroke(.gray50))
+            Text(tag.name)
+                .font(._subhead2)
+                .foregroundColor(.gray50)
+        }
+        .padding()
+        .background(.gray10)
+        .cornerRadius(8)
+    }
+    
+    private func regularTagView(_ tag: Tag) -> some View {
+        HStack(spacing: 8) {
+            Circle()
+                .fill(Color(hex:"#\(tag.color)"))
+                .frame(width: 10, height: 10)
+                .overlay(Circle().stroke(.gray50))
+            
+            Text(tag.name)
+                .font(._subhead2)
+                .foregroundColor(.gray90)
+        }
+        .padding()
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(.gray30, lineWidth: 1)
+        )
+        .onTapGesture {
+            selectedTag = tag
+            isEditBottomSheetPresented = true
+        }
     }
     
     private func addTag() {
