@@ -56,13 +56,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>15</string>
+					<string>6</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>14</string>
+					<string>5</string>
 					<key>Timestamp</key>
-					<string>748667016.511101</string>
+					<string>748669986.683913</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -78,16 +78,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    @State private var selectedTab = 0
+				<string>    @StateObject private var listVM: ListViewModel
 </string>
 				<key>leading</key>
-				<string>    }
-    
+				<string>    @StateObject private var sharedVM = SharedTodoViewModel()
+    @StateObject private var homeVM: HomeViewModel
 </string>
 				<key>trailing</key>
-				<string>    @State private var showCreateTodoView = false
-    @State private var isPopupPresented = false
-    
+				<string>     
+    init() {
+        let shared = SharedTodoViewModel()
 </string>
 			</dict>
 			<key>type</key>

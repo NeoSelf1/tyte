@@ -15,6 +15,7 @@ struct DetailView: View {
     @State private var showingSavedAlert = false
     
     private let prismSize :CGFloat = 240
+    @Environment(\.colorScheme) var colorScheme
     
     func saveScreenshot() {
         let renderer = ImageRenderer(content: self.body)
@@ -29,17 +30,20 @@ struct DetailView: View {
     var body: some View {
         ScrollView {
             VStack (spacing: 12) {
-                HStack (spacing:4) {
-                    Image("icon-sub-light")
-                        .resizable()
-                        .frame(width: 32,height:32)
-                    
-                    Text("TYTE")
-                        .font(._headline1)
-                        .foregroundStyle(.blue30)
-                        .opacity(0.7)
+                if #unavailable(iOS 18.0) {
+                    HStack{
+                        Text("iOS 18버전으로 업데이트 시, 더 생생한 프리즘을 볼 수 있어요")
+                            .font(._body3)
+                            .foregroundColor(.gray50)
+                        Spacer()
+                    }
+                        .padding()
+                        .background(Color.gray10)
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                } else {
+                    Spacer().frame(height:12)
                 }
-                .frame(height:48)
                 
                 if let dailyStat = viewModel.dailyStatForDate {
                     ZStack {
@@ -50,14 +54,26 @@ struct DetailView: View {
                             cornerRadius: 32
                         ).frame(width: prismSize, height: prismSize)
                         
-                        VStack(alignment: .leading) {
-                            Text(dailyStat.date.parsedDate.formattedYear)
-                                .font(._title)
-                                .foregroundStyle(.gray90)
-                            
-                            Text(dailyStat.date.parsedDate.formattedMonthDate)
-                                .font(._headline2)
-                                .foregroundStyle(.gray90)
+                        VStack {
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text(dailyStat.date.parsedDate.formattedYear)
+                                        .font(._title)
+                                        .foregroundStyle(.gray90)
+                                    
+                                    Text(dailyStat.date.parsedDate.formattedMonthDate)
+                                        .font(._headline2)
+                                        .foregroundStyle(.gray90)
+                                }
+                                Spacer()
+                                
+                                Image(colorScheme == .dark ? "logo-dark" : "logo-light")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(6)
+                                    .opacity(0.8)
+                                    .frame(height:44)
+                            }
                             
                             Spacer()
                             
@@ -146,8 +162,10 @@ struct DetailView: View {
                     Text("선택된 날짜의 데이터가 없습니다.")
                         .font(._headline2)
                 }
-            }.padding()
+            }
+            .padding()
         }
+        .background(.gray00)
     }
 }
 

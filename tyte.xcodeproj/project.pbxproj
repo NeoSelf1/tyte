@@ -75,7 +75,7 @@
 		ABEF7D1D2C99787B00A76680 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D1C2C99787B00A76680 /* HomeViewModel.swift */; };
 		ABEF7D1F2C99802B00A76680 /* TodoViewSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D1E2C99802A00A76680 /* TodoViewSelector.swift */; };
 		ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D202C99842C00A76680 /* TodoItemView.swift */; };
-		ABEF7D272C99B9F900A76680 /* SharedTodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D262C99B9F900A76680 /* SharedTodoViewModel.swift */; };
+		ABEF7D272C99B9F900A76680 /* SharedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D262C99B9F900A76680 /* SharedViewModel.swift */; };
 		ABEF7D292C99C3CD00A76680 /* EnvironmentKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D282C99C3CD00A76680 /* EnvironmentKeys.swift */; };
 		ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B062C9A39C900947DA4 /* MonthPicker.swift */; };
 		ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */; };
@@ -177,7 +177,7 @@
 		ABEF7D1C2C99787B00A76680 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		ABEF7D1E2C99802A00A76680 /* TodoViewSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewSelector.swift; sourceTree = "<group>"; };
 		ABEF7D202C99842C00A76680 /* TodoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemView.swift; sourceTree = "<group>"; };
-		ABEF7D262C99B9F900A76680 /* SharedTodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTodoViewModel.swift; sourceTree = "<group>"; };
+		ABEF7D262C99B9F900A76680 /* SharedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedViewModel.swift; sourceTree = "<group>"; };
 		ABEF7D282C99C3CD00A76680 /* EnvironmentKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKeys.swift; sourceTree = "<group>"; };
 		ABF02B062C9A39C900947DA4 /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditBottomSheet.swift; sourceTree = "<group>"; };
@@ -426,7 +426,7 @@
 				AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */,
 				AB7846682C95E0A700349246 /* MyPageViewModel.swift */,
 				ABEF7D1C2C99787B00A76680 /* HomeViewModel.swift */,
-				ABEF7D262C99B9F900A76680 /* SharedTodoViewModel.swift */,
+				ABEF7D262C99B9F900A76680 /* SharedViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -754,7 +754,7 @@
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
 				ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */,
-				ABEF7D272C99B9F900A76680 /* SharedTodoViewModel.swift in Sources */,
+				ABEF7D272C99B9F900A76680 /* SharedViewModel.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
 				AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */,
 				ABEF7D1F2C99802B00A76680 /* TodoViewSelector.swift in Sources */,
