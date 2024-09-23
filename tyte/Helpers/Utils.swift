@@ -33,26 +33,25 @@ func getColors(_ dailyStat: DailyStat) -> [Color] {
         resultColors.append(contentsOf: Array(repeating: colorCounts[0].color, count: 9 - resultColors.count))
     }
     
+    let normalizedProductivity = min(max(dailyStat.productivityNum, 0), 80) / 80
+    let whiteMixAmount = 1 - normalizedProductivity
     // Optimize color distribution
-//    let orderOfPositions = [0, 2, 6, 8, 1, 3, 5, 7, 4]
+    //    let orderOfPositions = [0, 2, 6, 8, 1, 3, 5, 7, 4]
     let orderOfPositions = [0, 1, 2, 8, 5, 7, 6, 4, 3]
     var optimizedColors = [Color](repeating: .clear, count: 9)
     
     for (index, position) in orderOfPositions.enumerated() {
-        if (index == 8){
-            if #available(iOS 18.0, *) {
-                optimizedColors[position] = .white.mix(with:resultColors[index % resultColors.count],by:0.3)
-            } else {
-                optimizedColors[position] = resultColors[index % resultColors.count]
-            }
+        let baseColor = resultColors[index % resultColors.count]
+        if index == 8 {
+            // Mix with more white for the center color
+            optimizedColors[position] = baseColor.mix(with: .white, amount: 0.9)
         } else {
-            optimizedColors[position] = resultColors[index % resultColors.count]
+            // Mix with white based on normalized productivity
+            optimizedColors[position] = baseColor.mix(with: .gray30, amount: whiteMixAmount)
         }
     }
-    
     return optimizedColors
 }
-
 
 func calculateDailyBalance(for todos: [Todo]) -> (workPercentage: Double, lifePercentage: Double) {
         var totalWorkTime: Int = 0

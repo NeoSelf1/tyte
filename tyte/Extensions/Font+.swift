@@ -13,16 +13,16 @@ extension Font {
     // 앱 전체에서 일관되게 사용되어야 하는 값들은 static으로, 이렇게 안할 경우, 폰트 사용파일에서 매번 인스턴스를 생성하여 접근해야함.
     
     static let _headline1 = Font.custom("Pretendard-Black", size: 28)
-    static let _headline2 = Font.custom("Pretendard-Bold", size: 20).weight(.bold)
+    static let _headline2 = Font.custom("Pretendard-Bold", size: 20)
     
-    static let _subhead1 = Font.custom("Pretendard-Bold", size: 16).weight(.bold)
-    static let _subhead2 = Font.custom("Pretendard-Bold", size: 14).weight(.bold)
-    static let _title = Font.custom("Pretendard-Medium", size: 16).weight(.medium)
+    static let _subhead1 = Font.custom("Pretendard-Bold", size: 16)
+    static let _subhead2 = Font.custom("Pretendard-Bold", size: 14)
+    static let _title = Font.custom("Pretendard-Medium", size: 16)
     
-    static let _body1 = Font.custom("Pretendard-Regular", size: 16).weight(.regular)
-    static let _body2 = Font.custom("Pretendard-Bold", size: 14).weight(.regular)
-    static let _body3 = Font.custom("Pretendard-Bold", size: 13).weight(.bold)
-    static let _body4 = Font.custom("Pretendard-Regular", size: 13).weight(.regular)
+    static let _body1 = Font.custom("Pretendard-Regular", size: 16)
+    static let _body2 = Font.custom("Pretendard-Bold", size: 14)
+    static let _body3 = Font.custom("Pretendard-Bold", size: 13)
+    static let _body4 = Font.custom("Pretendard-Regular", size: 13)
     
-    static let _caption = Font.custom("Pretendard-Medium", size: 12).weight(.medium)
+    static let _caption = Font.custom("Pretendard-Medium", size: 12)
 }

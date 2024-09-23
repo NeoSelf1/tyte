@@ -34,17 +34,59 @@ extension Color {
         )
     }
     
-    func adjustBrightness(by amount: CGFloat) -> Color {
-        var hue: CGFloat = 0
-        var saturation: CGFloat = 0
-        var brightness: CGFloat = 0
-        var alpha: CGFloat = 0
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
+            var r: CGFloat = 0
+            var g: CGFloat = 0
+            var b: CGFloat = 0
+            var o: CGFloat = 0
+
+            guard UIColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+                return (0, 0, 0, 0)
+            }
+            
+            return (r, g, b, o)
+        }
+    
+    func mix(with color: Color, amount: CGFloat) -> Color {
+           func uiColor(from color: Color) -> UIColor {
+               if let cgColor = color.cgColor {
+                   return UIColor(cgColor: cgColor)
+               }
+               let components = color.components
+               return UIColor(red: components.red, green: components.green, blue: components.blue, alpha: components.opacity)
+           }
+           
+           let from = uiColor(from: self)
+           let to = uiColor(from: color)
+           
+           guard let blended = from.blend(with: to, alpha: amount) else {
+               return self
+           }
+           
+           return Color(blended)
+       }
+}
+
+extension UIColor {
+    func blend(with color: UIColor, alpha: CGFloat) -> UIColor? {
+        var fromRed: CGFloat = 0
+        var fromGreen: CGFloat = 0
+        var fromBlue: CGFloat = 0
+        var fromAlpha: CGFloat = 0
         
-        UIColor(self).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        var toRed: CGFloat = 0
+        var toGreen: CGFloat = 0
+        var toBlue: CGFloat = 0
+        var toAlpha: CGFloat = 0
         
-        return Color(hue: Double(hue),
-                     saturation: Double(saturation),
-                     brightness: Double(max(0, min(1, brightness + amount))),
-                     opacity: Double(alpha))
+        guard self.getRed(&fromRed, green: &fromGreen, blue: &fromBlue, alpha: &fromAlpha) else { return nil }
+        guard color.getRed(&toRed, green: &toGreen, blue: &toBlue, alpha: &toAlpha) else { return nil }
+        
+        let red = fromRed + (toRed - fromRed) * alpha
+        let green = fromGreen + (toGreen - fromGreen) * alpha
+        let blue = fromBlue + (toBlue - fromBlue) * alpha
+        let alpha = fromAlpha + (toAlpha - fromAlpha) * alpha
+        
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
