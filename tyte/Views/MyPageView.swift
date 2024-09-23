@@ -29,8 +29,21 @@ struct MyPageView: View {
                 .padding(.horizontal)
                 
                 if (viewModel.currentTab == 0){
-                    CalenderView(viewModel: viewModel)
-                        .frame(maxHeight: 360)
+                    VStack(spacing: 12) {
+                        HStack{
+                            Text("기록이 있는 날짜를 선택하면 상세분석결과를 확인할 수 있어요")
+                                .font(._body3)
+                                .foregroundColor(.gray50)
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color.gray10)
+                        .cornerRadius(8)
+                                            .padding(.horizontal)
+                        
+                        CalenderView(viewModel: viewModel)
+                    }
+                    .frame(maxHeight: 450)
                 } else {
                     GraphView(viewModel: viewModel)
                         .frame(maxHeight: 360)
