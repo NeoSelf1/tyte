@@ -15,7 +15,7 @@ struct TagSelector: View {
             Circle().fill(Color(hex:"747474)")).frame(width:6)
             
             Text("태그없음")
-                .font(._body2)
+                .font(._body4)
                 .foregroundStyle(.gray90)
             
         }
@@ -37,7 +37,7 @@ struct TagSelector: View {
                 Circle().fill(Color(hex:"#\(tag.color)")).frame(width:6)
                 
                 Text(tag.name)
-                    .font(._body2)
+                    .font(._body4)
                     .foregroundStyle(.gray90)
                 
             }

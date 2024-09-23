@@ -13,7 +13,8 @@ struct MeshGradientView: View {
     let isSelected: Bool
     let cornerRadius: CGFloat
     @State private var isAnimating = false
-    
+    @Environment(\.colorScheme) var colorScheme
+
     init(
         colors: [Color] = [.red, .purple, .indigo, .orange, .brown, .blue, .yellow, .green, .mint],
         center:SIMD2<Float> = [0.8,0.5],
@@ -54,7 +55,8 @@ struct MeshGradientView: View {
             .padding(isSelected ? 14 : 20)
             .saturation(isSelected ? 1.0 : 0.5)
             .opacity(isSelected ? 1.0 : 0.5)
-            .shadow(color: cornerRadius != 6 ? .gray30 : Color.clear ,radius:24,x:-10,y:10)
+//            .frame(width: 80,height:80)
+            .shadow(color: cornerRadius != 6 ? (colorScheme == .dark ? .gray60 : .gray30) : Color.clear ,radius:24,x:-10,y:10)
             .onAppear {
                 if cornerRadius != 6 {
                     withAnimation(.easeInOut(duration: 5).repeatForever(autoreverses: true)){

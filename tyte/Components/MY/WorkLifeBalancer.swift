@@ -13,20 +13,20 @@ struct WorkLifeBalanceBar: View {
             GeometryReader { geometry in
                 HStack(spacing: 0) {
                     Rectangle()
-                        .fill(.red.gradient)
+                        .fill(Color(hex: "#FFA500"))
                         .frame(width: CGFloat(balance.workPercentage) / 100 * geometry.size.width)
                     Rectangle()
                         .fill(.blue30.gradient)
                         .frame(width: CGFloat(balance.lifePercentage) / 100 * geometry.size.width)
                 }
             }
-            .frame(height: 8)
+            .frame(height: 4)
             .cornerRadius(10)
             
             HStack {
                 HStack {
                     Circle()
-                        .fill(.red)
+                        .fill(Color(hex: "#FFA500"))
                         .frame(width: 8, height: 8)
                     Text("일 \(String(format: "%.1f", balance.workPercentage))%")
                         .font(._caption)

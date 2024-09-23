@@ -97,6 +97,5 @@ struct TagEditBottomSheet: View {
             ColorPickerBottomSheet(selectedColor: $editedColor, colors: colors)
                 .presentationDetents([.height(240)])
         }
-        .environment(\.colorScheme, .light)
     }
 }

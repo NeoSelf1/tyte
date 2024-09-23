@@ -45,7 +45,7 @@ struct CalenderView: View {
                 }
             )
             .padding(.horizontal)
-            .padding(.vertical,6)
+            .padding(.vertical,8)
             .disabled(!canMoveToPreviousMonth())
             
             Text(viewModel.currentMonth.formattedMonth)

@@ -83,15 +83,9 @@ struct TodoEditBottomSheet: View {
                             .foregroundColor(.gray60)
                             .padding(.leading,4)
                         
-                        Toggle("중요",
-                               systemImage: editedTodo.isImportant ? "exclamationmark.square.fill" : "exclamationmark.square",
-                               isOn: $editedTodo.isImportant
-                        )
-                        .font(._subhead1)
-                        .tint(.blue30)
-                        .toggleStyle(.button)
-                        .labelStyle(.iconOnly)
-                        .contentTransition(.symbolEffect)
+                        Toggle("", isOn: $editedTodo.isImportant)
+                            .labelsHidden()
+                            .tint(.blue30)
                     }
                     
                     Spacer()
@@ -105,7 +99,7 @@ struct TodoEditBottomSheet: View {
                         DatePicker(
                             "",
                             selection: Binding(
-                                get: { editedTodo.deadline.parsedDate ?? Date() },
+                                get: { editedTodo.deadline.parsedDate },
                                 set: { editedTodo.deadline = $0.apiFormat }
                             ),
                             in: dateRange,
@@ -222,6 +216,5 @@ struct TodoEditBottomSheet: View {
             .padding()
         }
         .background(.gray00)
-        .environment(\.colorScheme, .light)
     }
 }
