@@ -14,7 +14,7 @@ class ListViewModel: ObservableObject {
     private let todoService: TodoService
     private let dailyStatService: DailyStatService
     private let sharedVM: SharedTodoViewModel
-
+    
     init(
         todoService: TodoService = TodoService(),
         dailyStatService: DailyStatService = DailyStatService(),
@@ -30,7 +30,7 @@ class ListViewModel: ObservableObject {
         sharedVM.$lastAddedTodoId
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                print("Todo Creation Detected from ListViewModel")
+                print("Todo Creation Detected from List")
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().koreanDate.apiFormat)
                 self?.fetchWeekCalendarData()
             }
@@ -66,7 +66,25 @@ class ListViewModel: ObservableObject {
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
                 sharedVM.todosForDate = todos
-                sharedVM.updateTodosInHome(with: todos)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func toggleTodo(_ id: String) {
+        // MARK: Guard를 사용할 경우, 조기 반환, 옵셔널 바인딩 언래핑, 조건에 사용한 let 변수에 대한 스코프 확장이 가능.
+        guard let index = sharedVM.todosForDate.firstIndex(where: { $0.id == id }) else { return }
+        sharedVM.todosForDate[index].isCompleted.toggle()
+        
+        todoService.toggleTodo(id: id)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    guard let self = self else { return }
+                    errorMessage = error.localizedDescription
+                    sharedVM.todosForDate[index].isCompleted.toggle()
+                }
+            } receiveValue: { [weak self] updatedTodo in
+                self?.sharedVM.updateTodoGlobal(updatedTodo)
             }
             .store(in: &cancellables)
     }
@@ -82,7 +100,40 @@ class ListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                self.weekCalendarData = dailyStats
+                weekCalendarData = dailyStats
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: Todo 삭제
+    func deleteTodo(id: String) {
+        todoService.deleteTodo(id: id)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] _ in
+                guard let self = self else { return }
+                fetchTodosForDate(selectedDate.apiFormat)
+                fetchWeekCalendarData()
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: Todo 수정
+    func editTodo(_ todo: Todo) {
+        todoService.updateTodo(todo: todo)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    self?.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] updatedTodoId in
+                guard let self = self else { return }
+                print(updatedTodoId)
+                fetchTodosForDate(selectedDate.apiFormat)
+                fetchWeekCalendarData()
             }
             .store(in: &cancellables)
     }

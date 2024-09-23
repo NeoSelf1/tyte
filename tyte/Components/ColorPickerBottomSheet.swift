@@ -28,7 +28,6 @@ struct ColorPickerBottomSheet: View {
         }
         .padding()
         .background(.gray00)
-        .environment(\.colorScheme, .light)
     }
 }
 

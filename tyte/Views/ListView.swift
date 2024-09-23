@@ -103,7 +103,7 @@ struct ListView: View {
                     ForEach(sharedVM.todosForDate) { todo in
                         HStack(spacing:12){
                             Button(action: {
-                                sharedVM.toggleTodo(todo.id)
+                                viewModel.toggleTodo(todo.id)
                             }) {
                                 Image(todo.isCompleted ? "checked" : "unchecked")
                                     .resizable()
@@ -147,11 +147,11 @@ struct ListView: View {
                     tags:sharedVM.tags,
                     todo: todo,
                     onUpdate: { updatedTodo in
-                        sharedVM.editTodo(updatedTodo)
+                        viewModel.editTodo(updatedTodo)
                         isBottomSheetPresented = false
                     },
                     onDelete: { id in
-                        sharedVM.deleteTodo(id: id)
+                        viewModel.deleteTodo(id: id)
                         isBottomSheetPresented = false
                     }
                 )

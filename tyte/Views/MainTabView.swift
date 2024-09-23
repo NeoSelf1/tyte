@@ -4,7 +4,7 @@ struct MainTabView: View {
     @StateObject private var sharedVM = SharedTodoViewModel()
     @StateObject private var homeVM: HomeViewModel
     @StateObject private var listVM: ListViewModel
-    
+     
     init() {
         let shared = SharedTodoViewModel()
         _sharedVM = StateObject(wrappedValue: shared)
@@ -72,6 +72,7 @@ struct MainTabView: View {
             }
             .onAppear {
                 listVM.setupBindings(sharedVM: sharedVM)
+                homeVM.setupBindings(sharedVM: sharedVM)
             }
             .sheet(isPresented: $showCreateTodoView) {
                 CreateTodoView(sharedVM: sharedVM, isShowing:$showCreateTodoView)

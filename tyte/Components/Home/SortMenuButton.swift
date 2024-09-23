@@ -20,30 +20,23 @@ struct SortMenuButton: View {
                 viewModel.setSortOption("recent")
             }
             
-            Button("중요도") {
+            Button("중요도") { 
                 viewModel.setSortOption("important")
             }
         } label: {
-            HStack(spacing:8) {
-                Text(viewModel.sortOption.buttonText)
-                    .font(._body4)
-                    .foregroundColor(.gray90)
-                
+            HStack(spacing:4) {
                 Image(systemName: "arrow.up.arrow.down")
                     .resizable()
-                    .frame(width: 12, height: 12)
+                    .frame(width: 20, height: 20)
                     .foregroundColor(.gray60)
+                
+                Text(viewModel.sortOption.buttonText)
+                    .font(._subhead2)
+                    .foregroundColor(.gray60)
+                
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(.gray00)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(.gray50 , lineWidth: 1)
-            )
-            .shadow(color: .gray90.opacity(0.08), radius: 4)
-            .padding(1)
+            .padding(.horizontal)
+            .padding(.vertical,12)
         }
     }
 }
