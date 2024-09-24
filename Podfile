@@ -7,6 +7,7 @@ target 'tyte' do
 
   # Pods for tyte
   pod 'Alamofire'
+  pod 'GoogleSignIn'
   
   target 'tyteTests' do
     inherit! :search_paths
