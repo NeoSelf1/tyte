@@ -10,15 +10,23 @@ struct MultiLayerBottomSheet: View {
         ZStack {
             VStack {
                 HStack{
-                    HStack{
-                        Image(systemName: "square.and.arrow.down.fill")
-                            .font(._title)
-                            .foregroundStyle(.gray60)
-                        
-                        Text("다운로드")
-                            .font(._subhead2)
-                            .foregroundStyle(.gray60)
-                            .opacity(0.7)
+                    Button(action: takeScreenshot) {
+                        HStack {
+                            Image(systemName: "square.and.arrow.down.fill")
+                                .font(._title)
+                                .foregroundStyle(.gray60)
+                            
+                            Text("다운로드")
+                                .font(._subhead2)
+                                .foregroundStyle(.gray60)
+                                .opacity(0.7)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 99)
+                                .stroke(.blue10, lineWidth: 1)
+                        )
                     }
                     .padding(.horizontal,12)
                     .padding(.vertical,8)
@@ -30,15 +38,13 @@ struct MultiLayerBottomSheet: View {
                     
                     Spacer()
                     
-                    Image(systemName: "xmark")
-                        .foregroundStyle(.gray60)
-                        .font(._headline2)
-                        .padding()
-                        .onTapGesture {
-                            viewModel.isDetailViewPresented = false
-                        }
+                    Button(action: { viewModel.isDetailViewPresented = false }) {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.gray60)
+                            .font(._headline2)
+                    }
+                    .padding()
                 }
-                .padding(.horizontal)
                 .frame(height:64)
                 .background(.blue10)
                 
