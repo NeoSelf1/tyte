@@ -84,7 +84,9 @@ class ListViewModel: ObservableObject {
                     sharedVM.todosForDate[index].isCompleted.toggle()
                 }
             } receiveValue: { [weak self] updatedTodo in
-                self?.sharedVM.updateTodoGlobal(updatedTodo)
+                guard let self = self else { return }
+                sharedVM.updateTodoGlobal(updatedTodo)
+                fetchWeekCalendarData()
             }
             .store(in: &cancellables)
     }
