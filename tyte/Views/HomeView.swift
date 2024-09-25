@@ -28,7 +28,7 @@ struct HomeView: View {
                         
                         SortMenuButton(viewModel: viewModel)
                     }.frame(height:40)
-                        
+                    
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             TagSelector(viewModel: viewModel,sharedVM:sharedVM)
@@ -42,35 +42,38 @@ struct HomeView: View {
                 
                 Divider().frame(minHeight:3).background(.gray10)
                 
-                // 리스트에서 아이템 전체 영역 클릭 가능한 것이 기본 값
-                List {
-                    ForEach(viewModel.filteredTodos) { todo in
-                        HStack(spacing:12){
-                            Button(action: {
-                                viewModel.toggleTodo(todo.id)
-                            }) {
-                                Image(todo.isCompleted ? "checked" : "unchecked")
-                                    .contentTransition(.symbolEffect(.replace))
+                if viewModel.filteredTodos.isEmpty {
+                    EmptyStateBox()
+                } else {
+                    // 리스트에서 아이템 전체 영역 클릭 가능한 것이 기본 값
+                    List {
+                        ForEach(viewModel.filteredTodos) { todo in
+                            HStack(spacing:12){
+                                Button(action: {
+                                    viewModel.toggleTodo(todo.id)
+                                }) {
+                                    Image(todo.isCompleted ? "checked" : "unchecked")
+                                        .contentTransition(.symbolEffect(.replace))
+                                }
+                                .padding(.leading,16)
+                                
+                                TodoItemView(todo: todo, isHome: true)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {}
                             }
-                            .padding(.leading,16)
-                            
-                            TodoItemView(todo: todo, isHome: true)
-                                .contentShape(Rectangle())
-                                .onTapGesture {}
+                            .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                            .listRowSeparator(.hidden) // 사이 선
+                            .listRowBackground(Color.clear)
+                            .padding(.top,16)
+                            .opacity(todo.isCompleted ? 0.6 : 1.0)
                         }
-                        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
-                        .listRowSeparator(.hidden) // 사이 선
-                        .listRowBackground(Color.clear)
-                        .padding(.top,16)
-                        .opacity(todo.isCompleted ? 0.6 : 1.0)
                     }
+                    .listStyle(PlainListStyle())
+                    .scrollContentBackground(.hidden)
+                    .refreshable(action: {viewModel.fetchTodos()})
                 }
-                .background(.gray10)
-                .listStyle(PlainListStyle())
-                .scrollContentBackground(.hidden)
-                
-                .refreshable(action: {viewModel.fetchTodos()})
             }
+            .background(.gray10)
         }
     }
 }

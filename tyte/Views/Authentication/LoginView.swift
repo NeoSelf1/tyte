@@ -3,89 +3,111 @@ import GoogleSignInSwift
 
 struct LoginView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @FocusState private var focusedField: Field?
+    
+    enum Field: Hashable {
+        case email
+        case password
+        case username
+    }
     
     var body: some View {
-        VStack(spacing: 8) {
-            Thumbnail()
+        ZStack{
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    focusedField = nil
+                }
             
-            VStack{
-                if !viewModel.isSignUp {
-                    Text(viewModel.errorText)
-                        .font(._body3)
-                        .foregroundColor(.red).opacity(0.7)
-                        .frame(maxWidth: .infinity,maxHeight: 64,alignment: .bottomLeading)
-                    
-                    CustomTextField(
-                        text: $viewModel.email,
-                        placeholder: "이메일",
-                        keyboardType: .emailAddress,
-                        onSubmit: { viewModel.submit() }
-                    ).padding(.bottom,4)
-                    
-                    if viewModel.isExistingUser {
-                        PasswordTextField()
-                    }
-                    
-                    CustomButton(
-                        action: viewModel.submit,
-                        isLoading: viewModel.isLoading,
-                        text: viewModel.isExistingUser ? "로그인하기" : "이메일로 시작하기",
-                        isDisabled: viewModel.isButtonDisabled
-                    ).padding(.top,4)
-                    
-                    orDivider.padding(.vertical,12)
-                    
-                    googleButton(viewModel: viewModel)
-                    
-                } else {
-                    VStack(alignment: .trailing, spacing: 4) {
-                        CustomTextField(text: $viewModel.username, placeholder: "사용자 이름").padding(.top,64)
-                        Text("3~20자 영문, 숫자")
-                            .font(._caption)
-                            .foregroundColor(viewModel.isUsernameInvalid ? .red.opacity(0.7) : .gray50)
+            VStack(spacing: 8) {
+                Thumbnail()
+                
+                VStack{
+                    if !viewModel.isSignUp {
+                        Text(viewModel.errorText)
+                            .font(._body3)
+                            .foregroundColor(.red).opacity(0.7)
+                            .frame(maxWidth: .infinity,maxHeight: 64,alignment: .bottomLeading)
                         
-                        SecureField("",text: $viewModel.password,prompt: Text("비밀번호").foregroundColor(.gray50))
-                            .foregroundColor(.gray90)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(.blue10, lineWidth: 1)
-                            )
+                        CustomTextField(
+                            text: $viewModel.email,
+                            placeholder: "이메일",
+                            keyboardType: .emailAddress,
+                            onSubmit: { viewModel.submit() }
+                        )
+                        .focused($focusedField, equals: .email)
+                        .padding(.bottom,4)
                         
-                        Text("8자 이상")
-                            .font(._caption)
-                            .foregroundColor(viewModel.isPasswordInvalid ? .red.opacity(0.7) : .gray50)
+                        if viewModel.isExistingUser {
+                            PasswordTextField()
+                        }
                         
                         CustomButton(
-                            action: viewModel.signUp,
+                            action: viewModel.submit,
                             isLoading: viewModel.isLoading,
-                            text: "계정 생성하기",
-                            isDisabled: viewModel.isSignUpButtonDisabled
-                        ).padding(.top,4)
+                            text: viewModel.isExistingUser ? "로그인하기" : "이메일로 시작하기",
+                            isDisabled: viewModel.isButtonDisabled
+                        )
+                        .padding(.top,4)
                         
-                        Button(action:{
-                            withAnimation(.mediumEaseInOut){
-                                viewModel.isSignUp = false
+                        orDivider.padding(.vertical,12)
+                        
+                        googleButton(viewModel: viewModel)
+                        
+                    } else {
+                        VStack(alignment: .trailing, spacing: 4) {
+                            CustomTextField(text: $viewModel.username, placeholder: "사용자 이름")
+                                .focused($focusedField, equals: .username)
+                                .padding(.top,64)
+                            
+                            Text("3~20자 영문, 숫자")
+                                .font(._caption)
+                                .foregroundColor(viewModel.isUsernameInvalid ? .red.opacity(0.7) : .gray50)
+                            
+                            SecureField("",text: $viewModel.password,prompt: Text("비밀번호").foregroundColor(.gray50))
+                                .focused($focusedField, equals: .password)
+                                .foregroundColor(.gray90)
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(.blue10, lineWidth: 1)
+                                )
+                            
+                            Text("8자 이상")
+                                .font(._caption)
+                                .foregroundColor(viewModel.isPasswordInvalid ? .red.opacity(0.7) : .gray50)
+                            
+                            CustomButton(
+                                action: viewModel.signUp,
+                                isLoading: viewModel.isLoading,
+                                text: "계정 생성하기",
+                                isDisabled: viewModel.isSignUpButtonDisabled
+                            ).padding(.top,4)
+                            
+                            Button(action:{
+                                withAnimation(.mediumEaseInOut){
+                                    viewModel.isSignUp = false
+                                }
+                            }){
+                                Text("로그인으로 돌아가기")
+                                    .font(._body4)
+                                    .foregroundStyle(.gray50)
+                                    .overlay(Rectangle()
+                                        .fill(.gray30)
+                                        .frame(height: 1)
+                                        .offset(y: 2),alignment: .bottom)
                             }
-                        }){
-                            Text("로그인으로 돌아가기")
-                                .font(._body4)
-                                .foregroundStyle(.gray50)
-                                .overlay(Rectangle()
-                                    .fill(.gray30)
-                                    .frame(height: 1)
-                                    .offset(y: 2),alignment: .bottom)
+                            .frame(maxWidth: .infinity,alignment: .center)
+                            .padding(.top,8)
                         }
-                        .frame(maxWidth: .infinity,alignment: .center)
-                        .padding(.top,8)
                     }
                 }
             }
-        }
-        .padding()
-        .alert(item: $viewModel.errorMessage) { error in
-            Alert(title: Text("Error"), message: Text(error.message))
+            .padding()
+            
+        }.onAppear{
+            viewModel.isSignUp = false
         }
     }
 }

@@ -26,6 +26,7 @@
 		AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB2A12C836C5A00DC4D72 /* Podfile */; };
 		AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */; };
 		AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */; };
+		AB688DCC2CA3BE3300F6E699 /* EmptyStateBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DCB2CA3BE3300F6E699 /* EmptyStateBox.swift */; };
 		AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */; };
 		AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F742C8AE5A000254299 /* CalendarView.swift */; };
 		AB6A0F772C8E45F100254299 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
@@ -128,6 +129,7 @@
 		AB5BB2A12C836C5A00DC4D72 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		AB688DCB2CA3BE3300F6E699 /* EmptyStateBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBox.swift; sourceTree = "<group>"; };
 		AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		AB6A0F742C8AE5A000254299 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		AB6A0F762C8E45F100254299 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				ABC86D332C9F942B0089DC61 /* TabBarButton.swift */,
 				AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */,
 				AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */,
+				AB688DCB2CA3BE3300F6E699 /* EmptyStateBox.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
+				AB688DCC2CA3BE3300F6E699 /* EmptyStateBox.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
 				AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,

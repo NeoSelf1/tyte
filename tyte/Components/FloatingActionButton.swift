@@ -7,7 +7,7 @@ struct FloatingActionButton: View {
         Button(action: action) {
             Image(systemName: "plus")
                 .font(.title2)
-                .foregroundColor(.white)
+                .foregroundColor(.gray00)
                 .frame(width: 56, height: 56)
                 .background(Color.blue30)
                 .clipShape(Circle())
