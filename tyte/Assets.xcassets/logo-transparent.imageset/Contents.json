@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icon-sub-light.png",
+      "filename" : "logo-transparent.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icon-sub-light@2x.png",
+      "filename" : "logo-transparent@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icon-sub-light@3x.png",
+      "filename" : "logo-transparent@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
