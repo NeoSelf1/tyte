@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 class HomeViewModel: ObservableObject {
-    @Published var selectedTags: [String] = ["default"]
+    @Published var selectedTags: [String] = []
     
     @Published var sortOption: String = "default"
     @Published var currentTab: Int = 0
@@ -22,6 +22,14 @@ class HomeViewModel: ObservableObject {
         self.todoService = todoService
         fetchTodos()
         self.selectedTags = sharedVM.tags.map{$0.id}
+    }
+    
+    var isAllTagsSelected: Bool {
+        !selectedTags.isEmpty && selectedTags.count == sharedVM.tags.count + 1 // +1 for "default" tag
+    }
+    
+    func selectAllTags() {
+        selectedTags = (sharedVM.tags.map { $0.id } + ["default"])
     }
     
     func setupBindings(sharedVM: SharedTodoViewModel) {
