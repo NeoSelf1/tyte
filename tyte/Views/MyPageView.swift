@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MyPageView: View {
+    @EnvironmentObject var authVM: AuthViewModel
+    
     @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
-    @StateObject private var authViewModel: AuthViewModel = AuthViewModel()
     @State private var bottomSheetPosition: PresentationDetent = .height(720)
     
     var body: some View {
@@ -51,7 +52,7 @@ struct MyPageView: View {
             }.background(.gray00)
             
             Button(action: {
-                authViewModel.logout()
+                authVM.logout()
             }) {
                 Text("로그아웃")
                     .font(._body1)

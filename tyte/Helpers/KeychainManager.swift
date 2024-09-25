@@ -13,22 +13,38 @@ class KeychainManager {
         case duplicateEntry
         case unknown(OSStatus)
         case notFound
+        case encodingError
     }
 
     static func save(token: String, service: String, account: String) throws {
-        let data = token.data(using: .utf8)!
+        guard let data = token.data(using: .utf8) else {
+            throw KeychainError.encodingError
+        }
+        
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
-            kSecValueData as String: data
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ]
-
+        
         let status = SecItemAdd(query as CFDictionary, nil)
-        guard status != errSecDuplicateItem else {
-            throw KeychainError.duplicateEntry
-        }
-        guard status == errSecSuccess else {
+        
+        if status == errSecDuplicateItem {
+            // Item already exists, let's update it
+            let updateQuery: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrService as String: service,
+                kSecAttrAccount as String: account
+            ]
+            let updateAttributes: [String: Any] = [kSecValueData as String: data]
+            let updateStatus = SecItemUpdate(updateQuery as CFDictionary, updateAttributes as CFDictionary)
+            
+            guard updateStatus == errSecSuccess else {
+                throw KeychainError.unknown(updateStatus)
+            }
+        } else if status != errSecSuccess {
             throw KeychainError.unknown(status)
         }
     }

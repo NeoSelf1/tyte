@@ -24,6 +24,8 @@
 		AB5BB2932C836C0600DC4D72 /* tyteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */; };
 		AB5BB2952C836C0600DC4D72 /* tyteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */; };
 		AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB2A12C836C5A00DC4D72 /* Podfile */; };
+		AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */; };
+		AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */; };
 		AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */; };
 		AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F742C8AE5A000254299 /* CalendarView.swift */; };
 		AB6A0F772C8E45F100254299 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
@@ -39,7 +41,6 @@
 		AB6A0F942C8EB6D400254299 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F932C8EB6D400254299 /* LoginResponse.swift */; };
 		AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatService.swift */; };
 		AB6A0F982C8EC56700254299 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F972C8EC56700254299 /* LoginView.swift */; };
-		AB6A0F9A2C8EC67500254299 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F992C8EC67500254299 /* SignUpView.swift */; };
 		AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F9B2C8EE85100254299 /* TagEditView.swift */; };
 		AB6A495F2C8606AF00B782A1 /* Int+Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+Priority.swift */; };
 		AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7846682C95E0A700349246 /* MyPageViewModel.swift */; };
@@ -63,7 +64,6 @@
 		ABC96FAB2C9CDF5000F57D05 /* CustomPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */; };
 		ABD666B62C83733E0005D3C1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666B52C83733E0005D3C1 /* HomeView.swift */; };
 		ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */; };
-		ABD666BE2C83736A0005D3C1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BD2C83736A0005D3C1 /* User.swift */; };
 		ABD666C02C8373700005D3C1 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
 		ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */; };
 		ABDE8B942C86F2A900F3CB68 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B932C86F2A900F3CB68 /* ListView.swift */; };
@@ -126,6 +126,8 @@
 		AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITests.swift; sourceTree = "<group>"; };
 		AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AB5BB2A12C836C5A00DC4D72 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		AB6A0F742C8AE5A000254299 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		AB6A0F762C8E45F100254299 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -141,7 +143,6 @@
 		AB6A0F932C8EB6D400254299 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		AB6A0F952C8EBBC400254299 /* DailyStatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatService.swift; sourceTree = "<group>"; };
 		AB6A0F972C8EC56700254299 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		AB6A0F992C8EC67500254299 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		AB6A0F9B2C8EE85100254299 /* TagEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditView.swift; sourceTree = "<group>"; };
 		AB6A495E2C8606AE00B782A1 /* Int+Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Priority.swift"; sourceTree = "<group>"; };
 		AB7846682C95E0A700349246 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
@@ -165,7 +166,6 @@
 		ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopup.swift; sourceTree = "<group>"; };
 		ABD666B52C83733E0005D3C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
-		ABD666BD2C83736A0005D3C1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ABD666BF2C8373700005D3C1 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		ABDE8B932C86F2A900F3CB68 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -308,7 +308,6 @@
 			isa = PBXGroup;
 			children = (
 				AB6A0F972C8EC56700254299 /* LoginView.swift */,
-				AB6A0F992C8EC67500254299 /* SignUpView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -328,6 +327,8 @@
 				ABC5D0472C9C020500676222 /* FloatingActionButton.swift */,
 				ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */,
 				ABC86D332C9F942B0089DC61 /* TabBarButton.swift */,
+				AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */,
+				AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -411,7 +412,6 @@
 		ABD666B22C83731F0005D3C1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				ABD666BD2C83736A0005D3C1 /* User.swift */,
 				ABD666BF2C8373700005D3C1 /* Todo.swift */,
 				ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */,
 				AB6A0F782C8EAF5500254299 /* Tag.swift */,
@@ -742,9 +742,7 @@
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
 				AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
-				ABD666BE2C83736A0005D3C1 /* User.swift in Sources */,
 				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
-				AB6A0F9A2C8EC67500254299 /* SignUpView.swift in Sources */,
 				ABE79CD22C9412B300D59871 /* SortMenuButton.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
@@ -770,9 +768,11 @@
 				AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */,
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
 				AB9037262C9EB7D000F7BB73 /* WorkLifeBalancer.swift in Sources */,
+				AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */,
 				ABDE8B942C86F2A900F3CB68 /* ListView.swift in Sources */,
 				ABC5D0482C9C020500676222 /* FloatingActionButton.swift in Sources */,
 				ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */,
+				AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */,
 				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
 				AB6A0F942C8EB6D400254299 /* LoginResponse.swift in Sources */,
 				ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */,

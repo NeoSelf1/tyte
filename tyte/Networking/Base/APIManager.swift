@@ -29,7 +29,7 @@ class APIManager {
         
         do {
             return try KeychainManager.retrieve(service: AuthConstants.tokenService,
-                                                account: AuthConstants.tokenAccount(for: email))
+                                                account: email)
         } catch {
             print("Failed to retrieve token: \(error.localizedDescription)")
             return nil
@@ -40,8 +40,12 @@ class APIManager {
         do {
             try KeychainManager.save(token: token,
                                      service: AuthConstants.tokenService,
-                                     account: AuthConstants.tokenAccount(for: email))
+                                     account: email)
             UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
+        } catch KeychainManager.KeychainError.unknown(let status) {
+            print("Failed to save token. Unknown error with status: \(status)")
+        } catch KeychainManager.KeychainError.encodingError {
+            print("Failed to save token. Encoding error.")
         } catch {
             print("Failed to save token: \(error.localizedDescription)")
         }
@@ -54,7 +58,7 @@ class APIManager {
         
         do {
             try KeychainManager.delete(service: AuthConstants.tokenService,
-                                       account: AuthConstants.tokenAccount(for: email))
+                                       account: email)
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
         } catch {
             print("Failed to clear token: \(error.localizedDescription)")

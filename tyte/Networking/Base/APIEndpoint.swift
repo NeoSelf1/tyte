@@ -10,6 +10,8 @@ import Foundation
 enum APIEndpoint {
     case login
     case signUp
+    case checkEmail
+    case googleLogin
     case fetchTodos(String) // mode
     case fetchTodosForDate(String) // deadline
     case createTodo
@@ -29,6 +31,10 @@ enum APIEndpoint {
             return "/auth/login"
         case .signUp:
             return "/auth/register"
+        case .checkEmail:
+            return "/auth/check"
+        case .googleLogin:
+            return "/auth/google"
         case .fetchTodos(let mode):
             return "/todo/all/\(mode)"
         case .fetchTodosForDate(let deadline):

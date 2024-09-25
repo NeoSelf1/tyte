@@ -9,8 +9,4 @@ import Foundation
 
 struct AuthConstants {
     static let tokenService = "com.tyte.authtoken"
-    
-    static func tokenAccount(for email: String) -> String {
-            return email
-        }
 }
