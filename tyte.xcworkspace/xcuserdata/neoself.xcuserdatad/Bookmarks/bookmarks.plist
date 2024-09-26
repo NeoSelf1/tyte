@@ -40,7 +40,7 @@
     
     private let isDevelopment: </string>
 				<key>trailing</key>
-				<string> = true
+				<string> = false
     private let baseURL: String
     
 </string>

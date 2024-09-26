@@ -47,32 +47,32 @@ func getColors(_ dailyStat: DailyStat) -> [Color] {
             optimizedColors[position] = baseColor.mix(with: .white, amount: 0.9)
         } else {
             // Mix with white based on normalized productivity
-            optimizedColors[position] = baseColor.mix(with: .gray30, amount: whiteMixAmount)
+            optimizedColors[position] = baseColor.mix(with: .gray50, amount: whiteMixAmount)
         }
     }
     return optimizedColors
 }
 
 func calculateDailyBalance(for todos: [Todo]) -> (workPercentage: Double, lifePercentage: Double) {
-        var totalWorkTime: Int = 0
-        var totalLifeTime: Int = 0
-        
-        for todo in todos {
-            if todo.isLife {
-                totalLifeTime += todo.estimatedTime
-            } else {
-                totalWorkTime += todo.estimatedTime
-            }
+    var totalWorkTime: Int = 0
+    var totalLifeTime: Int = 0
+    
+    for todo in todos {
+        if todo.isLife {
+            totalLifeTime += todo.estimatedTime
+        } else {
+            totalWorkTime += todo.estimatedTime
         }
-        
-        let totalTime = totalWorkTime + totalLifeTime
-        
-        guard totalTime > 0 else {
-            return (workPercentage: 0, lifePercentage: 0)
-        }
-        
-        let workPercentage = Double(totalWorkTime) / Double(totalTime) * 100
-        let lifePercentage = Double(totalLifeTime) / Double(totalTime) * 100
-        
-        return (workPercentage: workPercentage, lifePercentage: lifePercentage)
     }
+    
+    let totalTime = totalWorkTime + totalLifeTime
+    
+    guard totalTime > 0 else {
+        return (workPercentage: 0, lifePercentage: 0)
+    }
+    
+    let workPercentage = Double(totalWorkTime) / Double(totalTime) * 100
+    let lifePercentage = Double(totalLifeTime) / Double(totalTime) * 100
+    
+    return (workPercentage: workPercentage, lifePercentage: lifePercentage)
+}
