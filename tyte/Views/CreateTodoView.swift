@@ -29,69 +29,81 @@ struct CreateTodoView: View {
     var body: some View {
         VStack {
             Spacer().frame(height:16)
-            VStack(alignment: .leading, spacing: 8) {
-                HStack (alignment: .bottom, spacing: 2){
-                    Text("\"")
-                        .font(._body3)
-                        .foregroundColor(.gray90)
+            ZStack{
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack (alignment: .bottom, spacing: 2){
+                        Text("\(currentExampleIndex+1).")
+                            .font(._subhead1)
+                            .foregroundColor(.gray60)
+                        
+                        Text("\"")
+                            .font(._body3)
+                            .foregroundColor(.gray90)
+                        
+                        Text(examples[currentExampleIndex].0)
+                            .font(._subhead1)
+                            .foregroundColor(.gray90)
+                        
+                        Text("\"")
+                            .font(._body3)
+                            .foregroundColor(.gray90)
+                        
+                        Text(" 라고 입력해보세요")
+                            .font(._body3)
+                            .foregroundColor(.gray50)
+                        
+                        Spacer()
+                    }
                     
-                    Text(examples[currentExampleIndex].0)
-                        .font(._subhead1)
-                        .foregroundColor(.gray90)
-                    
-                    Text("\"")
-                        .font(._body3)
-                        .foregroundColor(.gray90)
-                    
-                    Text(" 라고 입력해보세요")
-                        .font(._body3)
+                    Text(examples[currentExampleIndex].1)
+                        .font(._body1)
                         .foregroundColor(.gray50)
-                    
-                    Spacer()
                 }
-                
-                Text(examples[currentExampleIndex].1)
-                    .font(._body1)
-                    .foregroundColor(.gray50)
+                .padding(16)
+                .frame(maxWidth:.infinity)
+                .background(RoundedRectangle(cornerRadius: 12).fill(.gray10))
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : 20)
+                .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.5), value: isAnimating)
+                .id(currentExampleIndex)
+                .transition(.asymmetric(insertion: .scale.combined(with: .opacity),
+                                        removal: .scale.combined(with: .opacity)))
             }
-            .padding(16)
-            .frame(maxWidth:.infinity)
-            .background(RoundedRectangle(cornerRadius: 12).fill(.gray10))
-            .opacity(isAnimating ? 1 : 0)
-            .offset(y: isAnimating ? 0 : 20)
-            .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.5), value: isAnimating)
-            .id(currentExampleIndex)
-            .transition(.asymmetric(insertion: .scale.combined(with: .opacity),
-                                    removal: .scale.combined(with: .opacity)))
             Spacer()
             
             Text("AI로 Todo 추가하기")
                 .font(._body3)
-                .foregroundColor(.gray60)
+                .foregroundColor(.gray90)
                 .padding(.leading,4)
                 .frame(maxWidth:.infinity,alignment:.leading)
             
-            TextField("",
-                      text: $todoInput,
-                      prompt: Text("Todo를 자연스럽게 입력해주세요...")
-                .foregroundColor(.gray)
-            )
-            .foregroundColor(.gray90)
-            .submitLabel(.done)
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(.blue10, lineWidth: 1)
-            )
-            .focused($isTodoInputFocused)
-            
-            .onSubmit {
-                guard !todoInput.isEmpty else { return }
-                sharedVM.addTodo(todoInput)
-                todoInput = ""
+            if sharedVM.isLoading {
+                ProgressView()
+                    .tint(.gray50)
+                    .frame(height: 56)
+                
+            } else {
+                TextField("",
+                          text: $todoInput,
+                          prompt: Text("Todo를 자연스럽게 입력해주세요...")
+                    .foregroundColor(.gray)
+                )
+                .foregroundColor(.gray90)
+                .submitLabel(.done)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(.blue10, lineWidth: 1)
+                )
+                .focused($isTodoInputFocused)
+                .onSubmit {
+                    guard !todoInput.isEmpty else { return }
+                    sharedVM.addTodo(todoInput)
+                    todoInput = ""
+                }
+                .frame(height: 56)
             }
-            .frame(height: 56)
         }
         .padding(16)
         .background(.gray00)
@@ -99,6 +111,7 @@ struct CreateTodoView: View {
             withAnimation {
                 isAnimating = false
             }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 currentExampleIndex = (currentExampleIndex + 1) % examples.count
                 withAnimation {

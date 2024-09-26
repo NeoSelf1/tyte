@@ -4,6 +4,7 @@ import GoogleSignInSwift
 struct OnboardingView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @FocusState private var focusedField: Field?
+    @State private var shakeOffset: CGFloat = 0
     
     enum Field: Hashable {
         case email
@@ -39,7 +40,34 @@ struct OnboardingView: View {
                         .padding(.bottom,4)
                         
                         if viewModel.isExistingUser {
-                            PasswordTextField()
+                            SecureField("",
+                                        text: $viewModel.password,
+                                        prompt: Text("비밀번호")
+                                .foregroundColor(.gray50)
+                            )
+                            .focused($focusedField, equals: .password)
+                            .foregroundColor(.gray90)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 16)
+                                .fill(viewModel.isPasswordWrong ? .red.opacity(0.1) : .gray10)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(.blue10, lineWidth: 1)
+                            )
+                            .offset(x: shakeOffset)
+                            .onAppear {
+                                 focusedField = Field.password
+                            }
+                            .onChange(of: viewModel.isPasswordWrong) { _, newValue in
+                                if newValue {
+                                    withAnimation(.snappy(duration: 0.13, extraBounce: 0).speed(1.5).repeatCount(3)) {
+                                        shakeOffset = 8
+                                    } completion: {
+                                        shakeOffset = 0
+                                    }
+                                }
+                            }
                         }
                         
                         CustomButton(
@@ -101,6 +129,9 @@ struct OnboardingView: View {
                             .frame(maxWidth: .infinity,alignment: .center)
                             .padding(.top,8)
                         }
+                        .onAppear {
+                            focusedField = Field.username
+                       }
                     }
                 }
             }
@@ -141,38 +172,6 @@ struct Thumbnail: View {
                     .font(._title)
                     .foregroundStyle(.gray60)
             }.padding(.top,8)
-        }
-    }
-}
-
-struct PasswordTextField: View {
-    @EnvironmentObject var viewModel: AuthViewModel
-    @State private var shakeOffset: CGFloat = 0
-    
-    var body: some View {
-        SecureField("",
-                    text: $viewModel.password,
-                    prompt: Text("비밀번호")
-            .foregroundColor(.gray50)
-        )
-        .foregroundColor(.gray90)
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 16)
-            .fill(viewModel.isPasswordWrong ? .red.opacity(0.1) : .gray10)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.blue10, lineWidth: 1)
-        )
-        .offset(x: shakeOffset)
-        .onChange(of: viewModel.isPasswordWrong) { _, newValue in
-            if newValue {
-                withAnimation(.snappy(duration: 0.13, extraBounce: 0).speed(1.5).repeatCount(3)) {
-                    shakeOffset = 8
-                } completion: {
-                    shakeOffset = 0
-                }
-            }
         }
     }
 }
