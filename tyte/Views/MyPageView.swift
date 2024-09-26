@@ -13,8 +13,10 @@ struct MyPageView: View {
     @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
     @State private var bottomSheetPosition: PresentationDetent = .height(720)
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("isDarkMode") private var isDarkMode = false
+    @State private var showLogoutAlert = false
     @State private var isAnimating = false
+    
+    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     
     var body: some View {
         ZStack {
@@ -63,6 +65,7 @@ struct MyPageView: View {
                         .foregroundColor(.gray90)
                 }
                 .padding()
+                .tint(.blue30)
                 .background(Color.gray10)
                 .cornerRadius(8)
                 .onChange(of: isDarkMode) { _,newValue in
@@ -79,7 +82,9 @@ struct MyPageView: View {
                 }
                 
                 Button(action: {
-                    authVM.logout()
+                    withAnimation(.mediumEaseInOut){
+                    showLogoutAlert = true
+                    }
                 }) {
                     Text("로그아웃")
                         .font(._body1)
@@ -99,9 +104,24 @@ struct MyPageView: View {
                     .presentationDetents([.height(720), .large])
                     .presentationDragIndicator(.hidden)
             }
+            
+            if showLogoutAlert {
+                CustomAlert(
+                    isShowing: $showLogoutAlert,
+                    title: "로그아웃",
+                    message: "정말로 로그아웃 하시겠습니까?",
+                    primaryButtonTitle: "로그아웃",
+                    secondaryButtonTitle: "취소",
+                    primaryAction: {
+                        authVM.logout()
+                    },
+                    secondaryAction: {}
+                )
+            }
         }
     }
 }
+
 private func setAppearance(isDarkMode: Bool) {
     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
           let window = windowScene.windows.first else { return }
