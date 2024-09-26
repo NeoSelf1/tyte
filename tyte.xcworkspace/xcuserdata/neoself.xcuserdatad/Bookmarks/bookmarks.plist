@@ -85,7 +85,7 @@
     @StateObject private var homeVM: HomeViewModel
 </string>
 				<key>trailing</key>
-				<string>     
+				<string>    
     init() {
         let shared = SharedTodoViewModel()
 </string>

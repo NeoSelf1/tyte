@@ -10,6 +10,7 @@
 		28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */; };
 		997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */; };
 		AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10144B2C980F7F00F9A9BC /* Animation+.swift */; };
+		AB155D652CA51F9C00F7DB8B /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB155D642CA51F9C00F7DB8B /* SwiftUIView.swift */; };
 		AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */; };
 		AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */; };
 		AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EA2C986C6400906446 /* KeychainManager.swift */; };
@@ -109,6 +110,7 @@
 		4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10144B2C980F7F00F9A9BC /* Animation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+.swift"; sourceTree = "<group>"; };
+		AB155D642CA51F9C00F7DB8B /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerBottomSheet.swift; sourceTree = "<group>"; };
 		AB2E88EA2C986C6400906446 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */,
 				AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */,
 				AB688DCB2CA3BE3300F6E699 /* EmptyStateBox.swift */,
+				AB155D642CA51F9C00F7DB8B /* SwiftUIView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -746,6 +749,7 @@
 				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,
 				ABC5D0462C9C010000676222 /* CreateTodoView.swift in Sources */,
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
+				AB155D652CA51F9C00F7DB8B /* SwiftUIView.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
 				ABD666BC2C83735F0005D3C1 /* ListViewModel.swift in Sources */,
 				ABEF7D272C99B9F900A76680 /* SharedViewModel.swift in Sources */,
