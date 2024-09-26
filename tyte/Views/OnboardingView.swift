@@ -1,7 +1,7 @@
 import SwiftUI
 import GoogleSignInSwift
 
-struct LoginView: View {
+struct OnboardingView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @FocusState private var focusedField: Field?
     
@@ -113,7 +113,7 @@ struct LoginView: View {
 }
 
 #Preview{
-    LoginView()
+    OnboardingView()
         .environmentObject(AuthViewModel())
 }
 
@@ -124,8 +124,9 @@ struct Thumbnail: View {
             Image("logo-transparent")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 270, height: 270)
-                .shadow(color: .gray50.opacity(0.4), radius: 8)
+                .frame(width: 240, height: 240)
+                .shadow(color: .gray60.opacity(0.4), radius: 24)
+                .padding(.bottom,32)
             
             Image(colorScheme == .dark ? "logo-dark" : "logo-light")
                 .resizable()
@@ -204,7 +205,7 @@ private func googleButton(viewModel:AuthViewModel) -> some View {
             .cornerRadius(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
+                    .stroke(.gray60, lineWidth: 1)
             )
     }
 }
