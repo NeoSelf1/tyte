@@ -14,12 +14,21 @@ struct TagSelector: View {
     var body: some View {
         HStack(spacing: 8) {
             // "전체" (All) tag
-            TagButton(
-                text: "전체",
-                color: .blue,
-                isSelected: viewModel.isAllTagsSelected,
-                action: { viewModel.selectAllTags() }
-            )
+            Button(action: { viewModel.selectAllTags() }) {
+                    Text("전체")
+                        .font(._body2)
+                        .foregroundStyle(.gray90)
+                
+                .padding(.horizontal, 24)
+                .padding(.vertical, 5)
+                .background(.blue10)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(viewModel.isAllTagsSelected ? .blue30 : .gray50.opacity(0.0), lineWidth: 1)
+                )
+                .padding(1)
+            }
             
             // "태그없음" (No tag) button
             TagButton(
@@ -39,7 +48,6 @@ struct TagSelector: View {
                 )
             }
         }
-        .padding(.horizontal)
     }
 }
 
@@ -70,6 +78,5 @@ struct TagButton: View {
             )
             .padding(1)
         }
-        .buttonStyle(PlainButtonStyle())
     }
 }
