@@ -49,6 +49,7 @@ struct CreateTodoView: View {
                     
                     Spacer()
                 }
+                
                 Text(examples[currentExampleIndex].1)
                     .font(._body1)
                     .foregroundColor(.gray50)
@@ -63,51 +64,32 @@ struct CreateTodoView: View {
             .transition(.asymmetric(insertion: .scale.combined(with: .opacity),
                                     removal: .scale.combined(with: .opacity)))
             Spacer()
-
             
-            HStack{
-                TextField("",
-                          text: $todoInput,
-                          prompt: Text("Todo를 자연스럽게 입력해주세요...")
-                    .foregroundColor(.gray)
-                )
-                .foregroundColor(.gray90)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.blue10, lineWidth: 1)
-                )
-                .focused($isTodoInputFocused)
-                
-                .onSubmit {
-                    guard !todoInput.isEmpty else { return }
-                    sharedVM.addTodo(todoInput)
-                    todoInput = ""
-                }
-                
-                Button(action: {
-                    sharedVM.addTodo(todoInput)
-                    todoInput = "" }
-                ){
-                    if sharedVM.isLoading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .tint(.gray60)
-                            .foregroundStyle(.accent)
-                            .scaleEffect(1.5)
-                            .padding()
-                    } else {
-                        Text("AI로 Todo 추가하기")
-                            .font(._subhead2)
-                            .frame(maxWidth:96, maxHeight:.infinity)
-                            .background(todoInput.isEmpty ? .gray20 : .blue30)
-                            .foregroundStyle(todoInput.isEmpty ? .gray50 : .gray00)
-                            .cornerRadius(8)
-                            .animation(.mediumEaseInOut, value: todoInput.isEmpty)
-                    } 
-                }
-                .disabled(todoInput.isEmpty)
+            Text("AI로 Todo 추가하기")
+                .font(._body3)
+                .foregroundColor(.gray60)
+                .padding(.leading,4)
+                .frame(maxWidth:.infinity,alignment:.leading)
+            
+            TextField("",
+                      text: $todoInput,
+                      prompt: Text("Todo를 자연스럽게 입력해주세요...")
+                .foregroundColor(.gray)
+            )
+            .foregroundColor(.gray90)
+            .submitLabel(.done)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(.blue10, lineWidth: 1)
+            )
+            .focused($isTodoInputFocused)
+            
+            .onSubmit {
+                guard !todoInput.isEmpty else { return }
+                sharedVM.addTodo(todoInput)
+                todoInput = ""
             }
             .frame(height: 56)
         }

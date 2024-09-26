@@ -38,7 +38,7 @@ struct DetailView: View {
                         Spacer()
                     }
                         .padding()
-                        .background(Color.gray10)
+                        .background(.gray10)
                         .cornerRadius(8)
                         .padding(.horizontal)
                 } else {

@@ -45,7 +45,7 @@ struct ContentView: View {
         if authVM.isLoggedIn {
             MainTabView()
         } else {
-            LoginView()
+            OnboardingView()
                 .ignoresSafeArea()
         }
     }

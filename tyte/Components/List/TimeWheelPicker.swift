@@ -23,7 +23,7 @@ struct TimeWheelPicker: View {
                             let remainder = index % steps
                             
                             Divider()
-                                .background(remainder == 0 ? Color.primary : .gray)
+                                .background(remainder == 0 ? .gray90 : .gray50)
                                 .frame(width: 2, height: remainder == 0 ? 20 : 10, alignment: .center)
                                 .frame(maxHeight: 20, alignment: .bottom)
                                 .overlay(alignment: .bottom) {

@@ -72,7 +72,7 @@ struct ListView: View {
                             .padding(12)
                     }
                 }
-                .frame(height:56)
+                .frame(height:52)
                 .padding(.horizontal)
                 
                 MonthlyCalendar(viewModel:viewModel,isShowingMonthPicker:$isShowingMonthPicker)

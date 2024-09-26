@@ -22,7 +22,7 @@ struct CalenderView: View {
                 ForEach(Self.weekdaySymbols.indices, id: \.self) { symbol in
                     Text(Self.weekdaySymbols[symbol].uppercased())
                         .font(._body3)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.gray50)
                         .frame(maxWidth: .infinity)
                 }
             }
@@ -41,7 +41,7 @@ struct CalenderView: View {
                         .resizable()
                         .frame(width: 10, height: 16)
                         .font(.title)
-                        .foregroundColor(canMoveToPreviousMonth() ? .black : . gray)
+                        .foregroundColor(canMoveToPreviousMonth() ? .gray90 : . gray30)
                 }
             )
             .padding(.horizontal)
@@ -61,7 +61,7 @@ struct CalenderView: View {
                         .resizable()
                         .frame(width: 10, height: 16)
                         .font(.title)
-                        .foregroundColor(canMoveToNextMonth() ? .black : .gray)
+                        .foregroundColor(canMoveToNextMonth() ? .gray90 : .gray30)
                 }
             )
             .padding(.horizontal)

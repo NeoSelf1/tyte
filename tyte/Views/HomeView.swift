@@ -5,6 +5,7 @@ struct HomeView: View {
     @ObservedObject var sharedVM: SharedTodoViewModel
     
     @Environment(\.colorScheme) var colorScheme
+    
     // @State 프로퍼트를 직접 초기화하려 할 경우, 버그 발생 우려 -> onAppear 수정자에 값 설정 로직 추가
     // SwiftUI 뷰는 값 구조체이며 @State 변경 시 새로운 인스턴스가 생성됨. 즉 뷰가 자주 재생성 된다.
     // @State는 SwiftUI 재생성 로직과 직결되는만큼 뷰의 생명주기와 구분되는 별도의 저장소에 저장 및 관리된다.
@@ -17,17 +18,17 @@ struct HomeView: View {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack{
+                    HStack {
                         Image(colorScheme == .dark ? "logo-dark" : "logo-light")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .padding(.leading,4)
-                            .frame(height:30)
+                            .frame(height:26)
                         
                         Spacer()
                         
                         SortMenuButton(viewModel: viewModel)
-                    }.frame(height:40)
+                    }
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
