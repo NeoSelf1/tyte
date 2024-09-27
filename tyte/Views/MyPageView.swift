@@ -53,15 +53,17 @@ struct MyPageView: View {
                             CalenderView(viewModel: viewModel)
                         }
                         .frame(maxHeight: 450)
+                        
                     } else {
                         GraphView(viewModel: viewModel)
                             .frame(maxHeight: 360)
+                        
                     }
                 }.background(.gray00)
                 
                 Toggle(isOn: $isDarkMode) {
                     Text("다크모드")
-                        .font(._body1)
+                        .font(._body2)
                         .foregroundColor(.gray90)
                 }
                 .padding()

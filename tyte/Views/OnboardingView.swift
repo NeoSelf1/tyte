@@ -156,7 +156,6 @@ struct Thumbnail: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 240, height: 240)
-                .shadow(color: .gray60.opacity(0.4), radius: 24)
                 .padding(.bottom,32)
             
             Image(colorScheme == .dark ? "logo-dark" : "logo-light")
