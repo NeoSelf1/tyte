@@ -35,7 +35,7 @@ struct SortMenuButton: View {
                     .foregroundColor(.gray60)
                 
             }
-            .padding(.horizontal)
+            .padding(.horizontal,6)
             .padding(.vertical,12)
         }
     }
