@@ -12,6 +12,7 @@ struct CustomPopup: View {
     
     var body: some View {
         HStack (spacing:8){
+            //x.circle.fill
             Image(systemName: "checkmark.circle.fill")
                 .font(._subhead1)
                 .foregroundStyle(.blue30)
@@ -26,8 +27,4 @@ struct CustomPopup: View {
         .cornerRadius(8)
         .shadow(color: .gray60.opacity(0.2), radius: 16)
     }
-}
-
-#Preview {
-    CustomPopup(message: "2024-09-14에 투두가 추가되었습니다.")
 }

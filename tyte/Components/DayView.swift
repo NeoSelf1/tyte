@@ -45,9 +45,9 @@ struct DayView: View {
         HStack {
             Circle()
                 .fill(stat.balanceData.balanceNum.colorByBalanceData)
-                .frame(width: 8, height: 8)
-                .padding(.top, 6)
-                .padding(.leading, 6)
+                .frame(width: 6, height: 6)
+                .padding(.top, 8)
+                .padding(.leading, 8)
             
             Spacer()
         }

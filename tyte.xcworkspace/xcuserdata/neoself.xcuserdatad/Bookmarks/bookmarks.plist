@@ -34,7 +34,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    private let isDevelopment: Bool = true
+				<string>    private let isDevelopment: Bool = false
 </string>
 				<key>leading</key>
 				<string>    static let shared = APIManager()
