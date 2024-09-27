@@ -20,7 +20,7 @@ struct MainTabView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                if isPopupPresented,let message = sharedVM.todoAlertMessage {
+                if isPopupPresented,let message = sharedVM.alertMessage {
                     CustomPopup(message: message)
                         .frame(maxHeight: .infinity,alignment: .top)
                         .padding(.top,40)
@@ -29,7 +29,7 @@ struct MainTabView: View {
                             insertion: .opacity.combined(with: .move(edge: .top)),
                             removal: .opacity.combined(with: .move(edge: .top))
                         ))
-                        .animation(.easeInOut(duration: 0.3), value: sharedVM.todoAlertMessage)
+                        .animation(.easeInOut(duration: 0.3), value: sharedVM.alertMessage)
                 }
                 
                 VStack(spacing: 0) {
@@ -80,7 +80,7 @@ struct MainTabView: View {
                     .presentationDragIndicator(.visible)
                     .presentationBackground(.gray00)
             }
-            .onChange(of: sharedVM.todoAlertMessage) { _, newValue in
+            .onChange(of: sharedVM.alertMessage) { _, newValue in
                 if newValue != nil {
                     withAnimation {
                         isPopupPresented = true
@@ -90,7 +90,7 @@ struct MainTabView: View {
                             isPopupPresented = false
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            sharedVM.todoAlertMessage = nil
+                            sharedVM.alertMessage = nil
                         }
                     }
                 }

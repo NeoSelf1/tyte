@@ -38,7 +38,7 @@ struct CustomAlert: View {
                             .frame(maxWidth: .infinity)
                             .font(._body1)
                             .padding()
-                            .background(Color.gray20)
+                            .background(.gray20)
                             .foregroundColor(.gray60)
                             .cornerRadius(8)
                     }
@@ -60,7 +60,7 @@ struct CustomAlert: View {
                 }
             }
             .padding()
-            .background(Color.white)
+            .background(.gray00)
             .cornerRadius(16)
             .shadow(radius: 10)
             .padding(.horizontal, 40)
