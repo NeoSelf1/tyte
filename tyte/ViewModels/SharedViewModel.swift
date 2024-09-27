@@ -16,7 +16,7 @@ class SharedTodoViewModel: ObservableObject {
     
     @Published var lastAddedTodoId: String?
     @Published var lastUpdatedTagId: String?
-    @Published var todoAlertMessage: String?
+    @Published var alertMessage: String?
     
     private let todoService: TodoService
     private let tagService: TagService
@@ -80,21 +80,21 @@ class SharedTodoViewModel: ObservableObject {
                 self?.isLoading = false
                 if case .failure(let error) = completion {
                     guard let self = self else { return }
-                    self.todoAlertMessage = error.localizedDescription
+                    alertMessage = error.localizedDescription
                 }
             } receiveValue: { [weak self] newTodos in
                 guard let self = self else { return }
                 self.isLoading = false
                 if newTodos.count == 1 {
-                    self.todoAlertMessage = "\(newTodos[0].deadline.parsedDate.formattedMonthDate)에 투두가 추가되었습니다."
+                    alertMessage = "\(newTodos[0].deadline.parsedDate.formattedMonthDate)에 투두가 추가되었습니다."
                 } else {
-                    self.todoAlertMessage = "총 \(newTodos.count)개의 투두가 추가되었습니다."
+                    alertMessage = "총 \(newTodos.count)개의 투두가 추가되었습니다."
                 }
                 // ListView에 있는 dailyStat 갱신과 fetchTodosForDate 호출 위해 필요. 통신용 => fetchTodosForDate가 여기에 있을 필요가?
                 // fetchTodoForDate도 여기서 호출하고 dailyStat 갱신만 거기서 하기로
                 // selectedDate에 대한 fetchTodosForDate가 필요하기 때문에 여기서 호출하기 부적절. 기각.
-                
                 // HomeView, ListView 갱신용
+                
                 self.lastAddedTodoId = newTodos.last?.id
             }
             .store(in: &cancellables)

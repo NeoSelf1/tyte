@@ -17,16 +17,6 @@ struct DetailView: View {
     private let prismSize :CGFloat = 240
     @Environment(\.colorScheme) var colorScheme
     
-    func saveScreenshot() {
-        let renderer = ImageRenderer(content: self.body)
-        renderer.scale = UIScreen.main.scale
-        
-        if let uiImage = renderer.uiImage {
-            UIImageWriteToSavedPhotosAlbum(uiImage, nil, nil, nil)
-            showingSavedAlert = true
-        }
-    }
-    
     var body: some View {
         ScrollView {
             VStack (spacing: 12) {
