@@ -1,7 +1,6 @@
 //
 //  APIManager.swift
 //  tyte
-//
 //  Created by 김 형석 on 9/9/24.
 //
 
@@ -14,7 +13,7 @@ import Alamofire
 class APIManager {
     static let shared = APIManager()
     
-    private let isDevelopment: Bool = true
+    private let isDevelopment: Bool = false
     private let baseURL: String
     
     private init() {

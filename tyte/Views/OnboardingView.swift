@@ -155,7 +155,7 @@ struct Thumbnail: View {
             Image("logo-transparent")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 240, height: 240)
+                .frame(width: 212, height: 212)
                 .padding(.bottom,32)
             
             Image(colorScheme == .dark ? "logo-dark" : "logo-light")
