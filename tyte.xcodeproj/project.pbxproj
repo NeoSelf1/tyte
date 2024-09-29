@@ -48,6 +48,7 @@
 		AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7846682C95E0A700349246 /* MyPageViewModel.swift */; };
 		AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */; };
 		AB84C5312C918EA9000164AC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB84C5302C918EA9000164AC /* Utils.swift */; };
+		AB87355B2CA916E60089844D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */; };
 		AB9037262C9EB7D000F7BB73 /* WorkLifeBalancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9037252C9EB7D000F7BB73 /* WorkLifeBalancer.swift */; };
 		ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */; };
 		ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */; };
@@ -152,6 +153,7 @@
 		AB7846682C95E0A700349246 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
 		AB84C5302C918EA9000164AC /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AB9037252C9EB7D000F7BB73 /* WorkLifeBalancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkLifeBalancer.swift; sourceTree = "<group>"; };
 		ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStat.swift; sourceTree = "<group>"; };
 		ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBox.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 		AB5BB26B2C836C0400DC4D72 = {
 			isa = PBXGroup;
 			children = (
+				AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */,
 				AB5BB2A12C836C5A00DC4D72 /* Podfile */,
 				AB5BB2762C836C0400DC4D72 /* tyte */,
 				AB5BB2872C836C0600DC4D72 /* tyteTests */,
@@ -591,6 +594,7 @@
 				ABA9207C2C8988E200B9F8F1 /* Pretendard-Medium.ttf in Resources */,
 				ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */,
 				AB44988B2C8ACCFE00B2B74A /* LaunchScreen.storyboard in Resources */,
+				AB87355B2CA916E60089844D /* PrivacyInfo.xcprivacy in Resources */,
 				AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */,
 				AB5BB27F2C836C0500DC4D72 /* Preview Assets.xcassets in Resources */,
 				AB5BB27C2C836C0500DC4D72 /* Assets.xcassets in Resources */,
