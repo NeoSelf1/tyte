@@ -11,7 +11,6 @@ class HomeViewModel: ObservableObject {
     private let sharedVM: SharedTodoViewModel
     
     @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
     init(
@@ -69,9 +68,10 @@ class HomeViewModel: ObservableObject {
         todoService.fetchAllTodos(mode: sortOption)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -85,8 +85,9 @@ class HomeViewModel: ObservableObject {
         todoService.toggleTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }

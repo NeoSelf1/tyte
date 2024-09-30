@@ -13,7 +13,6 @@ struct MonthYearPickerPopup: View {
         self._isShowing = isShowing
         self._currentYear = State(initialValue: calendar.component(.year, from: Date().koreanDate))
         self._currentMonth = State(initialValue: calendar.component(.month, from: Date().koreanDate) - 1)
-        
     }
     
     var body: some View {
