@@ -108,6 +108,7 @@ struct ListView: View {
                                 Image(todo.isCompleted ? "checked" : "unchecked")
                                     .resizable()
                                     .frame(width: 40,height:40)
+                                    .animation(.fastEaseInOut, value: todo.isCompleted)
                                     .foregroundStyle(todo.isCompleted ? .gray50 : .gray60)
                             }
                             .padding(.leading,16)
@@ -115,8 +116,12 @@ struct ListView: View {
                             TodoItemView(todo: todo, isHome: false)
                                 .contentShape(Rectangle())
                                 .onTapGesture {
-                                    selectedTodo = todo
-                                    isBottomSheetPresented = true
+                                    if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate) {
+                                        sharedVM.currentPopup = .error("이전 투두들은 수정이 불가능해요.")
+                                    } else {
+                                        selectedTodo = todo
+                                        isBottomSheetPresented = true
+                                    }
                                 }
                         }
                         .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
