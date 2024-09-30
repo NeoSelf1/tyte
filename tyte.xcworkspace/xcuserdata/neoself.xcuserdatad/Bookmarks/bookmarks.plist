@@ -34,7 +34,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    private let isDevelopment: Bool = false
+				<string>    private let isDevelopment: Bool = true
 </string>
 				<key>leading</key>
 				<string>    static let shared = APIManager()
@@ -63,7 +63,7 @@
 					<key>StartingLineNumber</key>
 					<string>105</string>
 					<key>Timestamp</key>
-					<string>749118902.4546731</string>
+					<string>749380198.869592</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
