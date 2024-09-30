@@ -60,14 +60,19 @@ class SharedTodoViewModel: ObservableObject {
         todoService.createTodo(text: text)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    currentPopup = .error(error.localizedDescription)
+                    switch error {
+                    case .invalidTodo:
+                        self.currentPopup = .invalidTodo
+                    default:
+                        self.currentPopup = .error(error.localizedDescription)
+                    }
                 }
             } receiveValue: { [weak self] newTodos in
+                self?.isLoading = false
                 guard let self = self else { return }
-                self.isLoading = false
                 if newTodos.count == 1 {
                     currentPopup = .todoAddedIn(newTodos[0].deadline)
                 } else {
