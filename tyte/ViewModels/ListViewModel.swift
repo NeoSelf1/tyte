@@ -117,6 +117,7 @@ class ListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] _ in
                 guard let self = self else { return }
+                sharedVM.currentPopup = .todoDeleted
                 fetchTodosForDate(selectedDate.apiFormat)
                 fetchWeekCalendarData()
             }
