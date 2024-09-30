@@ -35,36 +35,44 @@ extension Color {
     }
     
     var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
-            var r: CGFloat = 0
-            var g: CGFloat = 0
-            var b: CGFloat = 0
-            var o: CGFloat = 0
-
-            guard UIColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
-                return (0, 0, 0, 0)
-            }
-            
-            return (r, g, b, o)
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var o: CGFloat = 0
+        
+        guard UIColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+            return (0, 0, 0, 0)
         }
+        
+        return (r, g, b, o)
+    }
     
     func mix(with color: Color, amount: CGFloat) -> Color {
-           func uiColor(from color: Color) -> UIColor {
-               if let cgColor = color.cgColor {
-                   return UIColor(cgColor: cgColor)
-               }
-               let components = color.components
-               return UIColor(red: components.red, green: components.green, blue: components.blue, alpha: components.opacity)
-           }
-           
-           let from = uiColor(from: self)
-           let to = uiColor(from: color)
-           
-           guard let blended = from.blend(with: to, alpha: amount) else {
-               return self
-           }
-           
-           return Color(blended)
-       }
+        func uiColor(from color: Color) -> UIColor {
+            if let cgColor = color.cgColor {
+                return UIColor(cgColor: cgColor)
+            }
+            let components = color.components
+            return UIColor(red: components.red, green: components.green, blue: components.blue, alpha: components.opacity)
+        }
+        
+        let from = uiColor(from: self)
+        let to = uiColor(from: color)
+        
+        guard let blended = from.blend(with: to, alpha: amount) else {
+            return self
+        }
+        
+        return Color(blended)
+    }
+    
+    func toHex() -> String? {
+        guard let components = UIColor(self).cgColor.components else { return nil }
+        let r = Float(components[0])
+        let g = Float(components[1])
+        let b = Float(components[2])
+        return String(format: "#%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+    }
 }
 
 extension UIColor {

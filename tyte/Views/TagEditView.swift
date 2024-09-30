@@ -19,51 +19,59 @@ struct TagEditView: View {
             set: { isEditBottomSheetPresented = $0 }
         )
     }
-    let colors = [
-        "FFF700", "FFA07A", "FF6347", "FF1493", "FF00FF",
-        "DA70D6", "9370DB", "8A2BE2", "4169E1", "00CED1"
-    ]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            HStack(spacing:16) {
-                TextField("", text: $tagInput, prompt: Text("태그 추가...").foregroundColor(.gray50))
-                    .onSubmit {
-                        addTag()
-                    }
-                Spacer()
+        VStack(alignment: .leading, spacing: 8) {
+            
+            Text("태그 추가하기")
+                .font(._body3)
+                .foregroundColor(.gray90)
+                .padding(.leading,24)
+                .padding(.top,8)
+                .frame(maxWidth:.infinity, alignment:.leading)
+            
+            HStack(alignment: .center,spacing:16) {
+                CustomTextField(
+                    text: $tagInput,
+                    placeholder: "태그 제목",
+                    keyboardType: .default,
+                    onSubmit: { addTag() }
+                )
+                .submitLabel(.done)
                 
                 Button(action: {
                     isColorPickerPresented = true
                 }) {
                     Circle().fill(Color(hex:"#\(selectedColor)")).frame(width: 24, height: 24)
                 }
-                
-                Button(action: {
-                    addTag()
-                }) {
-                    Image(systemName: "plus")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(4)
-                        .frame(height: 32)
-                        .foregroundColor(.gray90)
-                }
             }
-            .padding()
-            .background(.gray30)
-            .cornerRadius(8)
+            .padding(.horizontal,16)
+            .padding(.bottom,16)
+            .background(.gray00)
             
-            ForEach(viewModel.tags) { tag in
-                if tag.name == "일" || tag.name == "자유시간" {
-                    specialTagView(tag)
-                } else {
-                    regularTagView(tag)
+            List {
+                ForEach(viewModel.tags) { tag in
+                    if tag.name == "일" || tag.name == "자유시간" {
+                        specialTagView(tag)
+                            .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                            .listRowSeparator(.hidden) // 사이 선
+                            .listRowBackground(Color.clear)
+                            .padding(.top,16)
+                    } else {
+                        regularTagView(tag)
+                            .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                            .listRowSeparator(.hidden) // 사이 선
+                            .listRowBackground(Color.clear)
+                            .padding(.top,16)
+                    }
                 }
             }
-            Spacer()
+            .listStyle(PlainListStyle())
+            .scrollContentBackground(.hidden)
+            .refreshable(action: {viewModel.fetchTags()})
+            .padding()
+            .background(.gray10)
         }
-        .padding()
         .navigationBarTitle("Tag 관리", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
@@ -73,8 +81,8 @@ struct TagEditView: View {
             }
         )
         .sheet(isPresented: $isColorPickerPresented) {
-            ColorPickerBottomSheet(selectedColor: $selectedColor, colors: colors)
-                .presentationDetents([.height(300)])
+            ColorPickerBottomSheet(selectedColor: $selectedColor)
+                .presentationDetents([.height(360)])
                 .presentationBackground(.gray00)
         }
         .sheet(isPresented: shouldPresentSheet, content: {
@@ -84,7 +92,6 @@ struct TagEditView: View {
                         get: { tag },
                         set: { _ in }
                     ),
-                    colors: colors,
                     onUpdate: { updatedTag in
                         viewModel.editTag(updatedTag)
                     },
@@ -92,7 +99,7 @@ struct TagEditView: View {
                         viewModel.deleteTag(id: tagId)
                     }
                 )
-                .presentationDetents([.height(320)])
+                .presentationDetents([.height(360)])
             }
         })
         .alert(isPresented: $showingDuplicateWarning) {
@@ -116,10 +123,10 @@ struct TagEditView: View {
                 .overlay(Circle().stroke(.gray50))
             Text(tag.name)
                 .font(._subhead2)
-                .foregroundColor(.gray50)
+                .foregroundColor(.gray60)
         }
         .padding()
-        .background(.gray10)
+        .background(.gray20)
         .cornerRadius(8)
     }
     
@@ -135,6 +142,8 @@ struct TagEditView: View {
                 .foregroundColor(.gray90)
         }
         .padding()
+        .background(.gray00)
+        .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.gray30, lineWidth: 1)
@@ -155,4 +164,8 @@ struct TagEditView: View {
             }
         }
     }
+}
+
+#Preview{
+    TagEditView(viewModel: SharedTodoViewModel())
 }
