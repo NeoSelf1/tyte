@@ -43,7 +43,6 @@ class HomeViewModel: ObservableObject {
         sharedVM.$tags
             .receive(on: DispatchQueue.main)
             .sink { [weak self] tags in
-                print(tags.description)
                 guard let self = self else { return }
                     self.selectedTags = ["default"] + tags.map { $0.id }
             }

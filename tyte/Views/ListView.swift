@@ -101,6 +101,7 @@ struct ListView: View {
                         .padding(.top,16)
                 } else {
                     ForEach(sharedVM.todosForDate) { todo in
+                        let isPast = todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate)
                         HStack(spacing:12){
                             Button(action: {
                                 viewModel.toggleTodo(todo.id)
@@ -108,15 +109,16 @@ struct ListView: View {
                                 Image(todo.isCompleted ? "checked" : "unchecked")
                                     .resizable()
                                     .frame(width: 40,height:40)
-                                    .animation(.fastEaseInOut, value: todo.isCompleted)
                                     .foregroundStyle(todo.isCompleted ? .gray50 : .gray60)
+                                
+                                    .animation(.fastEaseInOut, value: todo.isCompleted)
                             }
                             .padding(.leading,16)
                             
                             TodoItemView(todo: todo, isHome: false)
                                 .contentShape(Rectangle())
                                 .onTapGesture {
-                                    if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate) {
+                                    if isPast {
                                         sharedVM.currentPopup = .error("이전 투두들은 수정이 불가능해요.")
                                     } else {
                                         selectedTodo = todo
@@ -128,7 +130,7 @@ struct ListView: View {
                         .listRowSeparator(.hidden) // 사이 선
                         .listRowBackground(Color.clear)
                         .padding(.top,16)
-                        .opacity(todo.isCompleted ? 0.6 : 1.0)
+                        .opacity(!isPast && !todo.isCompleted ? 1.0 : 0.6)
                     }
                 }
             }
