@@ -13,10 +13,9 @@ struct MainTabView: View {
     }
     
     @State private var selectedTab = 0
-    @State private var showCreateTodoView = false
+    @State private var isCreateTodoViewPresented = false
     @State private var isPopupPresented = false
     
-    private let tabBarText = [("home","홈"),("calendar","일정관리"),("user","MY")]
     var body: some View {
         ZStack {
             if isPopupPresented,let popup = sharedVM.currentPopup {
@@ -28,7 +27,6 @@ struct MainTabView: View {
                         insertion: .opacity.combined(with: .move(edge: .top)),
                         removal: .opacity.combined(with: .move(edge: .top))
                     ))
-                    .animation(.mediumEaseInOut, value: isPopupPresented)
             }
             
             VStack(spacing: 0) {
@@ -43,29 +41,12 @@ struct MainTabView: View {
                     MyPageView()
                 }
                 
-                ZStack {
-                    Rectangle()
-                        .fill(.gray00)
-                        .shadow(color: .gray50.opacity(0.08), radius: 8)
-                    HStack(spacing: 0) {
-                        ForEach (0..<3,id:\.self) { index in
-                            TabBarButton(
-                                icon: tabBarText[index].0,
-                                text: tabBarText[index].1,
-                                isSelected: selectedTab == index) {
-                                    withAnimation(.fastEaseInOut) {
-                                        selectedTab = index
-                                    }
-                                }
-                        }
-                    }
-                    .background(.gray00)
-                }
-                .frame(height: 56)
-            }.background(.gray00)
+                BottomTab(selectedTab: $selectedTab)
+            }
+            .background(.gray00)
             
             FloatingActionButton(action: {
-                showCreateTodoView = true
+                isCreateTodoViewPresented = true
             })
             .padding(.trailing, 24)
             .padding(.bottom, 80)
@@ -75,12 +56,13 @@ struct MainTabView: View {
             listVM.setupBindings(sharedVM: sharedVM)
             homeVM.setupBindings(sharedVM: sharedVM)
         }
-        .sheet(isPresented: $showCreateTodoView) {
-            CreateTodoView(sharedVM: sharedVM, isShowing:$showCreateTodoView)
+        .sheet(isPresented: $isCreateTodoViewPresented) {
+            CreateTodoView(sharedVM: sharedVM, isShowing:$isCreateTodoViewPresented)
                 .presentationDetents([.height(260)])
                 .presentationDragIndicator(.visible)
                 .presentationBackground(.gray00)
         }
+        
         .onChange(of: sharedVM.currentPopup?.text) { _, newValue in
             if newValue != nil {
                 withAnimation {
@@ -90,7 +72,7 @@ struct MainTabView: View {
                     withAnimation {
                         isPopupPresented = false
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         sharedVM.currentPopup = nil
                     }
                 }
@@ -103,3 +85,32 @@ struct MainTabView: View {
     MainTabView()
 }
 
+
+
+
+struct BottomTab: View {
+    @Binding var selectedTab: Int
+    
+    var body: some View {
+        let tabBarText = [("home","홈"),("calendar","일정관리"),("user","MY")]
+        ZStack {
+            Rectangle()
+                .fill(.gray00)
+                .shadow(color: .gray50.opacity(0.08), radius: 8)
+            HStack(spacing: 0) {
+                ForEach (0..<3,id:\.self) { index in
+                    TabBarButton(
+                        icon: tabBarText[index].0,
+                        text: tabBarText[index].1,
+                        isSelected: selectedTab == index) {
+                            withAnimation(.fastEaseInOut) {
+                                selectedTab = index
+                            }
+                        }
+                }
+            }
+            .background(.gray00)
+        }
+        .frame(height: 56)
+    }
+}
