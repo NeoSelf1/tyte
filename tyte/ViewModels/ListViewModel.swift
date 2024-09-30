@@ -96,7 +96,9 @@ class ListViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                weekCalendarData = dailyStats
+                withAnimation(.mediumEaseInOut){
+                    self.weekCalendarData = dailyStats
+                }
             }
             .store(in: &cancellables)
     }

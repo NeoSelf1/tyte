@@ -22,7 +22,7 @@ struct CircularProgressView: View {
                     )
                 )
                 .rotationEffect(.degrees(-90))
-                .animation(.easeInOut, value: progress)
+                .animation(.mediumEaseInOut, value: progress)
         }
     }
 }

@@ -101,7 +101,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DB9DF42B-3A63-44AC-9BA6-11C2BAA5CBDC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "tyte/ViewModels/SharedViewModel.swift"

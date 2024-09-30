@@ -28,7 +28,7 @@ struct MainTabView: View {
                         insertion: .opacity.combined(with: .move(edge: .top)),
                         removal: .opacity.combined(with: .move(edge: .top))
                     ))
-                    .animation(.easeInOut(duration: 0.3), value: isPopupPresented)
+                    .animation(.mediumEaseInOut, value: isPopupPresented)
             }
             
             VStack(spacing: 0) {
