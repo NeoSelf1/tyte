@@ -158,5 +158,3 @@ struct DetailView: View {
         .background(.gray00)
     }
 }
-
-
