@@ -64,7 +64,6 @@ class HomeViewModel: ObservableObject {
     
     func fetchTodos() {
         isLoading = true
-        errorMessage = nil
         todoService.fetchAllTodos(mode: sortOption)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
