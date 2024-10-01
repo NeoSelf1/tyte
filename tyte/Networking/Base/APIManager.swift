@@ -13,16 +13,12 @@ import Alamofire
 class APIManager {
     static let shared = APIManager()
     
-    private let isDevelopment: Bool = true
+    private let isDevelopment: Bool = false
     private let baseURL: String
     
     private init() {
         baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
         print("\(baseURL)")
-    }
-    
-    func getUserEmail() -> String? {
-        return UserDefaults.standard.string(forKey: "lastLoggedInEmail")
     }
     
     private func getToken() -> String? {

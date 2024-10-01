@@ -168,24 +168,6 @@ class AuthViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func deleteAccount() {
-        isLoading = true
-        authService.deleteAccount(email)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.handleError(error)
-                }
-            } receiveValue: { [weak self] deleteResponse in
-                self?.isLoggedIn = false
-            }
-            .store(in: &cancellables)
-    }
-    
     func login() {
         isLoading = true
         errorMessage = nil
