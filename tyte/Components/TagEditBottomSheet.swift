@@ -2,7 +2,6 @@ import SwiftUI
 
 struct TagEditBottomSheet: View {
     @Binding var tag: Tag
-    let colors: [String]
     let onUpdate: (Tag) -> Void
     let onDelete: (String) -> Void
     
@@ -12,9 +11,8 @@ struct TagEditBottomSheet: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    init(tag: Binding<Tag>, colors: [String], onUpdate: @escaping (Tag) -> Void, onDelete: @escaping (String) -> Void) {
+    init(tag: Binding<Tag>, onUpdate: @escaping (Tag) -> Void, onDelete: @escaping (String) -> Void) {
         self._tag = tag
-        self.colors = colors
         self.onUpdate = onUpdate
         self.onDelete = onDelete
         
@@ -94,8 +92,8 @@ struct TagEditBottomSheet: View {
         .padding()
         .background(.gray00)
         .sheet(isPresented: $isColorPickerPresented) {
-            ColorPickerBottomSheet(selectedColor: $editedColor, colors: colors)
-                .presentationDetents([.height(240)])
+            ColorPickerBottomSheet(selectedColor: $editedColor)
+                .presentationDetents([.height(360)])
         }
     }
 }

@@ -8,16 +8,15 @@
 import SwiftUI
 
 struct CustomPopup: View {
-    let message: String
+    let popup: PopupType
     
     var body: some View {
         HStack (spacing:8){
-            //x.circle.fill
-            Image(systemName: "checkmark.circle.fill")
+            Image(systemName: popup.icon)
                 .font(._subhead1)
                 .foregroundStyle(.blue30)
             
-            Text(message)
+            Text(popup.text)
                 .font(._subhead2)
         }
         .frame(width: 300,alignment: .leading)

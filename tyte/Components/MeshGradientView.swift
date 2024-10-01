@@ -30,8 +30,8 @@ struct MeshGradientView: View {
     func calculateCenterPoint() -> SIMD2<Float> {
         if cornerRadius != 6 {
             let offset: Float = 0.3
-            let x = isAnimating ? max(0.08, center.x - offset) : min(0.92, center.x + offset)
-            let y = isAnimating ? max(0.08, center.y - offset) : min(0.92, center.y + offset)
+            let x = isAnimating ? max(0.1, center.x - offset) : min(0.9, center.x + offset)
+            let y = isAnimating ? max(0.1, center.y - offset) : min(0.9, center.y + offset)
             return [x, y]
         } else {
             return SIMD2<Float>(center)
@@ -55,7 +55,6 @@ struct MeshGradientView: View {
             .padding(isSelected ? 14 : 20)
             .saturation(isSelected ? 1.0 : 0.5)
             .opacity(isSelected ? 1.0 : 0.5)
-//            .frame(width: 80,height:80)
             .shadow(color: cornerRadius != 6 ? (colorScheme == .dark ? .gray60 : .gray30) : Color.clear ,radius:24,x:-10,y:10)
             .onAppear {
                 if cornerRadius != 6 {

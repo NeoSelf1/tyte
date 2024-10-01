@@ -8,7 +8,6 @@ class ListViewModel: ObservableObject {
     @Published var selectedDate :Date { didSet { fetchTodosForDate(selectedDate.apiFormat) } }
     
     @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
     private let todoService: TodoService
@@ -30,7 +29,6 @@ class ListViewModel: ObservableObject {
         sharedVM.$lastAddedTodoId
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                print("Todo Creation Detected from List")
                 self?.fetchTodosForDate(self?.selectedDate.apiFormat ?? Date().koreanDate.apiFormat)
                 self?.fetchWeekCalendarData()
             }
@@ -40,7 +38,6 @@ class ListViewModel: ObservableObject {
     func scrollToToday(proxy: ScrollViewProxy? = nil) {
         withAnimation {
             selectedDate = Date().koreanDate
-            print("scroll\(Date().koreanDate)")
             fetchTodosForDate(selectedDate.apiFormat)
             if let proxy = proxy {
                 proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
@@ -52,16 +49,13 @@ class ListViewModel: ObservableObject {
     func fetchTodosForDate(_ deadline: String) {
         sharedVM.todosForDate = []
         isLoading = true
-        errorMessage = nil
         todoService.fetchTodosForDate(deadline: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.errorMessage = error.localizedDescription
+                guard let self = self else { return }
+                if case .failure(let error) = completion {
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -78,9 +72,9 @@ class ListViewModel: ObservableObject {
         todoService.toggleTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                     sharedVM.todosForDate[index].isCompleted.toggle()
                 }
             } receiveValue: { [weak self] updatedTodo in
@@ -96,13 +90,15 @@ class ListViewModel: ObservableObject {
         dailyStatService.fetchAllDailyStats()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    self.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                weekCalendarData = dailyStats
+                withAnimation(.mediumEaseInOut){
+                    self.weekCalendarData = dailyStats
+                }
             }
             .store(in: &cancellables)
     }
@@ -112,11 +108,13 @@ class ListViewModel: ObservableObject {
         todoService.deleteTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] _ in
                 guard let self = self else { return }
+                sharedVM.currentPopup = .todoDeleted
                 fetchTodosForDate(selectedDate.apiFormat)
                 fetchWeekCalendarData()
             }
@@ -128,12 +126,12 @@ class ListViewModel: ObservableObject {
         todoService.updateTodo(todo: todo)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] updatedTodoId in
                 guard let self = self else { return }
-                print(updatedTodoId)
                 fetchTodosForDate(selectedDate.apiFormat)
                 fetchWeekCalendarData()
             }

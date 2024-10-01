@@ -80,8 +80,6 @@ enum APIError: Error {
     
     var localizedDescription: String {
          switch self {
-         case .invalidTodo:
-             return "앗! AI가 할 일 내용을 이해하지 못했어요. 다시 한 번 작성해 주시겠어요?"
          case .invalidURL:
              return "죄송해요. 주소에 문제가 있어요. 잠시 후 다시 시도해 주세요."
          case .decodingError:

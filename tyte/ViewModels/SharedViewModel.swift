@@ -16,13 +16,12 @@ class SharedTodoViewModel: ObservableObject {
     
     @Published var lastAddedTodoId: String?
     @Published var lastUpdatedTagId: String?
-    @Published var alertMessage: String?
+    @Published var currentPopup: PopupType?
     
     private let todoService: TodoService
     private let tagService: TagService
     
     @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
     init(
@@ -55,40 +54,29 @@ class SharedTodoViewModel: ObservableObject {
         }
     }
     
-    // MARK: listView에서 Todo를 조작 후 fetchTodosForDate 호출하면, homeView에 보이는 allTodos를 갱신
-    // 불필요할듯. listview에서 fetch하는 경우는, 날짜 변경이기 때문에 전체 투두 내용 자체의 변화는 없음.
-//    func updateTodosInHome(with newTodos: [Todo]) {
-//        let dateString = newTodos.first?.deadline ?? ""
-//        inProgressTodos.removeAll { $0.deadline == dateString }
-//        completedTodos.removeAll { $0.deadline == dateString }
-//        
-//        for todo in newTodos {
-//            if todo.isCompleted {
-//                completedTodos.append(todo)
-//            } else {
-//                inProgressTodos.append(todo)
-//            }
-//        }
-//    }
-    
     //MARK: Todo 추가
     func addTodo(_ text: String) {
         isLoading = true
         todoService.createTodo(text: text)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    alertMessage = error.localizedDescription
+                    switch error {
+                    case .invalidTodo:
+                        self.currentPopup = .invalidTodo
+                    default:
+                        self.currentPopup = .error(error.localizedDescription)
+                    }
                 }
             } receiveValue: { [weak self] newTodos in
+                self?.isLoading = false
                 guard let self = self else { return }
-                self.isLoading = false
                 if newTodos.count == 1 {
-                    alertMessage = "\(newTodos[0].deadline.parsedDate.formattedMonthDate)에 투두가 추가되었습니다."
+                    currentPopup = .todoAddedIn(newTodos[0].deadline)
                 } else {
-                    alertMessage = "총 \(newTodos.count)개의 투두가 추가되었습니다."
+                    currentPopup = .todosAdded(newTodos.count)
                 }
                 // ListView에 있는 dailyStat 갱신과 fetchTodosForDate 호출 위해 필요. 통신용 => fetchTodosForDate가 여기에 있을 필요가?
                 // fetchTodoForDate도 여기서 호출하고 dailyStat 갱신만 거기서 하기로
@@ -101,20 +89,14 @@ class SharedTodoViewModel: ObservableObject {
     }
     
     // MARK: - Tag 관련 메서드
-    
-    // Fetch Tag
     func fetchTags() {
         isLoading = true
-        errorMessage = nil
         tagService.fetchAllTags()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.errorMessage = error.localizedDescription
+                if case .failure(let error) = completion {
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
@@ -129,39 +111,44 @@ class SharedTodoViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    print(error.localizedDescription)
-                    self?.errorMessage = error.localizedDescription
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] newTagId in
-                self?.updateTagsGlobal(newTagId)
+                guard let self = self else { return }
+                currentPopup = .tagAdded
+                updateTagsGlobal(newTagId)
             }
             .store(in: &cancellables)
     }
     
-    //MARK: tag 삭제
+    //MARK: Tag 삭제
     func deleteTag(id: String) {
         tagService.deleteTag(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] deletedTagId in
-                self?.updateTagsGlobal(deletedTagId)
+                guard let self = self else { return }
+                currentPopup = .tagDeleted
+                updateTagsGlobal(deletedTagId)
             }
             .store(in: &cancellables)
     }
     
-    //MARK: tag 수정
+    //MARK: Tag 수정
     func editTag(_ tag: Tag) {
         tagService.updateTag(tag: tag)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] updatedTagId in
-                self?.updateTagsGlobal(updatedTagId)
+                guard let self = self else { return }
+                currentPopup = .tagEdited
+                updateTagsGlobal(updatedTagId)
             }
             .store(in: &cancellables)
     }

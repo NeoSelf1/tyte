@@ -81,7 +81,7 @@ struct GraphView: View {
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        withAnimation(.easeInOut(duration: 0.4)) {
+                        withAnimation(.mediumEaseInOut) {
                             animationAmount = 1.0
                         }
                     }

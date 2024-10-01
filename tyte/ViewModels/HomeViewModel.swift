@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var selectedTags: [String] = []
@@ -11,7 +12,6 @@ class HomeViewModel: ObservableObject {
     private let sharedVM: SharedTodoViewModel
     
     @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
     private var cancellables = Set<AnyCancellable>()
     
     init(
@@ -44,7 +44,6 @@ class HomeViewModel: ObservableObject {
         sharedVM.$tags
             .receive(on: DispatchQueue.main)
             .sink { [weak self] tags in
-                print(tags.description)
                 guard let self = self else { return }
                     self.selectedTags = ["default"] + tags.map { $0.id }
             }
@@ -65,13 +64,13 @@ class HomeViewModel: ObservableObject {
     
     func fetchTodos() {
         isLoading = true
-        errorMessage = nil
         todoService.fetchAllTodos(mode: sortOption)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -85,21 +84,26 @@ class HomeViewModel: ObservableObject {
         todoService.toggleTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
+                    sharedVM.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
                 if updatedTodo.isCompleted {
                     // Todo가 완료됨: inProgressTodos에서 제거하고 completedTodos에 추가
                     if let index = sharedVM.inProgressTodos.firstIndex(where: { $0.id == id }) {
-                        _ = sharedVM.inProgressTodos.remove(at: index)
+                        withAnimation(.mediumEaseInOut){
+                            _ = self.sharedVM.inProgressTodos.remove(at: index)
+                        }
                         sharedVM.completedTodos.append(updatedTodo)
                     }
                 } else {
                     // Todo가 미완료됨: completedTodos에서 제거하고 inProgressTodos에 추가
                     if let index = sharedVM.completedTodos.firstIndex(where: { $0.id == id }) {
-                        _ = sharedVM.completedTodos.remove(at: index)
+                        withAnimation(.mediumEaseInOut){
+                            _ = self.sharedVM.completedTodos.remove(at: index)
+                        }
                         sharedVM.inProgressTodos.append(updatedTodo)
                     }
                 }
