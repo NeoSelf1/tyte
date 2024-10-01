@@ -12,6 +12,7 @@ enum APIEndpoint {
     case signUp
     case checkEmail
     case googleLogin
+    case appleLogin
     case deleteAccount(String) // email
     case fetchTodos(String) // mode
     case fetchTodosForDate(String) // deadline
@@ -38,6 +39,8 @@ enum APIEndpoint {
             return "/auth/check"
         case .googleLogin:
             return "/auth/google"
+        case .appleLogin:
+            return "/auth/apple"
         case .fetchTodos(let mode):
             return "/todo/all/\(mode)"
         case .fetchTodosForDate(let deadline):

@@ -173,6 +173,7 @@
 		ABC86D332C9F942B0089DC61 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		ABC96FAA2C9CDF5000F57D05 /* CustomPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopup.swift; sourceTree = "<group>"; };
 		ABC9937A2CABB7B100D8414F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		ABC9937C2CABC2A400D8414F /* tyte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = tyte.entitlements; sourceTree = "<group>"; };
 		ABD666B52C83733E0005D3C1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		ABD666BB2C83735F0005D3C1 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		ABD666BF2C8373700005D3C1 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
@@ -271,6 +272,7 @@
 		AB5BB2762C836C0400DC4D72 /* tyte */ = {
 			isa = PBXGroup;
 			children = (
+				ABC9937C2CABC2A400D8414F /* tyte.entitlements */,
 				AB21F09C2C90DBA000AAADAB /* Helpers */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				ABA920732C897E9A00B9F8F1 /* Font */,
@@ -962,6 +964,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = tyte/tyte.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"tyte/Preview Content\"";
@@ -981,7 +984,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyte;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neox.tyte;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -995,6 +998,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = tyte/tyte.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"tyte/Preview Content\"";

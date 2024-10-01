@@ -10,15 +10,59 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
+					<string>34</string>
 					<key>EndingLineNumber</key>
-					<string>130</string>
+					<string>14</string>
 					<key>StartingColumnNumber</key>
-					<string>0</string>
+					<string>23</string>
 					<key>StartingLineNumber</key>
-					<string>130</string>
+					<string>14</string>
 					<key>Timestamp</key>
-					<string>749451293.926641</string>
+					<string>749465588.901297</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>tyte/tyte/Views/MainTabView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>selectedTab</string>
+				<key>leading</key>
+				<string>    }
+    
+    @State private var </string>
+				<key>trailing</key>
+				<string> = 0
+    @State private var isCreateTodoViewPresented = false
+    @State private var isPopupPresented = false
+</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>31</string>
+					<key>EndingLineNumber</key>
+					<string>15</string>
+					<key>StartingColumnNumber</key>
+					<string>30</string>
+					<key>StartingLineNumber</key>
+					<string>15</string>
+					<key>Timestamp</key>
+					<string>749465599.462949</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,95 +78,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string></string>
+				<string> </string>
 				<key>leading</key>
-				<string>}
- 
-</string>
+				<string>    static let shared = APIManager()
+    
+    private let isDevelopment:</string>
 				<key>trailing</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>118</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>118</string>
-					<key>Timestamp</key>
-					<string>749451698.817446</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>tyte/tyte/Views/MainTabView.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string></string>
-				<key>leading</key>
-				<string>    MainTabView()
-}
+				<string>Bool = true
+    private let baseURL: String
+    
 </string>
-				<key>trailing</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>118</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>118</string>
-					<key>Timestamp</key>
-					<string>749451698.817418</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>tyte/tyte/Views/MainTabView.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string></string>
-				<key>leading</key>
-				<string>    MainTabView()
-}
-</string>
-				<key>trailing</key>
-				<string></string>
 			</dict>
 			<key>type</key>
 			<string>bookmark</string>

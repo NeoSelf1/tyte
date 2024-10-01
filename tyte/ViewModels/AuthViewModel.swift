@@ -2,10 +2,11 @@ import Foundation
 import Combine
 import GoogleSignIn
 import SwiftUI
+import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = false
-    @Published var errorMessage: AlertItem?
+    @Published var currentPopup: PopupType?
     
     @Published var email: String = "" {didSet{
         if email != oldValue {
@@ -93,38 +94,6 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    private func handleError(_ error: Error) {
-        guard let apiError = error as? APIError else {
-            self.errorMessage = AlertItem(message: error.localizedDescription)
-            return
-        }
-        // switch 문을 통해 특정 에러 처리
-        switch apiError {
-        case .wrongPassword:
-            withAnimation(.mediumEaseInOut){
-                errorText = "비밀번호가 맞지 않아요. 천천히 다시 입력해 보세요."
-                isPasswordWrong = true
-            }
-        case .invalidUsername:
-            withAnimation(.mediumEaseInOut){
-                isUsernameInvalid = true
-            }
-        case .invalidPassword:
-            withAnimation(.mediumEaseInOut){
-                isPasswordInvalid = true
-            }
-        case let error where error.requiresLogout:
-            self.errorMessage = AlertItem(message: "로그아웃 필요")
-            logout()
-        case let error where error.isNetworkError:
-            self.errorMessage = AlertItem(message: "네트워크 오류")
-        default:
-            // switch에서 처리되지 않은 APIError에 대한 기본 처리
-            self.errorMessage = AlertItem(message: apiError.localizedDescription)
-        }
-    }
-    
-    
     private func checkLoginStatus() {
         print("checkLoginStatus")
         if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail") {
@@ -142,17 +111,13 @@ class AuthViewModel: ObservableObject {
     
     func checkEmail(_ email: String) {
         isLoading = true
-        errorMessage = nil
         
         authService.checkEmail(email)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.handleError(error)
+                if case .failure(let error) = completion {
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] isExistingUser in
                 withAnimation(.mediumEaseOut) {
@@ -174,11 +139,8 @@ class AuthViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.handleError(error)
+                if case .failure(let error) = completion {
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] deleteResponse in
                 self?.isLoggedIn = false
@@ -188,17 +150,21 @@ class AuthViewModel: ObservableObject {
     
     func login() {
         isLoading = true
-        errorMessage = nil
         
         authService.login(email: email, password: password)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.handleError(error)
+                if case .failure(let error) = completion {
+                    switch error {
+                    case .wrongPassword:
+                        withAnimation(.mediumEaseInOut){
+                            self?.errorText = "비밀번호가 맞지 않아요. 천천히 다시 입력해 보세요."
+                            self?.isPasswordWrong = true
+                        }
+                    default:
+                        self?.currentPopup = .error(error.localizedDescription)
+                    }
                 }
             } receiveValue: { [weak self] loginResponse in
                 self?.handleSuccessfulLogin(loginResponse: loginResponse)
@@ -207,19 +173,25 @@ class AuthViewModel: ObservableObject {
     }
     
     func signUp() {
-        print("signUp")
         isLoading = true
-        errorMessage = nil
         
         authService.signUp(email: email, username: username, password: password)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
-                    self?.handleError(error)
+                if case .failure(let error) = completion {
+                    switch error {
+                    case .invalidPassword:
+                        withAnimation(.mediumEaseInOut){
+                            self?.isPasswordInvalid = true
+                        }
+                    case .invalidUsername:
+                        withAnimation(.mediumEaseInOut){
+                            self?.isUsernameInvalid = true
+                        }
+                    default:
+                        self?.currentPopup = .error(error.localizedDescription)
+                    }
                 }
             } receiveValue: { [weak self] signUpResponse in
                 self?.handleSuccessfulLogin(loginResponse: signUpResponse)
@@ -240,60 +212,83 @@ class AuthViewModel: ObservableObject {
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
             isLoggedIn = false
             email = ""
+            clearAllUserData()
         } catch {
-            errorMessage = AlertItem(message: "일시적인 오류입니다. 잠시 후에 시도해주세요. [05]")
+            self.currentPopup = .error(error.localizedDescription)
         }
+    }
+    
+    private func clearAllUserData() {
+        // UserDefaults에서 모든 관련 데이터 삭제
+        let defaults = UserDefaults.standard
+        let allKeys = defaults.dictionaryRepresentation().keys
+        allKeys.forEach { key in
+            if key.starts(with: "com.yourapp.") { // 앱 관련 키에 대해서만 삭제
+                defaults.removeObject(forKey: key)
+            }
+        }
+        
+        // Keychain에서 모든 관련 데이터 삭제
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: AuthConstants.tokenService
+        ]
+        SecItemDelete(query as CFDictionary)
     }
     
     //MARK: - 소셜로그인 관련 메서드
     // 웹을 통해 Google 소셜로그인 진행
     func startGoogleSignIn() {
         print("startGoogleSignIn")
-          guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
-              errorMessage = AlertItem(message: "Unable to start Google Sign-In process")
-              return
-          }
-          
+        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
+            self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+            return
+        }
+        
         isSocialLoading = true
-          
-          GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { [weak self] signInResult, error in
-              DispatchQueue.main.async {
-                  self?.isSocialLoading = false
-                  
-                  if let error = error {
-                      print(error.localizedDescription)
-                      self?.handleGoogleSignInError(error)
-                  } else if let signInResult = signInResult {
-                      print(signInResult.description)
-                      self?.handleGoogleSignInSuccess(signInResult)
-                  }
-              }
-          }
-      }
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { [weak self] signInResult, error in
+            DispatchQueue.main.async {
+                self?.isSocialLoading = false
+                
+                if let error = error {
+                    print(error.localizedDescription)
+                    self?.handleGoogleSignInError(error)
+                } else if let signInResult = signInResult {
+                    print(signInResult.description)
+                    self?.handleGoogleSignInSuccess(signInResult)
+                }
+            }
+        }
+    }
     
     private func handleGoogleSignInError(_ error: Error) {
         print("handleGoogleSignInError")
-            if let error = error as? GIDSignInError {
-                switch error.code {
-                case .canceled:
-                    // User canceled the sign-in flow, no need to show an error
-                    print("Google Sign-In was canceled by the user")
-                case .hasNoAuthInKeychain:
-                    errorMessage = AlertItem(message: "No saved Google account found. Please sign in again.")
-                default:
-                    errorMessage = AlertItem(message: "Google Sign-In failed: \(error.localizedDescription)")
-                }
-            } else {
-                errorMessage = AlertItem(message: "An unknown error occurred during Google Sign-In")
+        if let error = error as? GIDSignInError {
+            switch error.code {
+            case .canceled:
+                print("도중에 취소됨")
+                // User canceled the sign-in flow, no need to show an error
+            case .hasNoAuthInKeychain:
+                self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+            default:
+                self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+                //                    alertItem = AlertItem(title:"오류",message: "Google Sign-In failed: \(error.localizedDescription)")
             }
+        } else {
+            self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+            //                alertItem = AlertItem(title:"오류",message: "An unknown error occurred during Google Sign-In")
         }
+    }
     
     private func handleGoogleSignInSuccess(_ signInResult: GIDSignInResult) {
         print("handleGoogleSignInSuccess")
             if let idToken = signInResult.user.idToken?.tokenString {
                 performGoogleLogin(with: idToken)
             } else {
-                errorMessage = AlertItem(message: "Failed to get ID token from Google Sign-In")
+//                alertItem = AlertItem(title:"오류",message: "Failed to get ID token from Google Sign-In")
+                
+                    self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
             }
         }
     
@@ -305,17 +300,61 @@ class AuthViewModel: ObservableObject {
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] completion in
                     self?.isSocialLoading = false
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        self?.handleError(error)
+                    if case .failure(let error) = completion {
+                        self?.currentPopup = .error(error.localizedDescription)
                     }
                 } receiveValue: { [weak self] loginResponse in
                     self?.handleSuccessfulLogin(loginResponse: loginResponse)
                 }
                 .store(in: &cancellables)
         }
+    
+    func performAppleLogin(_ result: ASAuthorization) {
+        isSocialLoading = true
+        
+        guard let appleIDCredential = result.credential as? ASAuthorizationAppleIDCredential else {
+            print("Error: Unexpected credential type")
+            isSocialLoading = false
+            return
+        }
+        
+        let userIdentifier = appleIDCredential.user
+        
+        guard let identityTokenData = appleIDCredential.identityToken,
+              let identityToken = String(data: identityTokenData, encoding: .utf8),
+              let authorizationCodeData = appleIDCredential.authorizationCode,
+              let authorizationCode = String(data: authorizationCodeData, encoding: .utf8) else {
+            print("Error: Unable to fetch identity token or authorization code")
+            isSocialLoading = false
+            return
+        }
+        
+        let fullName = appleIDCredential.fullName
+        let nameFromApple = [fullName?.givenName, fullName?.familyName]
+            .compactMap { $0 }
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        let emailFromApple = appleIDCredential.email
+        
+        guard let email = emailFromApple else {
+            isSocialLoading = false
+            print("사용자 이메일 없음")
+            currentPopup = .error("애플 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+            return
+        }
+        authService.appleLogin(userIdentifier: userIdentifier, email: email, name: nameFromApple, identityToken: identityToken)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isSocialLoading = false
+                if case .failure(let error) = completion {
+                    self?.currentPopup = .error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] loginResponse in
+                self?.handleSuccessfulLogin(loginResponse: loginResponse)
+            }
+            .store(in: &cancellables)
+    }
     
     private func handleSuccessfulLogin(loginResponse: LoginResponse) {
         do {
@@ -327,12 +366,14 @@ class AuthViewModel: ObservableObject {
             isLoggedIn = true
             email = loginResponse.user.email
         } catch {
-            errorMessage = AlertItem(message: "일시적인 오류입니다. 잠시 후에 시도해주세요. [04]")
+            currentPopup = .error(error.localizedDescription)
         }
     }
+    
 }
 
 struct AlertItem: Identifiable {
     let id = UUID()
+    let title: String
     let message: String
 }
