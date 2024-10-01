@@ -139,6 +139,7 @@ struct OnboardingView: View {
             
         }.onAppear{
             viewModel.isSignUp = false
+            viewModel.isExistingUser = false
         }
     }
 }

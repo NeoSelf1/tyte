@@ -9,6 +9,24 @@ class AuthService {
         self.apiManager = apiManager
     }
     
+    func deleteAccount(_ email:String) -> AnyPublisher<String, Error> {
+        let endpoint = APIEndpoint.deleteAccount(email)
+        
+        return Future { promise in
+            self.apiManager.request(endpoint,
+                                    method: .delete,
+                                    parameters: nil) { (result: Result<String, APIError>) in
+                switch result {
+                case .success(let response):
+                    self.apiManager.clearToken()
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
     func checkEmail(_ email: String) -> AnyPublisher<Bool, Error> {
         let endpoint = APIEndpoint.checkEmail
         return Future { promise in

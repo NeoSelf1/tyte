@@ -21,6 +21,10 @@ class APIManager {
         print("\(baseURL)")
     }
     
+    func getUserEmail() -> String? {
+        return UserDefaults.standard.string(forKey: "lastLoggedInEmail")
+    }
+    
     private func getToken() -> String? {
         guard let email = UserDefaults.standard.string(forKey: "lastLoggedInEmail") else {
             return nil
