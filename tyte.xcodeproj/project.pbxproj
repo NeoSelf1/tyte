@@ -83,6 +83,7 @@
 		ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B062C9A39C900947DA4 /* MonthPicker.swift */; };
 		ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */; };
 		ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF93D292C95835E00C7D2BC /* GraphView.swift */; };
+		ABFBE97B2CAB9ADB00E7E294 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFBE97A2CAB9ADB00E7E294 /* SettingsView.swift */; };
 		C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +189,7 @@
 		ABF02B062C9A39C900947DA4 /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditBottomSheet.swift; sourceTree = "<group>"; };
 		ABF93D292C95835E00C7D2BC /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		ABFBE97A2CAB9ADB00E7E294 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
 		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				AB6A0F9B2C8EE85100254299 /* TagEditView.swift */,
 				ABC5D0452C9C010000676222 /* CreateTodoView.swift */,
 				AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */,
+				ABFBE97A2CAB9ADB00E7E294 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
 				ABE79CD22C9412B300D59871 /* SortMenuButton.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
+				ABFBE97B2CAB9ADB00E7E294 /* SettingsView.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
 				ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */,
 				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,

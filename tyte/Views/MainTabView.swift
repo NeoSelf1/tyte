@@ -12,24 +12,36 @@ struct MainTabView: View {
         _listVM = StateObject(wrappedValue: ListViewModel(sharedVM: shared))
     }
     
-    @State private var selectedTab = 0
-    @State private var showCreateTodoView = false
+    @State private var selectedTab = 2
+    @State private var isCreateTodoViewPresented = false
     @State private var isPopupPresented = false
     
     private let tabBarText = [("home","홈"),("calendar","일정관리"),("user","MY")]
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if isPopupPresented,let message = sharedVM.alertMessage {
-                    CustomPopup(message: message)
-                        .frame(maxHeight: .infinity,alignment: .top)
-                        .padding(.top,40)
-                        .zIndex(1)
-                        .transition(.asymmetric(
-                            insertion: .opacity.combined(with: .move(edge: .top)),
-                            removal: .opacity.combined(with: .move(edge: .top))
-                        ))
-                        .animation(.easeInOut(duration: 0.3), value: sharedVM.alertMessage)
+        ZStack {
+            if isPopupPresented,let popup = $sharedVM.currentPopup {
+                CustomPopup(popup: popup)
+                    .frame(maxHeight: .infinity,alignment: .top)
+                    .padding(.top,40)
+                    .zIndex(1)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .top)),
+                        removal: .opacity.combined(with: .move(edge: .top))
+                    ))
+            }
+            
+            VStack(spacing: 0) {
+                switch(selectedTab) {
+                case 0:
+                    HomeView(viewModel: homeVM, sharedVM: sharedVM)
+                case 1:
+                    NavigationStack {
+                        ListView(viewModel: listVM, sharedVM: sharedVM)
+                    }
+                default:
+                    NavigationStack {
+                        MyPageView()
+                    }
                 }
                 
                 VStack(spacing: 0) {
@@ -64,7 +76,7 @@ struct MainTabView: View {
                 }.background(.gray00)
                 
                 FloatingActionButton(action: {
-                    showCreateTodoView = true
+                    isCreateTodoViewPresented = true
                 })
                 .padding(.trailing, 24)
                 .padding(.bottom, 80)
@@ -74,8 +86,8 @@ struct MainTabView: View {
                 listVM.setupBindings(sharedVM: sharedVM)
                 homeVM.setupBindings(sharedVM: sharedVM)
             }
-            .sheet(isPresented: $showCreateTodoView) {
-                CreateTodoView(sharedVM: sharedVM, isShowing:$showCreateTodoView)
+            .sheet(isPresented: $isCreateTodoViewPresented) {
+                CreateTodoView(sharedVM: sharedVM, isShowing: $isCreateTodoViewPresented)
                     .presentationDetents([.height(260)])
                     .presentationDragIndicator(.visible)
                     .presentationBackground(.gray00)

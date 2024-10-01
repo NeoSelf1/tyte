@@ -34,7 +34,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    private let isDevelopment: Bool = false
+				<string>    private let isDevelopment: Bool = true
 </string>
 				<key>leading</key>
 				<string>    static let shared = APIManager()
@@ -57,13 +57,58 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>105</string>
+					<string>70</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>105</string>
+					<string>69</string>
 					<key>Timestamp</key>
-					<string>749118902.4546731</string>
+					<string>749449809.2805229</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>tyte/tyte/Views/MainTabView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>                                    }
+</string>
+				<key>leading</key>
+				<string>                                            selectedTab = index
+                                        }
+</string>
+				<key>trailing</key>
+				<string>                            }
+                        }
+                        .background(.gray00)
+</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>4</string>
+					<key>EndingLineNumber</key>
+					<string>13</string>
+					<key>StartingColumnNumber</key>
+					<string>4</string>
+					<key>StartingLineNumber</key>
+					<string>13</string>
+					<key>Timestamp</key>
+					<string>749449964.828151</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -81,11 +126,14 @@
 				<key>focused</key>
 				<string></string>
 				<key>leading</key>
-				<string>}
-
-</string>
+				<string>        _listVM = StateObject(wrappedValue: ListViewModel(sharedVM: shared))
+    }
+    </string>
 				<key>trailing</key>
-				<string></string>
+				<string>
+    @State private var selectedTab = 2
+    @State private var isCreateTodoViewPresented = false
+</string>
 			</dict>
 			<key>type</key>
 			<string>bookmark</string>
