@@ -12,7 +12,6 @@ struct MyPageView: View {
     @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
     @State private var bottomSheetPosition: PresentationDetent = .height(720)
     
-    
     var body: some View {
         ZStack {
             VStack{
@@ -63,7 +62,9 @@ struct MyPageView: View {
                     .presentationDetents([.height(720), .large])
                     .presentationDragIndicator(.hidden)
             }
-            
+            .onAppear{
+                viewModel.fetchDailyStats()
+            }
             
         }
     }
