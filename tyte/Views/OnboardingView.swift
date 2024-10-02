@@ -16,6 +16,12 @@ struct OnboardingView: View {
     
     var body: some View {
         ZStack{
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    focusedField = nil
+                }
+            
             if isPopupPresented, let popup = viewModel.currentPopup {
                 CustomPopup(popup: popup)
                     .frame(maxHeight: .infinity, alignment: .top)
@@ -65,7 +71,7 @@ struct OnboardingView: View {
                             )
                             .offset(x: shakeOffset)
                             .onAppear {
-                                 focusedField = Field.password
+                                focusedField = Field.password
                             }
                             .onChange(of: viewModel.isPasswordWrong) { _, newValue in
                                 if newValue {
@@ -140,7 +146,7 @@ struct OnboardingView: View {
                         }
                         .onAppear {
                             focusedField = Field.username
-                       }
+                        }
                     }
                 }
             }
@@ -249,10 +255,8 @@ private func appleButton(viewModel: AuthViewModel) -> some View {
             )
     .frame(height: 50)
     .cornerRadius(10)
-}
-
-
-#Preview {
-    OnboardingView()
-        .environmentObject(AuthViewModel())
+    .overlay(
+        RoundedRectangle(cornerRadius: 10)
+            .stroke(.gray60, lineWidth: 1)
+    )
 }

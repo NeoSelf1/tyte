@@ -15,7 +15,7 @@ struct SettingsView: View {
     @State private var showLogoutAlert = false
     @State private var showDeleteAccountAlert = false
     
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle != .dark
+    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     
     var body: some View {
         ZStack{

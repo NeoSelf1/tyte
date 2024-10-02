@@ -581,11 +581,12 @@
 			};
 			buildConfigurationList = AB5BB26F2C836C0400DC4D72 /* Build configuration list for PBXProject "tyte" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = AB5BB26B2C836C0400DC4D72;
 			productRefGroup = AB5BB2752C836C0400DC4D72 /* Products */;
