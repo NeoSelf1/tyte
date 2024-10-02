@@ -318,32 +318,14 @@ class AuthViewModel: ObservableObject {
             return
         }
         
-        let userIdentifier = appleIDCredential.user
-        
         guard let identityTokenData = appleIDCredential.identityToken,
-              let identityToken = String(data: identityTokenData, encoding: .utf8),
-              let authorizationCodeData = appleIDCredential.authorizationCode,
-              let authorizationCode = String(data: authorizationCodeData, encoding: .utf8) else {
+              let identityToken = String(data: identityTokenData, encoding: .utf8) else {
             print("Error: Unable to fetch identity token or authorization code")
             isSocialLoading = false
             return
         }
         
-        let fullName = appleIDCredential.fullName
-        let nameFromApple = [fullName?.givenName, fullName?.familyName]
-            .compactMap { $0 }
-            .joined(separator: " ")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        let emailFromApple = appleIDCredential.email
-        
-        guard let email = emailFromApple else {
-            isSocialLoading = false
-            print("사용자 이메일 없음")
-            currentPopup = .error("애플 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
-            return
-        }
-        authService.appleLogin(userIdentifier: userIdentifier, email: email, name: nameFromApple, identityToken: identityToken)
+        authService.appleLogin(identityToken: identityToken)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isSocialLoading = false

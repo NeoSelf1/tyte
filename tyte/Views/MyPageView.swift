@@ -55,7 +55,8 @@ struct MyPageView: View {
                         
                     }
                     Spacer()
-                }.background(.gray00)
+                }
+                .background(.gray00)
             }
             .sheet(isPresented: $viewModel.isDetailViewPresented) {
                 MultiLayerBottomSheet(viewModel: viewModel, bottomSheetPosition: $bottomSheetPosition)
@@ -65,7 +66,6 @@ struct MyPageView: View {
             .onAppear{
                 viewModel.fetchDailyStats()
             }
-            
         }
     }
 }

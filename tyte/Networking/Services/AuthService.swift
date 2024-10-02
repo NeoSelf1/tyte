@@ -94,15 +94,13 @@ class AuthService {
         }.eraseToAnyPublisher()
     }
     
-    func appleLogin(userIdentifier:String, email: String, name: String, identityToken: String) -> AnyPublisher<LoginResponse, APIError> {
+    func appleLogin(identityToken: String) -> AnyPublisher<LoginResponse, APIError> {
         let endpoint = APIEndpoint.appleLogin
-        
-        let parameters = ["userIdentifier":userIdentifier, "email": email, "name":name, "identityToken":identityToken]
-        
+        print(identityToken)
         return Future { promise in
             self.apiManager.requestWithoutAuth(endpoint,
                                                method: .post,
-                                               parameters: parameters) { (result: Result<LoginResponse, APIError>) in
+                                               parameters: [ "identityToken":identityToken ]) { (result: Result<LoginResponse, APIError>) in
                 switch result {
                 case .success(let response):
                     self.apiManager.saveToken(response.token, for: response.user.email)
