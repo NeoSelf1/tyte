@@ -9,7 +9,25 @@ class AuthService {
         self.apiManager = apiManager
     }
     
-    func checkEmail(_ email: String) -> AnyPublisher<Bool, Error> {
+    func deleteAccount(_ email:String) -> AnyPublisher<String, APIError> {
+        let endpoint = APIEndpoint.deleteAccount(email)
+        
+        return Future { promise in
+            self.apiManager.request(endpoint,
+                                    method: .delete,
+                                    parameters: nil) { (result: Result<String, APIError>) in
+                switch result {
+                case .success(let response):
+                    self.apiManager.clearToken()
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    func checkEmail(_ email: String) -> AnyPublisher<Bool, APIError> {
         let endpoint = APIEndpoint.checkEmail
         return Future { promise in
             self.apiManager.requestWithoutAuth(endpoint,
@@ -25,7 +43,7 @@ class AuthService {
         }.eraseToAnyPublisher()
     }
     
-    func login(email: String, password: String) -> AnyPublisher<LoginResponse, Error> {
+    func login(email: String, password: String) -> AnyPublisher<LoginResponse, APIError> {
         let endpoint = APIEndpoint.login
         return Future { promise in
             self.apiManager.requestWithoutAuth(endpoint,
@@ -42,7 +60,7 @@ class AuthService {
         }.eraseToAnyPublisher()
     }
     
-    func signUp(email: String, username: String, password: String) -> AnyPublisher<LoginResponse, Error> {
+    func signUp(email: String, username: String, password: String) -> AnyPublisher<LoginResponse, APIError> {
         let endpoint = APIEndpoint.signUp
         return Future { promise in
             self.apiManager.requestWithoutAuth(endpoint,
@@ -59,12 +77,30 @@ class AuthService {
         }.eraseToAnyPublisher()
     }
     
-    func googleLogin(idToken: String) -> AnyPublisher<LoginResponse, Error> {
+    func googleLogin(idToken: String) -> AnyPublisher<LoginResponse, APIError> {
         let endpoint = APIEndpoint.googleLogin
         return Future { promise in
             self.apiManager.requestWithoutAuth(endpoint,
                                                method: .post,
                                                parameters: ["token": idToken]) { (result: Result<LoginResponse, APIError>) in
+                switch result {
+                case .success(let response):
+                    self.apiManager.saveToken(response.token, for: response.user.email)
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    func appleLogin(identityToken: String) -> AnyPublisher<LoginResponse, APIError> {
+        let endpoint = APIEndpoint.appleLogin
+        print(identityToken)
+        return Future { promise in
+            self.apiManager.requestWithoutAuth(endpoint,
+                                               method: .post,
+                                               parameters: [ "identityToken":identityToken ]) { (result: Result<LoginResponse, APIError>) in
                 switch result {
                 case .success(let response):
                     self.apiManager.saveToken(response.token, for: response.user.email)

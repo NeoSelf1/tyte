@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class SharedTodoViewModel: ObservableObject {
     @Published var inProgressTodos: [Todo] = []
@@ -82,6 +83,8 @@ class SharedTodoViewModel: ObservableObject {
                 // fetchTodoForDate도 여기서 호출하고 dailyStat 갱신만 거기서 하기로
                 // selectedDate에 대한 fetchTodosForDate가 필요하기 때문에 여기서 호출하기 부적절. 기각.
                 // HomeView, ListView 갱신용
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                 
                 self.lastAddedTodoId = newTodos.last?.id
             }

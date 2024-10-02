@@ -52,7 +52,7 @@ struct ColorPickerBottomSheet: View {
                 ColorPicker("", selection: $customColor, supportsOpacity: false)
                     .labelsHidden()
                     .frame(width: 120, height: 44)
-                    .background(Color.white)
+                    .background(.gray00)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)

@@ -10,60 +10,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
+					<string>34</string>
 					<key>EndingLineNumber</key>
-					<string>16</string>
+					<string>14</string>
 					<key>StartingColumnNumber</key>
-					<string>0</string>
+					<string>23</string>
 					<key>StartingLineNumber</key>
-					<string>15</string>
+					<string>14</string>
 					<key>Timestamp</key>
-					<string>749098904.011615</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>tyte/tyte/Networking/Base/APIManager.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>    private let isDevelopment: Bool = true
-</string>
-				<key>leading</key>
-				<string>    static let shared = APIManager()
-    
-</string>
-				<key>trailing</key>
-				<string>    private let baseURL: String
-    
-    private init() {
-</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>88</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>87</string>
-					<key>Timestamp</key>
-					<string>749384936.280522</string>
+					<string>749465588.901297</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -79,16 +34,59 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>
-</string>
+				<string>selectedTab</string>
 				<key>leading</key>
-				<string>}
-
-</string>
+				<string>    }
+    
+    @State private var </string>
 				<key>trailing</key>
-				<string>
-
-struct BottomTab: View {
+				<string> = 0
+    @State private var isCreateTodoViewPresented = false
+    @State private var isPopupPresented = false
+</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>31</string>
+					<key>EndingLineNumber</key>
+					<string>15</string>
+					<key>StartingColumnNumber</key>
+					<string>30</string>
+					<key>StartingLineNumber</key>
+					<string>15</string>
+					<key>Timestamp</key>
+					<string>749465599.462949</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>tyte/tyte/Networking/Base/APIManager.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string> </string>
+				<key>leading</key>
+				<string>    static let shared = APIManager()
+    
+    private let isDevelopment:</string>
+				<key>trailing</key>
+				<string>Bool = true
+    private let baseURL: String
+    
 </string>
 			</dict>
 			<key>type</key>

@@ -31,6 +31,7 @@ enum APIError: Error {
     
     case notFound
     case unknown
+    case social
     
     case emailAlreadyExists
     case wrongPassword

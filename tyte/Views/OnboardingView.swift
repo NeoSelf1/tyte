@@ -1,10 +1,12 @@
 import SwiftUI
 import GoogleSignInSwift
+import AuthenticationServices
 
 struct OnboardingView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
+    @State private var isPopupPresented = false
     
     enum Field: Hashable {
         case email
@@ -20,16 +22,28 @@ struct OnboardingView: View {
                     focusedField = nil
                 }
             
+            if isPopupPresented, let popup = viewModel.currentPopup {
+                CustomPopup(popup: popup)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 80)
+                    .zIndex(1)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .top)),
+                        removal: .opacity.combined(with: .move(edge: .top))
+                    ))
+                    .animation(.mediumEaseInOut, value: isPopupPresented)
+            }
+            
             VStack(spacing: 8) {
                 Thumbnail()
                 
                 VStack{
+                    Text(viewModel.errorText)
+                        .font(._body3)
+                        .foregroundColor(.red).opacity(0.7)
+                        .frame(maxWidth: .infinity,maxHeight: 64,alignment: .bottomLeading)
+                    
                     if !viewModel.isSignUp {
-                        Text(viewModel.errorText)
-                            .font(._body3)
-                            .foregroundColor(.red).opacity(0.7)
-                            .frame(maxWidth: .infinity,maxHeight: 64,alignment: .bottomLeading)
-                        
                         CustomTextField(
                             text: $viewModel.email,
                             placeholder: "이메일",
@@ -57,7 +71,7 @@ struct OnboardingView: View {
                             )
                             .offset(x: shakeOffset)
                             .onAppear {
-                                 focusedField = Field.password
+                                focusedField = Field.password
                             }
                             .onChange(of: viewModel.isPasswordWrong) { _, newValue in
                                 if newValue {
@@ -82,6 +96,7 @@ struct OnboardingView: View {
                         
                         googleButton(viewModel: viewModel)
                         
+                        appleButton(viewModel: viewModel)
                     } else {
                         VStack(alignment: .trailing, spacing: 4) {
                             CustomTextField(text: $viewModel.username, placeholder: "사용자 이름")
@@ -131,14 +146,30 @@ struct OnboardingView: View {
                         }
                         .onAppear {
                             focusedField = Field.username
-                       }
+                        }
                     }
                 }
             }
-            .padding()
-            
+            .padding(.horizontal)
         }.onAppear{
             viewModel.isSignUp = false
+            viewModel.isExistingUser = false
+        }
+        
+        .onChange(of: viewModel.currentPopup?.text) { _, newValue in
+            if newValue != nil {
+                withAnimation {
+                    isPopupPresented = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    withAnimation {
+                        isPopupPresented = false
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        viewModel.currentPopup = nil
+                    }
+                }
+            }
         }
     }
 }
@@ -155,13 +186,13 @@ struct Thumbnail: View {
             Image("logo-transparent")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 212, height: 212)
-                .padding(.bottom,32)
+                .frame(width: 180, height: 180)
+                .padding(.bottom,8)
             
             Image(colorScheme == .dark ? "logo-dark" : "logo-light")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(height:32)
+                .frame(height:24)
             
             VStack(spacing:4){
                 Text("일상의 균형과 생산성을 높이는 스마트한")
@@ -183,7 +214,6 @@ private var orDivider: some View {
             .font(._caption)
         VStack { Divider() }.padding(.horizontal, 20)
     }
-    .padding(.vertical, 10)
 }
     
 private func googleButton(viewModel:AuthViewModel) -> some View {
@@ -196,14 +226,37 @@ private func googleButton(viewModel:AuthViewModel) -> some View {
             
             Text("Google로 시작하기")
                 .font(._body2)
-        }.frame(maxWidth: .infinity)
-            .padding()
-            .background(.gray00)
-            .foregroundColor(.gray60)
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.gray60, lineWidth: 1)
-            )
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(.gray00)
+        .foregroundColor(.gray60)
+        .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray60, lineWidth: 1)
+        )
     }
+}
+
+private func appleButton(viewModel: AuthViewModel) -> some View {
+    SignInWithAppleButton(
+                onRequest: { request in
+                    request.requestedScopes = [.fullName, .email]
+                },
+                onCompletion: { result in
+                    switch result {
+                    case .success(let authResults):
+                        viewModel.performAppleLogin(authResults)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            )
+    .frame(height: 50)
+    .cornerRadius(10)
+    .overlay(
+        RoundedRectangle(cornerRadius: 10)
+            .stroke(.gray60, lineWidth: 1)
+    )
 }
