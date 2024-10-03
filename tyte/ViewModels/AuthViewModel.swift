@@ -95,7 +95,6 @@ class AuthViewModel: ObservableObject {
     }
     
     private func checkLoginStatus() {
-        print("checkLoginStatus")
         if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail") {
             do {
                 _ = try KeychainManager.retrieve(service: AuthConstants.tokenService, account: savedEmail)
@@ -124,7 +123,6 @@ class AuthViewModel: ObservableObject {
                     self?.isExistingUser = isExistingUser
                 }
                 if !isExistingUser {
-                    print("navigating to signupview")
                     withAnimation(.mediumEaseOut){
                         self?.isSignUp = true
                     }
@@ -239,7 +237,6 @@ class AuthViewModel: ObservableObject {
     //MARK: - 소셜로그인 관련 메서드
     // 웹을 통해 Google 소셜로그인 진행
     func startGoogleSignIn() {
-        print("startGoogleSignIn")
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
             self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
             return
@@ -263,7 +260,6 @@ class AuthViewModel: ObservableObject {
     }
     
     private func handleGoogleSignInError(_ error: Error) {
-        print("handleGoogleSignInError")
         if let error = error as? GIDSignInError {
             switch error.code {
             case .canceled:
@@ -282,7 +278,6 @@ class AuthViewModel: ObservableObject {
     }
     
     private func handleGoogleSignInSuccess(_ signInResult: GIDSignInResult) {
-        print("handleGoogleSignInSuccess")
             if let idToken = signInResult.user.idToken?.tokenString {
                 performGoogleLogin(with: idToken)
             } else {
@@ -293,7 +288,6 @@ class AuthViewModel: ObservableObject {
         }
     
     private func performGoogleLogin(with idToken: String) {
-        print("performGoogleLogin")
         isSocialLoading = true
             
             authService.googleLogin(idToken: idToken)
@@ -340,7 +334,6 @@ class AuthViewModel: ObservableObject {
     
     private func handleSuccessfulLogin(loginResponse: LoginResponse) {
         do {
-            print("handleSuccessfulLogin")
             try KeychainManager.save(token: loginResponse.token,
                                      service: AuthConstants.tokenService,
                                      account: loginResponse.user.email)

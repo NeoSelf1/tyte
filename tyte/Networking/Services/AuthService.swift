@@ -96,7 +96,6 @@ class AuthService {
     
     func appleLogin(identityToken: String) -> AnyPublisher<LoginResponse, APIError> {
         let endpoint = APIEndpoint.appleLogin
-        print(identityToken)
         return Future { promise in
             self.apiManager.requestWithoutAuth(endpoint,
                                                method: .post,
