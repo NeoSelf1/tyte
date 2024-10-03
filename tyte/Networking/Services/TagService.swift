@@ -2,6 +2,7 @@ import Foundation
 import Combine
 
 class TagService {
+    static let shared = TagService()
     private let apiManager = APIManager.shared
     
     func fetchAllTags() -> AnyPublisher<[Tag], APIError> {

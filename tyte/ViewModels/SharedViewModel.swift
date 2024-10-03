@@ -26,8 +26,8 @@ class SharedTodoViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(
-        todoService: TodoService = TodoService(),
-        tagService: TagService = TagService()
+        todoService: TodoService = TodoService.shared,
+        tagService: TagService = TagService.shared
     ) {
         self.todoService = todoService
         self.tagService = tagService

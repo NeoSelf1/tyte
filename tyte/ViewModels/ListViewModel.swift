@@ -15,8 +15,8 @@ class ListViewModel: ObservableObject {
     private let sharedVM: SharedTodoViewModel
     
     init(
-        todoService: TodoService = TodoService(),
-        dailyStatService: DailyStatService = DailyStatService(),
+        todoService: TodoService = TodoService.shared,
+        dailyStatService: DailyStatService = DailyStatService.shared,
         sharedVM: SharedTodoViewModel
     ) {
         self.todoService = todoService

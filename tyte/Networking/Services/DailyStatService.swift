@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 class DailyStatService {
+    static let shared = DailyStatService()
     private let apiManager = APIManager.shared
     
     func fetchAllDailyStats() -> AnyPublisher<[DailyStat], APIError> {
