@@ -3,6 +3,7 @@ import Combine
 import Alamofire
 
 class AuthService {
+    static let shared = AuthService()
     private let apiManager: APIManager
     
     init(apiManager: APIManager = .shared) {

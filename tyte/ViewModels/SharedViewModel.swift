@@ -27,7 +27,7 @@ class SharedTodoViewModel: ObservableObject {
     
     init(
         todoService: TodoService = TodoService.shared,
-        tagService: TagService = TagService()
+        tagService: TagService = TagService.shared
     ) {
         self.todoService = todoService
         self.tagService = tagService

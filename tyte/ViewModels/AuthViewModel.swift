@@ -74,7 +74,7 @@ class AuthViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let authService: AuthService
     
-    init(authService: AuthService = AuthService()) {
+    init(authService: AuthService = AuthService.shared) {
         self.authService = authService
         checkLoginStatus()
     }
