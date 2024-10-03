@@ -16,7 +16,7 @@ class HomeViewModel: ObservableObject {
     
     init(
         sharedVM: SharedTodoViewModel,
-        todoService: TodoService = TodoService()
+        todoService: TodoService = TodoService.shared
     ) {
         self.sharedVM = sharedVM
         self.todoService = todoService

@@ -39,7 +39,7 @@ class MyPageViewModel: ObservableObject {
     init(
         dailyStatService: DailyStatService = DailyStatService(),
          authService: AuthService = AuthService(),
-        todoService: TodoService = TodoService()
+        todoService: TodoService = TodoService.shared
     ) {
         print("MyPageViewModel init")
         self.dailyStatService = dailyStatService

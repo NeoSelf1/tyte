@@ -8,6 +8,8 @@ import Foundation
 import Combine
 
 class TodoService {
+    static let shared = TodoService()
+    
     private let apiManager = APIManager.shared
     
     func fetchAllTodos(mode:String) -> AnyPublisher<[Todo], APIError> {

@@ -10,15 +10,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>34</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>14</string>
+					<string>16</string>
 					<key>StartingColumnNumber</key>
-					<string>23</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>14</string>
+					<string>15</string>
 					<key>Timestamp</key>
-					<string>749465588.901297</string>
+					<string>749549500.06205</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,15 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>selectedTab</string>
+				<string>    @State private var isCreateTodoViewPresented = false
+</string>
 				<key>leading</key>
-				<string>    }
-    
-    @State private var </string>
+				<string>    
+    @State private var selectedTab = 0
+</string>
 				<key>trailing</key>
-				<string> = 0
-    @State private var isCreateTodoViewPresented = false
-    @State private var isPopupPresented = false
+				<string>    @State private var isPopupPresented = false
+    
+    var body: some View {
 </string>
 			</dict>
 			<key>type</key>
