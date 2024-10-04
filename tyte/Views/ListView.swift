@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ListView: View {
+    @EnvironmentObject var appState:AppState
     @ObservedObject var viewModel: ListViewModel
     @ObservedObject var sharedVM: SharedTodoViewModel
     

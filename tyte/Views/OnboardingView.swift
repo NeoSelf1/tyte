@@ -3,7 +3,9 @@ import GoogleSignInSwift
 import AuthenticationServices
 
 struct OnboardingView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var appState: AppState
+    
+    @StateObject private var viewModel = AuthViewModel()
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
     @State private var isPopupPresented = false

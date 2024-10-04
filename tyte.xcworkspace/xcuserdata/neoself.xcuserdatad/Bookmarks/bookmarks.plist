@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>16</string>
+					<string>17</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>15</string>
+					<string>16</string>
 					<key>Timestamp</key>
-					<string>749549500.06205</string>
+					<string>749717992.250842</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -55,15 +55,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>31</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>15</string>
+					<string>16</string>
 					<key>StartingColumnNumber</key>
-					<string>30</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
 					<string>15</string>
 					<key>Timestamp</key>
-					<string>749465599.462949</string>
+					<string>749715302.066854</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -79,15 +79,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string> </string>
+				<string>    private let isDevelopment: Bool = false
+</string>
 				<key>leading</key>
 				<string>    static let shared = APIManager()
     
-    private let isDevelopment:</string>
+</string>
 				<key>trailing</key>
-				<string>Bool = true
-    private let baseURL: String
+				<string>    private let baseURL: String
     
+    private init() {
 </string>
 			</dict>
 			<key>type</key>

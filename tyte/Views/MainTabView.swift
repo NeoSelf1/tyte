@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject var appState: AppState
     @StateObject private var sharedVM = SharedTodoViewModel()
     @StateObject private var homeVM: HomeViewModel
     @StateObject private var listVM: ListViewModel

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var authVM: AuthViewModel
+    @StateObject private var viewModel = AuthViewModel()
+    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     
