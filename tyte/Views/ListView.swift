@@ -64,13 +64,26 @@ struct ListView: View {
                         )
                         .padding(1)
                     }
-                    
-                    NavigationLink(destination: TagEditView(viewModel:sharedVM)) {
-                        Image(systemName: "tag.fill")
-                            .resizable()
-                            .frame(width: 24,height:24)
-                            .foregroundColor(.gray90)
-                            .padding(12)
+                    if appState.isGuestMode {
+                        Button{
+                            withAnimation(.mediumEaseInOut){
+                                sharedVM.isLoginRequiredViewPresented = true
+                            }
+                        } label: {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
+                    } else {
+                        NavigationLink(destination: TagEditView(viewModel:sharedVM)) {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
                     }
                 }
                 .frame(height:52)

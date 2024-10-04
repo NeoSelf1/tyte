@@ -18,7 +18,7 @@ class SharedTodoViewModel: ObservableObject {
     @Published var lastAddedTodoId: String?
     @Published var lastUpdatedTagId: String?
     @Published var currentPopup: PopupType?
-    
+    @Published var isLoginRequiredViewPresented: Bool = false 
     private let todoService: TodoService
     private let tagService: TagService
     

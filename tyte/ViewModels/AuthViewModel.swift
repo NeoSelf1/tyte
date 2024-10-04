@@ -5,7 +5,9 @@ import SwiftUI
 import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
-    @Published var isLoggedIn: Bool = false
+    @ObservedObject private var appState: AppState
+    // View와 달리, 뷰모델에서는 비즈니스 로직을 처리하기에 필요한 의존성을 명시적으로 주입 후, 싱글톤으로 접근
+    // 필요한 곳에서만 상태를 관찰할 수 있기에 더 효율적
     @Published var currentPopup: PopupType?
     
     @Published var email: String = "" {didSet{
@@ -74,8 +76,9 @@ class AuthViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let authService: AuthService
     
-    init(authService: AuthService = AuthService.shared) {
+    init(authService: AuthService = AuthService.shared, appState: AppState = .shared) {
         self.authService = authService
+        self.appState = appState
         checkLoginStatus()
     }
     
@@ -100,10 +103,10 @@ class AuthViewModel: ObservableObject {
                 _ = try KeychainManager.retrieve(service: AuthConstants.tokenService, account: savedEmail)
                 self.email = savedEmail
                 print("isLoggedIn true")
-                isLoggedIn = true
+                appState.isLoggedIn = true
             } catch {
                 print("isLoggedIn false")
-                isLoggedIn = false
+                appState.isLoggedIn = false
             }
         }
     }
@@ -141,7 +144,7 @@ class AuthViewModel: ObservableObject {
                     self?.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] deleteResponse in
-                self?.isLoggedIn = false
+                self?.appState.isLoggedIn = false
             }
             .store(in: &cancellables)
     }
@@ -208,7 +211,7 @@ class AuthViewModel: ObservableObject {
             // Google 로그아웃
             GIDSignIn.sharedInstance.signOut()
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
-            isLoggedIn = false
+            appState.isLoggedIn = false
             email = ""
             clearAllUserData()
         } catch {
@@ -338,7 +341,7 @@ class AuthViewModel: ObservableObject {
                                      service: AuthConstants.tokenService,
                                      account: loginResponse.user.email)
             UserDefaults.standard.set(loginResponse.user.email, forKey: "lastLoggedInEmail")
-            isLoggedIn = true
+            appState.isLoggedIn = true
             email = loginResponse.user.email
         } catch {
             currentPopup = .error(error.localizedDescription)
