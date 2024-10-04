@@ -31,7 +31,7 @@ struct MainTabView: View {
                     NavigationStack {
                         MyPageView()
                     }
-                
+                }
                 BottomTab(selectedTab: $selectedTab, sharedVM:sharedVM)
             }
             .background(.gray00)
