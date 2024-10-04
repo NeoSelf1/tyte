@@ -3,7 +3,9 @@ import GoogleSignInSwift
 import AuthenticationServices
 
 struct OnboardingView: View {
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var appState: AppState
+    
+    @StateObject private var viewModel = AuthViewModel()
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
     @State private var isPopupPresented = false
@@ -97,6 +99,24 @@ struct OnboardingView: View {
                         googleButton(viewModel: viewModel)
                         
                         appleButton(viewModel: viewModel)
+                        
+                        Button(action:{
+                            withAnimation(.mediumEaseInOut){
+                                withAnimation(.fastEaseInOut) {
+                                    appState.isGuestMode = true
+                                }
+                            }
+                        }){
+                            Text("게스트모드로 시작하기")
+                                .font(._body4)
+                                .foregroundStyle(.gray50)
+                                .overlay(Rectangle()
+                                    .fill(.gray30)
+                                    .frame(height: 1)
+                                    .offset(y: 2),alignment: .bottom)
+                        }
+                        .frame(maxWidth: .infinity,alignment: .center)
+                        .padding(.top,12)
                     } else {
                         VStack(alignment: .trailing, spacing: 4) {
                             CustomTextField(text: $viewModel.username, placeholder: "사용자 이름")
@@ -172,11 +192,6 @@ struct OnboardingView: View {
             }
         }
     }
-}
-
-#Preview{
-    OnboardingView()
-        .environmentObject(AuthViewModel())
 }
 
 struct Thumbnail: View {
@@ -259,4 +274,9 @@ private func appleButton(viewModel: AuthViewModel) -> some View {
         RoundedRectangle(cornerRadius: 10)
             .stroke(.gray60, lineWidth: 1)
     )
+}
+
+
+#Preview{
+    OnboardingView()
 }

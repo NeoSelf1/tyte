@@ -4,7 +4,6 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var selectedTags: [String] = []
-    
     @Published var sortOption: String = "default"
     @Published var currentTab: Int = 0
     

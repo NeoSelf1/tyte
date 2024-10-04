@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject var appState: AppState
     @StateObject private var sharedVM = SharedTodoViewModel()
     @StateObject private var homeVM: HomeViewModel
     @StateObject private var listVM: ListViewModel
@@ -18,18 +19,6 @@ struct MainTabView: View {
     
     var body: some View {
         ZStack {
-            if isPopupPresented, let popup = sharedVM.currentPopup {
-                CustomPopup(popup: popup)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .padding(.top, 40)
-                    .zIndex(1)
-                    .transition(.asymmetric(
-                        insertion: .opacity.combined(with: .move(edge: .top)),
-                        removal: .opacity.combined(with: .move(edge: .top))
-                    ))
-                    .animation(.mediumEaseInOut, value: isPopupPresented)
-            }
-            
             VStack(spacing: 0) {
                 switch(selectedTab) {
                 case 0:
@@ -42,18 +31,50 @@ struct MainTabView: View {
                     NavigationStack {
                         MyPageView()
                     }
-                }
                 
-                BottomTab(selectedTab: $selectedTab)
+                BottomTab(selectedTab: $selectedTab, sharedVM:sharedVM)
             }
             .background(.gray00)
             
             FloatingActionButton(action: {
-                isCreateTodoViewPresented = true
+                if appState.isGuestMode {
+                    withAnimation(.mediumEaseInOut) {
+                        sharedVM.isLoginRequiredViewPresented = true
+                    }
+                } else {
+                    isCreateTodoViewPresented = true
+                }
             })
             .padding(.trailing, 24)
             .padding(.bottom, 80)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            
+            
+            if isPopupPresented, let popup = sharedVM.currentPopup {
+                CustomPopup(popup: popup)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 40)
+                    .zIndex(1)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .top)),
+                        removal: .opacity.combined(with: .move(edge: .top))
+                    ))
+                    .animation(.mediumEaseInOut, value: isPopupPresented)
+            }
+            
+            if sharedVM.isLoginRequiredViewPresented {
+                CustomAlert(
+                    isShowing: $sharedVM.isLoginRequiredViewPresented,
+                    title: "로그인 필요",
+                    message: "로그인이 필요한 기능입니다",
+                    primaryButtonTitle: "로그인",
+                    secondaryButtonTitle: "취소",
+                    primaryAction: {
+                        appState.isGuestMode = false
+                    },
+                    secondaryAction: {}
+                )
+            }
         }
         .onAppear {
             listVM.setupBindings(sharedVM: sharedVM)
@@ -84,7 +105,9 @@ struct MainTabView: View {
 }
 
 struct BottomTab: View {
+    @EnvironmentObject var appState: AppState
     @Binding var selectedTab: Int
+    var sharedVM : SharedTodoViewModel
     
     var body: some View {
         let tabBarText = [("home","홈"), ("calendar","일정관리"), ("user","MY")]
@@ -101,8 +124,14 @@ struct BottomTab: View {
                         text: tabBarText[index].1,
                         isSelected: selectedTab == index
                     ) {
-                        withAnimation(.fastEaseInOut) {
-                            selectedTab = index
+                        if index==2 && appState.isGuestMode {
+                            withAnimation(.mediumEaseInOut) {
+                                sharedVM.isLoginRequiredViewPresented = true
+                            }
+                        } else {
+                            withAnimation(.fastEaseInOut) {
+                                selectedTab = index
+                            }
                         }
                     }
                 }
