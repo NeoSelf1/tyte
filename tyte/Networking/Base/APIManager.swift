@@ -75,6 +75,10 @@ class APIManager {
         let url = baseURL + endpoint.path
         var headers: HTTPHeaders = [:]
         
+        // appstate를 접근하여 게스트모드임을 확인하면, request 취소
+        if AppState.shared.isGuestMode {return print("approaching \(endpoint) in GuestMode...")}
+        
+        // 게스트모드가 아닐 경우, 토큰 접근, 토큰 없을 경우 개발자모드면 임의값 부여, 아닐 경우 에러
         if let token = self.getToken() {
             headers = ["Authorization": "Bearer \(token)"]
         } else {
@@ -85,7 +89,6 @@ class APIManager {
                 return
             }
         }
-        
         
         AF.request(url,
                    method: method,

@@ -85,7 +85,7 @@ struct SettingsView: View {
                     primaryButtonTitle: "로그아웃",
                     secondaryButtonTitle: "취소",
                     primaryAction: {
-                        authVM.logout()
+                        viewModel.logout()
                     },
                     secondaryAction: {}
                 )
@@ -98,8 +98,8 @@ struct SettingsView: View {
                     message: "정말로 계정을 삭제하시겠습니까?",
                     primaryButtonTitle: "계정삭제",
                     secondaryButtonTitle: "취소",
-                    primaryAction: {
-                        authVM.deleteAccount()
+                    primaryAction: { 
+                        viewModel.deleteAccount()
                     },
                     secondaryAction: {}
                 )
