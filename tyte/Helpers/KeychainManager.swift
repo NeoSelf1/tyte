@@ -10,7 +10,6 @@ import Security
 
 class KeychainManager {
     enum KeychainError: Error {
-        case duplicateEntry
         case unknown(OSStatus)
         case notFound
         case encodingError
