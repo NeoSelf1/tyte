@@ -22,7 +22,6 @@ struct TagEditView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            
             Text("태그 추가하기")
                 .font(._body3)
                 .foregroundColor(.gray90)

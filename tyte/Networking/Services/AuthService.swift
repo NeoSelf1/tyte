@@ -28,6 +28,22 @@ class AuthService {
         }.eraseToAnyPublisher()
     }
     
+    func validateToken(token:String) -> AnyPublisher<Bool, APIError> {
+        let endpoint = APIEndpoint.validateToken
+        return Future { promise in
+            self.apiManager.requestWithoutAuth(endpoint,
+                                               method: .post,
+                                               parameters: ["token": token]) { (result: Result<ValidateResponse, APIError>) in
+                switch result {
+                case .success(let response):
+                    promise(.success(response.isValid))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
     func checkEmail(_ email: String) -> AnyPublisher<Bool, APIError> {
         let endpoint = APIEndpoint.checkEmail
         return Future { promise in

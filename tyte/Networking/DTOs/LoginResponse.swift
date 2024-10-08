@@ -5,6 +5,10 @@ struct LoginResponse: Codable {
     let token: String
 }
 
+struct ValidateResponse: Codable {
+    let isValid: Bool
+}
+
 struct User: Codable, Identifiable {
     let id: String
     let username: String

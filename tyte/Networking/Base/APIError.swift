@@ -23,7 +23,7 @@ extension APIError {
 
 enum APIError: Error {
     case invalidURL
-    case invalidTodo
+    case tokenExpired
     case decodingError
     case networkError(String)
     case serverError(String)
@@ -32,6 +32,8 @@ enum APIError: Error {
     case notFound
     case unknown
     case social
+    
+    case invalidTodo
     
     case emailAlreadyExists
     case wrongPassword
@@ -53,7 +55,7 @@ enum APIError: Error {
             case 401:
                 self = .unauthorized
             case 402:
-                self = .invalidTodo
+                self = .tokenExpired
             case 404:
                 self = .notFound
                 //MARK: - Onboarding Error
@@ -69,6 +71,8 @@ enum APIError: Error {
                 self = .invalidPassword
             case 425:
                 self = .userNotFound
+            case 431:
+                self = .invalidTodo
             case 500...599:
                 self = .serverError("Server error: \(code)")
             default:

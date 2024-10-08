@@ -1,8 +1,8 @@
 import Foundation
 import Combine
+import AuthenticationServices
 import GoogleSignIn
 import SwiftUI
-import AuthenticationServices
 
 class AuthViewModel: ObservableObject {
     @ObservedObject private var appState: AppState
@@ -100,14 +100,33 @@ class AuthViewModel: ObservableObject {
     private func checkLoginStatus() {
         if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail") {
             do {
-                _ = try KeychainManager.retrieve(service: AuthConstants.tokenService, account: savedEmail)
-                self.email = savedEmail
+                validateServerToken(for: savedEmail)
                 print("isLoggedIn true")
-                appState.isLoggedIn = true
-            } catch {
-                print("isLoggedIn false")
-                appState.isLoggedIn = false
             }
+        }
+    }
+    
+    private func validateServerToken(for email: String) {
+        do {
+            let token = try KeychainManager.retrieve(service: AuthConstants.tokenService, account: email)
+            authService.validateToken(token:token)
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    if case .failure(_) = completion {
+                        // 토큰이 유효하지 않으면 로그아웃
+                        self.logout()
+                    }
+                } receiveValue: { isValid in
+                    if isValid {
+                        self.appState.isLoggedIn = true
+                    } else {
+                        self.logout()
+                    }
+                }
+                .store(in: &cancellables)
+        } catch {
+            // 토큰을 검색할 수 없으면 로그아웃
+            self.logout()
         }
     }
     
@@ -217,6 +236,7 @@ class AuthViewModel: ObservableObject {
         } catch {
             self.currentPopup = .error(error.localizedDescription)
         }
+        print("\(savedEmail) 로그아웃하였습니다")
     }
     
     private func clearAllUserData() {
@@ -266,17 +286,16 @@ class AuthViewModel: ObservableObject {
         if let error = error as? GIDSignInError {
             switch error.code {
             case .canceled:
-                print("도중에 취소됨")
-                // User canceled the sign-in flow, no need to show an error
+                print("구글 로그인 도중에 취소됨")
             case .hasNoAuthInKeychain:
-                self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+                self.currentPopup = .googleError
             default:
-                self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
-                //                    alertItem = AlertItem(title:"오류",message: "Google Sign-In failed: \(error.localizedDescription)")
+                self.currentPopup = .googleError
+                //alertItem = AlertItem(title:"오류",message: "Google Sign-In failed: \(error.localizedDescription)")
             }
         } else {
-            self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
-            //                alertItem = AlertItem(title:"오류",message: "An unknown error occurred during Google Sign-In")
+            self.currentPopup = .googleError
+            //alertItem = AlertItem(title:"오류",message: "An unknown error occurred during Google Sign-In")
         }
     }
     
@@ -284,27 +303,26 @@ class AuthViewModel: ObservableObject {
             if let idToken = signInResult.user.idToken?.tokenString {
                 performGoogleLogin(with: idToken)
             } else {
+                self.currentPopup = .googleError
 //                alertItem = AlertItem(title:"오류",message: "Failed to get ID token from Google Sign-In")
-                
-                    self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
             }
         }
     
     private func performGoogleLogin(with idToken: String) {
         isSocialLoading = true
-            
-            authService.googleLogin(idToken: idToken)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] completion in
-                    self?.isSocialLoading = false
-                    if case .failure(let error) = completion {
-                        self?.currentPopup = .error(error.localizedDescription)
-                    }
-                } receiveValue: { [weak self] loginResponse in
-                    self?.handleSuccessfulLogin(loginResponse: loginResponse)
+        
+        authService.googleLogin(idToken: idToken)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isSocialLoading = false
+                if case .failure(let error) = completion {
+                    self?.currentPopup = .error(error.localizedDescription)
                 }
-                .store(in: &cancellables)
-        }
+            } receiveValue: { [weak self] loginResponse in
+                self?.handleSuccessfulLogin(loginResponse: loginResponse)
+            }
+            .store(in: &cancellables)
+    }
     
     func performAppleLogin(_ result: ASAuthorization) {
         isSocialLoading = true
@@ -340,14 +358,13 @@ class AuthViewModel: ObservableObject {
             try KeychainManager.save(token: loginResponse.token,
                                      service: AuthConstants.tokenService,
                                      account: loginResponse.user.email)
+            print("lastLoggedInEmail changed into \(loginResponse.user.email)")
             UserDefaults.standard.set(loginResponse.user.email, forKey: "lastLoggedInEmail")
             appState.isLoggedIn = true
-            email = loginResponse.user.email
         } catch {
             currentPopup = .error(error.localizedDescription)
         }
     }
-    
 }
 
 struct AlertItem: Identifiable {

@@ -11,6 +11,7 @@ enum APIEndpoint {
     case login
     case signUp
     case checkEmail
+    case validateToken // Token
     case googleLogin
     case appleLogin
     case deleteAccount(String) // email
@@ -35,6 +36,8 @@ enum APIEndpoint {
             return "/auth/register"
         case .deleteAccount(let email):
             return "/auth/\(email)"
+        case .validateToken:
+            return "/auth/validate-token"
         case .checkEmail:
             return "/auth/check"
         case .googleLogin:
