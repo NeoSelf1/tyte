@@ -66,7 +66,8 @@ struct MeshGradientView: View {
         } else {
             LinearGradientMeshFallback(colors: colors)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
-                .rotationEffect(.degrees(45))
+                .rotationEffect(.degrees(isSelected ? 45 : 0))
+                .opacity(isSelected ? 1.0 : 0.5)
                 .padding(isSelected ? 14 : 20)
         }
     }
