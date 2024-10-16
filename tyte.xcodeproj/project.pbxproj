@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */; };
 		997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */; };
+		9E17E61CBAC0141746961C94 /* Pods_tyte_widgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BCFC825957DFAB07ACC653 /* Pods_tyte_widgetExtension.framework */; };
 		AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10144B2C980F7F00F9A9BC /* Animation+.swift */; };
 		AB155D652CA51F9C00F7DB8B /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB155D642CA51F9C00F7DB8B /* CustomAlert.swift */; };
 		AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */; };
@@ -24,7 +25,6 @@
 		AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2882C836C0600DC4D72 /* tyteTests.swift */; };
 		AB5BB2932C836C0600DC4D72 /* tyteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */; };
 		AB5BB2952C836C0600DC4D72 /* tyteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */; };
-		AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB2A12C836C5A00DC4D72 /* Podfile */; };
 		AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */; };
 		AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */; };
 		AB688DCC2CA3BE3300F6E699 /* EmptyStateBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DCB2CA3BE3300F6E699 /* EmptyStateBox.swift */; };
@@ -86,6 +86,18 @@
 		ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF93D292C95835E00C7D2BC /* GraphView.swift */; };
 		C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */; };
 		E55D8A7C2CBF7D6000849DF1 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E55D8A7B2CBF7D6000849DF1 /* .gitignore */; };
+		E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660232CBFB10300A8279B /* WidgetKit.framework */; };
+		E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660252CBFB10300A8279B /* SwiftUI.framework */; };
+		E5D660372CBFB10400A8279B /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E5D660222CBFB10200A8279B /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E5D660452CBFB1FB00A8279B /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */; };
+		E5D660462CBFB1FB00A8279B /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660402CBFB1FB00A8279B /* widget.swift */; };
+		E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660412CBFB1FB00A8279B /* widgetBundle.swift */; };
+		E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660422CBFB1FB00A8279B /* widgetControl.swift */; };
+		E5D660492CBFB1FB00A8279B /* widgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */; };
+		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
+		E5D6604D2CBFB22300A8279B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6604C2CBFB22300A8279B /* Utils.swift */; };
+		E5D6604F2CBFB22700A8279B /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6604E2CBFB22700A8279B /* Function.swift */; };
+		E5D660522CBFB27900A8279B /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660512CBFB27900A8279B /* Todo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,13 +115,36 @@
 			remoteGlobalIDString = AB5BB2732C836C0400DC4D72;
 			remoteInfo = tyte;
 		};
+		E5D660352CBFB10400A8279B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB5BB26C2C836C0400DC4D72 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5D660212CBFB10200A8279B;
+			remoteInfo = widgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E5D6603C2CBFB10400A8279B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E5D660372CBFB10400A8279B /* widgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.debug.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_tyteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25BCFC825957DFAB07ACC653 /* Pods_tyte_widgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_widgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.debug.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.debug.xcconfig"; sourceTree = "<group>"; };
 		435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.release.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.release.xcconfig"; sourceTree = "<group>"; };
+		48E7EB47C217A237236FF6A8 /* Pods-tyte-widgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.release.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.release.xcconfig"; sourceTree = "<group>"; };
 		4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10144B2C980F7F00F9A9BC /* Animation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+.swift"; sourceTree = "<group>"; };
@@ -131,7 +166,6 @@
 		AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tyteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITests.swift; sourceTree = "<group>"; };
 		AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		AB5BB2A12C836C5A00DC4D72 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		AB688DCB2CA3BE3300F6E699 /* EmptyStateBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateBox.swift; sourceTree = "<group>"; };
@@ -193,8 +227,22 @@
 		ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditBottomSheet.swift; sourceTree = "<group>"; };
 		ABF93D292C95835E00C7D2BC /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
+		D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E55D8A7B2CBF7D6000849DF1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		E5D660222CBFB10200A8279B /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5D660232CBFB10300A8279B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		E5D660252CBFB10300A8279B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E5D6603F2CBFB1FB00A8279B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5D660402CBFB1FB00A8279B /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		E5D660412CBFB1FB00A8279B /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
+		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
+		E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetLiveActivity.swift; sourceTree = "<group>"; };
+		E5D6604C2CBFB22300A8279B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		E5D6604E2CBFB22700A8279B /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		E5D660512CBFB27900A8279B /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,6 +271,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E5D6601F2CBFB10200A8279B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */,
+				E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */,
+				9E17E61CBAC0141746961C94 /* Pods_tyte_widgetExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -232,6 +290,9 @@
 				DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */,
 				06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */,
 				51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */,
+				E5D660232CBFB10300A8279B /* WidgetKit.framework */,
+				E5D660252CBFB10300A8279B /* SwiftUI.framework */,
+				25BCFC825957DFAB07ACC653 /* Pods_tyte_widgetExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -252,10 +313,10 @@
 			children = (
 				E55D8A7B2CBF7D6000849DF1 /* .gitignore */,
 				AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */,
-				AB5BB2A12C836C5A00DC4D72 /* Podfile */,
 				AB5BB2762C836C0400DC4D72 /* tyte */,
 				AB5BB2872C836C0600DC4D72 /* tyteTests */,
 				AB5BB2912C836C0600DC4D72 /* tyteUITests */,
+				E5D660442CBFB1FB00A8279B /* widget */,
 				AB5BB2752C836C0400DC4D72 /* Products */,
 				F31225ED6139D10585A1FF21 /* Pods */,
 				58595DA58C486F0F79F4315A /* Frameworks */,
@@ -268,6 +329,7 @@
 				AB5BB2742C836C0400DC4D72 /* tyte.app */,
 				AB5BB2842C836C0600DC4D72 /* tyteTests.xctest */,
 				AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */,
+				E5D660222CBFB10200A8279B /* widgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -485,6 +547,31 @@
 			path = MY;
 			sourceTree = "<group>";
 		};
+		E5D660442CBFB1FB00A8279B /* widget */ = {
+			isa = PBXGroup;
+			children = (
+				E5D660502CBFB27400A8279B /* Models */,
+				E5D6604E2CBFB22700A8279B /* Function.swift */,
+				E5D6604C2CBFB22300A8279B /* Utils.swift */,
+				E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */,
+				E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */,
+				E5D6603F2CBFB1FB00A8279B /* Info.plist */,
+				E5D660402CBFB1FB00A8279B /* widget.swift */,
+				E5D660412CBFB1FB00A8279B /* widgetBundle.swift */,
+				E5D660422CBFB1FB00A8279B /* widgetControl.swift */,
+				E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */,
+			);
+			path = widget;
+			sourceTree = "<group>";
+		};
+		E5D660502CBFB27400A8279B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E5D660512CBFB27900A8279B /* Todo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		F31225ED6139D10585A1FF21 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +581,8 @@
 				EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */,
 				4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */,
 				435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */,
+				D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */,
+				48E7EB47C217A237236FF6A8 /* Pods-tyte-widgetExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -510,10 +599,12 @@
 				AB5BB2712C836C0400DC4D72 /* Frameworks */,
 				AB5BB2722C836C0400DC4D72 /* Resources */,
 				8AD7FF0506FA52C8C984962E /* [CP] Embed Pods Frameworks */,
+				E5D6603C2CBFB10400A8279B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E5D660362CBFB10400A8279B /* PBXTargetDependency */,
 			);
 			name = tyte;
 			productName = tyte;
@@ -559,6 +650,24 @@
 			productReference = AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		E5D660212CBFB10200A8279B /* widgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E5D660392CBFB10400A8279B /* Build configuration list for PBXNativeTarget "widgetExtension" */;
+			buildPhases = (
+				261D0A22A3E83845E47D9A1C /* [CP] Check Pods Manifest.lock */,
+				E5D6601E2CBFB10200A8279B /* Sources */,
+				E5D6601F2CBFB10200A8279B /* Frameworks */,
+				E5D660202CBFB10200A8279B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = widgetExtension;
+			productName = widgetExtension;
+			productReference = E5D660222CBFB10200A8279B /* widgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -566,7 +675,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					AB5BB2732C836C0400DC4D72 = {
@@ -579,6 +688,9 @@
 					AB5BB28D2C836C0600DC4D72 = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = AB5BB2732C836C0400DC4D72;
+					};
+					E5D660212CBFB10200A8279B = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -599,6 +711,7 @@
 				AB5BB2732C836C0400DC4D72 /* tyte */,
 				AB5BB2832C836C0600DC4D72 /* tyteTests */,
 				AB5BB28D2C836C0600DC4D72 /* tyteUITests */,
+				E5D660212CBFB10200A8279B /* widgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -613,7 +726,6 @@
 				ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */,
 				AB44988B2C8ACCFE00B2B74A /* LaunchScreen.storyboard in Resources */,
 				AB87355B2CA916E60089844D /* PrivacyInfo.xcprivacy in Resources */,
-				AB5BB2A22C836C5A00DC4D72 /* Podfile in Resources */,
 				AB5BB27F2C836C0500DC4D72 /* Preview Assets.xcassets in Resources */,
 				AB5BB27C2C836C0500DC4D72 /* Assets.xcassets in Resources */,
 				ABA9207E2C8988E200B9F8F1 /* Pretendard-Bold.ttf in Resources */,
@@ -632,6 +744,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5D660202CBFB10200A8279B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +774,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-tyteTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		261D0A22A3E83845E47D9A1C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyte-widgetExtension-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -828,6 +970,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E5D6601E2CBFB10200A8279B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5D660452CBFB1FB00A8279B /* AppIntent.swift in Sources */,
+				E5D660462CBFB1FB00A8279B /* widget.swift in Sources */,
+				E5D6604F2CBFB22700A8279B /* Function.swift in Sources */,
+				E5D660522CBFB27900A8279B /* Todo.swift in Sources */,
+				E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */,
+				E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */,
+				E5D660492CBFB1FB00A8279B /* widgetLiveActivity.swift in Sources */,
+				E5D6604D2CBFB22300A8279B /* Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -840,6 +997,11 @@
 			isa = PBXTargetDependency;
 			target = AB5BB2732C836C0400DC4D72 /* tyte */;
 			targetProxy = AB5BB28F2C836C0600DC4D72 /* PBXContainerItemProxy */;
+		};
+		E5D660362CBFB10400A8279B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5D660212CBFB10200A8279B /* widgetExtension */;
+			targetProxy = E5D660352CBFB10400A8279B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1035,7 +1197,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1056,7 +1217,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1077,7 +1237,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1097,7 +1256,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1110,6 +1268,64 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = tyte;
+			};
+			name = Release;
+		};
+		E5D6603A2CBFB10400A8279B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H856SYKNM8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neox.tyte.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E5D6603B2CBFB10400A8279B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48E7EB47C217A237236FF6A8 /* Pods-tyte-widgetExtension.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H856SYKNM8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.neox.tyte.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1148,6 +1364,15 @@
 			buildConfigurations = (
 				AB5BB29F2C836C0600DC4D72 /* Debug */,
 				AB5BB2A02C836C0600DC4D72 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5D660392CBFB10400A8279B /* Build configuration list for PBXNativeTarget "widgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5D6603A2CBFB10400A8279B /* Debug */,
+				E5D6603B2CBFB10400A8279B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

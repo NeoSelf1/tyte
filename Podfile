@@ -10,6 +10,10 @@ target 'tyte' do
   pod 'GoogleSignIn'
   pod 'GoogleSignInSwiftSupport'
   
+  target 'widgetExtension' do
+    pod 'Alamofire'
+  end
+  
   target 'tyteTests' do
     inherit! :search_paths
     # Pods for testing
