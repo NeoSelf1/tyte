@@ -86,19 +86,24 @@
 		E52628832CC3563B004B290C /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
 		E52628882CC3567C004B290C /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F872C8EB03600254299 /* APIEndpoint.swift */; };
 		E526288A2CC3567C004B290C /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F852C8EB02E00254299 /* APIError.swift */; };
-		E526288F2CC35681004B290C /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8C2C8EB43600254299 /* TodoService.swift */; };
-		E52628902CC35681004B290C /* DailyStatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatService.swift */; };
-		E52628912CC35681004B290C /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8A2C8EB32900254299 /* AuthService.swift */; };
 		E52628922CC35684004B290C /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F912C8EB6CA00254299 /* LoginRequest.swift */; };
 		E52628932CC35684004B290C /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F932C8EB6D400254299 /* LoginResponse.swift */; };
-		E52628942CC3569B004B290C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB84C5302C918EA9000164AC /* Utils.swift */; };
 		E52628952CC3569B004B290C /* AuthConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EC2C987FFC00906446 /* AuthConstants.swift */; };
 		E52628962CC3569B004B290C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EA2C986C6400906446 /* KeychainManager.swift */; };
-		E52628972CC3569B004B290C /* PopupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB87355D2CAA5F590089844D /* PopupType.swift */; };
 		E52628992CC356E3004B290C /* TodoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628982CC356E3004B290C /* TodoDataModel.swift */; };
 		E526289A2CC35737004B290C /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F932C8EB6D400254299 /* LoginResponse.swift */; };
 		E526289B2CC35737004B290C /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F912C8EB6CA00254299 /* LoginRequest.swift */; };
 		E52628CD2CC358A1004B290C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F832C8EB02300254299 /* APIManager.swift */; };
+		E52628CF2CC38D42004B290C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
+		E52628D02CC38D42004B290C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
+		E52628D32CC392C7004B290C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F782C8EAF5500254299 /* Tag.swift */; };
+		E52628D72CC3A97F004B290C /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+.swift */; };
+		E52628D92CC3A97F004B290C /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
+		E52628DA2CC3AB45004B290C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B972C86FEE000F3CB68 /* Date+.swift */; };
+		E52628DB2CC3AE56004B290C /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */; };
+		E52628DC2CC3AE56004B290C /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
+		E52628DD2CC3AE56004B290C /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
+		E52628DE2CC3AE56004B290C /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
 		E55D8A7C2CBF7D6000849DF1 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E55D8A7B2CBF7D6000849DF1 /* .gitignore */; };
 		E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660232CBFB10300A8279B /* WidgetKit.framework */; };
 		E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660252CBFB10300A8279B /* SwiftUI.framework */; };
@@ -109,7 +114,6 @@
 		E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660422CBFB1FB00A8279B /* widgetControl.swift */; };
 		E5D660492CBFB1FB00A8279B /* widgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */; };
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
-		E5D6604D2CBFB22300A8279B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6604C2CBFB22300A8279B /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +246,7 @@
 		D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
+		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E55D8A7B2CBF7D6000849DF1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		E5D660222CBFB10200A8279B /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D660232CBFB10300A8279B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -253,7 +258,6 @@
 		E5D660412CBFB1FB00A8279B /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
 		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
 		E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetLiveActivity.swift; sourceTree = "<group>"; };
-		E5D6604C2CBFB22300A8279B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -311,10 +315,8 @@
 		AB21F09C2C90DBA000AAADAB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				AB84C5302C918EA9000164AC /* Utils.swift */,
 				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
 				AB2E88EC2C987FFC00906446 /* AuthConstants.swift */,
-				AB87355D2CAA5F590089844D /* PopupType.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -349,9 +351,9 @@
 		AB5BB2762C836C0400DC4D72 /* tyte */ = {
 			isa = PBXGroup;
 			children = (
+				E52628D42CC392F8004B290C /* Helpers */,
 				E526289C2CC35750004B290C /* Services */,
 				ABC9937C2CABC2A400D8414F /* tyte.entitlements */,
-				ABA920732C897E9A00B9F8F1 /* Font */,
 				AB6A495D2C86069B00B782A1 /* Extensions */,
 				ABD666B42C83732E0005D3C1 /* Views */,
 				AB6A0F7C2C8EAF7400254299 /* Components */,
@@ -415,7 +417,6 @@
 			isa = PBXGroup;
 			children = (
 				AB6A0F902C8EB6BD00254299 /* DTOs */,
-				AB6A0F892C8EB03900254299 /* Services */,
 				AB6A0F822C8EB01900254299 /* Base */,
 			);
 			path = Networking;
@@ -431,15 +432,6 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		AB6A0F892C8EB03900254299 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
-				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		AB6A0F902C8EB6BD00254299 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,12 +444,9 @@
 		AB6A495D2C86069B00B782A1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AB6A495E2C8606AE00B782A1 /* Int+.swift */,
-				ABDE8B972C86FEE000F3CB68 /* Date+.swift */,
-				ABA920762C897FC000B9F8F1 /* Font+.swift */,
-				AB4498842C89930500B2B74A /* String+.swift */,
 				AB6A0F762C8E45F100254299 /* Color+.swift */,
 				AB10144B2C980F7F00F9A9BC /* Animation+.swift */,
+				AB4498842C89930500B2B74A /* String+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -559,6 +548,9 @@
 		E52628852CC35661004B290C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				E52628CE2CC38D40004B290C /* AppState.swift */,
+				ABA920732C897E9A00B9F8F1 /* Font */,
+				E52628D12CC38E33004B290C /* Extensions */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				AB21F09C2C90DBA000AAADAB /* Helpers */,
 			);
@@ -568,17 +560,37 @@
 		E526289C2CC35750004B290C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
+				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
 				AB6A0F8E2C8EB68700254299 /* TagService.swift */,
 				AB6A0F952C8EBBC400254299 /* DailyStatService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
+		E52628D12CC38E33004B290C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A495E2C8606AE00B782A1 /* Int+.swift */,
+				ABDE8B972C86FEE000F3CB68 /* Date+.swift */,
+				ABA920762C897FC000B9F8F1 /* Font+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E52628D42CC392F8004B290C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AB87355D2CAA5F590089844D /* PopupType.swift */,
+				AB84C5302C918EA9000164AC /* Utils.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		E5D660442CBFB1FB00A8279B /* widget */ = {
 			isa = PBXGroup;
 			children = (
 				E52628982CC356E3004B290C /* TodoDataModel.swift */,
-				E5D6604C2CBFB22300A8279B /* Utils.swift */,
 				E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */,
 				E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */,
 				E5D6603F2CBFB1FB00A8279B /* Info.plist */,
@@ -770,6 +782,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */,
+				E52628DB2CC3AE56004B290C /* Pretendard-Black.ttf in Resources */,
+				E52628DC2CC3AE56004B290C /* Pretendard-Medium.ttf in Resources */,
+				E52628DD2CC3AE56004B290C /* Pretendard-Bold.ttf in Resources */,
+				E52628DE2CC3AE56004B290C /* Pretendard-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +932,7 @@
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
 				AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */,
 				AB84C5312C918EA9000164AC /* Utils.swift in Sources */,
+				E52628CF2CC38D42004B290C /* AppState.swift in Sources */,
 				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
 				ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
@@ -993,21 +1010,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				E52628882CC3567C004B290C /* APIEndpoint.swift in Sources */,
-				E52628942CC3569B004B290C /* Utils.swift in Sources */,
 				E52628952CC3569B004B290C /* AuthConstants.swift in Sources */,
+				E52628D32CC392C7004B290C /* Tag.swift in Sources */,
 				E52628962CC3569B004B290C /* KeychainManager.swift in Sources */,
-				E52628972CC3569B004B290C /* PopupType.swift in Sources */,
 				E526288A2CC3567C004B290C /* APIError.swift in Sources */,
 				E5D660452CBFB1FB00A8279B /* AppIntent.swift in Sources */,
 				E5D660462CBFB1FB00A8279B /* widget.swift in Sources */,
-				E526288F2CC35681004B290C /* TodoService.swift in Sources */,
-				E52628902CC35681004B290C /* DailyStatService.swift in Sources */,
-				E52628912CC35681004B290C /* AuthService.swift in Sources */,
+				E52628D02CC38D42004B290C /* AppState.swift in Sources */,
 				E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */,
 				E52628CD2CC358A1004B290C /* APIManager.swift in Sources */,
 				E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */,
 				E5D660492CBFB1FB00A8279B /* widgetLiveActivity.swift in Sources */,
-				E5D6604D2CBFB22300A8279B /* Utils.swift in Sources */,
+				E52628DA2CC3AB45004B290C /* Date+.swift in Sources */,
+				E52628D72CC3A97F004B290C /* Int+.swift in Sources */,
+				E52628D92CC3A97F004B290C /* Font+.swift in Sources */,
 				E526289A2CC35737004B290C /* LoginResponse.swift in Sources */,
 				E526289B2CC35737004B290C /* LoginRequest.swift in Sources */,
 				E52628832CC3563B004B290C /* Todo.swift in Sources */,

@@ -11,7 +11,7 @@ class APIManager {
     static let shared = APIManager()
     
     private let isDevelopment: Bool = true
-    private let baseURL: String
+    let baseURL: String
     
     private init() {
         baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
@@ -22,7 +22,7 @@ class APIManager {
         return UserDefaults.standard.string(forKey: "lastLoggedInEmail")
     }
     
-    private func getToken() -> String? {
+    func getToken() -> String? {
         guard let email = UserDefaults.standard.string(forKey: "lastLoggedInEmail") else {
             return nil
         }
@@ -68,14 +68,11 @@ class APIManager {
     func request<T: Decodable>(_ endpoint: APIEndpoint,
                                    method: HTTPMethod = .get,
                                    parameters: Parameters? = nil,
-                               isGuestMode: Bool = false,
                                completion: @escaping (Result<T, APIError>) -> Void) {
         let url = baseURL + endpoint.path
         var headers: HTTPHeaders = [:]
-        if isGuestMode() {
-            print("Request cancelled for endpoint: \(endpoint)")
-            return
-        }
+        if AppState.shared.isGuestMode { return }
+        
         // 게스트모드가 아닐 경우, 토큰 접근, 토큰 없을 경우 개발자모드면 임의값 부여, 아닐 경우 에러
         if let token = self.getToken() {
             headers = ["Authorization": "Bearer \(token)"]
