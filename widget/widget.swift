@@ -4,10 +4,10 @@
 //
 //  Created by Neoself on 10/16/24.
 //
-
 import WidgetKit
 import SwiftUI
 import Alamofire
+import Combine
 
 // 위젯의 데이터를 제공하는 구조체
 struct Provider: AppIntentTimelineProvider {
@@ -22,38 +22,37 @@ struct Provider: AppIntentTimelineProvider {
     // 위젯이 업데이트되는 시기와 표시할 데이터 결정
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<TodoEntry> {
         do {
-            let todos = try await fetchTodosForDate(deadline: getTodayString())
-            let entry = [TodoEntry(filteredTodos: Array(todos.prefix(3)))]
-            return Timeline(entries: entry, policy: .atEnd)
+            let todos = try await fetchTodosForDate(deadline: Date().koreanDate.apiFormat)
+            TodoDataModel.shared.todos = todos
+            return Timeline(entries: [TodoEntry(filteredTodos: Array(todos.prefix(3)))], policy: .atEnd)
         } catch {
-            print(error)
+            print("Error fetching todos: \(error.localizedDescription)")
+            return Timeline(entries: [TodoEntry(filteredTodos: [])], policy: .atEnd)
         }
-        return Timeline(entries: [TodoEntry(filteredTodos: [])],policy: .atEnd)
     }
-}
 
-func fetchTodosForDate(deadline: String) async throws -> [Todo] {
-    let baseURL = "http://localhost:8080/api"
-    let endpoint = "/todo/\(deadline)/widget"
-    let url = baseURL + endpoint
-    let headers: HTTPHeaders = [
-        "Authorization": "Bearer \(String(describing: getToken()))",
-        "Content-Type": "application/json"
-    ]
-    
-    return try await AF.request(url,
-                                method: .get,
-                                encoding: URLEncoding.queryString,
-                                headers: headers)
-    .validate()
-    .serializingDecodable([SimplifiedTodo].self)
-    .value
+    func fetchTodosForDate(deadline: String) async throws -> [Todo] {
+        let baseURL = APIManager.shared.baseURL
+        let endpoint = APIEndpoint.fetchTodosForDate(deadline).path
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(String(describing: APIManager.shared.getToken()))",
+            "Content-Type": "application/json"
+        ]
+        
+        return try await AF.request(baseURL + endpoint,
+                                    method: .get,
+                                    encoding: URLEncoding.queryString,
+                                    headers: headers)
+        .validate()
+        .serializingDecodable([Todo].self)
+        .value
+    }
 }
 
 // 위젯에 표시될 데이터 구조 정의
 struct TodoEntry: TimelineEntry {
     let date: Date = .now
-    var filteredTodos:[SimplifiedTodo]
+    var filteredTodos:[Todo]
 }
 
 // 실제 UI 뷰
@@ -61,42 +60,43 @@ struct TodoWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack (alignment:.leading,spacing: 0){
-            Text("Tasks")
-                .font(.title2)
+        VStack (alignment:.leading,spacing: 2){
+            Text(Date().koreanDate.formattedMonthDate)
+                .font(._subhead1)
                 .padding(.bottom,10)
             
-            VStack(alignment: .leading, spacing: 6) {
-                if entry.filteredTodos.isEmpty {
-                    Text("No Tasks left")
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                        .frame(maxWidth: .infinity,maxHeight: .infinity)
-                } else {
-                    ForEach(entry.filteredTodos){ task in
-                        HStack(spacing:6) {
-                            Button(intent: ToogleStateIntent(id: task.id)){
-                                Image(systemName: task.isCompleted ? "checkmark.circle.fill": "circle")
-                                    .foregroundStyle(.blue)
-                            }.buttonStyle(.plain)
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(task.title)
-                                    .textScale(.secondary)
-                                    .lineLimit(1)
-                                    .strikethrough(task.isCompleted, pattern: .solid,color:.gray)
-                                
-                                Divider()
-                            }
+            if entry.filteredTodos.isEmpty {
+                Text("Todo가 없어요")
+                    .font(._body2)
+                    .foregroundStyle(.gray50)
+                    .frame(maxWidth: .infinity,maxHeight: .infinity)
+                
+            } else {
+                ForEach(entry.filteredTodos){ todo in
+                    HStack(alignment: .top, spacing:4) {
+                        Button(intent: ToogleStateIntent(id: todo.id)){
+                            Image(systemName: todo.isCompleted ? "checkmark.square.fill": "square")
+                                .foregroundStyle(.blue30)
                         }
+                        .buttonStyle(.plain)
                         
-                        if task.id != entry.filteredTodos.last?.id {
-                            Spacer(minLength: 0)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(todo.title)
+                                .font(._caption)
+                                .lineLimit(1)
+                            
+                            Divider()
                         }
                     }
+                    
+                    if todo.id != entry.filteredTodos.last?.id {
+                        Spacer().frame(maxHeight: 8)
+                    }
                 }
+                Spacer()
             }
         }
+        
     }
 }
 
