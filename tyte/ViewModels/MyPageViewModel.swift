@@ -12,14 +12,11 @@ import SwiftUI
 class MyPageViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    private var cancellables = Set<AnyCancellable>()
-    
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
     @Published var dailyStatForDate: DailyStat?
-        @Published var todosForDate: [Todo] = []
-    
+    @Published var todosForDate: [Todo] = []
     
     @Published var currentMonth: Date = Date().koreanDate
     
@@ -35,6 +32,8 @@ class MyPageViewModel: ObservableObject {
     private let dailyStatService: DailyStatService
     private let todoService: TodoService
     private let authService: AuthService
+    
+    private var cancellables = Set<AnyCancellable>()
 
     init(
         dailyStatService: DailyStatService = DailyStatService.shared,
