@@ -24,7 +24,6 @@ extension Date {
     }
 }
 
-// 사용 예시
 func getTodayString() -> String {
     let today = Date()
     return today.yyyyMMdd

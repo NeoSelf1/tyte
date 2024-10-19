@@ -13,32 +13,36 @@ struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> TodoEntry {
         TodoEntry(filteredTodos:Array(TodoDataModel.shared.todos.prefix(3)))
     }
-
+    
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> TodoEntry {
         TodoEntry(filteredTodos:Array(TodoDataModel.shared.todos.prefix(3)))
     }
     
     // 위젯이 업데이트되는 시기와 표시할 데이터 결정
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<TodoEntry> {
-    
-        var entries: [TodoEntry] = []
-        print("hello")
-        fetchTodosForDate(deadline: getTodayString()) { result in
+        do {
+            let todos = try await fetchTodosForDate(deadline: getTodayString())
+//            TodoDataModel.shared.todos = todos
+            let entry = [TodoEntry(filteredTodos: Array(todos.prefix(3)))]
+            return Timeline(entries: entry, policy: .atEnd)
+        } catch {
+            print(error)
+        }
+        return Timeline(entries: [TodoEntry(filteredTodos: [])],policy: .atEnd)
+    }
+}
+
+private func fetchTodosForDate(deadline: String) async throws -> [SimplifiedTodo] {
+    return try await withCheckedThrowingContinuation { continuation in
+        fetchTodosForDate(deadline: deadline) { result in
             switch result {
             case .success(let todos):
-                print("todos:\(todos.description)")
-                let entry = TodoEntry(filteredTodos: Array(todos.prefix(3)))
-                entries.append(entry)
+                continuation.resume(returning: todos)
             case .failure(let error):
-                // 에러 발생 시 빈 할 일 목록으로 엔트리 생성
-                print("Error fetching todos: \(error.localizedDescription)")
-                entries.append(TodoEntry(filteredTodos: []))
+                continuation.resume(throwing: error)
             }
         }
-        
-        return Timeline(entries: entries, policy: .atEnd)
     }
-
 }
 
 // 위젯에 표시될 데이터 구조 정의
@@ -66,7 +70,6 @@ struct TodoWidgetEntryView : View {
                 } else {
                     ForEach(entry.filteredTodos){ task in
                         HStack(spacing:6) {
-                            
                             Button(intent: ToogleStateIntent(id: task.id)){
                                 Image(systemName: task.isCompleted ? "checkmark.circle.fill": "circle")
                                     .foregroundStyle(.blue)
@@ -88,6 +91,9 @@ struct TodoWidgetEntryView : View {
                     }
                 }
             }
+        }
+        .onChange(of: entry.filteredTodos) {_,updatedData in
+            print(updatedData)
         }
     }
 }
