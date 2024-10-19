@@ -114,9 +114,3 @@ struct widget: Widget {
         .configurationDisplayName("할일 체크가 가능한 위젯이에요.")
     }
 }
-
-#Preview(as: .systemSmall) {
-    widget()
-} timeline: {
-    TodoEntry(filteredTodos:Array(TodoDataModel.shared.todos))
-}
