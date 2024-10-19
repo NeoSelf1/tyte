@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import Alamofire
 
 // 위젯의 데이터를 제공하는 구조체
 struct Provider: AppIntentTimelineProvider {
@@ -22,7 +23,6 @@ struct Provider: AppIntentTimelineProvider {
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<TodoEntry> {
         do {
             let todos = try await fetchTodosForDate(deadline: getTodayString())
-//            TodoDataModel.shared.todos = todos
             let entry = [TodoEntry(filteredTodos: Array(todos.prefix(3)))]
             return Timeline(entries: entry, policy: .atEnd)
         } catch {
@@ -32,17 +32,22 @@ struct Provider: AppIntentTimelineProvider {
     }
 }
 
-private func fetchTodosForDate(deadline: String) async throws -> [SimplifiedTodo] {
-    return try await withCheckedThrowingContinuation { continuation in
-        fetchTodosForDate(deadline: deadline) { result in
-            switch result {
-            case .success(let todos):
-                continuation.resume(returning: todos)
-            case .failure(let error):
-                continuation.resume(throwing: error)
-            }
-        }
-    }
+func fetchTodosForDate(deadline: String) async throws -> [Todo] {
+    let baseURL = "http://localhost:8080/api"
+    let endpoint = "/todo/\(deadline)/widget"
+    let url = baseURL + endpoint
+    let headers: HTTPHeaders = [
+        "Authorization": "Bearer \(String(describing: getToken()))",
+        "Content-Type": "application/json"
+    ]
+    
+    return try await AF.request(url,
+                                method: .get,
+                                encoding: URLEncoding.queryString,
+                                headers: headers)
+    .validate()
+    .serializingDecodable([SimplifiedTodo].self)
+    .value
 }
 
 // 위젯에 표시될 데이터 구조 정의
@@ -91,9 +96,6 @@ struct TodoWidgetEntryView : View {
                     }
                 }
             }
-        }
-        .onChange(of: entry.filteredTodos) {_,updatedData in
-            print(updatedData)
         }
     }
 }
