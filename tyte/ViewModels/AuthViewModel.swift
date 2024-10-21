@@ -108,7 +108,7 @@ class AuthViewModel: ObservableObject {
     
     private func validateServerToken(for email: String) {
         do {
-            let token = try KeychainManager.retrieve(service: AuthConstants.tokenService, account: email)
+            let token = try KeychainManager.retrieve(service: APIConstants.tokenService, account: email)
             authService.validateToken(token:token)
                 .receive(on: DispatchQueue.main)
                 .sink { completion in
@@ -222,7 +222,7 @@ class AuthViewModel: ObservableObject {
     func logout() {
         do {
             if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail")  {
-                try KeychainManager.delete(service: AuthConstants.tokenService,
+                try KeychainManager.delete(service: APIConstants.tokenService,
                                            account: savedEmail)
             }
             
@@ -250,7 +250,7 @@ class AuthViewModel: ObservableObject {
         // Keychain에서 모든 관련 데이터 삭제
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: AuthConstants.tokenService
+            kSecAttrService as String: APIConstants.tokenService
         ]
         SecItemDelete(query as CFDictionary)
     }

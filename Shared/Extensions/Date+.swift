@@ -35,6 +35,7 @@ extension Date {
     var formattedYear: String {
         string(withFormat: "yyyy년")
     }
+    
     var formattedMonthDate: String {
         string(withFormat: "M월 d일")
     }

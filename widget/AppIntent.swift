@@ -30,10 +30,10 @@ struct ToogleStateIntent:AppIntent {
     }
         
     func perform() async throws -> some IntentResult {
-        let baseURL = APIManager.shared.baseURL
-        let endpoint = APIEndpoint.toggleTodo(id).path
+        let baseURL = APIConstants.baseUrl
+        let endpoint = "/todo/toggle/\(id)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(APIManager.shared.getToken() ?? "")",
+            "Authorization": "Bearer \(getToken() ?? "")",
             "Content-Type": "application/json"
         ]
         

@@ -10,14 +10,6 @@ import Alamofire
 class APIManager {
     static let shared = APIManager()
     
-    private let isDevelopment: Bool = true
-    let baseURL: String
-    
-    private init() {
-        baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
-        print("\(baseURL)")
-    }
-    
     func getUserEmail() -> String? {
         return UserDefaults.standard.string(forKey: "lastLoggedInEmail")
     }
@@ -28,8 +20,7 @@ class APIManager {
         }
         
         do {
-            return try KeychainManager.retrieve(service: AuthConstants.tokenService,
-                                                account: email)
+            return try KeychainManager.retrieve(service: APIConstants.tokenService,account: email)
         } catch {
             print("Failed to retrieve token: \(error.localizedDescription)")
             return nil
@@ -39,7 +30,7 @@ class APIManager {
     func saveToken(_ token: String, for email: String) {
         do {
             try KeychainManager.save(token: token,
-                                     service: AuthConstants.tokenService,
+                                     service: APIConstants.tokenService,
                                      account: email)
             UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
         } catch KeychainManager.KeychainError.unknown(let status) {
@@ -57,7 +48,7 @@ class APIManager {
         }
         
         do {
-            try KeychainManager.delete(service: AuthConstants.tokenService,
+            try KeychainManager.delete(service: APIConstants.tokenService,
                                        account: email)
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
         } catch {
@@ -69,7 +60,7 @@ class APIManager {
                                    method: HTTPMethod = .get,
                                    parameters: Parameters? = nil,
                                completion: @escaping (Result<T, APIError>) -> Void) {
-        let url = baseURL + endpoint.path
+        let url = APIConstants.baseUrl + endpoint.path
         var headers: HTTPHeaders = [:]
         if AppState.shared.isGuestMode { return }
         
@@ -77,7 +68,7 @@ class APIManager {
         if let token = self.getToken() {
             headers = ["Authorization": "Bearer \(token)"]
         } else {
-            if (isDevelopment){
+            if (APIConstants.isDevelopment){
                 headers = ["Authorization": "Bearer dummyToken"]
             } else {
                 completion(.failure(APIError.unauthorized))
@@ -107,7 +98,7 @@ class APIManager {
                                           method: HTTPMethod = .post,
                                           parameters: Parameters? = nil,
                                           completion: @escaping (Result<T, APIError>) -> Void) {
-        let url = baseURL + endpoint.path
+        let url = APIConstants.baseUrl + endpoint.path
         
         AF.request(url,
                    method: method,
