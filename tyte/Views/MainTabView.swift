@@ -2,19 +2,8 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var appState: AppState
-    @StateObject private var sharedVM = SharedTodoViewModel()
-    @StateObject private var homeVM: HomeViewModel
-    @StateObject private var listVM: ListViewModel
-    
-    init() {
-        let shared = SharedTodoViewModel()
-        _sharedVM = StateObject(wrappedValue: shared)
-        _homeVM = StateObject(wrappedValue: HomeViewModel(sharedVM: shared))
-        _listVM = StateObject(wrappedValue: ListViewModel(sharedVM: shared))
-    }
     
     @State private var selectedTab = 0
-    @State private var isCreateTodoViewPresented = false
     @State private var isPopupPresented = false
     
     var body: some View {
@@ -22,35 +11,22 @@ struct MainTabView: View {
             VStack(spacing: 0) {
                 switch(selectedTab) {
                 case 0:
-                    HomeView(viewModel: homeVM, sharedVM: sharedVM)
-                case 1:
-                    NavigationStack {
-                        ListView(viewModel: listVM, sharedVM: sharedVM)
-                    }
+                    HomeView()
+//                case 1:
+//                    NavigationStack {
+//                        ListView(viewModel: listVM, sharedVM: sharedVM)
+//                    }
                 default:
                     NavigationStack {
                         MyPageView()
                     }
                 }
-                BottomTab(selectedTab: $selectedTab, sharedVM:sharedVM)
+                
+                BottomTab(selectedTab: $selectedTab)
             }
             .background(.gray00)
             
-            FloatingActionButton(action: {
-                if appState.isGuestMode {
-                    withAnimation(.mediumEaseInOut) {
-                        sharedVM.isLoginRequiredViewPresented = true
-                    }
-                } else {
-                    isCreateTodoViewPresented = true
-                }
-            })
-            .padding(.trailing, 24)
-            .padding(.bottom, 80)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            
-            
-            if isPopupPresented, let popup = sharedVM.currentPopup {
+            if isPopupPresented, let popup = appState.currentPopup {
                 CustomPopup(popup: popup)
                     .frame(maxHeight: .infinity, alignment: .top)
                     .padding(.top, 40)
@@ -62,9 +38,9 @@ struct MainTabView: View {
                     .animation(.mediumEaseInOut, value: isPopupPresented)
             }
             
-            if sharedVM.isLoginRequiredViewPresented {
+            if appState.isLoginRequiredViewPresented {
                 CustomAlert(
-                    isShowing: $sharedVM.isLoginRequiredViewPresented,
+                    isShowing: $appState.isLoginRequiredViewPresented,
                     title: "로그인 필요",
                     message: "로그인이 필요한 기능입니다",
                     primaryButtonTitle: "로그인",
@@ -76,17 +52,7 @@ struct MainTabView: View {
                 )
             }
         }
-        .onAppear {
-            listVM.setupBindings(sharedVM: sharedVM)
-            homeVM.setupBindings(sharedVM: sharedVM)
-        }
-        .sheet(isPresented: $isCreateTodoViewPresented) {
-            CreateTodoView(sharedVM: sharedVM, isShowing: $isCreateTodoViewPresented)
-                .presentationDetents([.height(260)])
-                .presentationDragIndicator(.visible)
-                .presentationBackground(.gray00)
-        }
-        .onChange(of: sharedVM.currentPopup?.text) { _, newValue in
+        .onChange(of: appState.currentPopup?.text) { _, newValue in
             if newValue != nil {
                 withAnimation {
                     isPopupPresented = true
@@ -96,7 +62,7 @@ struct MainTabView: View {
                         isPopupPresented = false
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        sharedVM.currentPopup = nil
+                        appState.currentPopup = nil
                     }
                 }
             }
@@ -105,9 +71,7 @@ struct MainTabView: View {
 }
 
 struct BottomTab: View {
-    @EnvironmentObject var appState: AppState
     @Binding var selectedTab: Int
-    var sharedVM : SharedTodoViewModel
     
     var body: some View {
         let tabBarText = [("home","홈"), ("calendar","일정관리"), ("user","MY")]
@@ -124,9 +88,9 @@ struct BottomTab: View {
                         text: tabBarText[index].1,
                         isSelected: selectedTab == index
                     ) {
-                        if index==2 && appState.isGuestMode {
+                        if index==2 && AppState.shared.isGuestMode {
                             withAnimation(.mediumEaseInOut) {
-                                sharedVM.isLoginRequiredViewPresented = true
+                                AppState.shared.isLoginRequiredViewPresented = true
                             }
                         } else {
                             withAnimation(.fastEaseInOut) {

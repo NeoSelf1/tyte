@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MonthlyCalendar: View {
-    @ObservedObject var viewModel: ListViewModel
+    @ObservedObject var viewModel: HomeViewModel
     @Binding var isShowingMonthPicker: Bool
     
     var currentMonth: Date = Date().koreanDate.startOfMonth

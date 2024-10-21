@@ -1,80 +1,219 @@
+//
+//  ListView.swift
+//  tyte
+//
+//  Created by 김 형석 on 9/3/24.
+//
+
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var viewModel: HomeViewModel
-    @ObservedObject var sharedVM: SharedTodoViewModel
+    @EnvironmentObject var appState:AppState
+    @StateObject var viewModel: HomeViewModel = HomeViewModel()
     
-    @Environment(\.colorScheme) var colorScheme
-    
-    // @State 프로퍼트를 직접 초기화하려 할 경우, 버그 발생 우려 -> onAppear 수정자에 값 설정 로직 추가
-    // SwiftUI 뷰는 값 구조체이며 @State 변경 시 새로운 인스턴스가 생성됨. 즉 뷰가 자주 재생성 된다.
-    // @State는 SwiftUI 재생성 로직과 직결되는만큼 뷰의 생명주기와 구분되는 별도의 저장소에 저장 및 관리된다.
-    // 허나 init() 메서드는 뷰가 생성될 때마다 호출되기에, 뷰 재생성때마다 상태가 리셋되어 예상치 못한 동작이 발생할 수 있음. 따라서, onAppear 수정자 사용 혹은, initialValue을 통해 뷰가 처음 나타날때만 호출하게끔 해야 함.
-    //    init(initialTags: [String]) {
-    //        _selectedTags = State(initialValue: initialTags)
-    //    }
+    @State private var selectedTodo: Todo?
+    @State private var isShowingMonthPicker = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 0) {
-                VStack(alignment: .leading, spacing: 8) {
+        ZStack{
+            VStack (spacing:0){
+                ScrollViewReader { proxy in
                     HStack {
-                        Image(colorScheme == .dark ? "logo-dark" : "logo-light")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(.leading,4)
-                            .frame(height:26)
+                        Button(action: {
+                            withAnimation (.bouncy) {
+                                isShowingMonthPicker.toggle()
+                            }
+                        }) {
+                            Text(viewModel.selectedDate.formattedMonth)
+                                .font(._headline2)
+                                .foregroundStyle(.gray90)
+                            
+                            Image(systemName: "chevron.down")
+                                .font(._subhead2)
+                                .foregroundStyle(.gray90)
+                        }
                         
                         Spacer()
                         
-                        SortMenuButton(viewModel: viewModel)
-                    }
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            TagSelector(viewModel: viewModel,sharedVM:sharedVM)
+                        Button {
+                            viewModel.scrollToToday(proxy: proxy)
+                        } label: {
+                            HStack{
+                                Text("오늘")
+                                    .font(._subhead2)
+                                    .foregroundStyle(.gray90)
+                                
+                                Image(systemName: "arrow.counterclockwise")
+                                    .font(._title)
+                                    .foregroundStyle(.gray90)
+                            }
+                            .padding(.horizontal,16)
+                            .padding(.vertical,8)
+                            .background(.gray00)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 99)
+                                    .stroke(.blue10, lineWidth: 1)
+                            )
+                            .padding(1)
+                        }
+                        if appState.isGuestMode {
+                            Button{
+                                withAnimation(.mediumEaseInOut){
+                                    appState.isLoginRequiredViewPresented = true
+                                }
+                            } label: {
+                                Image(systemName: "tag.fill")
+                                    .resizable()
+                                    .frame(width: 24,height:24)
+                                    .foregroundColor(.gray90)
+                                    .padding(12)
+                            }
+                        } else {
+                            NavigationLink(destination: TagEditView()) {
+                                Image(systemName: "tag.fill")
+                                    .resizable()
+                                    .frame(width: 24,height:24)
+                                    .foregroundColor(.gray90)
+                                    .padding(12)
+                            }
                         }
                     }
+                    .frame(height:52)
+                    .padding(.horizontal)
                     
-                    TodoViewSelector(viewModel: viewModel,sharedVM:sharedVM)
+                    MonthlyCalendar(viewModel:viewModel,isShowingMonthPicker:$isShowingMonthPicker)
+                        .padding(.top, -16)
+                        .padding(.bottom,16)
+                        .onAppear {
+                            viewModel.scrollToToday(proxy: proxy)
+                        }
                 }
-                .padding(.horizontal)
-                .background(.gray00)
                 
                 Divider().frame(minHeight:3).background(.gray10)
                 
-                if viewModel.filteredTodos.isEmpty {
-                    EmptyStateBox()
-                } else {
-                    // 리스트에서 아이템 전체 영역 클릭 가능한 것이 기본 값
-                    List {
-                        ForEach(viewModel.filteredTodos) { todo in
+                List {
+                    StatusBoxContent(viewModel:viewModel)
+                        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                        .listRowBackground(Color.clear)
+                        .padding(.horizontal)
+                        .padding(.top,12)
+                    
+                    
+                    if (viewModel.todosForDate.isEmpty){
+                        Spacer()
+                            .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                            .listRowSeparator(.hidden) // 사이 선
+                            .listRowBackground(Color.clear)
+                            .padding(.top,16)
+                    } else {
+                        ForEach(viewModel.todosForDate) { todo in
+                            let isPast = todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate)
                             HStack(spacing:12){
                                 Button(action: {
                                     viewModel.toggleTodo(todo.id)
                                 }) {
                                     Image(todo.isCompleted ? "checked" : "unchecked")
-                                        .contentTransition(.symbolEffect(.replace))
+                                        .resizable()
+                                        .frame(width: 40,height:40)
+                                        .foregroundStyle(todo.isCompleted ? .gray50 : .gray60)
+                                    
+                                        .animation(.fastEaseInOut, value: todo.isCompleted)
                                 }
                                 .padding(.leading,16)
                                 
-                                TodoItemView(todo: todo, isHome: true)
+                                TodoItemView(todo: todo, isHome: false)
                                     .contentShape(Rectangle())
-                                    .onTapGesture {}
+                                    .onTapGesture {
+                                        if isPast {
+                                            appState.currentPopup = .error("이전 투두들은 수정이 불가능해요.")
+                                        } else {
+                                            selectedTodo = todo
+                                            viewModel.isDetailPresented = true
+                                        }
+                                    }
                             }
                             .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
                             .listRowSeparator(.hidden) // 사이 선
                             .listRowBackground(Color.clear)
                             .padding(.top,16)
-                            .opacity(todo.isCompleted ? 0.6 : 1.0)
+                            .opacity(!isPast && !todo.isCompleted ? 1.0 : 0.6)
                         }
                     }
-                    .listStyle(PlainListStyle())
-                    .scrollContentBackground(.hidden)
-                    .refreshable(action: {viewModel.fetchTodos()})
+                }
+                .background(.gray10)
+                .listStyle(PlainListStyle())
+                
+                .refreshable(action: {viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)})
+                .onAppear {
+                    viewModel.fetchWeekCalendarData()
+                    viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    viewModel.fetchWeekCalendarData()
+                    viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
                 }
             }
-            .background(.gray10)
+            
+            FloatingActionButton(action: {
+                if appState.isGuestMode {
+                    withAnimation(.mediumEaseInOut) {
+                        appState.isLoginRequiredViewPresented = true
+                    }
+                } else {
+                    viewModel.isCreateTodoPresented = true
+                }
+            })
+            .padding(.trailing, 24)
+            .padding(.bottom, 80)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
         }
+        .sheet(isPresented: $viewModel.isCreateTodoPresented) {
+            CreateTodoView(viewModel:viewModel)
+                .presentationDetents([.height(260)])
+                .presentationDragIndicator(.visible)
+                .presentationBackground(.gray00)
+        }
+        .background(.gray00)
+        .sheet(isPresented: $viewModel.isDetailPresented) {
+            if let todo = selectedTodo {
+                TodoEditBottomSheet(
+                    tags: viewModel.tags,
+                    todo: todo,
+                    onUpdate: { updatedTodo in
+                        viewModel.editTodo(updatedTodo)
+                        viewModel.isDetailPresented = false
+                    },
+                    onDelete: { id in
+                        viewModel.deleteTodo(id: id)
+                        viewModel.isDetailPresented = false
+                    }
+                )
+                .presentationDetents([.height(600)])
+            }
+        }
+        .overlay(
+            ZStack{
+                if isShowingMonthPicker {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation (.fastEaseOut) {
+                                isShowingMonthPicker = false
+                            }
+                        }
+                     
+                    MonthYearPickerPopup(
+                        selectedDate:$viewModel.selectedDate,
+                        isShowing: $isShowingMonthPicker
+                    )
+                    .transition(
+                        .asymmetric(
+                            insertion: .opacity.combined(with: .move(edge: .top)),
+                            removal: .opacity.combined(with: .move(edge: .top))
+                        )
+                    )
+                }
+            }
+        )
     }
 }

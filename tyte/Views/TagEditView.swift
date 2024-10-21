@@ -1,22 +1,13 @@
 import SwiftUI
 
 struct TagEditView: View {
-    @ObservedObject var viewModel: SharedTodoViewModel
-    
-    @State private var tagInput = ""
-    @State private var selectedColor: String = "FF0000" // Default red color
-    @State private var isColorPickerPresented = false
-    @State private var selectedTag: Tag?
-    @State private var showingDeleteConfirmation = false
-    @State private var tagToDelete: Tag?
-    @State private var showingDuplicateWarning = false
-    @State private var isEditBottomSheetPresented = false
-    
+    @StateObject var viewModel = TagEditViewModel()
     @Environment(\.presentationMode) var presentationMode
+    
     private var shouldPresentSheet: Binding<Bool> {
         Binding(
-            get: { isEditBottomSheetPresented && selectedTag != nil },
-            set: { isEditBottomSheetPresented = $0 }
+            get: { viewModel.isEditBottomPresented && viewModel.selectedTag != nil },
+            set: { viewModel.isEditBottomPresented = $0 }
         )
     }
     
@@ -31,17 +22,17 @@ struct TagEditView: View {
             
             HStack(alignment: .center,spacing:16) {
                 CustomTextField(
-                    text: $tagInput,
+                    text: $viewModel.tagInput,
                     placeholder: "태그 제목",
                     keyboardType: .default,
-                    onSubmit: { addTag() }
+                    onSubmit: { viewModel.addTag() }
                 )
                 .submitLabel(.done)
                 
                 Button(action: {
-                    isColorPickerPresented = true
+                    viewModel.isColorPickerPresented = true
                 }) {
-                    Circle().fill(Color(hex:"#\(selectedColor)")).frame(width: 24, height: 24)
+                    Circle().fill(Color(hex:"#\(viewModel.selectedColor)")).frame(width: 24, height: 24)
                 }
             }
             .padding(.horizontal,16)
@@ -79,13 +70,13 @@ struct TagEditView: View {
                     .foregroundColor(.gray90)
             }
         )
-        .sheet(isPresented: $isColorPickerPresented) {
-            ColorPickerBottomSheet(selectedColor: $selectedColor)
+        .sheet(isPresented: $viewModel.isColorPickerPresented) {
+            ColorPickerBottomSheet(selectedColor: $viewModel.selectedColor)
                 .presentationDetents([.height(360)])
                 .presentationBackground(.gray00)
         }
         .sheet(isPresented: shouldPresentSheet, content: {
-            if let tag = selectedTag {
+            if let tag = viewModel.selectedTag {
                 TagEditBottomSheet(
                     tag: Binding(
                         get: { tag },
@@ -101,7 +92,7 @@ struct TagEditView: View {
                 .presentationDetents([.height(360)])
             }
         })
-        .alert(isPresented: $showingDuplicateWarning) {
+        .alert(isPresented: $viewModel.isDuplicateWarningPresent) {
             Alert(
                 title: Text("중복된 태그"),
                 message: Text("이미 존재하는 태그입니다."),
@@ -148,23 +139,13 @@ struct TagEditView: View {
                 .stroke(.gray30, lineWidth: 1)
         )
         .onTapGesture {
-            selectedTag = tag
-            isEditBottomSheetPresented = true
+            viewModel.selectedTag = tag
+            viewModel.isEditBottomPresented = true
         }
     }
     
-    private func addTag() {
-        if !tagInput.isEmpty {
-            if viewModel.tags.contains(where: { $0.name.lowercased() == tagInput.lowercased() }) {
-                showingDuplicateWarning = true
-            } else {
-                viewModel.addTag(name: tagInput, color: selectedColor)
-                tagInput = ""
-            }
-        }
-    }
 }
 
 #Preview{
-    TagEditView(viewModel: SharedTodoViewModel())
+    TagEditView(viewModel: TagEditViewModel())
 }

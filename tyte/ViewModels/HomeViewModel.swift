@@ -1,127 +1,182 @@
 import Foundation
 import Combine
+import Alamofire
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
-    @Published var selectedTags: [String] = []
-    @Published var sortOption: String = "default"
-    @Published var currentTab: Int = 0
+    let appState = AppState.shared
     
-    private let todoService: TodoService 
-    private let sharedVM: SharedTodoViewModel
-    
+    @Published var weekCalendarData: [DailyStat] = []
+    @Published var todosForDate: [Todo] = []
+    @Published var selectedDate :Date { didSet { fetchTodosForDate(selectedDate.apiFormat) } }
+    @Published var tags: [Tag] = []
     @Published var isLoading: Bool = false
-    private var cancellables = Set<AnyCancellable>()
+    
+    @Published var isCreateTodoPresented: Bool = false
+    @Published var isDetailPresented: Bool = false
+    
+    private let todoService: TodoService
+    private let dailyStatService: DailyStatService
+    private let tagService: TagService
     
     init(
-        sharedVM: SharedTodoViewModel,
-        todoService: TodoService = TodoService.shared
+        todoService: TodoService = TodoService.shared,
+        dailyStatService: DailyStatService = DailyStatService.shared,
+        tagService: TagService = TagService.shared
     ) {
-        self.sharedVM = sharedVM
         self.todoService = todoService
-        fetchTodos()
-        self.selectedTags = sharedVM.tags.map{$0.id}
+        self.dailyStatService = dailyStatService
+        self.tagService = tagService
+        self.selectedDate = Date().koreanDate
     }
     
-    var isAllTagsSelected: Bool {
-        !selectedTags.isEmpty && selectedTags.count == sharedVM.tags.count + 1 // +1 for "default" tag
-    }
+    private var cancellables = Set<AnyCancellable>()
     
-    func selectAllTags() {
-        selectedTags = (sharedVM.tags.map { $0.id } + ["default"])
-    }
-    
-    func setupBindings(sharedVM: SharedTodoViewModel) {
-        sharedVM.$lastAddedTodoId
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                print("Todo Creation Detected from Home")
-                self?.fetchTodos()
-            }
-            .store(in: &cancellables)
-        
-        sharedVM.$tags
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] tags in
-                guard let self = self else { return }
-                    self.selectedTags = ["default"] + tags.map { $0.id }
-            }
-            .store(in: &cancellables)
-    }
-    
-    // 값에 의존하는 상태가 변경될때마다 자동으로 재계산된다. 즉, currentTab 변경 시, inProgressTodos or completedTodos 배열 변경 시, selectedTags 배열 변경 시 ...
-    var filteredTodos: [Todo] {
-        let todos = currentTab == 0 ? sharedVM.inProgressTodos : sharedVM.completedTodos
-        return todos.filter { todo in
-            if selectedTags.contains("default") {
-                return todo.tagId == nil || (todo.tagId != nil && selectedTags.contains(todo.tagId!.id))
-            } else {
-                return todo.tagId != nil && selectedTags.contains(todo.tagId!.id)
+    func scrollToToday(proxy: ScrollViewProxy? = nil) {
+        withAnimation {
+            selectedDate = Date().koreanDate
+            fetchTodosForDate(selectedDate.apiFormat)
+            if let proxy = proxy {
+                proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
             }
         }
     }
     
-    func fetchTodos() {
+    func addTodo(_ text: String) {
         isLoading = true
-        todoService.fetchAllTodos(mode: sortOption)
+        todoService.createTodo(text: text)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    sharedVM.currentPopup = .error(error.localizedDescription)
+                    switch error {
+                    case .invalidTodo:
+                        appState.currentPopup = .invalidTodo
+                    default:
+                        appState.currentPopup = .error(error.localizedDescription)
+                    }
+                }
+            } receiveValue: { [weak self] newTodos in
+                self?.isLoading = false
+                guard let self = self else { return }
+                if newTodos.count == 1 {
+                    appState.currentPopup = .todoAddedIn(newTodos[0].deadline)
+                } else {
+                    appState.currentPopup = .todosAdded(newTodos.count)
+                }
+                self.fetchTodosForDate(self.selectedDate.apiFormat)
+                self.fetchWeekCalendarData()
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: 특정 날짜에 대한 Todo들 fetch
+    func fetchTodosForDate(_ deadline: String) {
+        todosForDate = []
+        isLoading = true
+        todoService.fetchTodosForDate(deadline: deadline)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                guard let self = self else { return }
+                if case .failure(let error) = completion {
+                    appState.currentPopup = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
-                sharedVM.inProgressTodos = todos.filter { !$0.isCompleted }
-                sharedVM.completedTodos = todos.filter { $0.isCompleted }
+                todosForDate = todos
             }
             .store(in: &cancellables)
     }
     
     func toggleTodo(_ id: String) {
+        // MARK: Guard를 사용할 경우, 조기 반환, 옵셔널 바인딩 언래핑, 조건에 사용한 let 변수에 대한 스코프 확장이 가능.
+        guard let index = todosForDate.firstIndex(where: { $0.id == id }) else { return }
+        todosForDate[index].isCompleted.toggle()
+        
         todoService.toggleTodo(id: id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    sharedVM.currentPopup = .error(error.localizedDescription)
+                    appState.currentPopup = .error(error.localizedDescription)
+                    todosForDate[index].isCompleted.toggle()
                 }
             } receiveValue: { [weak self] updatedTodo in
+                self?.fetchWeekCalendarData()
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: 특정 날짜에 대한 Todo들 fetch
+    func fetchWeekCalendarData() {
+        dailyStatService.fetchAllDailyStats()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
                 guard let self = self else { return }
-                if updatedTodo.isCompleted {
-                    // Todo가 완료됨: inProgressTodos에서 제거하고 completedTodos에 추가
-                    if let index = sharedVM.inProgressTodos.firstIndex(where: { $0.id == id }) {
-                        withAnimation(.mediumEaseInOut){
-                            _ = self.sharedVM.inProgressTodos.remove(at: index)
-                        }
-                        sharedVM.completedTodos.append(updatedTodo)
-                    }
-                } else {
-                    // Todo가 미완료됨: completedTodos에서 제거하고 inProgressTodos에 추가
-                    if let index = sharedVM.completedTodos.firstIndex(where: { $0.id == id }) {
-                        withAnimation(.mediumEaseInOut){
-                            _ = self.sharedVM.completedTodos.remove(at: index)
-                        }
-                        sharedVM.inProgressTodos.append(updatedTodo)
-                    }
+                if case .failure(let error) = completion {
+                    appState.currentPopup = .error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] dailyStats in
+                guard let self = self else { return }
+                withAnimation(.mediumEaseInOut){
+                    self.weekCalendarData = dailyStats
                 }
             }
             .store(in: &cancellables)
     }
     
-    func toggleTag(id: String) {
-        if let index = selectedTags.firstIndex(of: id) {
-            if selectedTags.count > 1 {
-                selectedTags.remove(at: index)
+    //MARK: Todo 삭제
+    func deleteTodo(id: String) {
+        todoService.deleteTodo(id: id)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                if case .failure(let error) = completion {
+                    appState.currentPopup = .error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] _ in
+                guard let self = self else { return }
+                appState.currentPopup = .todoDeleted
+                fetchTodosForDate(selectedDate.apiFormat)
+                fetchWeekCalendarData()
             }
-        } else {
-            selectedTags.append(id)
-        }
+            .store(in: &cancellables)
     }
     
-    func setSortOption(_ option: String) {
-        sortOption = option
-        fetchTodos()
+    //MARK: Todo 수정
+    func editTodo(_ todo: Todo) {
+        todoService.updateTodo(todo: todo)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                if case .failure(let error) = completion {
+                    appState.currentPopup = .error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] updatedTodoId in
+                guard let self = self else { return }
+                fetchTodosForDate(selectedDate.apiFormat)
+                fetchWeekCalendarData()
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Tag 관련 메서드
+    func fetchTags() {
+        isLoading = true
+        tagService.fetchAllTags()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                if case .failure(let error) = completion {
+                    self?.appState.currentPopup = .error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] tags in
+                self?.tags = tags
+            }
+            .store(in: &cancellables)
     }
 }

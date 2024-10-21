@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct StatusBoxContent: View {
-    @ObservedObject var viewModel : ListViewModel
+    @ObservedObject var viewModel : HomeViewModel
     private var balanceData:BalanceData
     
-    init( viewModel: ListViewModel ) {
+    init( viewModel: HomeViewModel ) {
         self.viewModel = viewModel
         if let index = viewModel.weekCalendarData.firstIndex(where: {
             viewModel.selectedDate.apiFormat == $0.date

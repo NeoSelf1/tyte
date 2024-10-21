@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct CreateTodoView: View {
-    @ObservedObject var sharedVM: SharedTodoViewModel
-    @Binding var isShowing : Bool
+    @ObservedObject var viewModel : HomeViewModel
     
     @State private var todoInput = ""
     @State private var currentExampleIndex = 0
     @State private var isAnimating = false
+    @State private var isLoading : Bool = false
     @FocusState private var isTodoInputFocused: Bool
+    
+    @Environment(\.dismiss) private var dismiss
     
     let examples = [
         ("회의 준비하기, 보고서 작성", "쉼표로 구분하면 여러 할 일을 한 번에 추가할 수 있어요."),
@@ -77,7 +79,7 @@ struct CreateTodoView: View {
                 .padding(.leading,4)
                 .frame(maxWidth:.infinity,alignment:.leading)
             
-            if sharedVM.isLoading {
+            if isLoading {
                 ProgressView()
                     .tint(.gray50)
                     .frame(height: 56)
@@ -99,7 +101,7 @@ struct CreateTodoView: View {
                 .focused($isTodoInputFocused)
                 .onSubmit {
                     guard !todoInput.isEmpty else { return }
-                    sharedVM.addTodo(todoInput)
+                    viewModel.addTodo(todoInput)
                     todoInput = ""
                 }
                 .frame(height: 56)
@@ -119,9 +121,9 @@ struct CreateTodoView: View {
                 }
             }
         }
-        .onChange(of: sharedVM.isLoading) { _,newValue in
+        .onChange(of: isLoading) { _,newValue in
             if !newValue {
-                isShowing = false
+                dismiss()
             }
         }
         .onAppear {
@@ -133,11 +135,8 @@ struct CreateTodoView: View {
 
 #Preview {
     struct PreviewWrapper: View {
-        @StateObject private var sharedVM = SharedTodoViewModel()
-        @State private var isShowing = true
-        
         var body: some View {
-            CreateTodoView(sharedVM: sharedVM, isShowing: $isShowing)
+            CreateTodoView(viewModel:HomeViewModel())
                 .frame(height:260) // 높이를 조절하세요. 300은 예시 값입니다.
         }
     }

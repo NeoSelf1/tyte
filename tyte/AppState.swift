@@ -14,5 +14,5 @@ class AppState: ObservableObject {
     @Published var isLoggedIn: Bool = false // Published 래퍼를 통해 상태 변화를 SwiftUI 뷰에 자동반영
     @Published var isGuestMode: Bool = false
     @Published var isLoginRequiredViewPresented: Bool = false
-//    @Published var currentPopup: PopupType?
+    @Published var currentPopup: PopupType?
 }
