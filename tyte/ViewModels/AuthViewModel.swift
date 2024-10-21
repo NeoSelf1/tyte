@@ -220,13 +220,12 @@ class AuthViewModel: ObservableObject {
     }
     
     func logout() {
-        guard let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail") else {
-            print("logout: no savedEmail")
-            return
-        }
         do {
-            try KeychainManager.delete(service: AuthConstants.tokenService,
-                                       account: savedEmail)
+            if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail")  {
+                try KeychainManager.delete(service: AuthConstants.tokenService,
+                                           account: savedEmail)
+            }
+            
             // Google 로그아웃
             GIDSignIn.sharedInstance.signOut()
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
@@ -236,7 +235,6 @@ class AuthViewModel: ObservableObject {
         } catch {
             self.currentPopup = .error(error.localizedDescription)
         }
-        print("\(savedEmail) 로그아웃하였습니다")
     }
     
     private func clearAllUserData() {

@@ -7,14 +7,11 @@
 import Foundation
 import Alamofire
 
-import Foundation
-import Alamofire
-
 class APIManager {
     static let shared = APIManager()
     
-    private let isDevelopment: Bool = false
-    private let baseURL: String
+    private let isDevelopment: Bool = true
+    let baseURL: String
     
     private init() {
         baseURL = isDevelopment ? "http://localhost:8080/api" : "http://43.201.140.227:8080/api"
@@ -25,7 +22,7 @@ class APIManager {
         return UserDefaults.standard.string(forKey: "lastLoggedInEmail")
     }
     
-    private func getToken() -> String? {
+    func getToken() -> String? {
         guard let email = UserDefaults.standard.string(forKey: "lastLoggedInEmail") else {
             return nil
         }
@@ -74,9 +71,7 @@ class APIManager {
                                completion: @escaping (Result<T, APIError>) -> Void) {
         let url = baseURL + endpoint.path
         var headers: HTTPHeaders = [:]
-        
-        // appstate를 접근하여 게스트모드임을 확인하면, request 취소
-        if AppState.shared.isGuestMode {return print("approaching \(endpoint) in GuestMode...")}
+        if AppState.shared.isGuestMode { return }
         
         // 게스트모드가 아닐 경우, 토큰 접근, 토큰 없을 경우 개발자모드면 임의값 부여, 아닐 경우 에러
         if let token = self.getToken() {
