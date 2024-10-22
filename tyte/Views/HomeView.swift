@@ -188,6 +188,9 @@ struct HomeView: View {
                         viewModel.isDetailPresented = false
                     }
                 )
+                .onAppear{
+                    viewModel.fetchTags()
+                }
                 .presentationDetents([.height(600)])
             }
         }

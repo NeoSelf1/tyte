@@ -10,6 +10,7 @@ struct TagEditView: View {
             set: { viewModel.isEditBottomPresented = $0 }
         )
     }
+    let defaultTagNames = ["학습","여가","건강"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -40,20 +41,12 @@ struct TagEditView: View {
             .background(.gray00)
             
             List {
-                ForEach(viewModel.tags) { tag in
-                    if tag.name == "일" || tag.name == "자유시간" {
-                        specialTagView(tag)
-                            .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
-                            .listRowSeparator(.hidden) // 사이 선
-                            .listRowBackground(Color.clear)
-                            .padding(.top,16)
-                    } else {
-                        regularTagView(tag)
-                            .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
-                            .listRowSeparator(.hidden) // 사이 선
-                            .listRowBackground(Color.clear)
-                            .padding(.top,16)
-                    }
+                specialTagView(Tag(id: "dummy_1", name: "학습", color: "FF0000", user: "dummyUser"))
+                specialTagView(Tag(id: "dummy_2", name: "여가", color: "F0E68C", user: "dummyUser"))
+                specialTagView(Tag(id: "dummy_3", name: "건강", color: "00FFFF", user: "dummyUser"))
+                
+                ForEach(viewModel.tags.filter{!defaultTagNames.contains($0.name)}) { tag in
+                    regularTagView(tag)
                 }
             }
             .listStyle(PlainListStyle())
@@ -118,6 +111,11 @@ struct TagEditView: View {
         .padding()
         .background(.gray20)
         .cornerRadius(8)
+        
+        .listRowInsets(EdgeInsets())
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
+        .padding(.top,16)
     }
     
     private func regularTagView(_ tag: Tag) -> some View {
@@ -134,6 +132,12 @@ struct TagEditView: View {
         .padding()
         .background(.gray00)
         .cornerRadius(8)
+        
+        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+        .listRowSeparator(.hidden) // 사이 선
+        .listRowBackground(Color.clear)
+        .padding(.top,16)
+        
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(.gray30, lineWidth: 1)

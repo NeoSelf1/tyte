@@ -27,6 +27,7 @@ class HomeViewModel: ObservableObject {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
         self.tagService = tagService
+        fetchTags()
     }
     
     private var cancellables = Set<AnyCancellable>()

@@ -383,7 +383,6 @@
 				ABC6CFB22C94267700C7DF1D /* DayView.swift */,
 				AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */,
 				ABF93D272C95834900C7D2BC /* MY */,
-				ABC6CFB12C94265E00C7DF1D /* List */,
 				ABE79CD02C9412A400D59871 /* Home */,
 				AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */,
 				ABF02B062C9A39C900947DA4 /* MonthPicker.swift */,
@@ -454,13 +453,6 @@
 				ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */,
 			);
 			path = Font;
-			sourceTree = "<group>";
-		};
-		ABC6CFB12C94265E00C7DF1D /* List */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = List;
 			sourceTree = "<group>";
 		};
 		ABD666B22C83731F0005D3C1 /* Models */ = {
