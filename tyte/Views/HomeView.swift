@@ -56,6 +56,7 @@ struct HomeView: View {
                             )
                             .padding(1)
                         }
+                        
                         if appState.isGuestMode {
                             Button{
                                 withAnimation(.mediumEaseInOut){
@@ -81,22 +82,25 @@ struct HomeView: View {
                     .frame(height:52)
                     .padding(.horizontal)
                     
-                    MonthlyCalendar(viewModel:viewModel,isShowingMonthPicker:$isShowingMonthPicker)
-                        .padding(.top, -16)
-                        .padding(.bottom,16)
-                        .onAppear {
-                            viewModel.scrollToToday(proxy: proxy)
-                        }
+                    MonthlyCalendar(
+                        viewModel:viewModel,
+                        isShowingMonthPicker:$isShowingMonthPicker
+                    )
+                    .padding(.top, -16)
+                    .padding(.bottom,16)
+                    .onAppear {
+                        viewModel.scrollToToday(proxy: proxy)
+                    }
                 }
                 
                 Divider().frame(minHeight:3).background(.gray10)
                 
                 List {
-                    StatusBoxContent(viewModel:viewModel)
-                        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
+                    StatusBoxContent(viewModel: viewModel)
+                        .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                         .padding(.horizontal)
-                        .padding(.top,12)
+                        .padding(.top, 12)
                     
                     
                     if (viewModel.todosForDate.isEmpty){
@@ -105,9 +109,11 @@ struct HomeView: View {
                             .listRowSeparator(.hidden) // 사이 선
                             .listRowBackground(Color.clear)
                             .padding(.top,16)
+                        
                     } else {
                         ForEach(viewModel.todosForDate) { todo in
                             let isPast = todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate)
+                            
                             HStack(spacing:12){
                                 Button(action: {
                                     viewModel.toggleTodo(todo.id)
@@ -116,7 +122,6 @@ struct HomeView: View {
                                         .resizable()
                                         .frame(width: 40,height:40)
                                         .foregroundStyle(todo.isCompleted ? .gray50 : .gray60)
-                                    
                                         .animation(.fastEaseInOut, value: todo.isCompleted)
                                 }
                                 .padding(.leading,16)
@@ -143,14 +148,10 @@ struct HomeView: View {
                 .background(.gray10)
                 .listStyle(PlainListStyle())
                 
-                .refreshable(action: {viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)})
-                .onAppear {
-                    viewModel.fetchWeekCalendarData()
-                    viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
-                }
+                .refreshable(action: { viewModel.fetchInitialData() })
+                .onAppear { viewModel.fetchInitialData() }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    viewModel.fetchWeekCalendarData()
-                    viewModel.fetchTodosForDate(viewModel.selectedDate.apiFormat)
+                    viewModel.fetchInitialData()
                 }
             }
             
@@ -163,8 +164,7 @@ struct HomeView: View {
                     viewModel.isCreateTodoPresented = true
                 }
             })
-            .padding(.trailing, 24)
-            .padding(.bottom, 80)
+            .padding(24)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
         }
         .sheet(isPresented: $viewModel.isCreateTodoPresented) {
@@ -203,8 +203,8 @@ struct HomeView: View {
                         }
                      
                     MonthYearPickerPopup(
-                        selectedDate:$viewModel.selectedDate,
-                        isShowing: $isShowingMonthPicker
+                        isShowing: $isShowingMonthPicker,
+                        viewModel:viewModel
                     )
                     .transition(
                         .asymmetric(

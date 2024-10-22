@@ -88,3 +88,17 @@ struct DailyStat_Graph: Identifiable,Codable {
         self.animate = animate
     }
 }
+
+
+let dummyDailyStat = DailyStat(
+    date: Date().apiFormat,
+    user: "dummy_user_id",
+    balanceData: BalanceData(
+        title: "균형잡힌 하루",
+        message: "오늘도 열심히 해냈어요!",
+        balanceNum: 0
+    ),
+    productivityNum: 0,
+    tagStats: [],
+    center: SIMD2<Float>(x: 0.5, y: 0.5)
+)

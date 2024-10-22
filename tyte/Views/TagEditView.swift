@@ -25,7 +25,7 @@ struct TagEditView: View {
                     text: $viewModel.tagInput,
                     placeholder: "태그 제목",
                     keyboardType: .default,
-                    onSubmit: { viewModel.addTag() }
+                    onSubmit: { !viewModel.tagInput.isEmpty ? viewModel.addTag() : print("isEmpty") }
                 )
                 .submitLabel(.done)
                 

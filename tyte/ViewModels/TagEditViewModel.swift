@@ -84,7 +84,7 @@ class TagEditViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] deletedTagId in
                 guard let self = self else { return }
-                self.appState.currentPopup = .tagAdded
+                self.appState.currentPopup = .tagDeleted
                 fetchTags()
             }
             .store(in: &cancellables)
@@ -105,5 +105,4 @@ class TagEditViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
 }

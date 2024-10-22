@@ -9,17 +9,19 @@ class AuthViewModel: ObservableObject {
     // View와 달리, 뷰모델에서는 비즈니스 로직을 처리하기에 필요한 의존성을 명시적으로 주입 후, 싱글톤으로 접근
     // 필요한 곳에서만 상태를 관찰할 수 있기에 더 효율적
     @Published var currentPopup: PopupType?
-    @Published var email: String = "" {didSet{
-        if email != oldValue {
-            withAnimation (.mediumEaseInOut){
-                isPasswordInvalid = false
-                isPasswordWrong = false
-                isExistingUser = false
-                isEmailInvalid = false
-                errorText = ""
+    @Published var email: String = "" {
+        didSet{
+            if email != oldValue {
+                withAnimation (.mediumEaseInOut){
+                    isPasswordInvalid = false
+                    isPasswordWrong = false
+                    isExistingUser = false
+                    isEmailInvalid = false
+                    errorText = ""
+                }
             }
         }
-    }}
+    }
     
     @Published var username: String = ""{didSet{
         if username != oldValue {
@@ -41,11 +43,11 @@ class AuthViewModel: ObservableObject {
     @Published var errorText: String = ""
     @Published var isExistingUser: Bool = false
     @Published var isSignUp: Bool = false
+    
     @Published var isPasswordWrong: Bool = false
     @Published var isEmailInvalid: Bool = false
     @Published var isUsernameInvalid: Bool = false
     @Published var isPasswordInvalid: Bool = false
-    
     @Published var isLoading: Bool = false
     @Published var isSocialLoading: Bool = false
     

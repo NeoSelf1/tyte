@@ -8,12 +8,16 @@ import Combine
 import SwiftUI
 
 struct DetailView: View {
-    @ObservedObject var viewModel : MyPageViewModel
-    @State private var isAnimating = false
-    @State private var balance : (workPercentage:Double, lifePercentage:Double) = (50,50)
-    @State private var productivityNum : Double = 0
+    let todosForDate: [Todo]
+    let dailyStatForDate: DailyStat
+    let isLoading: Bool
+
     @State private var showingSavedAlert = false
     
+    // 애니메이팅 위한 초기값
+    @State private var balance : (workPercentage:Double, lifePercentage:Double) = (50,50)
+    @State private var productivityNum : Double = 0
+
     private let prismSize :CGFloat = 240
     @Environment(\.colorScheme) var colorScheme
     
@@ -35,23 +39,28 @@ struct DetailView: View {
                     Spacer().frame(height:12)
                 }
                 
-                if let dailyStat = viewModel.dailyStatForDate {
+                if isLoading {
+                    ProgressView()
+                        .tint(.gray50)
+                        .frame(height: 56)
+                } else {
                     ZStack {
                         MeshGradientView(
-                            colors: getColors(dailyStat),
-                            center: dailyStat.center,
+                            colors: getColors(dailyStatForDate),
+                            center: dailyStatForDate.center,
                             isSelected: true,
                             cornerRadius: 32
-                        ).frame(width: prismSize, height: prismSize)
-                        
+                        )
+                        .frame(width: prismSize, height: prismSize)
+
                         VStack {
                             HStack{
                                 VStack(alignment: .leading){
-                                    Text(dailyStat.date.parsedDate.formattedYear)
+                                    Text(dailyStatForDate.date.parsedDate.formattedYear)
                                         .font(._title)
                                         .foregroundStyle(.gray90)
                                     
-                                    Text(dailyStat.date.parsedDate.formattedMonthDate)
+                                    Text(dailyStatForDate.date.parsedDate.formattedMonthDate)
                                         .font(._headline2)
                                         .foregroundStyle(.gray90)
                                 }
@@ -68,7 +77,7 @@ struct DetailView: View {
                             Spacer()
                             
                             HStack(alignment: .bottom){
-                                VStack (alignment:.leading, spacing:2){
+                                VStack (alignment:.leading, spacing:2) {
                                     Text("이날의 생산지수")
                                         .font(._caption)
                                         .foregroundStyle(.gray60)
@@ -79,19 +88,19 @@ struct DetailView: View {
                                         .contentTransition(.numericText(value: productivityNum))
                                         .animation(.snappy,value: productivityNum)
                                         .onAppear{
-                                            productivityNum = dailyStat.productivityNum
+                                            productivityNum = dailyStatForDate.productivityNum
                                         }
                                 }
                                 
                                 Spacer()
-                                
+
                                 VStack(alignment: .leading, spacing: 6) {
                                     Text("태그 목록")
                                         .font(._caption)
                                         .foregroundStyle(.gray60)
                                     
                                     VStack(alignment: .leading, spacing: 2) {
-                                        ForEach(dailyStat.tagStats) { tagStat in
+                                        ForEach(dailyStatForDate.tagStats) { tagStat in
                                             HStack(spacing: 8) {
                                                 Circle()
                                                     .fill(Color(hex: tagStat.tag.color))
@@ -107,25 +116,26 @@ struct DetailView: View {
                                 }
                             }
                         }
-                    }.frame(width:.infinity, height: prismSize*1.18)
+                    }
+                    .frame(width:.infinity, height: prismSize*1.18)
                     
-                    VStack(spacing:4){
+                    VStack(spacing:4) {
                         Text("이날의 조언")
                             .font(._body3)
                             .foregroundStyle(.gray60)
                             .padding(.leading,2)
                             .frame(maxWidth: .infinity,alignment: .leading)
                         
-                        Text(dailyStat.balanceData.message)
+                        Text(dailyStatForDate.balanceData.message)
                             .font(._subhead2)
                             .foregroundStyle(.gray50)
                             .frame(maxWidth: .infinity,alignment: .leading)
                     }
                     
                     WorkLifeBalanceBar(balance:balance)
-                        .onAppear{
+                        .onAppear {
                             withAnimation(.longEaseInOut) {
-                                balance = calculateDailyBalance(for: viewModel.todosForDate)
+                                balance = calculateDailyBalance(for: todosForDate)
                             }
                         }
                     
@@ -136,21 +146,18 @@ struct DetailView: View {
                                 .foregroundStyle(.gray60)
                                 .padding(.leading,2)
                             
-                            Text("\(viewModel.todosForDate.filter{$0.isCompleted==true}.count)개")
+                            Text("\(todosForDate.filter{$0.isCompleted==true}.count)개")
                                 .font(._body3)
                                 .foregroundStyle(.gray50)
                             Spacer()
                         }
                         
-                        ForEach(viewModel.todosForDate.filter{$0.isCompleted==true}) { todo in
+                        ForEach(todosForDate.filter{$0.isCompleted==true}) { todo in
                             TodoItemView(todo: todo, isHome: false)
                                 .opacity(0.6)
                                 .padding(4)
                         }
                     }
-                } else {
-                    Text("선택된 날짜의 데이터가 없습니다.")
-                        .font(._headline2)
                 }
             }
             .padding()

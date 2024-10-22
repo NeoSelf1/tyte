@@ -11,11 +11,9 @@ struct MainTabView: View {
             VStack(spacing: 0) {
                 switch(selectedTab) {
                 case 0:
-                    HomeView()
-//                case 1:
-//                    NavigationStack {
-//                        ListView(viewModel: listVM, sharedVM: sharedVM)
-//                    }
+                    NavigationStack { HomeView() }
+                case 1:
+                    EmptyView()
                 default:
                     NavigationStack {
                         MyPageView()
@@ -108,4 +106,5 @@ struct BottomTab: View {
 
 #Preview {
     MainTabView()
+        .environmentObject(AppState.shared)
 }

@@ -25,7 +25,7 @@ struct Todo: Identifiable, Codable {
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"  // MongoDB의 _id를 id로  // MongoDB의 tagId를 tag로
-        case raw,tagId, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted, user
+        case raw, tagId, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted, user
     }
 }
 

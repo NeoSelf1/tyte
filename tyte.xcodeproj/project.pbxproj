@@ -94,6 +94,8 @@
 		E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A8402CC65BD500BD43F4 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A83F2CC65BD300BD43F4 /* Util.swift */; };
 		E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */; };
+		E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */; };
+		E5A4A8462CC6801D00BD43F4 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8452CC6801B00BD43F4 /* StatisticsViewModel.swift */; };
 		E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660232CBFB10300A8279B /* WidgetKit.framework */; };
 		E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660252CBFB10300A8279B /* SwiftUI.framework */; };
 		E5D660372CBFB10400A8279B /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E5D660222CBFB10200A8279B /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -233,6 +235,8 @@
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		E5A4A83F2CC65BD300BD43F4 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
+		E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		E5A4A8452CC6801B00BD43F4 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		E5D660222CBFB10200A8279B /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D660232CBFB10300A8279B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E5D660252CBFB10300A8279B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -472,6 +476,7 @@
 		ABD666B32C8373270005D3C1 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				E5A4A8452CC6801B00BD43F4 /* StatisticsViewModel.swift */,
 				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
 				ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */,
 				AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */,
@@ -483,6 +488,7 @@
 		ABD666B42C83732E0005D3C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
 				ABDE8B932C86F2A900F3CB68 /* HomeView.swift */,
 				ABC3A4D22C95A53300F43796 /* MyPageView.swift */,
@@ -895,6 +901,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */,
+				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
 				AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				E52628922CC35684004B290C /* LoginRequest.swift in Sources */,
@@ -951,6 +958,7 @@
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */,
 				AB87355E2CAA5F590089844D /* PopupType.swift in Sources */,
+				E5A4A8462CC6801D00BD43F4 /* StatisticsViewModel.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
 				AB6A495F2C8606AF00B782A1 /* Int+.swift in Sources */,
 			);

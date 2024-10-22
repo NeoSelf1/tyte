@@ -10,12 +10,12 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
-    @Published var isLoading: Bool = false
+    @Published var isLoading: Bool = true
     @Published var errorMessage: String?
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
-    @Published var dailyStatForDate: DailyStat?
+    @Published var dailyStatForDate: DailyStat = dummyDailyStat
     @Published var todosForDate: [Todo] = []
     
     @Published var currentMonth: Date = Date().koreanDate
@@ -40,7 +40,6 @@ class MyPageViewModel: ObservableObject {
         authService: AuthService = AuthService.shared,
         todoService: TodoService = TodoService.shared
     ) {
-        print("MyPageViewModel init")
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.authService = authService
@@ -55,7 +54,6 @@ class MyPageViewModel: ObservableObject {
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
     func fetchTodosForDate(_ deadline: String) {
-        isLoading = true
         errorMessage = nil
         todoService.fetchTodosForDate(deadline: deadline)
             .receive(on: DispatchQueue.main)
@@ -74,7 +72,6 @@ class MyPageViewModel: ObservableObject {
     }
     
     func fetchDailyStats() {
-        isLoading = true
         errorMessage = nil
         
         let calendar = Calendar.current

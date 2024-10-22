@@ -53,15 +53,18 @@ struct MultiLayerBottomSheet: View {
             }
             .zIndex(1)
             
-            DetailView(viewModel: viewModel)
-                .padding(.top, 60)
-                .zIndex(2)
-                .overlay(
-                    GeometryReader { geometry in
-                        Color.clear
-                            .preference(key: ViewSizeKey.self, value: geometry.size)
-                    }
-                )
+            DetailView(todosForDate: viewModel.todosForDate,
+                       dailyStatForDate: viewModel.dailyStatForDate,
+                       isLoading: viewModel.isLoading
+            )
+            .padding(.top, 60)
+            .zIndex(2)
+            .overlay(
+                GeometryReader { geometry in
+                    Color.clear
+                        .preference(key: ViewSizeKey.self, value: geometry.size)
+                }
+            )
         }
         .alert(isPresented: $isScreenshotTaken) {
             Alert(title: Text("스크린샷 저장 완료"), message: Text("스크린샷이 저장되었습니다."), dismissButton: .default(Text("확인")))
@@ -72,7 +75,12 @@ struct MultiLayerBottomSheet: View {
     }
     
     private func takeScreenshot() {
-        let infoWindowView = DetailView(viewModel: viewModel)
+        let infoWindowView = DetailView(
+            todosForDate: viewModel.todosForDate,
+            dailyStatForDate: viewModel.dailyStatForDate,
+            isLoading: viewModel.isLoading
+        )
+        
         let controller = UIHostingController(rootView: infoWindowView)
         controller.view.frame = CGRect(origin: .zero, size: CGSize(width: detailViewSize.width, height: detailViewSize.height))
         controller.view.backgroundColor = .clear
@@ -80,7 +88,7 @@ struct MultiLayerBottomSheet: View {
         if let rootVC = UIApplication.shared.windows.first?.rootViewController {
             rootVC.view.insertSubview(controller.view, at: 0)
 
-            /////이미지 캡쳐//////
+            /////이미지 캡쳐
             let renderer = UIGraphicsImageRenderer(size: CGSize(width: detailViewSize.width, height: detailViewSize.height))
 
             let infoWindowImage = renderer.image { context in

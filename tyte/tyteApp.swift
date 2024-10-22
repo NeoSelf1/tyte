@@ -46,8 +46,3 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return GIDSignIn.sharedInstance.handle(url)
     }
 }
-
-#Preview {
-    ContentView()
-        .environmentObject(AppState.shared)
-}

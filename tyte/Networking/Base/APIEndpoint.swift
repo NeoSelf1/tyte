@@ -25,7 +25,7 @@ enum APIEndpoint {
     case createTag
     case updateTag(String)  // tagId
     case deleteTag(String)  // tagId
-    case fetchDailyStats
+    case fetchDailyStatsForDate(String) // date
     case fetchDailyStatsForMonth(String) // range
     
     var path: String {
@@ -64,10 +64,10 @@ enum APIEndpoint {
             return "/tag/\(tagId)"
         case .deleteTag(let tagId):
             return "/tag/\(tagId)"
-        case .fetchDailyStats:
-            return "/dailyStat"
+        case .fetchDailyStatsForDate(let date):
+            return "/dailyStat/\(date)"
         case .fetchDailyStatsForMonth(let range):
-            return "/dailyStat/\(range)"
+            return "/dailyStat/all/\(range)"
         }
     }
 }

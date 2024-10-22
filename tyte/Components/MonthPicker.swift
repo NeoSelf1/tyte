@@ -4,12 +4,13 @@ struct MonthYearPickerPopup: View {
     @State private var currentYear: Int
     @State private var currentMonth: Int
     @Binding var isShowing: Bool
-    @Binding var selectedDate: Date
+    @ObservedObject var viewModel: HomeViewModel
     
     private let calendar = Calendar.current
     
-    init(selectedDate: Binding<Date>, isShowing: Binding<Bool>) {
-        self._selectedDate = selectedDate
+    init(isShowing: Binding<Bool>,viewModel:HomeViewModel) {
+        self.viewModel = viewModel
+        
         self._isShowing = isShowing
         self._currentYear = State(initialValue: calendar.component(.year, from: Date().koreanDate))
         self._currentMonth = State(initialValue: calendar.component(.month, from: Date().koreanDate) - 1)
@@ -53,13 +54,8 @@ struct MonthYearPickerPopup: View {
             }
             
             Button(action: {
-                let components = DateComponents(year: currentYear, month: currentMonth + 1, day: 1)
-                if let newDate = calendar.date(from: components) {
-                    selectedDate = newDate
-                }
-                withAnimation {
-                    isShowing = false
-                }
+                viewModel.changeMonth(currentYear,currentMonth)
+                withAnimation { isShowing = false }
             }) {
                 Text("변경하기")
                     .frame(maxWidth: .infinity)

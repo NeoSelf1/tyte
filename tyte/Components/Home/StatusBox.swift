@@ -46,11 +46,27 @@ struct StatusBoxContent: View {
             }
             .padding(.leading,4)
             
-            VStack(alignment: .leading,spacing:0) {
-                Text(viewModel.selectedDate.formattedDate)
-                    .font(._body3)
-                    .foregroundStyle(.gray90)
-                    .padding(.bottom,4)
+            VStack(alignment: .leading, spacing:0) {
+                HStack {
+                    Text(viewModel.selectedDate.formattedDate)
+                        .font(._body3)
+                        .foregroundStyle(.gray90)
+                    
+                    Spacer()
+                    
+                    if let index = viewModel.weekCalendarData.firstIndex(where: {
+                        viewModel.selectedDate.apiFormat == $0.date
+                    }){
+                        NavigationLink(destination: StatisticsView(selectedDate: viewModel.selectedDate)) {
+                            Text("AI 분석리포트")
+                                .font(._body3)
+                                .foregroundStyle(.gray60)
+                        }
+                        .frame(maxWidth: 92)
+                            .padding(.trailing, -12)
+                    }
+                }
+                .padding(.bottom,4)
                 
                 Text(balanceData.title)
                     .font(._title)
@@ -61,6 +77,7 @@ struct StatusBoxContent: View {
                     .font(._body3)
                     .foregroundStyle(.gray50)
             }
+            
             Spacer()
         }
         .padding(10)
@@ -73,6 +90,6 @@ struct StatusBoxContent: View {
                 .stroke(.blue10, lineWidth: 1)
         )
         .padding(4)
-
+        
     }
 }

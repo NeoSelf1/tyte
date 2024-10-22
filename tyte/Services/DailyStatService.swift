@@ -12,11 +12,11 @@ class DailyStatService {
     static let shared = DailyStatService()
     private let apiManager = APIManager.shared
     
-    func fetchAllDailyStats() -> AnyPublisher<[DailyStat], APIError> {
-        let endpoint = APIEndpoint.fetchDailyStats
-        
+    func fetchDailyStatForDate(date:String) -> AnyPublisher<DailyStat, APIError> {
+        let endpoint = APIEndpoint.fetchDailyStatsForDate(date)
+
         return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[DailyStat], APIError>) in
+            self.apiManager.request(endpoint) { (result: Result<DailyStat, APIError>) in
                 promise(result)
             }
         }.eraseToAnyPublisher()
