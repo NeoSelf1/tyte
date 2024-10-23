@@ -13,7 +13,6 @@ struct CreateTodoView: View {
     @State private var todoInput = ""
     @State private var currentExampleIndex = 0
     @State private var isAnimating = false
-    @State private var isLoading : Bool = false
     @FocusState private var isTodoInputFocused: Bool
     
     @Environment(\.dismiss) private var dismiss
@@ -71,6 +70,7 @@ struct CreateTodoView: View {
                 .transition(.asymmetric(insertion: .scale.combined(with: .opacity),
                                         removal: .scale.combined(with: .opacity)))
             }
+            
             Spacer()
             
             Text("AI로 Todo 추가하기")
@@ -79,7 +79,7 @@ struct CreateTodoView: View {
                 .padding(.leading,4)
                 .frame(maxWidth:.infinity,alignment:.leading)
             
-            if isLoading {
+            if viewModel.isLoading {
                 ProgressView()
                     .tint(.gray50)
                     .frame(height: 56)
@@ -121,7 +121,7 @@ struct CreateTodoView: View {
                 }
             }
         }
-        .onChange(of: isLoading) { _,newValue in
+        .onChange(of: viewModel.isLoading) { _,newValue in
             if !newValue {
                 dismiss()
             }
