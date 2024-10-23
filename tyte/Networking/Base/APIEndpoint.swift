@@ -15,7 +15,6 @@ enum APIEndpoint {
     case googleLogin
     case appleLogin
     case deleteAccount(String) // email
-    case fetchTodos(String) // mode
     case fetchTodosForDate(String) // deadline
     case createTodo
     case toggleTodo(String) // todoId
@@ -27,6 +26,8 @@ enum APIEndpoint {
     case deleteTag(String)  // tagId
     case fetchDailyStatsForDate(String) // date
     case fetchDailyStatsForMonth(String) // range
+    case searchUser(String) // query
+    case getFriends
     
     var path: String {
         switch self {
@@ -44,8 +45,7 @@ enum APIEndpoint {
             return "/auth/google"
         case .appleLogin:
             return "/auth/apple"
-        case .fetchTodos(let mode):
-            return "/todo/all/\(mode)"
+            
         case .fetchTodosForDate(let deadline):
             return "/todo/\(deadline)"
         case .createTodo:
@@ -56,6 +56,7 @@ enum APIEndpoint {
             return "/todo/\(todoId)"
         case .deleteTodo(let todoId):
             return "/todo/\(todoId)"
+            
         case .fetchTags:
             return "/tag"
         case .createTag:
@@ -64,10 +65,15 @@ enum APIEndpoint {
             return "/tag/\(tagId)"
         case .deleteTag(let tagId):
             return "/tag/\(tagId)"
+            
         case .fetchDailyStatsForDate(let date):
             return "/dailyStat/\(date)"
         case .fetchDailyStatsForMonth(let range):
             return "/dailyStat/all/\(range)"
+        case .searchUser(let query):
+            return "/friend/search/\(query)"
+        case .getFriends:
+            return "/friend"
         }
     }
 }

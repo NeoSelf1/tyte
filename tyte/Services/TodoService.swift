@@ -12,16 +12,6 @@ class TodoService {
     
     private let apiManager = APIManager.shared
     
-    func fetchAllTodos(mode:String) -> AnyPublisher<[Todo], APIError> {
-        let endpoint = APIEndpoint.fetchTodos(mode)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[Todo], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
-    }
-    
     func fetchTodosForDate(deadline: String) -> AnyPublisher<[Todo], APIError> {
         let endpoint = APIEndpoint.fetchTodosForDate(deadline)
         

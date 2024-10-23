@@ -30,6 +30,7 @@ struct CreateTodoView: View {
     var body: some View {
         VStack {
             Spacer().frame(height:16)
+            
             ZStack{
                 VStack(alignment: .leading, spacing: 8) {
                     HStack (alignment: .bottom, spacing: 2){

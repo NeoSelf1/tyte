@@ -76,6 +76,13 @@
 		ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */; };
 		ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF93D292C95835E00C7D2BC /* GraphView.swift */; };
 		C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */; };
+		E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */; };
+		E519BE402CC8CA2700DD21B7 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3F2CC8CA2200DD21B7 /* FriendViewModel.swift */; };
+		E519BE422CC8CA4800DD21B7 /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE412CC8CA4500DD21B7 /* FriendService.swift */; };
+		E519BE442CC8CA8E00DD21B7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Friend.swift */; };
+		E519BE452CC8CA8E00DD21B7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Friend.swift */; };
+		E519BE472CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
+		E519BE482CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E52628832CC3563B004B290C /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
 		E52628922CC35684004B290C /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F912C8EB6CA00254299 /* LoginRequest.swift */; };
 		E52628932CC35684004B290C /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F932C8EB6D400254299 /* LoginResponse.swift */; };
@@ -229,6 +236,11 @@
 		B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
 		D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSearchView.swift; sourceTree = "<group>"; };
+		E519BE3F2CC8CA2200DD21B7 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
+		E519BE412CC8CA4500DD21B7 /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
+		E519BE432CC8CA8B00DD21B7 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E55D8A7B2CBF7D6000849DF1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -304,9 +316,9 @@
 		AB5BB26B2C836C0400DC4D72 = {
 			isa = PBXGroup;
 			children = (
-				E52628852CC35661004B290C /* Shared */,
 				E55D8A7B2CBF7D6000849DF1 /* .gitignore */,
 				AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */,
+				E52628852CC35661004B290C /* Shared */,
 				AB5BB2762C836C0400DC4D72 /* tyte */,
 				AB5BB2872C836C0600DC4D72 /* tyteTests */,
 				AB5BB2912C836C0600DC4D72 /* tyteUITests */,
@@ -458,6 +470,8 @@
 		ABD666B22C83731F0005D3C1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E519BE462CC8CCA400DD21B7 /* User.swift */,
+				E519BE432CC8CA8B00DD21B7 /* Friend.swift */,
 				ABD666BF2C8373700005D3C1 /* Todo.swift */,
 				ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */,
 				AB6A0F782C8EAF5500254299 /* Tag.swift */,
@@ -468,6 +482,7 @@
 		ABD666B32C8373270005D3C1 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				E519BE3F2CC8CA2200DD21B7 /* FriendViewModel.swift */,
 				E5A4A8452CC6801B00BD43F4 /* StatisticsViewModel.swift */,
 				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
 				ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */,
@@ -480,6 +495,7 @@
 		ABD666B42C83732E0005D3C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */,
 				E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
 				ABDE8B932C86F2A900F3CB68 /* HomeView.swift */,
@@ -531,6 +547,7 @@
 		E526289C2CC35750004B290C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E519BE412CC8CA4500DD21B7 /* FriendService.swift */,
 				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
 				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
 				AB6A0F8E2C8EB68700254299 /* TagService.swift */,
@@ -894,6 +911,7 @@
 			files = (
 				ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */,
 				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
+				E519BE402CC8CA2700DD21B7 /* FriendViewModel.swift in Sources */,
 				AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				E52628922CC35684004B290C /* LoginRequest.swift in Sources */,
@@ -908,11 +926,13 @@
 				ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
+				E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */,
 				AB688DCC2CA3BE3300F6E699 /* EmptyStateBox.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
 				AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
 				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
+				E519BE422CC8CA4800DD21B7 /* FriendService.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
@@ -921,11 +941,13 @@
 				ABC5D0462C9C010000676222 /* CreateTodoView.swift in Sources */,
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
 				AB155D652CA51F9C00F7DB8B /* CustomAlert.swift in Sources */,
+				E519BE472CC8CCA600DD21B7 /* User.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
 				E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */,
 				ABD666BC2C83735F0005D3C1 /* HomeViewModel.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
 				AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */,
+				E519BE452CC8CA8E00DD21B7 /* Friend.swift in Sources */,
 				AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */,
 				AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */,
 				AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */,
@@ -978,12 +1000,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E52628D32CC392C7004B290C /* Tag.swift in Sources */,
+				E519BE442CC8CA8E00DD21B7 /* Friend.swift in Sources */,
 				E52628962CC3569B004B290C /* KeychainManager.swift in Sources */,
 				E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
 				E5D660452CBFB1FB00A8279B /* AppIntent.swift in Sources */,
 				E5D660462CBFB1FB00A8279B /* widget.swift in Sources */,
 				E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */,
 				E5A4A8402CC65BD500BD43F4 /* Util.swift in Sources */,
+				E519BE482CC8CCA600DD21B7 /* User.swift in Sources */,
 				E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */,
 				E5D660492CBFB1FB00A8279B /* widgetLiveActivity.swift in Sources */,
 				E52628DA2CC3AB45004B290C /* Date+.swift in Sources */,
