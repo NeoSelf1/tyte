@@ -1,7 +1,10 @@
 import Foundation
 import Alamofire
 
-enum PopupType {
+enum ToastType {
+    case friendRequested(String) // username
+    case friendAlreadyRequested(String) // username
+    case friendRequestAccepted(String) // username
     case invalidTodo
     case todoAddedIn(String)
     case todosAdded(Int)
@@ -15,6 +18,12 @@ enum PopupType {
     
     var text: String{
         switch self {
+        case .friendRequested(let username):
+            return "\(username)님에 대한 친구 요청이 완료되었습니다."
+        case .friendAlreadyRequested(let username):
+            return "\(username)님에 대해 친구요청 진행중입니다."
+        case .friendRequestAccepted(let username):
+            return "\(username)님의 친구요청을 수락했습니다."
         case .invalidTodo:
             return "앗! AI가 할 일 내용을 이해하지 못했어요. 다시 한 번 작성해 주시겠어요?"
         case .todoAddedIn(let date):
