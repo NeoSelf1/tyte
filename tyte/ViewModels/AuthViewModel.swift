@@ -8,7 +8,7 @@ class AuthViewModel: ObservableObject {
     @ObservedObject private var appState: AppState
     // View와 달리, 뷰모델에서는 비즈니스 로직을 처리하기에 필요한 의존성을 명시적으로 주입 후, 싱글톤으로 접근
     // 필요한 곳에서만 상태를 관찰할 수 있기에 더 효율적
-    @Published var currentPopup: PopupType?
+    @Published var currentToast: ToastType?
     @Published var email: String = "" {
         didSet{
             if email != oldValue {
@@ -99,32 +99,12 @@ class AuthViewModel: ObservableObject {
     private func checkLoginStatus() {
         if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail") {
             do {
-                validateServerToken(for: savedEmail)
+                let _ = try KeychainManager.retrieve(service: APIConstants.tokenService, account: savedEmail)
                 print("isLoggedIn true")
+            } catch{
+                self.logout()
             }
-        }
-    }
-    
-    private func validateServerToken(for email: String) {
-        do {
-            let token = try KeychainManager.retrieve(service: APIConstants.tokenService, account: email)
-            authService.validateToken(token:token)
-                .receive(on: DispatchQueue.main)
-                .sink { completion in
-                    if case .failure(_) = completion {
-                        // 토큰이 유효하지 않으면 로그아웃
-                        self.logout()
-                    }
-                } receiveValue: { isValid in
-                    if isValid {
-                        self.appState.isLoggedIn = true
-                    } else {
-                        self.logout()
-                    }
-                }
-                .store(in: &cancellables)
-        } catch {
-            // 토큰을 검색할 수 없으면 로그아웃
+        } else {
             self.logout()
         }
     }
@@ -137,7 +117,7 @@ class AuthViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isLoading = false
                 if case .failure(let error) = completion {
-                    self?.currentPopup = .error(error.localizedDescription)
+                    self?.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] isExistingUser in
                 withAnimation(.mediumEaseOut) {
@@ -159,7 +139,7 @@ class AuthViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isLoading = false
                 if case .failure(let error) = completion {
-                    self?.currentPopup = .error(error.localizedDescription)
+                    self?.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] deleteResponse in
                 self?.appState.isLoggedIn = false
@@ -182,7 +162,7 @@ class AuthViewModel: ObservableObject {
                             self?.isPasswordWrong = true
                         }
                     default:
-                        self?.currentPopup = .error(error.localizedDescription)
+                        self?.currentToast = .error(error.localizedDescription)
                     }
                 }
             } receiveValue: { [weak self] loginResponse in
@@ -209,7 +189,7 @@ class AuthViewModel: ObservableObject {
                             self?.isUsernameInvalid = true
                         }
                     default:
-                        self?.currentPopup = .error(error.localizedDescription)
+                        self?.currentToast = .error(error.localizedDescription)
                     }
                 }
             } receiveValue: { [weak self] signUpResponse in
@@ -232,7 +212,7 @@ class AuthViewModel: ObservableObject {
             email = ""
             clearAllUserData()
         } catch {
-            self.currentPopup = .error(error.localizedDescription)
+            self.currentToast = .error(error.localizedDescription)
         }
     }
     
@@ -258,7 +238,7 @@ class AuthViewModel: ObservableObject {
     // 웹을 통해 Google 소셜로그인 진행
     func startGoogleSignIn() {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
-            self.currentPopup = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
+            self.currentToast = .error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요.")
             return
         }
         
@@ -285,13 +265,13 @@ class AuthViewModel: ObservableObject {
             case .canceled:
                 print("구글 로그인 도중에 취소됨")
             case .hasNoAuthInKeychain:
-                self.currentPopup = .googleError
+                self.currentToast = .googleError
             default:
-                self.currentPopup = .googleError
+                self.currentToast = .googleError
                 //alertItem = AlertItem(title:"오류",message: "Google Sign-In failed: \(error.localizedDescription)")
             }
         } else {
-            self.currentPopup = .googleError
+            self.currentToast = .googleError
             //alertItem = AlertItem(title:"오류",message: "An unknown error occurred during Google Sign-In")
         }
     }
@@ -300,7 +280,7 @@ class AuthViewModel: ObservableObject {
             if let idToken = signInResult.user.idToken?.tokenString {
                 performGoogleLogin(with: idToken)
             } else {
-                self.currentPopup = .googleError
+                self.currentToast = .googleError
 //                alertItem = AlertItem(title:"오류",message: "Failed to get ID token from Google Sign-In")
             }
         }
@@ -313,7 +293,7 @@ class AuthViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isSocialLoading = false
                 if case .failure(let error) = completion {
-                    self?.currentPopup = .error(error.localizedDescription)
+                    self?.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] loginResponse in
                 self?.handleSuccessfulLogin(loginResponse: loginResponse)
@@ -342,7 +322,7 @@ class AuthViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isSocialLoading = false
                 if case .failure(let error) = completion {
-                    self?.currentPopup = .error(error.localizedDescription)
+                    self?.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] loginResponse in
                 self?.handleSuccessfulLogin(loginResponse: loginResponse)
@@ -359,7 +339,7 @@ class AuthViewModel: ObservableObject {
             UserDefaults.standard.set(loginResponse.user.email, forKey: "lastLoggedInEmail")
             appState.isLoggedIn = true
         } catch {
-            currentPopup = .error(error.localizedDescription)
+            currentToast = .error(error.localizedDescription)
         }
     }
 }

@@ -10,15 +10,15 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
+    let appState = AppState.shared
+    
     @Published var isLoading: Bool = true
-    @Published var errorMessage: String?
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
     @Published var dailyStatForDate: DailyStat = dummyDailyStat
-    @Published var todosForDate: [Todo] = []
-    
     @Published var currentMonth: Date = Date().koreanDate
+    @Published var todosForDate: [Todo] = []
     
     @Published var isDetailViewPresented: Bool = false
     
@@ -54,13 +54,12 @@ class MyPageViewModel: ObservableObject {
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
     func fetchTodosForDate(_ deadline: String) {
-        errorMessage = nil
         todoService.fetchTodosForDate(deadline: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
                     guard let self = self else { return }
-                    self.errorMessage = error.localizedDescription
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 self?.isLoading = false
@@ -72,8 +71,6 @@ class MyPageViewModel: ObservableObject {
     }
     
     func fetchDailyStats() {
-        errorMessage = nil
-        
         let calendar = Calendar.current
         let currentDate = Date().koreanDate
         var startDate: Date
@@ -90,8 +87,7 @@ class MyPageViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isLoading = false
                 if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                    print(error.localizedDescription)
+                    self?.appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] _dailyStats in
                 guard let self = self else { return }

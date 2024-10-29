@@ -27,7 +27,14 @@ enum APIEndpoint {
     case fetchDailyStatsForDate(String) // date
     case fetchDailyStatsForMonth(String) // range
     case searchUser(String) // query
+    case requestFriend(String) // userId
     case getFriends
+    
+    case getPendingRequests // 받은 친구 요청 목록 조회
+    case acceptFriendRequest(String) // requestId
+    case rejectFriendRequest(String) // requestId
+    case getFriendDailyStats(friendId: String, range: String) // 친구의 DailyStat 조회
+    case removeFriend(String) // friendId
     
     var path: String {
         switch self {
@@ -70,10 +77,24 @@ enum APIEndpoint {
             return "/dailyStat/\(date)"
         case .fetchDailyStatsForMonth(let range):
             return "/dailyStat/all/\(range)"
+        case .getFriendDailyStats(let friendId, let range):
+            return "/dailyStat/friend/\(friendId)/\(range)"
+            
         case .searchUser(let query):
-            return "/friend/search/\(query)"
+            return "/social/search/\(query)"
         case .getFriends:
-            return "/friend"
+            return "/social"
+        case .requestFriend(let userId):
+            return "/social/request/\(userId)"
+        case .getPendingRequests:
+            return "/social/requests/pending"
+            
+        case .acceptFriendRequest(let requestId):
+            return "/social/accept/\(requestId)"
+        case .rejectFriendRequest(let requestId):
+            return "/social/reject/\(requestId)"
+        case .removeFriend(let friendId):
+            return "/social/\(friendId)"
         }
     }
 }

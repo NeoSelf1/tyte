@@ -45,7 +45,13 @@ struct MyPageView: View {
                             .cornerRadius(8)
                             .padding(.horizontal)
                             
-                            CalenderView(viewModel: viewModel)
+                            CalenderView(
+                                currentMonth: $viewModel.currentMonth,
+                                dailyStats:viewModel.dailyStats,
+                                selectDateForInsightData:{ date in
+                                    viewModel.selectDateForInsightData(date: date)
+                                }
+                            )
                         }
                         .frame(maxHeight: 450)
                         
