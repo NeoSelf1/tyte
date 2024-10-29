@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct CustomAlert: View {
+struct CustomPopupTwoBtn: View {
     @Binding var isShowing: Bool
+    
     let title: String
     let message: String
     let primaryButtonTitle: String
@@ -29,9 +30,9 @@ struct CustomAlert: View {
                 
                 HStack(spacing: 8) {
                     Button(action: {
+                        secondaryAction()
                         withAnimation {
                             isShowing = false
-                            secondaryAction()
                         }
                     }) {
                         Text(secondaryButtonTitle)
@@ -44,9 +45,9 @@ struct CustomAlert: View {
                     }
                     
                     Button(action: {
+                        primaryAction()
                         withAnimation {
                             isShowing = false
-                            primaryAction()
                         }
                     }) {
                         Text(primaryButtonTitle)
@@ -54,7 +55,7 @@ struct CustomAlert: View {
                             .font(._body1)
                             .padding()
                             .background(Color.blue30)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.gray00)
                             .cornerRadius(8)
                     }
                 }
