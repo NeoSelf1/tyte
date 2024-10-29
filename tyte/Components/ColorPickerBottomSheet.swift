@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ColorPickerBottomSheet: View {
     @Binding var selectedColor: String
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @State private var customColor = Color.gray
     @State private var isCustomColorSelected = false
     
@@ -22,7 +22,7 @@ struct ColorPickerBottomSheet: View {
                 ForEach(colors, id: \.self) { colorHex in
                     Button(action: {
                         selectedColor = colorHex
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }) {
                         Rectangle()
                             .fill(Color(hex: colorHex))
@@ -61,7 +61,7 @@ struct ColorPickerBottomSheet: View {
                 
                 Button(action: {
                     selectedColor = customColor.toHex() ?? "#000000"
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     Text(isCustomColorSelected ? "\(customColor.toHex() ?? "#747474") 색상 선택하기" : "색상 선택되지 않음")
                         .font(._body2)

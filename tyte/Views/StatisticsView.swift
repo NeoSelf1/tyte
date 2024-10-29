@@ -10,7 +10,7 @@ struct StatisticsView: View {
     @StateObject private var viewModel: StatisticsViewModel
     
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss  // SwiftUI의 dismiss 환경 값 추가
     
     @State private var showLogoutAlert = false
     @State private var showDeleteAccountAlert = false
@@ -30,7 +30,7 @@ struct StatisticsView: View {
         .navigationBarTitle("AI 분석리포트", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
-            leading: Button(action: { presentationMode.wrappedValue.dismiss() }){
+            leading: Button(action: { dismiss() }){
                 Image(systemName: "chevron.left")
                     .foregroundColor(.gray90)
             }

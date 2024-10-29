@@ -7,7 +7,7 @@ struct OnboardingView: View {
     @StateObject private var viewModel = AuthViewModel()
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
-    @State private var isPopupPresented = false
+    @State private var isToastPresented = false
     
     enum Field: Hashable {
         case email
@@ -23,8 +23,8 @@ struct OnboardingView: View {
                     focusedField = nil
                 }
             
-            if isPopupPresented, let popup = viewModel.currentPopup {
-                CustomPopup(popup: popup)
+            if isToastPresented, let toast = viewModel.currentToast {
+                CustomToast(toastData: toast)
                     .frame(maxHeight: .infinity, alignment: .top)
                     .padding(.top, 80)
                     .zIndex(1)
@@ -32,7 +32,7 @@ struct OnboardingView: View {
                         insertion: .opacity.combined(with: .move(edge: .top)),
                         removal: .opacity.combined(with: .move(edge: .top))
                     ))
-                    .animation(.mediumEaseInOut, value: isPopupPresented)
+                    .animation(.mediumEaseInOut, value: isToastPresented)
             }
             
             VStack(spacing: 8) {
@@ -174,18 +174,18 @@ struct OnboardingView: View {
             viewModel.isSignUp = false
             viewModel.isExistingUser = false
         }
-        
-        .onChange(of: viewModel.currentPopup?.text) { _, newValue in
+        .onChange(of: viewModel.currentToast?.text) { _, newValue in
             if newValue != nil {
                 withAnimation {
-                    isPopupPresented = true
+                    isToastPresented = true
                 }
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     withAnimation {
-                        isPopupPresented = false
+                        isToastPresented = false
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        viewModel.currentPopup = nil
+                        viewModel.currentToast = nil
                     }
                 }
             }
@@ -255,18 +255,18 @@ private func googleButton(viewModel:AuthViewModel) -> some View {
 
 private func appleButton(viewModel: AuthViewModel) -> some View {
     SignInWithAppleButton(
-                onRequest: { request in
-                    request.requestedScopes = [.fullName, .email]
-                },
-                onCompletion: { result in
-                    switch result {
-                    case .success(let authResults):
-                        viewModel.performAppleLogin(authResults)
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
-            )
+        onRequest: { request in
+            request.requestedScopes = [.fullName, .email]
+        },
+        onCompletion: { result in
+            switch result {
+            case .success(let authResults):
+                viewModel.performAppleLogin(authResults)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    )
     .frame(height: 50)
     .cornerRadius(10)
     .overlay(

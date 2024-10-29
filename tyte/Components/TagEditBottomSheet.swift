@@ -9,7 +9,7 @@ struct TagEditBottomSheet: View {
     @State private var editedColor: String
     @State private var isColorPickerPresented = false
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     init(tag: Binding<Tag>, onUpdate: @escaping (Tag) -> Void, onDelete: @escaping (String) -> Void) {
         self._tag = tag
@@ -65,7 +65,7 @@ struct TagEditBottomSheet: View {
             HStack {
                 Button(action: {
                     onDelete(tag.id)
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     Text("삭제하기")
                         .font(._title)
@@ -77,7 +77,7 @@ struct TagEditBottomSheet: View {
                 
                 Button(action: {
                     onUpdate(Tag(id: tag.id, name:editedName, color: editedColor, user: tag.user))
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     Text("변경하기")
                         .frame(maxWidth: .infinity)

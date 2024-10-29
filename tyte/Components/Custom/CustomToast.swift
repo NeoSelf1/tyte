@@ -1,5 +1,5 @@
 //
-//  CustomPopup.swift
+//  CustomToast.swift
 //  tyte
 //
 //  Created by 김 형석 on 9/20/24.
@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct CustomPopup: View {
-    let popup: PopupType
+struct CustomToast: View {
+    let toastData: ToastType
     
     var body: some View {
         HStack (spacing:8){
-            Image(systemName: popup.icon)
+            Image(systemName: toastData.icon)
                 .font(._subhead1)
                 .foregroundStyle(.blue30)
             
-            Text(popup.text)
+            Text(toastData.text)
                 .font(._subhead2)
         }
         .frame(width: 300,alignment: .leading)

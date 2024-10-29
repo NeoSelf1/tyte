@@ -130,7 +130,7 @@ struct HomeView: View {
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         if isPast {
-                                            appState.currentPopup = .error("이전 투두들은 수정이 불가능해요.")
+                                            appState.currentToast = .error("이전 투두들은 수정이 불가능해요.")
                                         } else {
                                             selectedTodo = todo
                                             viewModel.isDetailPresented = true

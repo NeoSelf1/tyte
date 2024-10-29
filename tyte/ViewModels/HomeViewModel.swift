@@ -66,9 +66,9 @@ class HomeViewModel: ObservableObject {
                 if case .failure(let error) = completion {
                     switch error {
                     case .invalidTodo:
-                        appState.currentPopup = .invalidTodo
+                        appState.currentToast = .invalidTodo
                     default:
-                        appState.currentPopup = .error(error.localizedDescription)
+                        appState.currentToast = .error(error.localizedDescription)
                     }
                 }
             } receiveValue: { [weak self] newTodos in
@@ -76,9 +76,9 @@ class HomeViewModel: ObservableObject {
                 isLoading = false
                 
                 if newTodos.count == 1 {
-                    appState.currentPopup = .todoAddedIn(newTodos[0].deadline)
+                    appState.currentToast = .todoAddedIn(newTodos[0].deadline)
                 } else {
-                    appState.currentPopup = .todosAdded(newTodos.count)
+                    appState.currentToast = .todosAdded(newTodos.count)
                 }
                 
                 fetchTodosForDate(selectedDate.apiFormat)
@@ -99,7 +99,7 @@ class HomeViewModel: ObservableObject {
                 self?.isLoading = false
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -115,7 +115,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
@@ -138,7 +138,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                     todosForDate[index].isCompleted.toggle()
                 }
             } receiveValue: { [weak self] updatedTodo in
@@ -161,7 +161,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
@@ -179,11 +179,11 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] deletedTodo in
                 guard let self = self else { return }
-                appState.currentPopup = .todoDeleted
+                appState.currentToast = .todoDeleted
                 fetchTodosForDate(deletedTodo.deadline)
                 fetchDailyStatForDate(deletedTodo.deadline)
             }
@@ -197,7 +197,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
@@ -215,7 +215,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isLoading = false
                 if case .failure(let error) = completion {
-                    self?.appState.currentPopup = .error(error.localizedDescription)
+                    self?.appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags

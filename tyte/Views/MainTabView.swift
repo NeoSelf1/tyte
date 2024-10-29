@@ -4,7 +4,7 @@ struct MainTabView: View {
     @EnvironmentObject var appState: AppState
     
     @State private var selectedTab = 0
-    @State private var isPopupPresented = false
+    @State private var isToastPresented = false
     
     var body: some View {
         ZStack {
@@ -13,7 +13,9 @@ struct MainTabView: View {
                 case 0:
                     NavigationStack { HomeView() }
                 case 1:
-                    EmptyView()
+                    NavigationStack{
+                        SocialView()
+                    }
                 default:
                     NavigationStack {
                         MyPageView()
@@ -24,8 +26,8 @@ struct MainTabView: View {
             }
             .background(.gray00)
             
-            if isPopupPresented, let popup = appState.currentPopup {
-                CustomPopup(popup: popup)
+            if isToastPresented, let toast = appState.currentToast {
+                CustomToast(toastData: toast)
                     .frame(maxHeight: .infinity, alignment: .top)
                     .padding(.top, 40)
                     .zIndex(1)
@@ -33,11 +35,11 @@ struct MainTabView: View {
                         insertion: .opacity.combined(with: .move(edge: .top)),
                         removal: .opacity.combined(with: .move(edge: .top))
                     ))
-                    .animation(.mediumEaseInOut, value: isPopupPresented)
+                    .animation(.mediumEaseInOut, value: isToastPresented)
             }
             
             if appState.isLoginRequiredViewPresented {
-                CustomAlert(
+                CustomPopupTwoBtn(
                     isShowing: $appState.isLoginRequiredViewPresented,
                     title: "로그인 필요",
                     message: "로그인이 필요한 기능입니다",
@@ -50,17 +52,17 @@ struct MainTabView: View {
                 )
             }
         }
-        .onChange(of: appState.currentPopup?.text) { _, newValue in
+        .onChange(of: appState.currentToast?.text) { _, newValue in
             if newValue != nil {
                 withAnimation {
-                    isPopupPresented = true
+                    isToastPresented = true
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     withAnimation {
-                        isPopupPresented = false
+                        isToastPresented = false
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        appState.currentPopup = nil
+                        appState.currentToast = nil
                     }
                 }
             }

@@ -43,7 +43,7 @@ class TagEditViewModel: ObservableObject {
             .sink { [weak self] completion in
                 self?.isLoading = false
                 if case .failure(let error) = completion {
-                    self?.appState.currentPopup = .error(error.localizedDescription)
+                    self?.appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
@@ -61,11 +61,11 @@ class TagEditViewModel: ObservableObject {
                     .receive(on: DispatchQueue.main)
                     .sink { [weak self] completion in
                         if case .failure(let error) = completion {
-                            self?.appState.currentPopup = .error(error.localizedDescription)
+                            self?.appState.currentToast = .error(error.localizedDescription)
                         }
                     } receiveValue: { [weak self] newTagId in
                         guard let self = self else { return }
-                        self.appState.currentPopup = .tagAdded
+                        self.appState.currentToast = .tagAdded
                         fetchTags()
                     }
                     .store(in: &cancellables)
@@ -80,11 +80,11 @@ class TagEditViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.appState.currentPopup = .error(error.localizedDescription)
+                    self?.appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] deletedTagId in
                 guard let self = self else { return }
-                self.appState.currentPopup = .tagDeleted
+                self.appState.currentToast = .tagDeleted
                 fetchTags()
             }
             .store(in: &cancellables)
@@ -96,11 +96,11 @@ class TagEditViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.appState.currentPopup = .error(error.localizedDescription)
+                    self?.appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] updatedTagId in
                 guard let self = self else { return }
-                self.appState.currentPopup = .tagEdited
+                self.appState.currentToast = .tagEdited
                 fetchTags()
             }
             .store(in: &cancellables)

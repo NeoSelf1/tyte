@@ -53,7 +53,7 @@ class StatisticsViewModel: ObservableObject {
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
                     guard let self = self else { return }
-                    self.appState.currentPopup = .error(error.localizedDescription)
+                    self.appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -70,7 +70,7 @@ class StatisticsViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentPopup = .error(error.localizedDescription)
+                    appState.currentToast = .error(error.localizedDescription)
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }

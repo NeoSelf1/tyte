@@ -2,8 +2,7 @@ import SwiftUI
 
 struct TagEditView: View {
     @StateObject var viewModel = TagEditViewModel()
-    @Environment(\.presentationMode) var presentationMode
-    
+    @Environment(\.dismiss) var dismiss
     private var shouldPresentSheet: Binding<Bool> {
         Binding(
             get: { viewModel.isEditBottomPresented && viewModel.selectedTag != nil },
@@ -58,7 +57,7 @@ struct TagEditView: View {
         .navigationBarTitle("Tag 관리", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
-            leading: Button(action: { presentationMode.wrappedValue.dismiss() }){
+            leading: Button(action: { dismiss() }){
                 Image(systemName: "chevron.left")
                     .foregroundColor(.gray90)
             }
