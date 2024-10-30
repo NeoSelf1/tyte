@@ -208,12 +208,13 @@ class AuthViewModel: ObservableObject {
             // Google 로그아웃
             GIDSignIn.sharedInstance.signOut()
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
-            appState.isLoggedIn = false
+            // TODO: 여기서 isLoggedIn false로 변화하면, Publishing changes from within view updates is not allowed, this will cause undefined behavior. 발생
             email = ""
             clearAllUserData()
         } catch {
             self.currentToast = .error(error.localizedDescription)
         }
+        self.appState.isLoggedIn = false
     }
     
     private func clearAllUserData() {
