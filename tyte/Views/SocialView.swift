@@ -60,12 +60,13 @@ struct SocialView: View {
                 currentMonth: $viewModel.currentMonth,
                 dailyStats: viewModel.friendDailyStats,
                 selectDateForInsightData:{ date in
-                    viewModel.selectDateForInsightData(date: date)
+                    viewModel.selectDate(date: date)
                 }
             )
             
             Spacer()
         }
+        .background(.gray10)
         .sheet(isPresented: $viewModel.isDetailViewPresented) {
             DetailView(todosForDate: viewModel.todosForDate,
                        dailyStatForDate: viewModel.dailyStatForDate,

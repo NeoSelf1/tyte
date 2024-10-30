@@ -16,6 +16,7 @@ enum APIEndpoint {
     case appleLogin
     case deleteAccount(String) // email
     case fetchTodosForDate(String) // deadline
+    case fetchFriendTodosForDate(friendId:String, deadline:String)
     case createTodo
     case toggleTodo(String) // todoId
     case updateTodo(String)  // todoId
@@ -55,6 +56,8 @@ enum APIEndpoint {
             
         case .fetchTodosForDate(let deadline):
             return "/todo/\(deadline)"
+        case .fetchFriendTodosForDate(let friendId, let deadline):
+            return "/todo/friend/\(friendId)/\(deadline)"
         case .createTodo:
             return "/todo"
         case .toggleTodo(let todoId):

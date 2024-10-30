@@ -62,10 +62,39 @@ class SocialViewModel: ObservableObject {
         fetchFriends()
     }
     
+    func selectDate(date: Date) {
+        print("selectDate")
+        guard let index = friendDailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
+        print(friendDailyStats[index])
+        withAnimation{
+            dailyStatForDate = friendDailyStats[index]
+        }
+        fetchFriendTodosForDate(date.apiFormat)
+    }
+    
     func selectFriend(_ friend: User) {
         print("friend.id:\(friend.id)")
         selectedFriend = friend
         fetchFriendDailyStats(friendId: friend.id)
+    }
+    
+    //MARK: 친구의 특정 날짜에 대한 Todo들 fetch
+    func fetchFriendTodosForDate(_ deadline: String) {
+        guard let friend = selectedFriend else { return }
+        todoService.fetchFriendTodosForDate(friendId: friend.id ,deadline: deadline)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    guard let self = self else { return }
+                    appState.currentToast = .error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] todos in
+                guard let self = self else { return }
+                isLoading = false
+                todosForDate = todos
+                isDetailViewPresented = true
+            }
+            .store(in: &cancellables)
     }
     
     func fetchFriendDailyStats(friendId: String) {
@@ -117,7 +146,7 @@ class SocialViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func fetchFriends() {
+    private func fetchFriends() {
         isLoading = true
         print("fetchFriends")
         socialService.getFriends()
@@ -130,11 +159,9 @@ class SocialViewModel: ObservableObject {
             } receiveValue: { [weak self] fetchedFriends in
                 self?.friends = fetchedFriends
                 print("fetchedFriends: \(fetchedFriends)")
-                // 만약 선택된 친구가 없고, 친구 목록이 있다면 첫 번째 친구를 선택
                 if self?.selectedFriend == nil, let firstFriend = fetchedFriends.first {
                     self?.selectFriend(firstFriend)
                 }
-                
                 // 선택된 친구가 있지만 더 이상 친구 목록에 없는 경우 선택 해제
                 else if let selected = self?.selectedFriend,
                         !fetchedFriends.contains(where: { $0.id == selected.id }) {
@@ -171,30 +198,6 @@ class SocialViewModel: ObservableObject {
                     searchResults[index].isPending = true
                 }
                 appState.currentToast = .friendRequested(searchedUser.username)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func selectDateForInsightData(date: Date) {
-        guard let index = friendDailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
-        dailyStatForDate = friendDailyStats[index]
-        fetchTodosForDate(date.apiFormat)
-    }
-    
-    //MARK: 특정 날짜에 대한 Todo들 fetch
-    func fetchTodosForDate(_ deadline: String) {
-        todoService.fetchTodosForDate(deadline: deadline)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    appState.currentToast = .error(error.localizedDescription)
-                }
-            } receiveValue: { [weak self] todos in
-                self?.isLoading = false
-                guard let self = self else { return }
-                self.todosForDate = todos
-                isDetailViewPresented = true
             }
             .store(in: &cancellables)
     }
