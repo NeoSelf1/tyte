@@ -51,7 +51,7 @@ struct TagEditView: View {
             .listStyle(PlainListStyle())
             .scrollContentBackground(.hidden)
             .refreshable(action: {viewModel.fetchTags()})
-            .padding()
+            .padding(.horizontal)
             .background(.gray10)
         }
         .navigationBarTitle("Tag 관리", displayMode: .inline)
@@ -108,8 +108,10 @@ struct TagEditView: View {
                 .foregroundColor(.gray60)
         }
         .padding()
-        .background(.gray20)
-        .cornerRadius(8)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(.gray20)
+        )
         
         .listRowInsets(EdgeInsets())
         .listRowSeparator(.hidden)
@@ -129,18 +131,18 @@ struct TagEditView: View {
                 .foregroundColor(.gray90)
         }
         .padding()
-        .background(.gray00)
-        .cornerRadius(8)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(.gray00)
+                .stroke(.gray30, lineWidth: 1)
+                .padding(1)
+        )
+        .padding(.top,16)
         
         .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
         .listRowSeparator(.hidden) // 사이 선
         .listRowBackground(Color.clear)
-        .padding(.top,16)
         
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray30, lineWidth: 1)
-        )
         .onTapGesture {
             viewModel.selectedTag = tag
             viewModel.isEditBottomPresented = true
