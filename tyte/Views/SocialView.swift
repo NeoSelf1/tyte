@@ -32,7 +32,7 @@ struct SocialView: View {
                             .frame(width: 24, height: 24)
                             .foregroundStyle(.gray90)
                             .padding(12)
-                            
+                        
                         
                         if !viewModel.pendingRequests.isEmpty {
                             Circle()
@@ -46,11 +46,11 @@ struct SocialView: View {
                 }
                 
                 NavigationLink(destination: FriendSearchView(viewModel: viewModel)) {
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.gray90)
-                            .padding(12)
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(.gray90)
+                        .padding(12)
                 }
             }
             .padding(.horizontal, 16)
@@ -65,6 +65,14 @@ struct SocialView: View {
             )
             
             Spacer()
+        }
+        .sheet(isPresented: $viewModel.isDetailViewPresented) {
+            DetailView(todosForDate: viewModel.todosForDate,
+                       dailyStatForDate: viewModel.dailyStatForDate,
+                       isLoading: viewModel.isLoading
+            )
+            .presentationDetents([.height(640), .large])
+            .presentationDragIndicator(.visible)
         }
     }
 }
