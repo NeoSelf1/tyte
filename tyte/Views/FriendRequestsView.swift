@@ -27,24 +27,11 @@ struct FriendRequestsView: View {
                                 showAcceptPopup = true
                             }
                     }
-                    
                     .refreshable {
                         viewModel.fetchPendingRequests()
                     }
                 }
             }
-            .navigationTitle("받은 친구 요청")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-                trailing: Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.gray60)
-                        .padding(8)
-                }
-            )
             .overlay {
                 if showAcceptPopup {
                     CustomPopupOneBtn(
@@ -65,8 +52,14 @@ struct FriendRequestsView: View {
                 viewModel.fetchPendingRequests()
             }
         }
-        .presentationDragIndicator(.visible)  // 상단에 드래그 인디케이터 표시
-        .interactiveDismissDisabled(showAcceptPopup)  // 팝업이 표시중일 때는 dismiss 불가능하게 설정
+        .navigationBarTitle("받은 친구 요청", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(
+            leading: Button(action: { dismiss() }){
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.gray90)
+            }
+        )
     }
 }
 

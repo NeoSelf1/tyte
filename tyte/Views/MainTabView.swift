@@ -3,25 +3,22 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var appState: AppState
     
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
     @State private var isToastPresented = false
     
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                switch(selectedTab) {
-                case 0:
-                    NavigationStack { HomeView() }
-                case 1:
-                    NavigationStack{
+                NavigationStack {
+                    switch(selectedTab) {
+                    case 0:
+                        HomeView()
+                    case 1:
                         SocialView()
-                    }
-                default:
-                    NavigationStack {
+                    default:
                         MyPageView()
                     }
                 }
-                
                 BottomTab(selectedTab: $selectedTab)
             }
             .background(.gray00)
@@ -57,6 +54,7 @@ struct MainTabView: View {
                 withAnimation {
                     isToastPresented = true
                 }
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     withAnimation {
                         isToastPresented = false

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MyPageView: View {
-    
     @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
     @State private var bottomSheetPosition: PresentationDetent = .height(720)
     

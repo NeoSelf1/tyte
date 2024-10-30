@@ -41,11 +41,6 @@ class StatisticsViewModel: ObservableObject {
         fetchDailyStatForDate(dateString)
     }
     
-    func changeDate(_ date:String){
-        fetchTodosForDate(date)
-        fetchDailyStatForDate(date)
-    }
-    
     //MARK: 특정 날짜에 대한 Todo들 fetch
     private func fetchTodosForDate(_ deadline: String) {
         todoService.fetchTodosForDate(deadline: deadline)
@@ -75,9 +70,7 @@ class StatisticsViewModel: ObservableObject {
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
                 isDailyStatLoading=false
-                withAnimation(.mediumEaseInOut){
-                    self.dailyStatForDate = dailyStat
-                }
+                dailyStatForDate = dailyStat
             }
             .store(in: &cancellables)
     }

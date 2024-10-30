@@ -19,7 +19,7 @@ class SocialViewModel: ObservableObject {
     
     // MARK: Request List에 필요
     @Published var pendingRequests: [FriendRequest] = []
-    
+     
     // MARK: 친구 탐색창에 필요
     @Published var searchText = ""
     @Published var searchResults: [SearchResult] = []
@@ -28,39 +28,48 @@ class SocialViewModel: ObservableObject {
     
     private let dailyStatService: DailyStatService
     private let todoService: TodoService
-    private let authService: AuthService
     private let socialService: SocialService
     
     private var cancellables = Set<AnyCancellable>()
-    
+
     init(
         dailyStatService: DailyStatService = DailyStatService.shared,
-        authService: AuthService = AuthService.shared,
         todoService: TodoService = TodoService.shared,
         socialService:SocialService = SocialService.shared
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
-        self.authService = authService
         self.socialService = socialService
+        
+        fetchInitialData()
         
         $searchText
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .removeDuplicates()
             .sink { [weak self] query in
-                if !query.isEmpty {
-                    self?.performSearch(query)
+                guard let self = self else { return }
+                if query.isEmpty {
+                    searchResults = []
+                } else {
+                    performSearch(query)
                 }
             }
             .store(in: &cancellables)
     }
     
+    func fetchInitialData(){
+        fetchPendingRequests()
+        fetchFriends()
+    }
+    
     func selectFriend(_ friend: User) {
+        print("friend.id:\(friend.id)")
         selectedFriend = friend
         fetchFriendDailyStats(friendId: friend.id)
     }
     
     func fetchFriendDailyStats(friendId: String) {
+        print("fetchFriendDailyStats")
         let calendar = Calendar.current
         let currentDate = Date().koreanDate
         let startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
@@ -110,7 +119,7 @@ class SocialViewModel: ObservableObject {
     
     func fetchFriends() {
         isLoading = true
-        
+        print("fetchFriends")
         socialService.getFriends()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -120,11 +129,12 @@ class SocialViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] fetchedFriends in
                 self?.friends = fetchedFriends
-                
+                print("fetchedFriends: \(fetchedFriends)")
                 // 만약 선택된 친구가 없고, 친구 목록이 있다면 첫 번째 친구를 선택
                 if self?.selectedFriend == nil, let firstFriend = fetchedFriends.first {
                     self?.selectFriend(firstFriend)
                 }
+                
                 // 선택된 친구가 있지만 더 이상 친구 목록에 없는 경우 선택 해제
                 else if let selected = self?.selectedFriend,
                         !fetchedFriends.contains(where: { $0.id == selected.id }) {

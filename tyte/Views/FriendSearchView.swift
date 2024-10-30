@@ -10,8 +10,7 @@ struct FriendSearchView: View {
             VStack {
                 SearchBar(
                     text: $viewModel.searchText,
-                    isSearching: $isSearching,
-                    placeholder: "친구 이름으로 검색"
+                    isSearching: $isSearching
                 )
                 
                 if viewModel.isLoading {
@@ -88,9 +87,9 @@ struct FriendSearchView: View {
 }
 
 struct SearchBar: View {
+    @FocusState private var isTodoInputFocused: Bool
     @Binding var text: String
     @Binding var isSearching: Bool
-    var placeholder: String
     
     var body: some View {
         HStack {
@@ -98,8 +97,11 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray50)
                 
-                TextField(placeholder, text: $text)
+                TextField("친구 이름으로 검색", text: $text)
                     .foregroundColor(.gray90)
+                    .focused($isTodoInputFocused)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
                     .overlay(
                         Image(systemName: "xmark.circle.fill")
                             .padding()
@@ -116,6 +118,9 @@ struct SearchBar: View {
             .padding(.vertical, 8)
             .background(.gray10)
             .cornerRadius(8)
+            .onAppear {
+                isTodoInputFocused = true
+            }
             
             if isSearching {
                 Button("취소") {
