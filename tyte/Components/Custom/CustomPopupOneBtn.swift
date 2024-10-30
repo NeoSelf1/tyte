@@ -16,7 +16,7 @@ struct CustomPopupOneBtn: View {
             
             VStack (spacing:0){
                 Button(action: {
-                    withAnimation { isShowing = false }
+                    withAnimation (.fastEaseOut) { isShowing = false }
                 }) {
                     Image(systemName: "xmark")
                         .foregroundColor(.gray)
@@ -39,8 +39,7 @@ struct CustomPopupOneBtn: View {
                 
                 Button(action: {
                     primaryAction()
-                    withAnimation { isShowing = false }
-                    
+                    withAnimation (.fastEaseOut) { isShowing = false }
                 }) {
                     Text(primaryButtonTitle)
                         .frame(maxWidth: .infinity)

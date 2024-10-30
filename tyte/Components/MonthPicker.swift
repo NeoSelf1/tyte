@@ -19,9 +19,7 @@ struct MonthYearPickerPopup: View {
     var body: some View {
         VStack (spacing:0){
             Button(action: {
-                withAnimation {
-                    isShowing = false
-                }
+                withAnimation (.fastEaseOut) { isShowing = false }
             }) {
                 Image(systemName: "xmark")
                     .foregroundColor(.gray)
@@ -54,8 +52,8 @@ struct MonthYearPickerPopup: View {
             }
             
             Button(action: {
-                viewModel.changeMonth(currentYear,currentMonth)
-                withAnimation { isShowing = false }
+                viewModel.changeMonth(currentYear,currentMonth)   
+                withAnimation (.fastEaseOut) { isShowing = false }
             }) {
                 Text("변경하기")
                     .frame(maxWidth: .infinity)

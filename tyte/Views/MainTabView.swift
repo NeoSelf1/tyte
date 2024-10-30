@@ -3,7 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var appState: AppState
     
-    @State private var selectedTab = 1
+    @State private var selectedTab = 0
     @State private var isToastPresented = false
     
     var body: some View {

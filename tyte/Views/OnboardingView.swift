@@ -100,11 +100,10 @@ struct OnboardingView: View {
                         appleButton(viewModel: viewModel)
                         
                         Button(action:{
-                            withAnimation(.mediumEaseInOut){
-                                withAnimation(.fastEaseInOut) {
-                                    appState.isGuestMode = true
-                                }
+                            withAnimation(.fastEaseInOut) {
+                                appState.isGuestMode = true
                             }
+                            
                         }){
                             Text("게스트모드로 시작하기")
                                 .font(._body4)
@@ -148,7 +147,7 @@ struct OnboardingView: View {
                             ).padding(.top,4)
                             
                             Button(action:{
-                                withAnimation(.mediumEaseInOut){
+                                withAnimation (.fastEaseOut) {
                                     viewModel.isSignUp = false
                                 }
                             }){

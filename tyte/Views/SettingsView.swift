@@ -43,7 +43,7 @@ struct SettingsView: View {
                 
                 VStack(spacing:12){
                     Button(action: {
-                        withAnimation(.mediumEaseInOut){
+                        withAnimation (.fastEaseOut) {
                             showLogoutAlert = true
                         }
                     }) {

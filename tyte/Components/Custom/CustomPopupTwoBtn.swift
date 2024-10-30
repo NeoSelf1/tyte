@@ -31,9 +31,7 @@ struct CustomPopupTwoBtn: View {
                 HStack(spacing: 8) {
                     Button(action: {
                         secondaryAction()
-                        withAnimation {
-                            isShowing = false
-                        }
+                        withAnimation (.fastEaseOut) { isShowing = false }
                     }) {
                         Text(secondaryButtonTitle)
                             .frame(maxWidth: .infinity)
@@ -46,9 +44,7 @@ struct CustomPopupTwoBtn: View {
                     
                     Button(action: {
                         primaryAction()
-                        withAnimation {
-                            isShowing = false
-                        }
+                        withAnimation (.fastEaseOut) { isShowing = false }
                     }) {
                         Text(primaryButtonTitle)
                             .frame(maxWidth: .infinity)

@@ -59,7 +59,7 @@ struct HomeView: View {
                         
                         if appState.isGuestMode {
                             Button{
-                                withAnimation(.mediumEaseInOut){
+                                withAnimation (.fastEaseOut) {
                                     appState.isLoginRequiredViewPresented = true
                                 }
                             } label: {
@@ -157,7 +157,7 @@ struct HomeView: View {
             
             FloatingActionButton(action: {
                 if appState.isGuestMode {
-                    withAnimation(.mediumEaseInOut) {
+                    withAnimation (.fastEaseOut) {
                         appState.isLoginRequiredViewPresented = true
                     }
                 } else {
