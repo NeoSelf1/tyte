@@ -19,13 +19,43 @@ struct FriendRequestsView: View {
                     Text("받은 친구 요청이 없습니다")
                         .font(._body1)
                         .foregroundStyle(.gray50)
+                    
                 } else {
-                    List(viewModel.pendingRequests) { request in
-                        FriendRequestRow(request: request)
-                            .onTapGesture {
-                                selectedRequest = request
-                                showAcceptPopup = true
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(viewModel.pendingRequests) { request in
+                                HStack{
+                                    VStack(alignment: .leading) {
+                                        Text(request.fromUser.username)
+                                            .font( ._subhead1 )
+                                            .foregroundStyle(.gray90)
+                                        Text(request.fromUser.email)
+                                            .font(._caption)
+                                            .foregroundStyle(.gray50)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    HStack(alignment: .center,spacing: 4){
+                                        Text("친구 수락하기")
+                                            .font( ._body2 )
+                                            .padding(12)
+                                            .background{
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .fill(.blue30)
+                                            }
+                                            .foregroundStyle(.gray00)
+                                    }
+                                    .onTapGesture {
+                                        selectedRequest = request
+                                        withAnimation (.fastEaseOut) { showAcceptPopup = true }
+                                    }
+                                }
+                                .background(.clear)
+                                .frame(maxWidth: .infinity,alignment: .leading)
                             }
+                        }
+                        .padding()
                     }
                     .refreshable {
                         viewModel.fetchPendingRequests()
@@ -42,6 +72,7 @@ struct FriendRequestsView: View {
                         primaryAction: {
                             if let request = selectedRequest {
                                 viewModel.acceptFriendRequest(request)
+                                dismiss()
                             }
                         },
                         isDisabled: false
@@ -60,23 +91,5 @@ struct FriendRequestsView: View {
                     .foregroundColor(.gray90)
             }
         )
-    }
-}
-
-struct FriendRequestRow: View {
-    let request: FriendRequest
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(request.fromUser.username)
-                    .font(._subhead1)
-                Text(request.fromUser.email)
-                    .font(._caption)
-                    .foregroundStyle(.gray50)
-            }
-            Spacer()
-        }
-        .padding(.vertical, 8)
     }
 }

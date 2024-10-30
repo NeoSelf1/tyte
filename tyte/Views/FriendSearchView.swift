@@ -26,7 +26,7 @@ struct FriendSearchView: View {
                                 .font(._body1)
                                 .foregroundColor(.gray50)
                             
-                            Text("이메일이나 닉네임으로\n친구를 찾을 수 있어요")
+                            Text("닉네임으로 친구를 찾을 수 있어요")
                                 .font(._caption)
                                 .foregroundColor(.gray30)
                                 .multilineTextAlignment(.center)
@@ -38,10 +38,6 @@ struct FriendSearchView: View {
                             Text("검색 결과가 없습니다")
                                 .font(._body1)
                                 .foregroundColor(.gray50)
-                            
-                            Text("다른 검색어로 다시 시도해보세요")
-                                .font(._caption)
-                                .foregroundColor(.gray30)
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
