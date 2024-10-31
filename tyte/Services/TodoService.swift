@@ -7,79 +7,35 @@
 import Foundation
 import Combine
 
-class TodoService {
-    static let shared = TodoService()
+class TodoService: TodoServiceProtocol {
+    private let networkService: NetworkServiceProtocol
     
-    private let apiManager = APIManager.shared
-    
-    func fetchFriendTodosForDate(friendId:String,deadline: String) -> AnyPublisher<[Todo], APIError> {
-        let endpoint = APIEndpoint.fetchFriendTodosForDate(friendId: friendId,deadline: deadline)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[Todo], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
+        self.networkService = networkService
     }
     
-    func fetchTodosForDate(deadline: String) -> AnyPublisher<[Todo], APIError> {
-        let endpoint = APIEndpoint.fetchTodosForDate(deadline)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[Todo], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    func fetchTodos(for date: String) -> AnyPublisher<[Todo], APIError> {
+        return networkService.request(.fetchTodosForDate(date), method: .get, parameters: nil)
+    }
+    
+    func fetchTodos(for id: String, in deadline: String) -> AnyPublisher<[Todo], APIError> {
+        return networkService.request(.fetchFriendTodosForDate(friendId: id, deadline: deadline), method: .get, parameters: nil)
     }
     
     func createTodo(text: String) -> AnyPublisher<[Todo], APIError> {
-        let endpoint = APIEndpoint.createTodo
-        let parameters: [String: Any] = [
-            "text": text
-        ]
-        
-        return Future { promise in
-            self.apiManager.request(endpoint, method: .post, parameters: parameters) { (result: Result<[Todo], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+        return networkService.request( .createTodo, method: .post, parameters: ["text": text])
     }
     
-    func toggleTodo(id: String) -> AnyPublisher<Todo, APIError> {
-        let endpoint = APIEndpoint.toggleTodo(id)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint, method: .patch) { (result: Result<Todo, APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
-    }
-    
-    func updateTodo(todo: Todo) -> AnyPublisher<Todo, APIError> {
-        let endpoint = APIEndpoint.updateTodo(todo.id)
-        let parameters = todo.dictionary
-        
-        return Future { promise in
-            self.apiManager.request(endpoint, method: .put, parameters: parameters) { (result: Result<Todo, APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    func updateTodo( todo: Todo) -> AnyPublisher<Todo, APIError> {
+        return networkService.request(.updateTodo(todo.id),method: .put,parameters: todo.dictionary)
     }
     
     func deleteTodo(id: String) -> AnyPublisher<Todo, APIError> {
-        let endpoint = APIEndpoint.deleteTodo(id)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint, method: .delete) { (result: Result<Todo, APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+        return networkService.request(.deleteTodo(id), method: .delete, parameters: nil)
+    }
+    
+    func toggleTodo(id: String) -> AnyPublisher<Todo, APIError> {
+        return networkService.request( .toggleTodo(id), method: .patch, parameters: nil)
     }
 }
 
-extension Encodable {
-    var dictionary: [String: Any]? {
-        guard let data = try? JSONEncoder().encode(self) else { return nil }
-        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
-    }
-}

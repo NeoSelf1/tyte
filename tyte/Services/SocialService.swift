@@ -2,69 +2,38 @@ import Foundation
 import Combine
 import Alamofire
 
-class SocialService {
-    static let shared = SocialService()
-    private let apiManager = APIManager.shared
+class SocialService: SocialServiceProtocol {
+    private let networkService: NetworkServiceProtocol
     
-    func getFriends(searchQuery: String = "") -> AnyPublisher<[User], APIError> {
-        let endpoint = APIEndpoint.getFriends
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[User], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
+        self.networkService = networkService
     }
     
-    func requestFriend(userId: String) -> AnyPublisher<String,APIError> {
-        let endpoint = APIEndpoint.requestFriend(userId)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint,method: .post) { (result: Result<String, APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
-        
+    func getFriends() -> AnyPublisher<[User], APIError> {
+        return networkService.request(.getFriends, method: .get, parameters: nil)
     }
     
-    func searchUser(searchQuery: String = "") -> AnyPublisher<[SearchResult], APIError> {
-        let endpoint = APIEndpoint.searchUser(searchQuery)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[SearchResult], APIError>) in
-                promise(result)
-            }
-        }
-        .eraseToAnyPublisher()
+    func searchUsers(query: String) -> AnyPublisher<[SearchResult], APIError> {
+        return networkService.request(.searchUser(query), method: .get, parameters: nil)
     }
     
-    func getFriendDailyStats(friendId: String, range: String) -> AnyPublisher<[DailyStat], APIError> {
-        let endpoint = APIEndpoint.getFriendDailyStats(friendId: friendId, range: range)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[DailyStat], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    func requestFriend(userId: String) -> AnyPublisher<String, APIError> {
+        return networkService.request(.requestFriend(userId), method: .post, parameters: nil)
     }
     
     func getPendingRequests() -> AnyPublisher<[FriendRequest], APIError> {
-        let endpoint = APIEndpoint.getPendingRequests
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[FriendRequest], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+        return networkService.request(.getPendingRequests, method: .get, parameters: nil)
     }
     
     func acceptFriendRequest(requestId: String) -> AnyPublisher<String, APIError> {
-        let endpoint = APIEndpoint.acceptFriendRequest(requestId)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint, method: .patch) { (result: Result<String, APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+        return networkService.request(.acceptFriendRequest(requestId), method: .patch, parameters: nil)
+    }
+    
+    func rejectFriendRequest(requestId: String) -> AnyPublisher<String, APIError> {
+        return networkService.request(.rejectFriendRequest(requestId), method: .patch, parameters: nil)
+    }
+    
+    func removeFriend(friendId: String) -> AnyPublisher<String, APIError> {
+        return networkService.request(.removeFriend(friendId), method: .delete, parameters: nil)
     }
 }
