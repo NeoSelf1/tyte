@@ -57,7 +57,7 @@ class SettingsViewModel: ObservableObject {
         let defaults = UserDefaults.standard
         let allKeys = defaults.dictionaryRepresentation().keys
         allKeys.forEach { key in
-            if key.starts(with: "com.yourapp.") { // 앱 관련 키에 대해서만 삭제
+            if key.starts(with: "com.neox.tyte") { // 앱 관련 키에 대해서만 삭제
                 defaults.removeObject(forKey: key)
             }
         }

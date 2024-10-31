@@ -222,7 +222,7 @@ class AuthViewModel: ObservableObject {
         let defaults = UserDefaults.standard
         let allKeys = defaults.dictionaryRepresentation().keys
         allKeys.forEach { key in
-            if key.starts(with: "com.yourapp.") { // 앱 관련 키에 대해서만 삭제
+            if key.starts(with: "com.neox.tyte") { // 앱 관련 키에 대해서만 삭제
                 defaults.removeObject(forKey: key)
             }
         }
@@ -269,11 +269,10 @@ class AuthViewModel: ObservableObject {
                 self.currentToast = .googleError
             default:
                 self.currentToast = .googleError
-                //alertItem = AlertItem(title:"오류",message: "Google Sign-In failed: \(error.localizedDescription)")
             }
         } else {
             self.currentToast = .googleError
-            //alertItem = AlertItem(title:"오류",message: "An unknown error occurred during Google Sign-In")
+            
         }
     }
     
@@ -282,7 +281,6 @@ class AuthViewModel: ObservableObject {
                 performGoogleLogin(with: idToken)
             } else {
                 self.currentToast = .googleError
-//                alertItem = AlertItem(title:"오류",message: "Failed to get ID token from Google Sign-In")
             }
         }
     
@@ -343,10 +341,4 @@ class AuthViewModel: ObservableObject {
             currentToast = .error(error.localizedDescription)
         }
     }
-}
-
-struct AlertItem: Identifiable {
-    let id = UUID()
-    let title: String
-    let message: String
 }
