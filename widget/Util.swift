@@ -13,7 +13,7 @@ func getToken() -> String? {
     }
     
     do {
-        return try KeychainManager.retrieve(service: APIConstants.tokenService,account: email)
+        return try KeychainManager.shared.retrieve(service: APIConstants.tokenService,account: email)
     } catch {
         print("Failed to retrieve token: \(error.localizedDescription)")
         return nil
