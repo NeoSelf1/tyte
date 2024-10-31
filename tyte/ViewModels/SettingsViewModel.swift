@@ -14,16 +14,15 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     let appState = AppState.shared
     
-    private let authService: AuthService
+    private let authService: AuthServiceProtocol
+    private var cancellables = Set<AnyCancellable>()
 
-    init(authService: AuthService = AuthService.shared) {
+    init(authService: AuthServiceProtocol = AuthService()) {
         self.authService = authService
     }
     
-    private var cancellables = Set<AnyCancellable>()
-    
     func deleteAccount() {
-        if let userEmail = APIManager.shared.getUserEmail() {
+        if let userEmail = KeychainManager.shared.getUserEmail() {
             authService.deleteAccount(userEmail)
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] completion in
@@ -40,7 +39,7 @@ class SettingsViewModel: ObservableObject {
     func logout() {
         do {
             if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail")  {
-                try KeychainManager.delete(service: APIConstants.tokenService,
+                try KeychainManager.shared.delete(service: APIConstants.tokenService,
                                            account: savedEmail)
             }
             
