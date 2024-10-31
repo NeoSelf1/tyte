@@ -32,7 +32,6 @@
 		AB6A0F772C8E45F100254299 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
 		AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F782C8EAF5500254299 /* Tag.swift */; };
 		AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */; };
-		AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F832C8EB02300254299 /* APIManager.swift */; };
 		AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F852C8EB02E00254299 /* APIError.swift */; };
 		AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F872C8EB03600254299 /* APIEndpoint.swift */; };
 		AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8A2C8EB32900254299 /* AuthService.swift */; };
@@ -116,6 +115,8 @@
 		E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660422CBFB1FB00A8279B /* widgetControl.swift */; };
 		E5D660492CBFB1FB00A8279B /* widgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */; };
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
+		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
+		E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -191,7 +192,6 @@
 		AB6A0F762C8E45F100254299 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		AB6A0F782C8EAF5500254299 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		AB6A0F832C8EB02300254299 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		AB6A0F852C8EB02E00254299 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		AB6A0F872C8EB03600254299 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		AB6A0F8A2C8EB32900254299 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -267,6 +267,8 @@
 		E5D660412CBFB1FB00A8279B /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
 		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
 		E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetLiveActivity.swift; sourceTree = "<group>"; };
+		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -351,6 +353,7 @@
 		AB5BB2762C836C0400DC4D72 /* tyte */ = {
 			isa = PBXGroup;
 			children = (
+				E5DE68732CD354090055CADB /* Protocols */,
 				E52628CE2CC38D40004B290C /* AppState.swift */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				E52628D42CC392F8004B290C /* Helpers */,
@@ -426,7 +429,6 @@
 		AB6A0F822C8EB01900254299 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				AB6A0F832C8EB02300254299 /* APIManager.swift */,
 				AB6A0F852C8EB02E00254299 /* APIError.swift */,
 				AB6A0F872C8EB03600254299 /* APIEndpoint.swift */,
 			);
@@ -559,6 +561,7 @@
 		E526289C2CC35750004B290C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E5DE68792CD35D040055CADB /* NetworkService.swift */,
 				E519BE412CC8CA4500DD21B7 /* SocialService.swift */,
 				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
 				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
@@ -600,6 +603,14 @@
 				E5D660432CBFB1FB00A8279B /* widgetLiveActivity.swift */,
 			);
 			path = widget;
+			sourceTree = "<group>";
+		};
+		E5DE68732CD354090055CADB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		F31225ED6139D10585A1FF21 /* Pods */ = {
@@ -922,9 +933,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABB459A42C912A4400F61E83 /* TimeWheelPicker.swift in Sources */,
+				E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */,
 				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
 				E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */,
-				AB6A0F842C8EB02300254299 /* APIManager.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				E52628922CC35684004B290C /* LoginRequest.swift in Sources */,
 				E52628932CC35684004B290C /* LoginResponse.swift in Sources */,
@@ -978,6 +989,7 @@
 				ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */,
 				E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */,
 				ABC5D0482C9C020500676222 /* FloatingActionButton.swift in Sources */,
+				E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */,
 				ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */,
 				E5A4A83A2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
 				AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */,
