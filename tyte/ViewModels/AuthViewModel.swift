@@ -71,9 +71,9 @@ class AuthViewModel: ObservableObject {
     private let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^.{8,}$")
     private let usernamePredicate = NSPredicate(format: "SELF MATCHES %@", "^[a-zA-Z0-9_]{3,20}$")
     
-    private let authService: AuthService
+    private let authService: AuthServiceProtocol
     
-    init(authService: AuthService = AuthService.shared, appState: AppState = .shared) {
+    init(authService: AuthServiceProtocol = AuthService(), appState: AppState = .shared) {
         self.authService = authService
         self.appState = appState
         checkLoginStatus()
@@ -99,7 +99,7 @@ class AuthViewModel: ObservableObject {
     private func checkLoginStatus() {
         if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail") {
             do {
-                let _ = try KeychainManager.retrieve(service: APIConstants.tokenService, account: savedEmail)
+                let _ = try KeychainManager.shared.retrieve(service: APIConstants.tokenService, account: savedEmail)
                 print("isLoggedIn true")
             } catch{
                 self.logout()
@@ -201,8 +201,8 @@ class AuthViewModel: ObservableObject {
     func logout() {
         do {
             if let savedEmail = UserDefaults.standard.string(forKey: "lastLoggedInEmail")  {
-                try KeychainManager.delete(service: APIConstants.tokenService,
-                                           account: savedEmail)
+                try KeychainManager.shared.delete(service: APIConstants.tokenService,
+                                                  account: savedEmail)
             }
             
             // Google 로그아웃
@@ -277,17 +277,17 @@ class AuthViewModel: ObservableObject {
     }
     
     private func handleGoogleSignInSuccess(_ signInResult: GIDSignInResult) {
-            if let idToken = signInResult.user.idToken?.tokenString {
-                performGoogleLogin(with: idToken)
-            } else {
-                self.currentToast = .googleError
-            }
+        if let idToken = signInResult.user.idToken?.tokenString {
+            performGoogleLogin(with: idToken)
+        } else {
+            self.currentToast = .googleError
         }
+    }
     
     private func performGoogleLogin(with idToken: String) {
         isSocialLoading = true
         
-        authService.googleLogin(idToken: idToken)
+        authService.socialLogin(idToken: idToken, provider: "google")
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isSocialLoading = false
@@ -310,13 +310,13 @@ class AuthViewModel: ObservableObject {
         }
         
         guard let identityTokenData = appleIDCredential.identityToken,
-              let identityToken = String(data: identityTokenData, encoding: .utf8) else {
+              let idToken = String(data: identityTokenData, encoding: .utf8) else {
             print("Error: Unable to fetch identity token or authorization code")
             isSocialLoading = false
             return
         }
         
-        authService.appleLogin(identityToken: identityToken)
+        authService.socialLogin(idToken: idToken, provider: "apple")
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isSocialLoading = false
@@ -331,9 +331,9 @@ class AuthViewModel: ObservableObject {
     
     private func handleSuccessfulLogin(loginResponse: LoginResponse) {
         do {
-            try KeychainManager.save(token: loginResponse.token,
-                                     service: APIConstants.tokenService,
-                                     account: loginResponse.user.email)
+            try KeychainManager.shared.save(token: loginResponse.token,
+                                            service: APIConstants.tokenService,
+                                            account: loginResponse.user.email)
             print("lastLoggedInEmail changed into \(loginResponse.user.email)")
             UserDefaults.standard.set(loginResponse.user.email, forKey: "lastLoggedInEmail")
             appState.isLoggedIn = true

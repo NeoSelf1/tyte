@@ -15,14 +15,14 @@ class HomeViewModel: ObservableObject {
     @Published var isCreateTodoPresented: Bool = false
     @Published var isDetailPresented: Bool = false
     
-    private let todoService: TodoService
-    private let dailyStatService: DailyStatService
-    private let tagService: TagService
+    private let todoService: TodoServiceProtocol
+    private let dailyStatService: DailyStatServiceProtocol
+    private let tagService: TagServiceProtocol
     
     init(
-        todoService: TodoService = TodoService.shared,
-        dailyStatService: DailyStatService = DailyStatService.shared,
-        tagService: TagService = TagService.shared
+        todoService: TodoServiceProtocol = TodoService(),
+        dailyStatService: DailyStatServiceProtocol = DailyStatService(),
+        tagService: TagServiceProtocol = TagService()
     ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
@@ -93,7 +93,7 @@ class HomeViewModel: ObservableObject {
     private func fetchTodosForDate(_ deadline: String) {
         todosForDate = []
         isLoading = true
-        todoService.fetchTodosForDate(deadline: deadline)
+        todoService.fetchTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -110,7 +110,7 @@ class HomeViewModel: ObservableObject {
     
     //MARK: 선택한 날짜가 포함된 달의 전체 일수에 대한 DailyStat을 weekCalendarData에 삽입
     private func fetchDailyStatForDate(_ deadline: String) {
-        dailyStatService.fetchDailyStatForDate(date: deadline)
+        dailyStatService.fetchDailyStat(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -156,7 +156,7 @@ class HomeViewModel: ObservableObject {
         let numberOfDays = calendar.range(of: .day, in: .month, for: startOfMonth)!.count
         let endOfMonth = calendar.date(byAdding: .day, value: numberOfDays - 1, to: startOfMonth)!
         
-        dailyStatService.fetchDailyStatsForMonth(range: "\(startOfMonth.apiFormat),\(endOfMonth.apiFormat)")
+        dailyStatService.fetchMonthlyStats(range: "\(startOfMonth.apiFormat),\(endOfMonth.apiFormat)")
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -210,7 +210,7 @@ class HomeViewModel: ObservableObject {
     // MARK: - Tag 관련 메서드
     func fetchTags() {
         isLoading = true
-        tagService.fetchAllTags()
+        tagService.fetchTags()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false

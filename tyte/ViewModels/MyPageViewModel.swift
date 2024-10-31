@@ -29,16 +29,16 @@ class MyPageViewModel: ObservableObject {
         }
     }
     
-    private let dailyStatService: DailyStatService
-    private let todoService: TodoService
-    private let authService: AuthService
+    private let dailyStatService: DailyStatServiceProtocol
+    private let todoService: TodoServiceProtocol
+    private let authService: AuthServiceProtocol
     
     private var cancellables = Set<AnyCancellable>()
 
     init(
-        dailyStatService: DailyStatService = DailyStatService.shared,
-        authService: AuthService = AuthService.shared,
-        todoService: TodoService = TodoService.shared
+        dailyStatService: DailyStatServiceProtocol = DailyStatService(),
+        authService: AuthServiceProtocol = AuthService(),
+        todoService: TodoServiceProtocol = TodoService()
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
@@ -54,7 +54,7 @@ class MyPageViewModel: ObservableObject {
     
     //MARK: 특정 날짜에 대한 Todo들 fetch
     func fetchTodosForDate(_ deadline: String) {
-        todoService.fetchTodosForDate(deadline: deadline)
+        todoService.fetchTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
@@ -82,7 +82,7 @@ class MyPageViewModel: ObservableObject {
             startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
         }
         
-        dailyStatService.fetchDailyStatsForMonth(range:"\(startDate.apiFormat),\(currentDate.apiFormat)")
+        dailyStatService.fetchMonthlyStats(range:"\(startDate.apiFormat),\(currentDate.apiFormat)")
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false

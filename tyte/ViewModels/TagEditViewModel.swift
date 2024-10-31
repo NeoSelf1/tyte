@@ -25,10 +25,10 @@ class TagEditViewModel: ObservableObject {
     @Published var isColorPickerPresented = false
     @Published var isEditBottomPresented = false
     
-    private let tagService: TagService
+    private let tagService: TagServiceProtocol
     
     init(
-        tagService: TagService = TagService.shared
+        tagService: TagServiceProtocol = TagService()
     ) {
         self.tagService = tagService
     }
@@ -38,7 +38,7 @@ class TagEditViewModel: ObservableObject {
     // MARK: - Tag 관련 메서드
     func fetchTags() {
         isLoading = true
-        tagService.fetchAllTags()
+        tagService.fetchTags()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -92,7 +92,7 @@ class TagEditViewModel: ObservableObject {
     
     //MARK: Tag 수정
     func editTag(_ tag: Tag) {
-        tagService.updateTag(tag: tag)
+        tagService.updateTag(tag)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {

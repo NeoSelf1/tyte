@@ -26,16 +26,16 @@ class SocialViewModel: ObservableObject {
     @Published var selectedUser: SearchResult?
     @Published var isLoading = false
     
-    private let dailyStatService: DailyStatService
-    private let todoService: TodoService
-    private let socialService: SocialService
+    private let todoService: TodoServiceProtocol
+    private let dailyStatService: DailyStatServiceProtocol
+    private let socialService: SocialServiceProtocol
     
     private var cancellables = Set<AnyCancellable>()
 
     init(
-        dailyStatService: DailyStatService = DailyStatService.shared,
-        todoService: TodoService = TodoService.shared,
-        socialService:SocialService = SocialService.shared
+        dailyStatService: DailyStatServiceProtocol = DailyStatService(),
+        todoService: TodoServiceProtocol = TodoService(),
+        socialService:SocialServiceProtocol = SocialService()
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
@@ -81,7 +81,7 @@ class SocialViewModel: ObservableObject {
     //MARK: 친구의 특정 날짜에 대한 Todo들 fetch
     func fetchFriendTodosForDate(_ deadline: String) {
         guard let friend = selectedFriend else { return }
-        todoService.fetchFriendTodosForDate(friendId: friend.id ,deadline: deadline)
+        todoService.fetchTodos(for: friend.id ,in: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
@@ -103,9 +103,9 @@ class SocialViewModel: ObservableObject {
         let currentDate = Date().koreanDate
         let startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
         
-        socialService.getFriendDailyStats(
-            friendId: friendId,
-            range: "\(startDate.apiFormat),\(currentDate.apiFormat)"
+        dailyStatService.fetchMonthlyStats(
+            for: friendId,
+            in: "\(startDate.apiFormat),\(currentDate.apiFormat)"
         )
         .receive(on: DispatchQueue.main)
         .sink { completion in
@@ -203,7 +203,7 @@ class SocialViewModel: ObservableObject {
     }
     
     private func performSearch(_ query: String) {
-        socialService.searchUser(searchQuery: query)
+        socialService.searchUsers(query: query)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
