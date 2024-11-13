@@ -42,7 +42,6 @@ class SettingsViewModel: ObservableObject {
                 try KeychainManager.shared.delete(service: APIConstants.tokenService,
                                            account: savedEmail)
             }
-            
             GIDSignIn.sharedInstance.signOut()
             UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
             appState.isLoggedIn = false

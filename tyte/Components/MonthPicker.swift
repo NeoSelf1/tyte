@@ -52,7 +52,7 @@ struct MonthYearPickerPopup: View {
             }
             
             Button(action: {
-                viewModel.changeMonth(currentYear,currentMonth)   
+                viewModel.changeMonth(currentYear,currentMonth)
                 withAnimation (.fastEaseOut) { isShowing = false }
             }) {
                 Text("변경하기")

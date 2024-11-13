@@ -8,25 +8,20 @@ import SwiftUI
 import Foundation
 
 func getColors(_ dailyStat: DailyStat) -> [Color] {
-    // If tagStats is empty, return default colors
     guard !dailyStat.tagStats.isEmpty else {
         return Array(repeating: .gray20, count: 9)
     }
-    // Prepare color counts including the default color
     var colorCounts = [(color: Color.blue30.opacity(0.7), count: 1)]
     colorCounts += dailyStat.tagStats.map { (color: Color(hex: "#\($0.tag.color)"), count: $0.count) }
     
-    // Calculate total count and prepare result colors
     let totalCount = colorCounts.reduce(0) { $0 + $1.count }
     var resultColors: [Color] = []
     
-    // Distribute colors based on their counts
     for (color, count) in colorCounts {
         let colorCount = Int(round(Double(count) / Double(totalCount) * 9))
         resultColors.append(contentsOf: Array(repeating: color, count: colorCount))
     }
     
-    // Adjust result array size to 9
     if resultColors.count > 9 {
         resultColors = Array(resultColors.prefix(9))
     } else if resultColors.count < 9 {
@@ -35,7 +30,6 @@ func getColors(_ dailyStat: DailyStat) -> [Color] {
     
     let normalizedProductivity = min(max(dailyStat.productivityNum, 0), 80) / 80
     let whiteMixAmount = 1 - normalizedProductivity
-    // Optimize color distribution
     //    let orderOfPositions = [0, 2, 6, 8, 1, 3, 5, 7, 4]
     let orderOfPositions = [0, 1, 2, 8, 5, 7, 6, 4, 3]
     var optimizedColors = [Color](repeating: .clear, count: 9)
@@ -43,10 +37,8 @@ func getColors(_ dailyStat: DailyStat) -> [Color] {
     for (index, position) in orderOfPositions.enumerated() {
         let baseColor = resultColors[index % resultColors.count]
         if index == 8 {
-            // Mix with more white for the center color
             optimizedColors[position] = baseColor.mix(with: .white, amount: 0.9)
         } else {
-            // Mix with white based on normalized productivity
             optimizedColors[position] = baseColor.mix(with: .gray50, amount: whiteMixAmount)
         }
     }

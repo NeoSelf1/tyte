@@ -5,6 +5,7 @@ struct MainTabView: View {
     
     @State private var selectedTab = 0
     @State private var isToastPresented = false
+    let tabBarText = [("home","홈"), ("calendar","일정관리"), ("user","MY")]
     
     var body: some View {
         ZStack {
@@ -19,7 +20,8 @@ struct MainTabView: View {
                         MyPageView()
                     }
                 }
-                BottomTab(selectedTab: $selectedTab)
+                
+                bottomTab
             }
             .background(.gray00)
             
@@ -66,14 +68,9 @@ struct MainTabView: View {
             }
         }
     }
-}
-
-struct BottomTab: View {
-    @Binding var selectedTab: Int
     
-    var body: some View {
-        let tabBarText = [("home","홈"), ("calendar","일정관리"), ("user","MY")]
-        
+    @ViewBuilder
+    private var bottomTab: some View {
         ZStack {
             Rectangle()
                 .fill(.gray00)
@@ -86,9 +83,9 @@ struct BottomTab: View {
                         text: tabBarText[index].1,
                         isSelected: selectedTab == index
                     ) {
-                        if index==2 && AppState.shared.isGuestMode {
+                        if index==2 && appState.isGuestMode {
                             withAnimation(.mediumEaseInOut) {
-                                AppState.shared.isLoginRequiredViewPresented = true
+                                appState.isLoginRequiredViewPresented = true
                             }
                         } else {
                             withAnimation(.fastEaseInOut) {
