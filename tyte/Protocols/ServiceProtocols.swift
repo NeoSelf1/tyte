@@ -24,7 +24,7 @@ protocol AuthServiceProtocol {
     func login(email: String, password: String) -> AnyPublisher<LoginResponse, APIError>
     func signUp(email: String, username: String, password: String) -> AnyPublisher<LoginResponse, APIError>
     func validateToken(_ token: String) -> AnyPublisher<Bool, APIError>
-    func deleteAccount(_ email: String) -> AnyPublisher<String, APIError>
+    func deleteAccount() -> AnyPublisher<String, APIError>
     func checkEmail(_ email:String) -> AnyPublisher<Bool,APIError>
 }
 
