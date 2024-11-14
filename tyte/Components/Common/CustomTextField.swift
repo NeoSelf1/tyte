@@ -1,5 +1,4 @@
 import SwiftUI
-// 제너릭 타입 매개변수 선언.
 struct CustomTextField<T>: View where T: Hashable {
     @Binding var text: T
     let placeholder: String
