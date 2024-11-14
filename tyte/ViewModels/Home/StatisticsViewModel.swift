@@ -11,30 +11,35 @@ import Alamofire
 import SwiftUI
 
 class StatisticsViewModel: ObservableObject {
-    let appState = AppState.shared
+    private let appState: AppState
     
     @Published var todosForDate: [Todo] = []
     @Published var dailyStatForDate: DailyStat = dummyDailyStat
+    
+    @Published var isDailyStatLoading: Bool = true
+    @Published var isTodoLoading: Bool = true
     
     private let selectedDate: Date
     private let todoService: TodoServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
     
-    @Published var isDailyStatLoading: Bool = true
-    @Published var isTodoLoading: Bool = true
-    
-    private var cancellables = Set<AnyCancellable>()
-    
     init(
         selectedDate: Date,
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
-        todoService: TodoServiceProtocol = TodoService()
+        todoService: TodoServiceProtocol = TodoService(),
+        appState: AppState = .shared
     ) {
         self.selectedDate = selectedDate
         self.dailyStatService = dailyStatService
         self.todoService = todoService
+        self.appState = appState
+        
+        fetchInitialData()
     }
     
+    private var cancellables = Set<AnyCancellable>()
+    
+    //MARK: - Method
     func fetchInitialData() {
         let dateString = selectedDate.apiFormat
         fetchTodosForDate(dateString)
@@ -48,7 +53,7 @@ class StatisticsViewModel: ObservableObject {
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
                     guard let self = self else { return }
-                    self.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -64,7 +69,7 @@ class StatisticsViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }

@@ -10,9 +10,8 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
-    let appState = AppState.shared
+    private let appState: AppState
     
-    @Published var isLoading: Bool = true
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
@@ -20,32 +19,33 @@ class MyPageViewModel: ObservableObject {
     @Published var currentMonth: Date = Date().koreanDate
     @Published var todosForDate: [Todo] = []
     
-    @Published var isDetailViewPresented: Bool = false
-    
     @Published var currentTab: Int = 0
-    @Published var graphRange: String = "week" {
-        didSet {
-            fetchDailyStats()
-        }
-    }
+    @Published var graphRange: String = "week" { didSet { fetchDailyStats() } }
+    
+    @Published var isDetailViewPresented: Bool = false
+    @Published var isLoading: Bool = true
     
     private let dailyStatService: DailyStatServiceProtocol
     private let todoService: TodoServiceProtocol
     private let authService: AuthServiceProtocol
     
-    private var cancellables = Set<AnyCancellable>()
-
     init(
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
         authService: AuthServiceProtocol = AuthService(),
-        todoService: TodoServiceProtocol = TodoService()
+        todoService: TodoServiceProtocol = TodoService(),
+        appState: AppState = .shared
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.authService = authService
+        self.appState = appState
+        
         self.fetchDailyStats()
     }
     
+    private var cancellables = Set<AnyCancellable>()
+    
+    //MARK: - Method
     func selectDateForInsightData(date: Date) {
         guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
         dailyStatForDate = dailyStats[index]
@@ -57,9 +57,9 @@ class MyPageViewModel: ObservableObject {
         todoService.fetchTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 self?.isLoading = false
@@ -85,9 +85,10 @@ class MyPageViewModel: ObservableObject {
         dailyStatService.fetchMonthlyStats(range:"\(startDate.apiFormat),\(currentDate.apiFormat)")
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    self?.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] _dailyStats in
                 guard let self = self else { return }
@@ -127,9 +128,8 @@ class MyPageViewModel: ObservableObject {
         for (index,_) in graphData.enumerated(){
             // Using Dispatch Queue Delay
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(graphRange == "week" ? 0.5 : 0) + Double(index) * (graphRange == "week" ? 0.05 : 0.03)){
-                withAnimation( // 현재 BlendDuration은 어떠한 시각적 효과가 없음.
-                        .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.3)
-                ){
+                // 현재 BlendDuration은 어떠한 시각적 효과가 없음.
+                withAnimation( .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.3) ){
                     self.graphData[index].animate = true
                 }
             }

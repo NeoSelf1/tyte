@@ -1,10 +1,9 @@
 import Foundation
 import Combine
 import Alamofire
-import SwiftUI
 
 class SocialViewModel: ObservableObject {
-    let appState = AppState.shared
+    private let appState: AppState
     
     // MARK: 소셜(메인)뷰에 필요
     @Published var friends: [User] = []
@@ -14,7 +13,7 @@ class SocialViewModel: ObservableObject {
     
     // MARK: 캘린더 아이템 클릭 시 세부 정보창 조회 위해 필요
     @Published var isDetailViewPresented: Bool = false
-    @Published var dailyStatForDate: DailyStat = dummyDailyStat // TODO: 세부 아이템으로 변경가능
+    @Published var dailyStatForDate: DailyStat = dummyDailyStat
     @Published var todosForDate: [Todo] = []
     
     // MARK: Request List에 필요
@@ -30,16 +29,16 @@ class SocialViewModel: ObservableObject {
     private let dailyStatService: DailyStatServiceProtocol
     private let socialService: SocialServiceProtocol
     
-    private var cancellables = Set<AnyCancellable>()
-
     init(
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
         todoService: TodoServiceProtocol = TodoService(),
-        socialService:SocialServiceProtocol = SocialService()
+        socialService:SocialServiceProtocol = SocialService(),
+        appState: AppState = .shared
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.socialService = socialService
+        self.appState = appState
         
         fetchInitialData()
         
@@ -57,23 +56,21 @@ class SocialViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    private var cancellables = Set<AnyCancellable>()
+    
+    //MARK: - Method
     func fetchInitialData(){
         fetchPendingRequests()
         fetchFriends()
     }
     
     func selectDate(date: Date) {
-        print("selectDate")
         guard let index = friendDailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
-        print(friendDailyStats[index])
-        withAnimation{
-            dailyStatForDate = friendDailyStats[index]
-        }
+        dailyStatForDate = friendDailyStats[index]
         fetchFriendTodosForDate(date.apiFormat)
     }
     
     func selectFriend(_ friend: User) {
-        print("friend.id:\(friend.id)")
         selectedFriend = friend
         fetchFriendDailyStats(friendId: friend.id)
     }
@@ -86,7 +83,7 @@ class SocialViewModel: ObservableObject {
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
                     guard let self = self else { return }
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -108,9 +105,10 @@ class SocialViewModel: ObservableObject {
             in: "\(startDate.apiFormat),\(currentDate.apiFormat)"
         )
         .receive(on: DispatchQueue.main)
-        .sink { completion in
+        .sink { [weak self] completion in
+            guard let self = self else {return}
             if case .failure(let error) = completion {
-                self.appState.currentToast = .error(error.localizedDescription)
+                appState.showToast(.error(error.localizedDescription))
             }
         } receiveValue: { [weak self] stats in
             self?.friendDailyStats = stats
@@ -121,9 +119,10 @@ class SocialViewModel: ObservableObject {
     func fetchPendingRequests() {
         socialService.getPendingRequests()
             .receive(on: DispatchQueue.main)
-            .sink { completion in
+            .sink { [weak self] completion in
+                guard let self = self else {return}
                 if case .failure(let error) = completion {
-                    self.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] requests in
                 self?.pendingRequests = requests
@@ -134,27 +133,29 @@ class SocialViewModel: ObservableObject {
     func acceptFriendRequest(_ request: FriendRequest) {
         socialService.acceptFriendRequest(requestId: request.id)
             .receive(on: DispatchQueue.main)
-            .sink { completion in
+            .sink { [weak self] completion in
+                guard let self = self else {return}
                 if case .failure(let error) = completion {
-                    self.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] _ in
-                self?.pendingRequests.removeAll { $0.id == request.id }
-                self?.fetchFriends()
-                self?.appState.currentToast = .friendRequestAccepted(request.fromUser.username)
+                guard let self = self else {return}
+                appState.showToast(.friendRequestAccepted(request.fromUser.username))
+                pendingRequests.removeAll { $0.id == request.id }
+                fetchFriends()
             }
             .store(in: &cancellables)
     }
     
     private func fetchFriends() {
         isLoading = true
-        print("fetchFriends")
         socialService.getFriends()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else {return}
+                isLoading = false
                 if case .failure(let error) = completion {
-                    self?.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] fetchedFriends in
                 self?.friends = fetchedFriends
@@ -173,7 +174,7 @@ class SocialViewModel: ObservableObject {
     
     func selectUser(_ _selectedUser: SearchResult) {
         if _selectedUser.isPending{
-            appState.currentToast = .friendAlreadyRequested(_selectedUser.username)
+            appState.showToast(.friendAlreadyRequested(_selectedUser.username))
         } else {
             if _selectedUser.isFriend {
                 // TODO: 친구 캘린더로 바로 이동
@@ -187,9 +188,9 @@ class SocialViewModel: ObservableObject {
         socialService.requestFriend(userId:searchedUser.id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                guard let self = self else {return}
                 if case .failure(let error) = completion {
-                    guard let self = self else { return }
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] requestedFriendId in
                 guard let self = self else { return }
@@ -197,7 +198,7 @@ class SocialViewModel: ObservableObject {
                 if let index = searchResults.firstIndex(where: {requestedFriendId == $0.id}){
                     searchResults[index].isPending = true
                 }
-                appState.currentToast = .friendRequested(searchedUser.username)
+                appState.showToast(.friendRequested(searchedUser.username))
             }
             .store(in: &cancellables)
     }
@@ -206,9 +207,10 @@ class SocialViewModel: ObservableObject {
         socialService.searchUsers(query: query)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else {return}
+                isLoading = false
                 if case .failure(let error) = completion {
-                    self?.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] results in
                 self?.searchResults = results

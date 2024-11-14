@@ -4,12 +4,13 @@ import Alamofire
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
-    let appState = AppState.shared
+    private let appState: AppState
     
     @Published var weekCalendarData: [DailyStat] = []
     @Published var todosForDate: [Todo] = []
+    @Published var selectedTodo: Todo?
     @Published var tags: [Tag] = []
-    @Published var selectedDate :Date = Date().koreanDate { didSet { fetchTodosForDate(selectedDate.apiFormat) } }
+    @Published var selectedDate: Date = Date().koreanDate { didSet { fetchTodosForDate(selectedDate.apiFormat) } }
     
     @Published var isLoading: Bool = false
     @Published var isCreateTodoPresented: Bool = false
@@ -22,15 +23,25 @@ class HomeViewModel: ObservableObject {
     init(
         todoService: TodoServiceProtocol = TodoService(),
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
-        tagService: TagServiceProtocol = TagService()
+        tagService: TagServiceProtocol = TagService(),
+        appState: AppState = .shared
     ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
         self.tagService = tagService
+        self.appState = appState
+        
         fetchTags()
     }
     
     private var cancellables = Set<AnyCancellable>()
+    
+    //MARK: - Method
+    func selectTodo(_ todo: Todo){
+        selectedTodo = todo
+        fetchTags()
+        isDetailPresented = true
+    }
     
     func scrollToToday(proxy: ScrollViewProxy? = nil) {
         withAnimation {
@@ -66,9 +77,9 @@ class HomeViewModel: ObservableObject {
                 if case .failure(let error) = completion {
                     switch error {
                     case .invalidTodo:
-                        appState.currentToast = .invalidTodo
+                        appState.showToast(.invalidTodo)
                     default:
-                        appState.currentToast = .error(error.localizedDescription)
+                        appState.showToast(.error(error.localizedDescription))
                     }
                 }
             } receiveValue: { [weak self] newTodos in
@@ -76,9 +87,9 @@ class HomeViewModel: ObservableObject {
                 isLoading = false
                 
                 if newTodos.count == 1 {
-                    appState.currentToast = .todoAddedIn(newTodos[0].deadline)
+                    appState.showToast(.todoAddedIn(newTodos[0].deadline))
                 } else {
-                    appState.currentToast = .todosAdded(newTodos.count)
+                    appState.showToast(.todosAdded(newTodos.count))
                 }
                 
                 fetchTodosForDate(selectedDate.apiFormat)
@@ -96,10 +107,10 @@ class HomeViewModel: ObservableObject {
         todoService.fetchTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
                 guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -115,7 +126,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
@@ -131,6 +142,7 @@ class HomeViewModel: ObservableObject {
     func toggleTodo(_ id: String) {
         // MARK: Guard를 사용할 경우, 조기 반환, 옵셔널 바인딩 언래핑, 조건에 사용한 let 변수에 대한 스코프 확장이 가능.
         guard let index = todosForDate.firstIndex(where: { $0.id == id } ) else { return }
+        let originalState = todosForDate[index].isCompleted
         todosForDate[index].isCompleted.toggle()
         
         todoService.toggleTodo(id: id)
@@ -138,8 +150,8 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
-                    todosForDate[index].isCompleted.toggle()
+                    appState.showToast(.error(error.localizedDescription))
+                    todosForDate[index].isCompleted = originalState
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
@@ -161,7 +173,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
@@ -179,11 +191,11 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] deletedTodo in
                 guard let self = self else { return }
-                appState.currentToast = .todoDeleted
+                appState.showToast(.todoDeleted)
                 fetchTodosForDate(deletedTodo.deadline)
                 fetchDailyStatForDate(deletedTodo.deadline)
             }
@@ -197,7 +209,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
@@ -213,9 +225,10 @@ class HomeViewModel: ObservableObject {
         tagService.fetchTags()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                self?.isLoading = false
+                guard let self = self else { return }
+                isLoading = false
                 if case .failure(let error) = completion {
-                    self?.appState.currentToast = .error(error.localizedDescription)
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
