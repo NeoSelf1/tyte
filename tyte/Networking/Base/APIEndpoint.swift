@@ -13,7 +13,7 @@ enum APIEndpoint {
     case checkEmail
     case validateToken // Token
     case socialLogin(String) // Provider
-    case deleteAccount(String) // email
+    case deleteAccount
     case fetchTodosForDate(String) // deadline
     case fetchFriendTodosForDate(friendId:String, deadline:String)
     case createTodo
@@ -42,8 +42,8 @@ enum APIEndpoint {
             return "/auth/login"
         case .signUp:
             return "/auth/register"
-        case .deleteAccount(let email):
-            return "/auth/\(email)"
+        case .deleteAccount:
+            return "/auth"
         case .validateToken:
             return "/auth/validate-token"
         case .checkEmail:

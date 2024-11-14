@@ -35,7 +35,7 @@ struct Provider: AppIntentTimelineProvider {
         let baseURL = APIConstants.baseUrl
         let endpoint = "/todo/\(deadline)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(getToken() ?? "")",
+            "Authorization": "Bearer \(KeychainManager.shared.getAccessToken() ?? "")",
             "Content-Type": "application/json"
         ]
         
