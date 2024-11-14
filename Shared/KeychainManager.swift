@@ -1,10 +1,3 @@
-//
-//  KeychainManager.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/16/24.
-//
-
 import Foundation
 import Security
 
@@ -14,37 +7,53 @@ enum KeychainError: Error {
     case encodingError
 }
 
+enum KeychainKeys {
+    static let serviceName = "com.clip.tyte"
+    
+    static let accessToken = "accessToken"
+    static let refreshToken = "refreshToken"
+}
+
 protocol KeychainManagerProtocol {
-    func save(token: String, service: String, account: String) throws
-    func retrieve(service: String, account: String) throws -> String
-    func delete(service: String, account: String) throws
+    func saveToken(_ accessToken: String)
+    func getAccessToken() -> String?
+    func clearToken()
 }
 
 class KeychainManager:KeychainManagerProtocol {
-    static let shared = KeychainManager() // 싱글톤 유지
-    private init() {} // 싱글톤 유지
+    static let shared = KeychainManager()
     
-    func getToken() -> String? {
-        try? self.retrieve(service: APIConstants.tokenService, account: getUserEmail() ?? "")
-    }
+    private init() {}
     
-    func saveToken(_ token: String, for email: String) {
-        try? self.save(token: token, service: APIConstants.tokenService, account: email)
-        UserDefaults.standard.set(email, forKey: "lastLoggedInEmail")
+    func getAccessToken() -> String? {
+        do {
+            return try retrieve(forKey: KeychainKeys.accessToken)
+        } catch {
+            print("getAccessToken Error in KeychainManager")
+            return nil
+        }
     }
     
     func clearToken() {
-        guard let email = getUserEmail() else { return }
-        try? self.delete(service: APIConstants.tokenService, account: email)
-        UserDefaults.standard.removeObject(forKey: "lastLoggedInEmail")
+        do{
+            try delete(forKey: KeychainKeys.accessToken)
+        } catch{
+            print("clear token Error in KeychainManager")
+        }
     }
     
-    func getUserEmail() -> String? {
-        UserDefaults.standard.string(forKey: "lastLoggedInEmail")
+    func saveToken(_ accessToken: String) {
+        do{
+            try save(token: accessToken, forKey: KeychainKeys.accessToken)
+        } catch{
+            print("Save token Error in KeychainManager")
+        }
     }
-    
-    //MARK: - 핵심 로직
-    func save(token: String, service: String, account: String) throws {
+}
+
+// MARK: - 내부용 핵심 함수
+private extension KeychainManager {
+    func save(token: String, forKey key: String, service: String = KeychainKeys.serviceName) throws {
         guard let data = token.data(using: .utf8) else {
             throw KeychainError.encodingError
         }
@@ -52,7 +61,7 @@ class KeychainManager:KeychainManagerProtocol {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: account,
+            kSecAttrAccount as String: key,
             kSecValueData as String: data,
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         ]
@@ -64,7 +73,7 @@ class KeychainManager:KeychainManagerProtocol {
             let updateQuery: [String: Any] = [
                 kSecClass as String: kSecClassGenericPassword,
                 kSecAttrService as String: service,
-                kSecAttrAccount as String: account
+                kSecAttrAccount as String: key
             ]
             let updateAttributes: [String: Any] = [kSecValueData as String: data]
             let updateStatus = SecItemUpdate(updateQuery as CFDictionary, updateAttributes as CFDictionary)
@@ -77,11 +86,11 @@ class KeychainManager:KeychainManagerProtocol {
         }
     }
     
-    func retrieve(service: String, account: String) throws -> String {
+    func retrieve(forKey key: String, service: String = KeychainKeys.serviceName) throws -> String {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: account,
+            kSecAttrAccount as String: key,
             kSecMatchLimit as String: kSecMatchLimitOne,
             kSecReturnData as String: true
         ]
@@ -103,11 +112,11 @@ class KeychainManager:KeychainManagerProtocol {
         return token
     }
     
-    func delete(service: String, account: String) throws {
+    func delete(forKey key: String, service: String = KeychainKeys.serviceName) throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: account
+            kSecAttrAccount as String: key
         ]
         
         let status = SecItemDelete(query as CFDictionary)
