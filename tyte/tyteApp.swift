@@ -27,7 +27,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-
+//MARK: - Toast, Popup 상태관리 및 온보딩 vs 메인화면 관리
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @State private var isToastPresent = false
