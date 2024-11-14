@@ -3,7 +3,7 @@ import Foundation
 
 struct FriendSearchView: View {
     @ObservedObject var viewModel: SocialViewModel
-    @Environment(\.dismiss) var dismiss  // SwiftUI의 dismiss 환경 값 추가
+    @Environment(\.dismiss) var dismiss
     @State private var isSearching = false
     
     var body: some View {

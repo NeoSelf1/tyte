@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @StateObject private var viewModel: MyPageViewModel = MyPageViewModel()
+    @StateObject private var viewModel: MyPageViewModel
     @State private var bottomSheetPosition: PresentationDetent = .height(720)
+    
+    init(viewModel: MyPageViewModel = MyPageViewModel()) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         ZStack {
-            VStack{
-                VStack (spacing:0){
+            VStack (spacing:0){
                     HStack (alignment: .center){
                         ViewSelector(viewModel: viewModel)
                         Spacer()
@@ -60,9 +63,9 @@ struct MyPageView: View {
                         
                     }
                     Spacer()
-                }
-                .background(.gray00)
             }
+            .background(.gray00)
+            
             .sheet(isPresented: $viewModel.isDetailViewPresented) {
                 MultiLayerBottomSheet(viewModel: viewModel, bottomSheetPosition: $bottomSheetPosition)
                     .presentationDetents([.height(720), .large])

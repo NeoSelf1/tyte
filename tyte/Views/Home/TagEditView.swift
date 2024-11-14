@@ -1,15 +1,19 @@
 import SwiftUI
 
 struct TagEditView: View {
-    @StateObject var viewModel = TagEditViewModel()
+    @StateObject private var viewModel = TagEditViewModel()
     @Environment(\.dismiss) var dismiss
+    
     private var shouldPresentSheet: Binding<Bool> {
         Binding(
             get: { viewModel.isEditBottomPresented && viewModel.selectedTag != nil },
             set: { viewModel.isEditBottomPresented = $0 }
         )
     }
-    let defaultTagNames = ["학습","여가","건강"]
+    
+    init(viewModel: TagEditViewModel = TagEditViewModel()) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -44,7 +48,7 @@ struct TagEditView: View {
                 specialTagView(Tag(id: "dummy_2", name: "여가", color: "F0E68C", user: "dummyUser"))
                 specialTagView(Tag(id: "dummy_3", name: "건강", color: "00FFFF", user: "dummyUser"))
                 
-                ForEach(viewModel.tags.filter{!defaultTagNames.contains($0.name)}) { tag in
+                ForEach(viewModel.tags.filter{!["학습","여가","건강"].contains($0.name)}) { tag in
                     regularTagView(tag)
                 }
             }

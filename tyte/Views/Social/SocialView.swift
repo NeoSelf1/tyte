@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct SocialView: View {
-    @StateObject var viewModel: SocialViewModel = SocialViewModel()
+    @StateObject private var viewModel: SocialViewModel
+    
+    init(viewModel: SocialViewModel = SocialViewModel()) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         VStack{

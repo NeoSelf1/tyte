@@ -1,16 +1,10 @@
-//
-//  FriendRequestsView.swift
-//  tyte
-//
-//  Created by Neoself on 10/29/24.
-//
 import SwiftUI
 
 struct FriendRequestsView: View {
+    @EnvironmentObject var appState :AppState
+    @Environment(\.dismiss) var dismiss
+    
     @ObservedObject var viewModel: SocialViewModel
-    @Environment(\.dismiss) var dismiss  // SwiftUI의 dismiss 환경 값 추가
-    @State private var selectedRequest: FriendRequest?
-    @State private var showAcceptPopup = false
     
     var body: some View {
         NavigationView {
@@ -19,7 +13,6 @@ struct FriendRequestsView: View {
                     Text("받은 친구 요청이 없습니다")
                         .font(._body1)
                         .foregroundStyle(.gray50)
-                    
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 16) {
@@ -47,8 +40,10 @@ struct FriendRequestsView: View {
                                             .foregroundStyle(.gray00)
                                     }
                                     .onTapGesture {
-                                        selectedRequest = request
-                                        withAnimation (.fastEaseOut) { showAcceptPopup = true }
+                                        appState.showPopup(
+                                            type: .acceptFriend(username: request.fromUser.username),
+                                            action: { viewModel.acceptFriendRequest(request) }
+                                        )
                                     }
                                 }
                                 .background(.clear)
@@ -60,23 +55,6 @@ struct FriendRequestsView: View {
                     .refreshable {
                         viewModel.fetchPendingRequests()
                     }
-                }
-            }
-            .overlay {
-                if showAcceptPopup {
-                    CustomPopupOneBtn(
-                        isShowing: $showAcceptPopup,
-                        title: selectedRequest?.fromUser.username ?? "",
-                        message: "친구 요청을 수락하시겠습니까?",
-                        primaryButtonTitle: "수락하기",
-                        primaryAction: {
-                            if let request = selectedRequest {
-                                viewModel.acceptFriendRequest(request)
-                                dismiss()
-                            }
-                        },
-                        isDisabled: false
-                    )
                 }
             }
             .onAppear{

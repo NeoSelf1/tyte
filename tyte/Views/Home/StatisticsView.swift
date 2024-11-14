@@ -8,14 +8,8 @@ import SwiftUI
 
 struct StatisticsView: View {
     @StateObject private var viewModel: StatisticsViewModel
-    
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.dismiss) var dismiss  // SwiftUI의 dismiss 환경 값 추가
-    
-    @State private var showLogoutAlert = false
-    @State private var showDeleteAccountAlert = false
-    
     @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
+    @Environment(\.dismiss) var dismiss
     
     init(selectedDate: Date) {
         _viewModel = StateObject(wrappedValue: StatisticsViewModel(selectedDate: selectedDate))
@@ -35,9 +29,6 @@ struct StatisticsView: View {
                     .foregroundColor(.gray90)
             }
         )
-        .onAppear {
-            viewModel.fetchInitialData()
-        }
     }
 }
 
