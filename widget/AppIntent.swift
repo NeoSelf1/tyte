@@ -33,7 +33,7 @@ struct ToogleStateIntent:AppIntent {
         let baseURL = APIConstants.baseUrl
         let endpoint = "/todo/toggle/\(id)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(getToken() ?? "")",
+            "Authorization": "Bearer \(KeychainManager.shared.getAccessToken() ?? "")",
             "Content-Type": "application/json"
         ]
         
