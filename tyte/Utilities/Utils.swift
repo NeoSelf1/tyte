@@ -30,7 +30,6 @@ func getColors(_ dailyStat: DailyStat) -> [Color] {
     
     let normalizedProductivity = min(max(dailyStat.productivityNum, 0), 80) / 80
     let whiteMixAmount = 1 - normalizedProductivity
-    //    let orderOfPositions = [0, 2, 6, 8, 1, 3, 5, 7, 4]
     let orderOfPositions = [0, 1, 2, 8, 5, 7, 6, 4, 3]
     var optimizedColors = [Color](repeating: .clear, count: 9)
     
