@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct CalenderView: View {
-    @ObservedObject var viewModel : MyPageViewModel
+    @Binding var currentMonth: Date
+    let dailyStats: [DailyStat]
+    let selectDateForInsightData:(Date)->Void
     
     var body: some View {
         VStack {
@@ -48,7 +50,7 @@ struct CalenderView: View {
             .padding(.vertical,8)
             .disabled(!canMoveToPreviousMonth())
             
-            Text(viewModel.currentMonth.formattedMonth)
+            Text(currentMonth.formattedMonth)
                 .font(._subhead1)
                 .foregroundStyle(.gray90)
             
@@ -72,8 +74,8 @@ struct CalenderView: View {
     
     // MARK: - 날짜 그리드 뷰
     private var calendarGridView: some View {
-        let daysInMonth: Int = numberOfDays(in: viewModel.currentMonth)
-        let firstWeekday: Int = firstWeekdayOfMonth(in: viewModel.currentMonth) - 1
+        let daysInMonth: Int = numberOfDays(in: currentMonth)
+        let firstWeekday: Int = firstWeekdayOfMonth(in: currentMonth) - 1
         let lastDayOfMonthBefore = numberOfDays(in: previousMonth())
         let numberOfRows = Int(ceil(Double(daysInMonth + firstWeekday) / 7.0))
         let visibleDaysOfNextMonth = numberOfRows * 7 - (daysInMonth + firstWeekday)
@@ -85,12 +87,12 @@ struct CalenderView: View {
                         let today = Date().koreanDate
                         let date = getDate(for: index)
                         let isToday = today.apiFormat == date.apiFormat
-                        let dailyStat = viewModel.dailyStats.first{ $0.date == date.apiFormat }
+                        let dailyStat = dailyStats.first{ $0.date == date.apiFormat }
 
                         DayView(dailyStat: dailyStat, date: date, isSelected: true, isToday: isToday, isDayVisible: false,size:64)
                             .frame(height:48) // 64 사이즈의 DayView의 height를 48로 찌부시키기
-                            .onTapGesture{
-                                viewModel.selectDateForInsightData(date: date)
+                            .onTapGesture {
+                                selectDateForInsightData(date)
                             }
                     } else if Calendar.current.date(
                         byAdding: .day,
@@ -117,8 +119,8 @@ private extension CalenderView {
     let calendar = Calendar.current
     guard let firstDayOfMonth = calendar.date(
       from: DateComponents(
-        year: calendar.component(.year, from: viewModel.currentMonth),
-        month: calendar.component(.month, from: viewModel.currentMonth),
+        year: calendar.component(.year, from: currentMonth),
+        month: calendar.component(.month, from: currentMonth),
         day: 1
       )
     ) else {
@@ -151,7 +153,7 @@ private extension CalenderView {
   
   /// 이전 월 마지막 일자
   func previousMonth() -> Date {
-    let components = Calendar.current.dateComponents([.year, .month], from: viewModel.currentMonth)
+    let components = Calendar.current.dateComponents([.year, .month], from: currentMonth)
     let firstDayOfMonth = Calendar.current.date(from: components)!
     let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: firstDayOfMonth)!
     
@@ -160,7 +162,7 @@ private extension CalenderView {
   
   /// 월 변경
   func changeMonth(by value: Int) {
-      viewModel.currentMonth = adjustedMonth(by: value)
+      currentMonth = adjustedMonth(by: value)
   }
   
   /// 이전 월로 이동 가능한지 확인
@@ -189,9 +191,9 @@ private extension CalenderView {
   
   /// 변경하려는 월 반환
   func adjustedMonth(by value: Int) -> Date {
-    if let newMonth = Calendar.current.date(byAdding: .month, value: value, to: viewModel.currentMonth) {
+    if let newMonth = Calendar.current.date(byAdding: .month, value: value, to: currentMonth) {
       return newMonth
     }
-    return viewModel.currentMonth
+    return currentMonth
   }
 }

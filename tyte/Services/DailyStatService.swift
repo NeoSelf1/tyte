@@ -8,27 +8,22 @@
 import Foundation
 import Combine
 
-class DailyStatService {
-    static let shared = DailyStatService()
-    private let apiManager = APIManager.shared
+class DailyStatService: DailyStatServiceProtocol {
+    private let networkService: NetworkServiceProtocol
     
-    func fetchAllDailyStats() -> AnyPublisher<[DailyStat], APIError> {
-        let endpoint = APIEndpoint.fetchDailyStats
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[DailyStat], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
+        self.networkService = networkService
     }
     
-    func fetchDailyStatsForMonth(range:String) -> AnyPublisher<[DailyStat], APIError> {
-        let endpoint = APIEndpoint.fetchDailyStatsForMonth(range)
-        
-        return Future { promise in
-            self.apiManager.request(endpoint) { (result: Result<[DailyStat], APIError>) in
-                promise(result)
-            }
-        }.eraseToAnyPublisher()
+    func fetchDailyStat(for date: String) -> AnyPublisher<DailyStat, APIError> {
+        return networkService.request(.fetchDailyStatsForDate(date), method: .get, parameters: nil)
+    }
+    
+    func fetchMonthlyStats(range: String) -> AnyPublisher<[DailyStat], APIError> {
+        return networkService.request(.fetchDailyStatsForMonth(range), method: .get, parameters: nil)
+    }
+    
+    func fetchMonthlyStats(for id: String, in range: String) -> AnyPublisher<[DailyStat], APIError> {
+        return networkService.request(.getFriendDailyStats(friendId: id, range: range), method: .get, parameters: nil)
     }
 }

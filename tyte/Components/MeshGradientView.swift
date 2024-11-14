@@ -18,7 +18,7 @@ struct MeshGradientView: View {
     init(
         colors: [Color] = [.red, .purple, .indigo, .orange, .brown, .blue, .yellow, .green, .mint],
         center:SIMD2<Float> = [0.8,0.5],
-        isSelected:Bool=false,
+        isSelected:Bool = false,
         cornerRadius: CGFloat = 6
     ) {
         self.colors = colors

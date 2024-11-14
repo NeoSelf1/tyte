@@ -32,10 +32,10 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func fetchTodosForDate(deadline: String) async throws -> [Todo] {
-        let baseURL = APIManager.shared.baseURL
-        let endpoint = APIEndpoint.fetchTodosForDate(deadline).path
+        let baseURL = APIConstants.baseUrl
+        let endpoint = "/todo/\(deadline)"
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(String(describing: APIManager.shared.getToken()))",
+            "Authorization": "Bearer \(KeychainManager.shared.getAccessToken() ?? "")",
             "Content-Type": "application/json"
         ]
         
