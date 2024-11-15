@@ -18,6 +18,7 @@ struct MainTabView: View {
             }
             bottomTab
         }
+        .animation(.spring,value:selectedTab)
         .background(.gray00)
     }
     
@@ -37,13 +38,9 @@ struct MainTabView: View {
                         isSelected: selectedTab == index
                     ) {
                         if index==2 && appState.isGuestMode {
-                            withAnimation(.mediumEaseInOut) {
-                                appState.showPopup(type: .loginRequired, action: UserDefaultsManager.shared.logout )
-                            }
+                            appState.showPopup(type: .loginRequired, action: UserDefaultsManager.shared.logout)
                         } else {
-                            withAnimation(.fastEaseInOut) {
-                                selectedTab = index
-                            }
+                            selectedTab = index
                         }
                     }
                 }

@@ -28,7 +28,7 @@ struct CustomPopup: View {
         .padding(.horizontal,12)
         .padding(.vertical,8)
         .background(RoundedRectangle(cornerRadius:20)
-            .fill(.white)
+            .fill(.gray00)
         )
         .padding(.horizontal, 44)
     }

@@ -7,21 +7,19 @@ class AuthService: AuthServiceProtocol {
     
     private let networkService: NetworkServiceProtocol
     
-    init(
-        networkService: NetworkServiceProtocol = NetworkService()
-    ) {
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
     }
     
-    func deleteAccount() -> AnyPublisher<String, APIError> {
+    func deleteAccount() -> AnyPublisher<EmptyResponse, APIError> {
         return networkService.request(.deleteAccount, method: .delete, parameters: nil)
     }
     
-    func validateToken(_ token: String) -> AnyPublisher<Bool, APIError> {
+    func validateToken(_ token: String) -> AnyPublisher<ValidateResponse, APIError> {
         return networkService.requestWithoutAuth(.validateToken, method: .post, parameters: ["token": token])
     }
     
-    func checkEmail(_ email: String) -> AnyPublisher<Bool, APIError> {
+    func checkEmail(_ email: String) -> AnyPublisher<ValidateResponse, APIError> {
         let parameters = ["email": email]
         return networkService.requestWithoutAuth(.checkEmail, method: .post, parameters: parameters)
     }
@@ -35,7 +33,6 @@ class AuthService: AuthServiceProtocol {
         return networkService.requestWithoutAuth(.socialLogin(provider),method: .post, parameters: ["token": idToken])
     }
     
-
     // NetworkService(구 apiManager)에서 이미 네트워크 통신에 대한 응답 처리 로직이 구현되었음. -> 중복 코드를 제거하였음.
     func login(email: String, password: String) -> AnyPublisher<LoginResponse, APIError> {
         let parameters: [String: Any] = ["email": email, "password": password]

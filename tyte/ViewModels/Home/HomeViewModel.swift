@@ -75,12 +75,7 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    switch error {
-                    case .invalidTodo:
-                        appState.showToast(.invalidTodo)
-                    default:
-                        appState.showToast(.error(error.localizedDescription))
-                    }
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] newTodos in
                 guard let self = self else { return }
@@ -196,7 +191,7 @@ class HomeViewModel: ObservableObject {
             } receiveValue: { [weak self] deletedTodo in
                 guard let self = self else { return }
                 appState.showToast(.todoDeleted)
-                fetchTodosForDate(deletedTodo.deadline)
+                fetchTodosForDate(deletedTodo.deadline) //TODO: todos에서 단순 제거하기
                 fetchDailyStatForDate(deletedTodo.deadline)
             }
             .store(in: &cancellables)

@@ -8,20 +8,20 @@ class TagService: TagServiceProtocol {
         self.networkService = networkService
     }
     
-    func fetchTags() -> AnyPublisher<[Tag], APIError> {
+    func fetchTags() -> AnyPublisher<TagsResponse, APIError> {
         return networkService.request(.fetchTags, method: .get, parameters: nil)
     }
     
-    func createTag(name: String, color: String) -> AnyPublisher<String, APIError> {
+    func createTag(name: String, color: String) -> AnyPublisher<TagIdResponse, APIError> {
         let parameters: [String: Any] = ["name": name, "color": color]
         return networkService.request( .createTag, method: .post, parameters: parameters)
     }
     
-    func updateTag(_ tag: Tag) -> AnyPublisher<String, APIError> {
+    func updateTag(_ tag: Tag) -> AnyPublisher<TagIdResponse, APIError> {
         return networkService.request( .updateTag(tag.id), method: .put, parameters: tag.dictionary)
     }
     
-    func deleteTag(id: String) -> AnyPublisher<String, APIError> {
+    func deleteTag(id: String) -> AnyPublisher<TagIdResponse, APIError> {
         return networkService.request( .deleteTag(id), method: .delete, parameters: nil)
     }
 }
