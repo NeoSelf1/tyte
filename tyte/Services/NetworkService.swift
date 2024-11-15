@@ -31,14 +31,10 @@ class NetworkService: NetworkServiceProtocol {
             )
             .validate()
             .responseDecodable(of: T.self) { response in
-                if let statusCode = response.response?.statusCode {
-                    switch statusCode {
-                    case 401:
-                        self.handleUnauthorized()
-                        promise(.failure(.unauthorized))
-                        return
-                    default: break
-                    }
+                if let statusCode = response.response?.statusCode, statusCode == 401 {
+                    self.handleUnauthorized()
+                    promise(.failure(.unauthorized))
+                    return
                 }
                 
                 switch response.result {

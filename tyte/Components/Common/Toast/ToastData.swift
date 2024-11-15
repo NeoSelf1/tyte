@@ -7,7 +7,6 @@ enum ToastType:Equatable {
     case friendRequested(String) // username
     case friendAlreadyRequested(String) // username
     case friendRequestAccepted(String) // username
-    case invalidTodo
     case invalidTodoEdit
     case todoAddedIn(String)
     case todosAdded(Int)
@@ -27,8 +26,6 @@ enum ToastType:Equatable {
             "\(username)님에 대해 친구요청 진행중입니다."
         case .friendRequestAccepted(let username):
             "\(username)님의 친구요청을 수락했습니다."
-        case .invalidTodo:
-            "앗! AI가 할 일 내용을 이해하지 못했어요. 다시 한 번 작성해 주시겠어요?"
         case .todoAddedIn(let date):
             "\(date.parsedDate.formattedMonthDate)에 투두가 추가되었습니다."
         case .todosAdded(let count):
@@ -52,7 +49,7 @@ enum ToastType:Equatable {
     
     var icon: String {
         switch self {
-        case .error, .invalidTodo, .googleError:
+        case .error, .googleError:
             "exclamationmark.circle.fill"
         default:
             "checkmark.circle.fill"
