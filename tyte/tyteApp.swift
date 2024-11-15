@@ -11,8 +11,7 @@ struct tyteApp: App {
             ContentView()
                 .environmentObject(appState)
                 .onOpenURL { url in
-                    // 앱이 포그라운드에서 실행 중일 때 URL 처리
-                    GIDSignIn.sharedInstance.handle(url)
+                    GIDSignIn.sharedInstance.handle(url)// 앱이 포그라운드에서 실행 중일 때 URL 처리
                 }
         }
     }
