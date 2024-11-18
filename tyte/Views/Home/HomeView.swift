@@ -12,8 +12,9 @@ struct HomeView: View {
     
     var body: some View {
         ZStack{
-            VStack (spacing:0){
+            VStack(spacing:0){
                 header
+                
                 Divider().frame(minHeight:3).background(.gray10)
                 
                 List {
@@ -24,7 +25,7 @@ struct HomeView: View {
                         .padding(.top, 12)
                     
                     
-                    if (viewModel.todosForDate.isEmpty){
+                   if viewModel.todosForDate.isEmpty {
                         Spacer()
                             .listRowInsets(EdgeInsets())
                             .listRowSeparator(.hidden)
@@ -68,20 +69,19 @@ struct HomeView: View {
                 
                 .refreshable(action: { viewModel.fetchInitialData() })
                 .onAppear { viewModel.fetchInitialData() }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    viewModel.fetchInitialData()
-                }
             }
             .background(.gray10)
             
+            if viewModel.isLoading, !viewModel.isCreateTodoPresented {
+                ProgressView()
+            }
+            
             floatingActionButton
-            .padding(24)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             
             Color.black
                 .opacity(isShowingMonthPicker ? 0.3 : 0.0)
                 .ignoresSafeArea()
-                .animation(.spring(duration:0.1),value:isShowingMonthPicker)
+                .animation(.spring(duration:0.1), value:isShowingMonthPicker)
                 .onTapGesture { isShowingMonthPicker = false }
             
             MonthYearPickerPopup(
@@ -90,7 +90,7 @@ struct HomeView: View {
             )
             .opacity(isShowingMonthPicker ? 1 : 0)
             .offset(y: isShowingMonthPicker ? 0 : -80)
-            .animation(.spring(duration:0.3),value:isShowingMonthPicker)
+            .animation(.spring(duration:0.3), value: isShowingMonthPicker)
         }
         
         .sheet(isPresented: $viewModel.isCreateTodoPresented) {
@@ -134,6 +134,8 @@ struct HomeView: View {
                 .clipShape(Circle())
                 .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 2)
         }
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
     }
     
     private var header: some View {
@@ -167,7 +169,6 @@ struct HomeView: View {
                     }
                     .padding(.horizontal,16)
                     .padding(.vertical,8)
-                    .background(.gray00)
                     .overlay(
                         RoundedRectangle(cornerRadius: 99)
                             .stroke(.blue10, lineWidth: 1)
@@ -207,5 +208,11 @@ struct HomeView: View {
             .padding(.bottom,16)
             .onAppear { viewModel.scrollToToday(proxy: proxy) }
         }
+        .background(.gray00)
     }
 }
+
+//#Preview{
+//    HomeView(viewModel: .mockViewModel(delaySeconds: 2.0))
+//        .environmentObject(AppState.shared)
+//}
