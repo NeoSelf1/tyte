@@ -15,12 +15,11 @@ class MyPageViewModel: ObservableObject {
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     @Published var selectedDate: Date = Date().koreanDate
-    @Published var dailyStatForDate: DailyStat = dummyDailyStat
+    @Published var dailyStatForDate: DailyStat = .initial
     @Published var currentMonth: Date = Date().koreanDate
     @Published var todosForDate: [Todo] = []
     
     @Published var currentTab: Int = 0
-    @Published var graphRange: String = "week" { didSet { fetchDailyStats() } }
     
     @Published var isDetailViewPresented: Bool = false
     @Published var isLoading: Bool = true
@@ -73,16 +72,7 @@ class MyPageViewModel: ObservableObject {
     func fetchDailyStats() {
         let calendar = Calendar.current
         let currentDate = Date().koreanDate
-        var startDate: Date
-        
-        switch self.graphRange {
-        case "week":
-            startDate = calendar.date(byAdding: .day, value: -6, to: currentDate)!
-        default:
-            startDate = calendar.date(byAdding: .month, value: -1, to: currentDate)!
-        }
-        
-        dailyStatService.fetchMonthlyStats(range:"\(startDate.apiFormat),\(currentDate.apiFormat)")
+        dailyStatService.fetchMonthlyStats(yearMonth: String(currentDate.apiFormat.prefix(7)))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -93,8 +83,9 @@ class MyPageViewModel: ObservableObject {
             } receiveValue: { [weak self] _dailyStats in
                 guard let self = self else { return }
                 dailyStats = _dailyStats
-                
+                var startDate: Date = calendar.date(byAdding: .month, value: -1, to: currentDate)!
                 let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
+                
                 graphData = (0..<dateRange).compactMap { dayOffset -> DailyStat_Graph? in
                     guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
                     
@@ -111,23 +102,16 @@ class MyPageViewModel: ObservableObject {
                         )
                     }
                 }
+                
                 animateGraph()
             }
             .store(in: &cancellables)
     }
     
-    func zoomInOut() -> CGFloat {
-        let baseWidth = UIScreen.main.bounds.width - 40
-        let dataPointCount = graphData.count
-        let spacingMultiplier: CGFloat = graphRange == "week" ? 2: 1
-        
-        return max(baseWidth, CGFloat(dataPointCount) * 20 * spacingMultiplier)
-    }
-    
     func animateGraph(){
         for (index,_) in graphData.enumerated(){
             // Using Dispatch Queue Delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(graphRange == "week" ? 0.5 : 0) + Double(index) * (graphRange == "week" ? 0.05 : 0.03)){
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (0.03)){
                 // 현재 BlendDuration은 어떠한 시각적 효과가 없음.
                 withAnimation( .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.3) ){
                     self.graphData[index].animate = true

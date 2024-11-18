@@ -14,7 +14,7 @@ class StatisticsViewModel: ObservableObject {
     private let appState: AppState
     
     @Published var todosForDate: [Todo] = []
-    @Published var dailyStatForDate: DailyStat = dummyDailyStat
+    @Published var dailyStatForDate: DailyStat = .initial
     
     @Published var isDailyStatLoading: Bool = true
     @Published var isTodoLoading: Bool = true
@@ -74,7 +74,9 @@ class StatisticsViewModel: ObservableObject {
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
                 isDailyStatLoading = false
-                dailyStatForDate = dailyStat
+                if let dailyStat = dailyStat {
+                    dailyStatForDate = dailyStat
+                }
             }
             .store(in: &cancellables)
     }

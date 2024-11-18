@@ -32,8 +32,10 @@ class AuthViewModel: ObservableObject {
     
     @Published var isPasswordWrong: Bool = false
     @Published var isEmailInvalid: Bool = false
+    
     @Published var isUsernameInvalid: Bool = false
     @Published var isPasswordInvalid: Bool = false
+    
     @Published var isLoading: Bool = false
     
     @Published var isGoogleLoading: Bool = false
@@ -85,10 +87,10 @@ class AuthViewModel: ObservableObject {
                 if case .failure(let error) = completion {
                     appState.showToast(.error(error.localizedDescription))
                 }
-            } receiveValue: { [weak self] _isExistingUser in
+            } receiveValue: { [weak self] res in
                 guard let self = self else {return}
-                isExistingUser = _isExistingUser
-                if !_isExistingUser {
+                isExistingUser = res.isValid
+                if !res.isValid {
                     isSignUp = true
                 }
             }
@@ -104,7 +106,6 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    print(error)
                     switch error {
                     case .wrongPassword:
                         errorText = "비밀번호가 맞지 않아요. 천천히 다시 입력해 보세요."
@@ -128,14 +129,7 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    switch error {
-                    case .invalidPassword:
-                            isPasswordInvalid = true
-                    case .invalidUsername:
-                            isUsernameInvalid = true
-                    default:
-                        appState.showToast(.error(error.localizedDescription))
-                    }
+                    appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] signUpResponse in
                 self?.handleSuccessfulLogin(loginResponse: signUpResponse)

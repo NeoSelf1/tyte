@@ -20,6 +20,21 @@ struct DailyStat: Codable, Identifiable {
         case id = "_id"  // MongoDB의 _id를 id로 매핑
         case date, user, balanceData, productivityNum, tagStats, center
     }
+    
+    static let initial = DailyStat(
+        date: Date().apiFormat,
+        user: "dummy_user_id",
+        balanceData: BalanceData(
+            title: "새로운 하루",
+            message: "오늘도 활기차게 하루를 시작해볼까요?",
+            balanceNum: 0
+        ),
+        productivityNum: 0,
+        tagStats: [],
+        center: SIMD2<Float>(x: 0.5, y: 0.5)
+    )
+
+    
 }
 
 struct BalanceData: Codable {
@@ -90,15 +105,3 @@ struct DailyStat_Graph: Identifiable,Codable {
 }
 
 
-let dummyDailyStat = DailyStat(
-    date: Date().apiFormat,
-    user: "dummy_user_id",
-    balanceData: BalanceData(
-        title: "균형잡힌 하루",
-        message: "오늘도 열심히 해냈어요!",
-        balanceNum: 0
-    ),
-    productivityNum: 0,
-    tagStats: [],
-    center: SIMD2<Float>(x: 0.5, y: 0.5)
-)

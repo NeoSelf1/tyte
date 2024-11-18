@@ -13,7 +13,7 @@ class SocialViewModel: ObservableObject {
     
     // MARK: 캘린더 아이템 클릭 시 세부 정보창 조회 위해 필요
     @Published var isDetailViewPresented: Bool = false
-    @Published var dailyStatForDate: DailyStat = dummyDailyStat
+    @Published var dailyStatForDate: DailyStat = .initial
     @Published var todosForDate: [Todo] = []
     
     // MARK: Request List에 필요
@@ -159,7 +159,6 @@ class SocialViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] fetchedFriends in
                 self?.friends = fetchedFriends
-                print("fetchedFriends: \(fetchedFriends)")
                 if self?.selectedFriend == nil, let firstFriend = fetchedFriends.first {
                     self?.selectFriend(firstFriend)
                 }
@@ -192,10 +191,10 @@ class SocialViewModel: ObservableObject {
                 if case .failure(let error) = completion {
                     appState.showToast(.error(error.localizedDescription))
                 }
-            } receiveValue: { [weak self] requestedFriendId in
+            } receiveValue: { [weak self] res in
                 guard let self = self else { return }
                 isLoading = false
-                if let index = searchResults.firstIndex(where: {requestedFriendId == $0.id}){
+                if let index = searchResults.firstIndex(where: {res.id == $0.id}){
                     searchResults[index].isPending = true
                 }
                 appState.showToast(.friendRequested(searchedUser.username))

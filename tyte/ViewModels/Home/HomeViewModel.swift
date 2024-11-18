@@ -30,7 +30,6 @@ class HomeViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.tagService = tagService
         self.appState = appState
-        
         fetchTags()
     }
     
@@ -88,7 +87,7 @@ class HomeViewModel: ObservableObject {
                 }
                 
                 fetchTodosForDate(selectedDate.apiFormat)
-                fetchWeekCalendarData(selectedDate.apiFormat) // MARK: 일간 DailyStat 변경 api로 변경
+                fetchWeekCalendarData(selectedDate.apiFormat) // TODO: 일간 DailyStat 변경 api로 변경
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
             }
@@ -121,13 +120,15 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
+                    print(error)
+                    // TODO: 백엔드에서 nil값 받을때, decode 에러 발생안하게 변경 필요
                     appState.showToast(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
                 withAnimation(.mediumEaseInOut){
                     if let index = self.weekCalendarData.firstIndex(where: {$0.date == deadline}) {
-                        self.weekCalendarData[index] = dailyStat
+                        self.weekCalendarData[index] = dailyStat ?? .initial
                     }
                 }
             }
@@ -135,7 +136,6 @@ class HomeViewModel: ObservableObject {
     }
     
     func toggleTodo(_ id: String) {
-        // MARK: Guard를 사용할 경우, 조기 반환, 옵셔널 바인딩 언래핑, 조건에 사용한 let 변수에 대한 스코프 확장이 가능.
         guard let index = todosForDate.firstIndex(where: { $0.id == id } ) else { return }
         let originalState = todosForDate[index].isCompleted
         todosForDate[index].isCompleted.toggle()
@@ -157,13 +157,9 @@ class HomeViewModel: ObservableObject {
     
     //MARK: 선택한 날짜가 포함된 달의 전체 일수에 대한 DailyStat 반환
     private func fetchWeekCalendarData(_ date: String) {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month], from: date.parsedDate)
-        let startOfMonth = calendar.date(from: components)!
-        let numberOfDays = calendar.range(of: .day, in: .month, for: startOfMonth)!.count
-        let endOfMonth = calendar.date(byAdding: .day, value: numberOfDays - 1, to: startOfMonth)!
+        // TODO: 월간 DailyStat fetch api 함수 연결로 변경
         
-        dailyStatService.fetchMonthlyStats(range: "\(startOfMonth.apiFormat),\(endOfMonth.apiFormat)")
+        dailyStatService.fetchMonthlyStats(yearMonth: String(selectedDate.apiFormat.prefix(7)))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -191,7 +187,7 @@ class HomeViewModel: ObservableObject {
             } receiveValue: { [weak self] deletedTodo in
                 guard let self = self else { return }
                 appState.showToast(.todoDeleted)
-                fetchTodosForDate(deletedTodo.deadline) //TODO: todos에서 단순 제거하기
+                todosForDate = todosForDate.filter{$0.id != deletedTodo.id}
                 fetchDailyStatForDate(deletedTodo.deadline)
             }
             .store(in: &cancellables)
