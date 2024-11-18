@@ -25,13 +25,14 @@ struct TagEditView: View {
                 .frame(maxWidth:.infinity, alignment:.leading)
             
             HStack(alignment: .center,spacing:16) {
-                CustomTextField(
-                    text: $viewModel.tagInput,
-                    placeholder: "태그 제목",
-                    keyboardType: .default,
-                    onSubmit: { !viewModel.tagInput.isEmpty ? viewModel.addTag() : print("isEmpty") }
+                TextField("",
+                          text: $viewModel.tagInput,
+                          prompt: Text("태그 제목").foregroundColor(.gray50)
                 )
+                .foregroundColor(.gray90)
+                .autocapitalization(.none)
                 .submitLabel(.done)
+                .onSubmit { !viewModel.tagInput.isEmpty ? viewModel.addTag() : print("isEmpty") }
                 
                 Button(action: {
                     viewModel.isColorPickerPresented = true
@@ -39,6 +40,12 @@ struct TagEditView: View {
                     Circle().fill(Color(hex:"#\(viewModel.selectedColor)")).frame(width: 24, height: 24)
                 }
             }
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(.blue10, lineWidth: 1)
+            )
             .padding(.horizontal,16)
             .padding(.bottom,16)
             .background(.gray00)
