@@ -224,7 +224,7 @@ struct OnboardingView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding()
+            .frame(height: 50)
             .background(.gray00)
             .foregroundColor(.gray60)
             .cornerRadius(10)
@@ -237,7 +237,7 @@ struct OnboardingView: View {
 
     private var appleButton: some View {
         VStack{
-            if viewModel.isGoogleLoading {
+            if viewModel.isAppleLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity,alignment:.center)
             } else {
@@ -266,6 +266,7 @@ struct OnboardingView: View {
 }
 
 
-#Preview{
-    OnboardingView()
-}
+//#Preview{
+//    OnboardingView(viewModel: .mockViewModel())
+//        .environmentObject(AppState.shared)
+//}
