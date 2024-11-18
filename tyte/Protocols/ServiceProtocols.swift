@@ -35,23 +35,23 @@ protocol TodoServiceProtocol {
 
 protocol TagServiceProtocol {
     func fetchTags() -> AnyPublisher<TagsResponse, APIError>
-    func createTag(name: String, color: String) -> AnyPublisher<TagIdResponse, APIError>
-    func updateTag(_ tag: Tag) -> AnyPublisher<TagIdResponse, APIError>
-    func deleteTag(id: String) -> AnyPublisher<TagIdResponse, APIError>
+    func createTag(name: String, color: String) -> AnyPublisher<IdResponse, APIError>
+    func updateTag(_ tag: Tag) -> AnyPublisher<IdResponse, APIError>
+    func deleteTag(id: String) -> AnyPublisher<IdResponse, APIError>
 }
 
 protocol DailyStatServiceProtocol {
-    func fetchDailyStat(for date: String) -> AnyPublisher<DailyStatResponse, APIError>
-    func fetchMonthlyStats(range: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
-    func fetchMonthlyStats(for id: String, in range: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
+    func fetchDailyStat(for date: String) -> AnyPublisher<DailyStat?, APIError>
+    func fetchMonthlyStats(yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
+    func fetchMonthlyStats(for id: String, in yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
 }
 
 protocol SocialServiceProtocol {
     func getFriends() -> AnyPublisher<[User], APIError>
     func searchUsers(query: String) -> AnyPublisher<[SearchResult], APIError>
-    func requestFriend(userId: String) -> AnyPublisher<FriendRequestIdResponse, APIError>
+    func requestFriend(userId: String) -> AnyPublisher<IdResponse, APIError>
     func getPendingRequests() -> AnyPublisher<[FriendRequest], APIError>
-    func acceptFriendRequest(requestId: String) -> AnyPublisher<FriendRequestIdResponse, APIError>
+    func acceptFriendRequest(requestId: String) -> AnyPublisher<IdResponse, APIError>
     func rejectFriendRequest(requestId: String) -> AnyPublisher<EmptyResponse, APIError>
     func removeFriend(friendId: String) -> AnyPublisher<EmptyResponse, APIError>
 }

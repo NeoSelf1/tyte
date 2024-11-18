@@ -17,7 +17,7 @@ class SocialService: SocialServiceProtocol {
         return networkService.request(.searchUser(query), method: .get, parameters: nil)
     }
     
-    func requestFriend(userId: String) -> AnyPublisher<FriendRequestIdResponse, APIError> {
+    func requestFriend(userId: String) -> AnyPublisher<IdResponse, APIError> {
         return networkService.request(.requestFriend(userId), method: .post, parameters: nil)
     }
     
@@ -25,7 +25,7 @@ class SocialService: SocialServiceProtocol {
         return networkService.request(.getPendingRequests, method: .get, parameters: nil)
     }
     
-    func acceptFriendRequest(requestId: String) -> AnyPublisher<FriendRequestIdResponse, APIError> {
+    func acceptFriendRequest(requestId: String) -> AnyPublisher<IdResponse, APIError> {
         return networkService.request(.acceptFriendRequest(requestId), method: .patch, parameters: nil)
     }
     
