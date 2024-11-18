@@ -26,7 +26,7 @@ class TodoService: TodoServiceProtocol {
         return networkService.request( .createTodo, method: .post, parameters: ["text": text])
     }
     
-    func updateTodo( todo: Todo) -> AnyPublisher<Todo, APIError> {
+    func updateTodo(todo: Todo) -> AnyPublisher<Todo, APIError> {
         return networkService.request(.updateTodo(todo.id),method: .put,parameters: todo.dictionary)
     }
     
