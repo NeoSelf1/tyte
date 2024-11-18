@@ -15,16 +15,15 @@ struct MainTabView: View {
                 default:
                     MyPageView()
                 }
+                bottomTab
             }
-            bottomTab
         }
-        .animation(.spring,value:selectedTab)
         .background(.gray00)
     }
     
     @ViewBuilder
     private var bottomTab: some View {
-        let tabBarText = [("home","홈"), ("magnifyingglass","소셜"), ("user","MY")]
+        let tabBarText = [("home","홈"), ("social","소셜"), ("user","MY")]
         ZStack {
             Rectangle()
                 .fill(.gray00)
@@ -40,7 +39,7 @@ struct MainTabView: View {
                         if index==2 && appState.isGuestMode {
                             appState.showPopup(type: .loginRequired, action: UserDefaultsManager.shared.logout)
                         } else {
-                            selectedTab = index
+                            withAnimation {selectedTab = index}
                         }
                     }
                 }
