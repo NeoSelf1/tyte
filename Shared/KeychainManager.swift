@@ -35,7 +35,7 @@ class KeychainManager:KeychainManagerProtocol {
     }
     
     func clearToken() {
-        do{
+        do {
             try delete(forKey: KeychainKeys.accessToken)
         } catch{
             print("clear token Error in KeychainManager")
@@ -45,7 +45,7 @@ class KeychainManager:KeychainManagerProtocol {
     func saveToken(_ accessToken: String) {
         do{
             try save(token: accessToken, forKey: KeychainKeys.accessToken)
-        } catch{
+        } catch {
             print("Save token Error in KeychainManager")
         }
     }

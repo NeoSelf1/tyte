@@ -83,7 +83,7 @@ class MyPageViewModel: ObservableObject {
             } receiveValue: { [weak self] _dailyStats in
                 guard let self = self else { return }
                 dailyStats = _dailyStats
-                var startDate: Date = calendar.date(byAdding: .month, value: -1, to: currentDate)!
+                let startDate: Date = calendar.date(byAdding: .month, value: -1, to: currentDate)!
                 let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
                 
                 graphData = (0..<dateRange).compactMap { dayOffset -> DailyStat_Graph? in
