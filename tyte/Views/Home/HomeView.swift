@@ -11,7 +11,7 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ZStack{
+        ZStack {
             VStack(spacing:0){
                 header
                 
@@ -23,7 +23,6 @@ struct HomeView: View {
                         .listRowBackground(Color.clear)
                         .padding(.horizontal)
                         .padding(.top, 12)
-                    
                     
                    if viewModel.todosForDate.isEmpty {
                         Spacer()
@@ -66,11 +65,11 @@ struct HomeView: View {
                     }
                 }
                 .listStyle(PlainListStyle())
+                .background(.gray10)
                 
                 .refreshable(action: { viewModel.fetchInitialData() })
                 .onAppear { viewModel.fetchInitialData() }
             }
-            .background(.gray10)
             
             if viewModel.isLoading, !viewModel.isCreateTodoPresented {
                 ProgressView()
@@ -90,9 +89,10 @@ struct HomeView: View {
             )
             .opacity(isShowingMonthPicker ? 1 : 0)
             .offset(y: isShowingMonthPicker ? 0 : -80)
+            
             .animation(.spring(duration:0.3), value: isShowingMonthPicker)
         }
-        
+        .frame(maxHeight:.infinity)
         .sheet(isPresented: $viewModel.isCreateTodoPresented) {
             CreateTodoBottomSheet(viewModel:viewModel)
                 .presentationDetents([.height(260)])
@@ -140,75 +140,76 @@ struct HomeView: View {
     
     private var header: some View {
         ScrollViewReader { proxy in
-            HStack {
-                Button(action: {
-                    isShowingMonthPicker = true
-                }) {
-                    Text(viewModel.selectedDate.formattedMonth)
-                        .font(._headline2)
-                        .foregroundStyle(.gray90)
-                    
-                    Image(systemName: "chevron.down")
-                        .font(._subhead2)
-                        .foregroundStyle(.gray90)
-                }
-                
-                Spacer()
-                
-                Button {
-                    viewModel.scrollToToday(proxy: proxy)
-                } label: {
-                    HStack{
-                        Text("오늘")
-                            .font(._subhead2)
+            VStack {
+                HStack {
+                    Button(action: {
+                        isShowingMonthPicker = true
+                    }) {
+                        Text(viewModel.selectedDate.formattedMonth)
+                            .font(._headline2)
                             .foregroundStyle(.gray90)
                         
-                        Image(systemName: "arrow.counterclockwise")
-                            .font(._title)
+                        Image(systemName: "chevron.down")
+                            .font(._subhead2)
                             .foregroundStyle(.gray90)
                     }
-                    .padding(.horizontal,16)
-                    .padding(.vertical,8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 99)
-                            .stroke(.blue10, lineWidth: 1)
-                    )
-                    .padding(1)
+                    
+                    Spacer()
+                    
+                    Button {
+                        viewModel.scrollToToday(proxy: proxy)
+                    } label: {
+                        HStack{
+                            Text("오늘")
+                                .font(._subhead2)
+                                .foregroundStyle(.gray90)
+                            
+                            Image(systemName: "arrow.counterclockwise")
+                                .font(._title)
+                                .foregroundStyle(.gray90)
+                        }
+                        .padding(.horizontal,16)
+                        .padding(.vertical,8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 99)
+                                .stroke(.blue10, lineWidth: 1)
+                        )
+                        .padding(1)
+                    }
+                    
+                    if appState.isGuestMode {
+                        Button(action: { appState.showPopup(
+                            type: .loginRequired,
+                            action: {appState.changeGuestMode(false) }
+                        )}) {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
+                    } else {
+                        NavigationLink(destination: TagEditView()) {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
+                    }
                 }
+                .frame(height:52)
+                .padding(.horizontal)
                 
-                if appState.isGuestMode {
-                    Button(action: { appState.showPopup(
-                        type: .loginRequired,
-                        action: {appState.changeGuestMode(false) }
-                    )}) {
-                        Image(systemName: "tag.fill")
-                            .resizable()
-                            .frame(width: 24,height:24)
-                            .foregroundColor(.gray90)
-                            .padding(12)
-                    }
-                } else {
-                    NavigationLink(destination: TagEditView()) {
-                        Image(systemName: "tag.fill")
-                            .resizable()
-                            .frame(width: 24,height:24)
-                            .foregroundColor(.gray90)
-                            .padding(12)
-                    }
-                }
+                MonthlyCalendar(
+                    viewModel:viewModel,
+                    isShowingMonthPicker:$isShowingMonthPicker
+                )
+                .padding(.top, -16)
             }
-            .frame(height:52)
-            .padding(.horizontal)
-            
-            MonthlyCalendar(
-                viewModel:viewModel,
-                isShowingMonthPicker:$isShowingMonthPicker
-            )
-            .padding(.top, -16)
             .padding(.bottom,16)
             .onAppear { viewModel.scrollToToday(proxy: proxy) }
         }
-        .background(.gray00)
     }
 }
 

@@ -5,8 +5,8 @@ struct MainTabView: View {
     @State private var selectedTab = 0
     
     var body: some View {
-        VStack(spacing: 0) {
-            NavigationStack {
+        NavigationStack {
+            VStack(spacing: 0) {
                 switch(selectedTab) {
                 case 0:
                     HomeView()
@@ -18,7 +18,6 @@ struct MainTabView: View {
                 bottomTab
             }
         }
-        .background(.gray00)
     }
     
     @ViewBuilder
@@ -39,13 +38,13 @@ struct MainTabView: View {
                         if index==2 && appState.isGuestMode {
                             appState.showPopup(type: .loginRequired, action: UserDefaultsManager.shared.logout)
                         } else {
-                            withAnimation {selectedTab = index}
+                            withAnimation { selectedTab = index }
                         }
                     }
                 }
             }
-            .background(.gray00)
         }
+        .background(.gray00)
         .frame(height: 56)
     }
 }
