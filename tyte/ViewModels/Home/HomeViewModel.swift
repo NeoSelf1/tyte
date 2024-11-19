@@ -43,13 +43,10 @@ class HomeViewModel: ObservableObject {
     }
     
     func scrollToToday(proxy: ScrollViewProxy? = nil) {
-        withAnimation {
-            selectedDate = Date().koreanDate
-            fetchTodosForDate(selectedDate.apiFormat)
-            
-            if let proxy = proxy {
-                proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
-            }
+        selectedDate = Date().koreanDate
+        fetchTodosForDate(selectedDate.apiFormat)
+        if let proxy = proxy {
+            proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
         }
     }
     
@@ -126,10 +123,8 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
-                withAnimation(.mediumEaseInOut){
-                    if let index = self.weekCalendarData.firstIndex(where: {$0.date == deadline}) {
-                        self.weekCalendarData[index] = dailyStat ?? .initial
-                    }
+                if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
+                    withAnimation(.mediumEaseInOut){ self.weekCalendarData[index] = dailyStat ?? .initial }
                 }
             }
             .store(in: &cancellables)
@@ -168,9 +163,7 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                withAnimation(.mediumEaseInOut){
-                    self.weekCalendarData = dailyStats
-                }
+                withAnimation(.mediumEaseInOut){ self.weekCalendarData = dailyStats }
             }
             .store(in: &cancellables)
     }
