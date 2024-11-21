@@ -21,12 +21,12 @@ struct DailyStat: Codable, Identifiable {
         case date, user, balanceData, productivityNum, tagStats, center
     }
     
-    static let initial = DailyStat(
-        date: Date().apiFormat,
+    static let empty = DailyStat(
+        date: "empty",
         user: "dummy_user_id",
         balanceData: BalanceData(
-            title: "새로운 하루",
-            message: "오늘도 활기차게 하루를 시작해볼까요?",
+            title: "Todo가 없네요 :(",
+            message: "아래 + 버튼을 눌러 Todo를 추가해주세요",
             balanceNum: 0
         ),
         productivityNum: 0,
