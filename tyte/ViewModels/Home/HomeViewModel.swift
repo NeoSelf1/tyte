@@ -10,8 +10,7 @@ class HomeViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var selectedTodo: Todo?
     @Published var tags: [Tag] = []
-    @Published var selectedDate: Date = Date().koreanDate { didSet { getTodosForDate(selectedDate.apiFormat)
-    } }
+    @Published var selectedDate: Date = Date().koreanDate { didSet { getTodosForDate(selectedDate.apiFormat) } }
     
     @Published var isLoading: Bool = false
     @Published var isMonthPickerPresented:Bool = false
@@ -32,6 +31,7 @@ class HomeViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.tagService = tagService
         self.appState = appState
+        
         initialize()
     }
     
@@ -48,7 +48,6 @@ class HomeViewModel: ObservableObject {
     
     func initialize() {
         getDailyStatsForMonth(selectedDate.apiFormat)
-        getDailyStatForDate(selectedDate.apiFormat)
     }
     
     // Todo 바텀시트 트리거

@@ -7,18 +7,15 @@
 import SwiftUI
 
 struct StatisticsView: View {
-    @StateObject private var viewModel: StatisticsViewModel
     @Environment(\.dismiss) var dismiss
-    
-    init(selectedDate: Date) {
-        _viewModel = StateObject(wrappedValue: StatisticsViewModel(selectedDate: selectedDate))
-    }
+    let dailyStat: DailyStat
+    let todos: [Todo]
     
     var body: some View {
         DetailView(
-            todosForDate: viewModel.todosForDate,
-            dailyStatForDate: viewModel.dailyStatForDate,
-            isLoading: viewModel.isTodoLoading || viewModel.isDailyStatLoading
+            todosForDate: todos,
+            dailyStatForDate: dailyStat,
+            isLoading: false
         )
         .navigationBarTitle("AI 분석리포트", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
@@ -29,8 +26,4 @@ struct StatisticsView: View {
             }
         )
     }
-}
-
-#Preview {
-    StatisticsView(selectedDate: Date().koreanDate)
 }

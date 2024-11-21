@@ -184,9 +184,6 @@ struct HomeView: View {
                                 .padding(12)
                         }
                     } else {
-                        // SwiftUI는 View의 body를 평가하고 렌더링 트리를 구성할 때 모든 하위 뷰들의 구조를 파악해야 함
-                        // NavigationLink(destination:) 생성자는 매개변수로 받은 뷰를 즉시 초기화하게 됨
-
                         NavigationLink(destination: TagEditView()) {
                             Image(systemName: "tag.fill")
                                 .resizable()

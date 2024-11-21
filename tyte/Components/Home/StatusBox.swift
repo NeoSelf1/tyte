@@ -9,17 +9,22 @@ import SwiftUI
 
 struct StatusBoxContent: View {
     @ObservedObject var viewModel : HomeViewModel
-    private var balanceData:BalanceData
+    private var dailyStat: DailyStat
+    private var balanceData: BalanceData
+    private var isValid = false
     
-    init( viewModel: HomeViewModel ) {
+    init(
+        viewModel: HomeViewModel
+    ) {
         self.viewModel = viewModel
-        if let index = viewModel.weekCalendarData.firstIndex(where: {
-            viewModel.selectedDate.apiFormat == $0.date
-        }){
-            balanceData = viewModel.weekCalendarData[index].balanceData
+        
+        if let index = viewModel.weekCalendarData.firstIndex(where: {viewModel.selectedDate.apiFormat == $0.date}){
+            dailyStat = viewModel.weekCalendarData[index]
+            balanceData = dailyStat.balanceData
+            isValid = true
         } else {
-            balanceData =
-            BalanceData(
+            dailyStat = .empty
+            balanceData = BalanceData(
                 title: "Todo가 없네요 :(",
                 message: "아래 + 버튼을 눌러 Todo를 추가해주세요",
                 balanceNum: 0)
@@ -54,16 +59,17 @@ struct StatusBoxContent: View {
                     
                     Spacer()
                     
-                    if let _ = viewModel.weekCalendarData.firstIndex(where: {
-                        viewModel.selectedDate.apiFormat == $0.date
-                    }){
-                        NavigationLink(destination: StatisticsView(selectedDate: viewModel.selectedDate)) {
+                    if dailyStat.date != "emptyData" {
+                        NavigationLink(destination: StatisticsView(
+                            dailyStat: dailyStat,
+                            todos: viewModel.todosForDate)
+                        ) {
                             Text("AI 분석리포트")
                                 .font(._body3)
                                 .foregroundStyle(.gray60)
                         }
                         .frame(maxWidth: 92)
-                            .padding(.trailing, -12)
+                        .padding(.trailing, -12)
                     }
                 }
                 .padding(.bottom,4)
