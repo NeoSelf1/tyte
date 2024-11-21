@@ -1,26 +1,6 @@
 import Foundation
 import Alamofire
 
-extension APIError {
-    var requiresLogout: Bool {
-        switch self {
-        case .unauthorized:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    var isNetworkError: Bool {
-        switch self {
-        case .networkError, .serverError:
-            return true
-        default:
-            return false
-        }
-    }
-}
-
 enum APIError: Error {
     case invalidURL
     case decodingError
@@ -29,10 +9,11 @@ enum APIError: Error {
     case invalidTodo
     case serverDataInvalid
     case notFound
+    case alreadyRequested
 
     case wrongPassword
     
-    case networkError(String)
+    case networkError
     case serverError(String)
     case unknown
     
@@ -43,6 +24,10 @@ enum APIError: Error {
             print("Invalid URL: \(url)")
         case .responseSerializationFailed(reason: .decodingFailed(_)):
             self = .decodingError
+            
+        case .sessionTaskFailed:
+                self = .networkError
+            
         case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
             switch code {
             case 401:
@@ -54,13 +39,13 @@ enum APIError: Error {
             case 404:
                 self = .notFound
             case 405:
-                self = .notFound
+                self = .alreadyRequested
             case 406:
                 self = .wrongPassword
             case 500...599:
                 self = .serverError("Server error: \(code)")
             default:
-                self = .networkError("Network error: \(code)")
+                self = .networkError
             }
         default:
             self = .unknown
@@ -77,8 +62,8 @@ enum APIError: Error {
             "보안을 위해 다시 로그인해 주세요. 불편을 드려 죄송합니다."
         case .invalidTodo:
             "앗! AI가 할 일 내용을 이해하지 못했어요. 다시 한 번 작성해 주시겠어요?"
-        case .networkError(let message):
-            "네트워크 연결에 문제가 있어요: \(message). 와이파이나 데이터 연결을 확인해 주세요."
+        case .networkError:
+            "네트워크 연결에 문제가 있어요. 와이파이나 데이터 연결을 확인해 주세요."
         case .serverError(let message):
             "서버에 문제가 생겼어요: \(message). 잠시 후에 다시 시도해 주세요."
         case .unknown:
