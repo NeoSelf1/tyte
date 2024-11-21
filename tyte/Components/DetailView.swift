@@ -111,7 +111,7 @@ struct DetailView: View {
                             }
                         }
                     }
-                    .frame(width:.infinity, height: prismSize*1.18)
+                    .frame(maxWidth:.infinity, maxHeight: prismSize*1.18)
                     
                     VStack(spacing:4) {
                         Text("이날의 조언")
