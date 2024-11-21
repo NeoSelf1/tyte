@@ -51,7 +51,7 @@ struct DetailView: View {
                             cornerRadius: 32
                         )
                         .frame(width: prismSize, height: prismSize)
-
+                        
                         VStack {
                             HStack{
                                 VStack(alignment: .leading){
@@ -92,26 +92,21 @@ struct DetailView: View {
                                 }
                                 
                                 Spacer()
-
-                                VStack(alignment: .leading, spacing: 6) {
-                                    Text("태그 목록")
-                                        .font(._caption)
-                                        .foregroundStyle(.gray60)
-                                    
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        ForEach(dailyStatForDate.tagStats) { tagStat in
-                                            HStack(spacing: 8) {
-                                                Circle()
-                                                    .fill(Color(hex: tagStat.tag.color))
-                                                    .frame(width: 6, height: 6)
-                                                    .overlay(Circle().stroke(.gray50))
-                                                
-                                                Text(tagStat.tag.name)
-                                                    .font(._body3)
-                                                    .foregroundColor(.gray60)
-                                            }
+                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    ForEach(dailyStatForDate.tagStats) { tagStat in
+                                        HStack(spacing: 8) {
+                                            Circle()
+                                                .fill(Color(hex: tagStat.tag.color))
+                                                .frame(width: 6, height: 6)
+                                                .overlay(Circle().stroke(.gray50))
+                                            
+                                            Text(tagStat.tag.name)
+                                                .font(._body3)
+                                                .foregroundColor(.gray60)
                                         }
                                     }
+                                    
                                 }
                             }
                         }

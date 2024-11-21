@@ -119,6 +119,7 @@
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
 		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
 		E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */; };
+		E5EB99A02CEE0177003C343B /* HomeViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EB999F2CEE0177003C343B /* HomeViewUITest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -273,6 +274,7 @@
 		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
 		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
+		E5EB999F2CEE0177003C343B /* HomeViewUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewUITest.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -392,6 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5BB2882C836C0600DC4D72 /* tyteTests.swift */,
+				E5EB999F2CEE0177003C343B /* HomeViewUITest.swift */,
 			);
 			path = tyteTests;
 			sourceTree = "<group>";
@@ -512,9 +515,9 @@
 			children = (
 				ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */,
 				ABF02B062C9A39C900947DA4 /* MonthPicker.swift */,
-				ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */,
 				AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */,
 				ABB459A32C912A4400F61E83 /* TimeWheelPicker.swift */,
+				ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1093,6 +1096,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */,
+				E5EB99A02CEE0177003C343B /* HomeViewUITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

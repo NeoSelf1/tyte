@@ -26,6 +26,7 @@ struct MainTabView: View {
         ZStack {
             Rectangle()
                 .fill(.gray00)
+                .frame(height: 56)
                 .shadow(color: .gray50.opacity(0.08), radius: 8)
             
             HStack(spacing: 0) {
@@ -38,14 +39,14 @@ struct MainTabView: View {
                         if index==2 && appState.isGuestMode {
                             appState.showPopup(type: .loginRequired, action: UserDefaultsManager.shared.logout)
                         } else {
-                            withAnimation { selectedTab = index }
+                            withAnimation(.fastEaseInOut) { selectedTab = index }
                         }
                     }
                 }
             }
+            .frame(height: 56)
+            .background(.gray00)
         }
-        .background(.gray00)
-        .frame(height: 56)
     }
 }
 

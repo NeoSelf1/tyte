@@ -39,7 +39,7 @@ struct MultiLayerBottomSheet: View {
                     
                     Spacer()
                     
-                    Button(action: { viewModel.isDetailViewPresented = false }) {
+                    Button(action: { viewModel.isDetailViewPresent = false }) {
                         Image(systemName: "xmark")
                             .foregroundStyle(.gray60)
                             .font(._headline2)

@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ViewSelector: View {
     // MARK: StateObject는 객체의 소유권과 생명주기를 관리하는데 사용
-    // ObservedObject는 이미 존재하는 객체 관찰에 사용
     @ObservedObject var viewModel : MyPageViewModel
     
     private let animationDuration:Double = 0.2
