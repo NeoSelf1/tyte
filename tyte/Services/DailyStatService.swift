@@ -12,7 +12,7 @@ class DailyStatService: DailyStatServiceProtocol {
         return networkService.request(.fetchDailyStatsForDate(date), method: .get, parameters: nil)
     }
     
-    func fetchMonthlyStats(yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError> {
+    func fetchMonthlyStats(in yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError> {
         return networkService.request(.fetchDailyStatsForMonth(yearMonth), method: .get, parameters: nil)
     }
     

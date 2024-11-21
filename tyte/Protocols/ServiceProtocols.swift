@@ -42,7 +42,7 @@ protocol TagServiceProtocol {
 
 protocol DailyStatServiceProtocol {
     func fetchDailyStat(for date: String) -> AnyPublisher<DailyStat?, APIError>
-    func fetchMonthlyStats(yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
+    func fetchMonthlyStats(in yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
     func fetchMonthlyStats(for id: String, in yearMonth: String) -> AnyPublisher<MonthlyStatsResponse, APIError>
 }
 
