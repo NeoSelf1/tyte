@@ -8,7 +8,6 @@ import SwiftUI
 
 struct StatisticsView: View {
     @StateObject private var viewModel: StatisticsViewModel
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     @Environment(\.dismiss) var dismiss
     
     init(selectedDate: Date) {
@@ -21,6 +20,8 @@ struct StatisticsView: View {
             dailyStatForDate: viewModel.dailyStatForDate,
             isLoading: viewModel.isTodoLoading || viewModel.isDailyStatLoading
         )
+        .onAppear{viewModel.initialize()}
+        
         .navigationBarTitle("AI 분석리포트", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(

@@ -1,69 +1,38 @@
 import SwiftUI
 
 struct TagEditView: View {
-    @StateObject private var viewModel = TagEditViewModel()
+//    @StateObject private var viewModel = TagEditViewModel()
+    @StateObject private var viewModel: TagEditViewModel
     @Environment(\.dismiss) var dismiss
     
-    private var shouldPresentSheet: Binding<Bool> {
-        Binding(
-            get: { viewModel.isEditBottomPresented && viewModel.selectedTag != nil },
-            set: { viewModel.isEditBottomPresented = $0 }
-        )
-    }
-    
     init(viewModel: TagEditViewModel = TagEditViewModel()) {
+        print("TagEditView initialized")
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("태그 추가하기")
-                .font(._body3)
-                .foregroundColor(.gray90)
-                .padding(.leading,24)
-                .padding(.top,8)
-                .frame(maxWidth:.infinity, alignment:.leading)
+            header
             
-            HStack(alignment: .center,spacing:16) {
-                TextField("",
-                          text: $viewModel.tagInput,
-                          prompt: Text("태그 제목").foregroundColor(.gray50)
-                )
-                .foregroundColor(.gray90)
-                .autocapitalization(.none)
-                .submitLabel(.done)
-                .onSubmit { !viewModel.tagInput.isEmpty ? viewModel.addTag() : print("isEmpty") }
-                
-                Button(action: {
-                    viewModel.isColorPickerPresented = true
-                }) {
-                    Circle().fill(Color(hex:"#\(viewModel.selectedColor)")).frame(width: 24, height: 24)
+            ZStack {
+                ScrollView {
+                    LazyVStack(alignment:.leading, spacing: 16) {
+                        specialTagView(Tag(id: "dummy_1", name: "학습", color: "FF0000", user: "dummyUser"))
+                        specialTagView(Tag(id: "dummy_2", name: "여가", color: "F0E68C", user: "dummyUser"))
+                        specialTagView(Tag(id: "dummy_3", name: "건강", color: "00FFFF", user: "dummyUser"))
+                        
+                        ForEach(viewModel.tags.filter{!["학습","여가","건강"].contains($0.name)}) { tag in
+                            regularTagView(tag)
+                        }
+                    }
+                    .padding()
                 }
-            }
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(.blue10, lineWidth: 1)
-            )
-            .padding(.horizontal,16)
-            .padding(.bottom,16)
-            .background(.gray00)
-            
-            List {
-                specialTagView(Tag(id: "dummy_1", name: "학습", color: "FF0000", user: "dummyUser"))
-                specialTagView(Tag(id: "dummy_2", name: "여가", color: "F0E68C", user: "dummyUser"))
-                specialTagView(Tag(id: "dummy_3", name: "건강", color: "00FFFF", user: "dummyUser"))
+                .frame(maxWidth: .infinity)
+                .background(.gray10)
+//                .refreshable(action: {viewModel.handleRefresh()})
                 
-                ForEach(viewModel.tags.filter{!["학습","여가","건강"].contains($0.name)}) { tag in
-                    regularTagView(tag)
-                }
+                if viewModel.isLoading { ProgressView() }
             }
-            .listStyle(PlainListStyle())
-            .scrollContentBackground(.hidden)
-            .refreshable(action: {viewModel.fetchTags()})
-            .padding(.horizontal)
-            .background(.gray10)
         }
         .navigationBarTitle("Tag 관리", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
@@ -73,38 +42,64 @@ struct TagEditView: View {
                     .foregroundColor(.gray90)
             }
         )
-        .sheet(isPresented: $viewModel.isColorPickerPresented) {
+        .background(.gray00)
+        
+        .sheet(isPresented: $viewModel.isColorPickerPresent) {
             ColorPickerBottomSheet(selectedColor: $viewModel.selectedColor)
                 .presentationDetents([.height(360)])
                 .presentationBackground(.gray00)
         }
-        .sheet(isPresented: shouldPresentSheet, content: {
+        .sheet(isPresented: $viewModel.isEditBottomPresent, content: {
             if let tag = viewModel.selectedTag {
                 TagEditBottomSheet(
-                    tag: Binding(
-                        get: { tag },
-                        set: { _ in }
-                    ),
-                    onUpdate: { updatedTag in
-                        viewModel.editTag(updatedTag)
-                    },
-                    onDelete: { tagId in
-                        viewModel.deleteTag(id: tagId)
-                    }
+                    tag: Binding(get: { tag }, set: { _ in }),
+                    onUpdate: { updatedTag in viewModel.editTag(updatedTag) },
+                    onDelete: { tagId in viewModel.deleteTag(id: tagId) }
                 )
                 .presentationDetents([.height(360)])
             }
         })
         .alert(isPresented: $viewModel.isDuplicateWarningPresent) {
-            Alert(
-                title: Text("중복된 태그"),
-                message: Text("이미 존재하는 태그입니다."),
-                dismissButton: .default(Text("확인"))
+            Alert( title: Text("중복된 태그"), message: Text("이미 존재하는 태그입니다."), dismissButton: .default(Text("확인")) )
+        }
+        
+        
+    }
+    
+    @ViewBuilder
+    private var header: some View {
+        Text("태그 추가하기")
+            .font(._body3)
+            .foregroundColor(.gray90)
+            .padding(.leading,24)
+            .padding(.top,8)
+            .frame(maxWidth:.infinity, alignment:.leading)
+        
+        HStack(alignment: .center,spacing:16) {
+            TextField("",
+                      text: $viewModel.tagInput,
+                      prompt: Text("태그 제목").foregroundColor(.gray50)
             )
+            .foregroundColor(.gray90)
+            .autocapitalization(.none)
+            .submitLabel(.done)
+            .onSubmit { viewModel.addTag() }
+            
+            Button(action: {
+                viewModel.isColorPickerPresent = true
+            }) {
+                Circle().fill(Color(hex:"#\(viewModel.selectedColor)")).frame(width: 24, height: 24)
+                    .opacity(viewModel.tagInput.isEmpty ? 0 : 1.0)
+            }
+            .disabled(viewModel.tagInput.isEmpty)
         }
-        .onAppear {
-            viewModel.fetchTags()
-        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 16).fill(.gray10)
+                .stroke(.blue10, lineWidth: 1).padding(1)
+        )
+        .padding(.horizontal,16)
+        .padding(.bottom,16)
         .background(.gray00)
     }
     
@@ -114,20 +109,13 @@ struct TagEditView: View {
                 .fill(Color(hex:"#\(tag.color)"))
                 .frame(width: 10, height: 10)
                 .overlay(Circle().stroke(.gray50))
+            
             Text(tag.name)
                 .font(._subhead2)
                 .foregroundColor(.gray60)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.gray20)
-        )
-        
-        .listRowInsets(EdgeInsets())
-        .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
-        .padding(.top,16)
+        .background(RoundedRectangle(cornerRadius: 8).fill(.gray20))
     }
     
     private func regularTagView(_ tag: Tag) -> some View {
@@ -142,22 +130,9 @@ struct TagEditView: View {
                 .foregroundColor(.gray90)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.gray00)
-                .stroke(.gray30, lineWidth: 1)
-                .padding(1)
-        )
-        .padding(.top,16)
-        
-        .listRowInsets(EdgeInsets()) // 삽입지(외곽 하얀 여백.)
-        .listRowSeparator(.hidden) // 사이 선
-        .listRowBackground(Color.clear)
-        
-        .onTapGesture {
-            viewModel.selectedTag = tag
-            viewModel.isEditBottomPresented = true
-        }
+        .background(RoundedRectangle(cornerRadius: 8).fill(.gray00)
+                .stroke(.gray30, lineWidth: 1).padding(1))
+        .onTapGesture { viewModel.selectTag(tag) }
     }
     
 }

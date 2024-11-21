@@ -2,9 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
-    
     @StateObject private var viewModel: HomeViewModel
-    @State private var isShowingMonthPicker = false
     
     init(viewModel: HomeViewModel = HomeViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -14,7 +12,6 @@ struct HomeView: View {
         ZStack {
             VStack(spacing:0){
                 header
-                
                 Divider().frame(minHeight:3).background(.gray10)
                 
                 List {
@@ -67,8 +64,7 @@ struct HomeView: View {
                 .listStyle(PlainListStyle())
                 .background(.gray10)
                 
-                .refreshable(action: { viewModel.fetchInitialData() })
-                .onAppear { viewModel.fetchInitialData() }
+                .refreshable(action: {viewModel.handleRefresh()})
             }
             
             if viewModel.isLoading, !viewModel.isCreateTodoPresented {
@@ -76,23 +72,8 @@ struct HomeView: View {
             }
             
             floatingActionButton
-            
-            Color.black
-                .opacity(isShowingMonthPicker ? 0.3 : 0.0)
-                .ignoresSafeArea()
-                .animation(.spring(duration:0.1), value:isShowingMonthPicker)
-                .onTapGesture { isShowingMonthPicker = false }
-            
-            MonthYearPickerPopup(
-                isShowing: $isShowingMonthPicker,
-                viewModel:viewModel
-            )
-            .opacity(isShowingMonthPicker ? 1 : 0)
-            .offset(y: isShowingMonthPicker ? 0 : -80)
-            
-            .animation(.spring(duration:0.3), value: isShowingMonthPicker)
+            monthPicker
         }
-        .frame(maxHeight:.infinity)
         .sheet(isPresented: $viewModel.isCreateTodoPresented) {
             CreateTodoBottomSheet(viewModel:viewModel)
                 .presentationDetents([.height(260)])
@@ -100,7 +81,7 @@ struct HomeView: View {
                 .presentationBackground(.gray00)
         }
         .sheet(isPresented: $viewModel.isDetailPresented) {
-            if let todo = viewModel.selectedTodo{
+            if let todo = viewModel.selectedTodo {
                 TodoEditBottomSheet(
                     tags: viewModel.tags,
                     todo: todo,
@@ -116,6 +97,24 @@ struct HomeView: View {
                 .presentationDetents([.height(600)])
             }
         }
+    }
+    
+    @ViewBuilder
+    private var monthPicker: some View {
+        Color.black
+            .opacity(viewModel.isMonthPickerPresented ? 0.3 : 0.0)
+            .ignoresSafeArea()
+            .animation(.spring(duration:0.1), value:viewModel.isMonthPickerPresented)
+            .onTapGesture { viewModel.isMonthPickerPresented = false }
+        
+        MonthYearPickerPopup(
+            isShowing: $viewModel.isMonthPickerPresented,
+            viewModel:viewModel
+        )
+        .opacity(viewModel.isMonthPickerPresented ? 1 : 0)
+        .offset(y: viewModel.isMonthPickerPresented ? 0 : -80)
+        
+        .animation(.spring(duration:0.4), value: viewModel.isMonthPickerPresented)
     }
     
     private var floatingActionButton: some View {
@@ -142,9 +141,8 @@ struct HomeView: View {
         ScrollViewReader { proxy in
             VStack {
                 HStack {
-                    Button(action: {
-                        isShowingMonthPicker = true
-                    }) {
+                    Button(action: { viewModel.isMonthPickerPresented = true }
+                    ) {
                         Text(viewModel.selectedDate.formattedMonth)
                             .font(._headline2)
                             .foregroundStyle(.gray90)
@@ -156,9 +154,9 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    Button {
-                        viewModel.scrollToToday(proxy: proxy)
-                    } label: {
+                    Button(action: {
+                             withAnimation { viewModel.setDateToTodayAndScrollCalendar(proxy) } // 가로 스크롤 애니메이션 위해 필요
+                    }) {
                         HStack{
                             Text("오늘")
                                 .font(._subhead2)
@@ -189,13 +187,16 @@ struct HomeView: View {
                                 .padding(12)
                         }
                     } else {
-                        NavigationLink(destination: TagEditView()) {
-                            Image(systemName: "tag.fill")
-                                .resizable()
-                                .frame(width: 24,height:24)
-                                .foregroundColor(.gray90)
-                                .padding(12)
-                        }
+                        // SwiftUI는 View의 body를 평가하고 렌더링 트리를 구성할 때 모든 하위 뷰들의 구조를 파악해야 함
+                        // NavigationLink(destination:) 생성자는 매개변수로 받은 뷰를 즉시 초기화하게 됨
+
+//                        NavigationLink(destination: TagEditView()) {
+//                            Image(systemName: "tag.fill")
+//                                .resizable()
+//                                .frame(width: 24,height:24)
+//                                .foregroundColor(.gray90)
+//                                .padding(12)
+//                        }
                     }
                 }
                 .frame(height:52)
@@ -203,17 +204,23 @@ struct HomeView: View {
                 
                 MonthlyCalendar(
                     viewModel:viewModel,
-                    isShowingMonthPicker:$isShowingMonthPicker
+                    isShowingMonthPicker:$viewModel.isMonthPickerPresented
                 )
                 .padding(.top, -16)
             }
             .padding(.bottom,16)
-            .onAppear { viewModel.scrollToToday(proxy: proxy) }
+            
+            .onAppear {
+                viewModel.setDateToTodayAndScrollCalendar(proxy)
+//                viewModel.initialize()
+//                viewModel.getTags()
+            }
         }
     }
 }
 
-//#Preview{
-//    HomeView(viewModel: .mockViewModel(delaySeconds: 2.0))
-//        .environmentObject(AppState.shared)
-//}
+
+#Preview{
+    HomeView()
+        .environmentObject(AppState.shared)
+}
