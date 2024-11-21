@@ -25,7 +25,7 @@ enum APIEndpoint {
     case updateTag(String)  // tagId
     case deleteTag(String)  // tagId
     case fetchDailyStatsForDate(String) // date
-    case fetchDailyStatsForMonth(String) // range
+    case fetchDailyStatsForMonth(String) // yearMonth
     case searchUser(String) // query
     case requestFriend(String) // userId
     case getFriends
@@ -33,7 +33,7 @@ enum APIEndpoint {
     case getPendingRequests // 받은 친구 요청 목록 조회
     case acceptFriendRequest(String) // requestId
     case rejectFriendRequest(String) // requestId
-    case getFriendDailyStats(friendId: String, range: String) // 친구의 DailyStat 조회
+    case getFriendDailyStats(friendId: String, yearMonth: String) // 친구의 DailyStat 조회
     case removeFriend(String) // friendId
     
     var path: String {
@@ -75,10 +75,11 @@ enum APIEndpoint {
             
         case .fetchDailyStatsForDate(let date):
             return "/dailyStat/\(date)"
-        case .fetchDailyStatsForMonth(let range):
-            return "/dailyStat/all/\(range)"
-        case .getFriendDailyStats(let friendId, let range):
-            return "/dailyStat/friend/\(friendId)/\(range)"
+        case .fetchDailyStatsForMonth(let yearMonth):
+            return "/dailyStat/all/\(yearMonth)"
+            
+        case .getFriendDailyStats(let friendId, let yearMonth):
+            return "/dailyStat/friend/\(friendId)/\(yearMonth)"
             
         case .searchUser(let query):
             return "/social/search/\(query)"

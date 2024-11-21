@@ -1,24 +1,20 @@
 import SwiftUI
 import AuthenticationServices
 
+enum Field: Hashable {
+    case email
+    case password
+    case username
+}
+
 struct OnboardingView: View {
     @EnvironmentObject var appState: AppState
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
+    @StateObject private var viewModel = AuthViewModel()
     
-    @StateObject private var viewModel: AuthViewModel
+    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
-    
-    init(viewModel: AuthViewModel = AuthViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
-    
-    enum Field: Hashable {
-        case email
-        case password
-        case username
-    }
     
     var body: some View {
         VStack(spacing: 8) {
@@ -224,7 +220,7 @@ struct OnboardingView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding()
+            .frame(height: 50)
             .background(.gray00)
             .foregroundColor(.gray60)
             .cornerRadius(10)
@@ -237,7 +233,7 @@ struct OnboardingView: View {
 
     private var appleButton: some View {
         VStack{
-            if viewModel.isGoogleLoading {
+            if viewModel.isAppleLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity,alignment:.center)
             } else {
@@ -266,6 +262,7 @@ struct OnboardingView: View {
 }
 
 
-#Preview{
-    OnboardingView()
-}
+//#Preview{
+//    OnboardingView(viewModel: .mockViewModel())
+//        .environmentObject(AppState.shared)
+//}

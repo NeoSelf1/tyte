@@ -21,12 +21,8 @@ typealias TodosResponse = [Todo]
 
 // MARK: - Tag 관련 api 함수 응답값 타입
 // Tag 생성/수정/삭제시 ID만 반환
-struct TagIdResponse: Codable {
+struct IdResponse: Codable {
     let id: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-    }
 }
 // Tag 목록 조회
 typealias TagsResponse = [Tag]
@@ -47,12 +43,3 @@ typealias FriendsResponse = [User]
 
 // 받은 친구 요청 목록
 typealias PendingRequestsResponse = [FriendRequest]
-
-// 친구 요청/수락/거절 응답 (ID만 반환)
-struct FriendRequestIdResponse: Codable {
-    let id: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-    }
-}

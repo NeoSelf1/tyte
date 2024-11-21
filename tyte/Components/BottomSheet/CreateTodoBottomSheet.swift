@@ -25,7 +25,7 @@ struct CreateTodoBottomSheet: View {
         ("다음주 월요일 팀 미팅", "앱이 자동으로 날짜를 인식하고 정확한 일정에 추가해 드려요.")
     ]
     
-    let timer = Timer.publish(every: 6, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {

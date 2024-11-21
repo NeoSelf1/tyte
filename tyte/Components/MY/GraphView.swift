@@ -11,7 +11,7 @@ struct GraphView: View {
     var body: some View {
         // MARK: New Chart API
         VStack(alignment: .leading, spacing:0 ){
-            HStack{
+            HStack {
                 VStack (alignment: .leading){
                     Text("\(viewModel.graphData.reduce(0) {$0 + $1.productivityNum}.formatted())")
                         .font(._headline2)
@@ -22,31 +22,6 @@ struct GraphView: View {
                         .foregroundStyle(.gray50)
                 }
                 Spacer()
-                
-                Menu {
-                    Button("1주") {
-                        viewModel.graphRange = "week"
-                    }
-                    
-                    Button("1개월") {
-                        viewModel.graphRange = "month"
-                    }
-                } label: {
-                    HStack(spacing:8) {
-                        Text(viewModel.graphRange.formattedRange)
-                            .font(._body3)
-                            .foregroundColor(.gray90)
-                        
-                        Image(systemName: "chevron.down")
-                            .resizable()
-                            .frame(width: 12, height: 8)
-                            .foregroundColor(.gray60)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(.blue10)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
             }
             .padding(.horizontal)
             
@@ -58,34 +33,14 @@ struct GraphView: View {
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
                         AnimatedChart()
-                            .frame(width: viewModel.zoomInOut(),alignment: .trailing)
+                            .frame(width: UIScreen.main.bounds.width - 40, alignment: .trailing)
                             .id("chart")
                             .scaleEffect(animationAmount)
-                            .animation(.easeInOut(duration: 0.5), value: viewModel.graphRange)
                             .padding()
-                    }
-                    .onChange(of: viewModel.graphRange) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + Animation.Duration.medium) {
-                            withAnimation {
-                                proxy.scrollTo("chart", anchor: .trailing)
-                            }
-                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal)
-                .onChange(of: viewModel.graphRange) {
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        animationAmount = 0.7
-                        plotWidth = viewModel.zoomInOut()
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        withAnimation(.mediumEaseInOut) {
-                            animationAmount = 1.0
-                        }
-                    }
-                }
             }
         }
     }

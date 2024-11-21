@@ -14,7 +14,7 @@ class StatisticsViewModel: ObservableObject {
     private let appState: AppState
     
     @Published var todosForDate: [Todo] = []
-    @Published var dailyStatForDate: DailyStat = dummyDailyStat
+    @Published var dailyStatForDate: DailyStat = .empty
     
     @Published var isDailyStatLoading: Bool = true
     @Published var isTodoLoading: Bool = true
@@ -33,14 +33,13 @@ class StatisticsViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.appState = appState
-        
-        fetchInitialData()
+        initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
     
     //MARK: - Method
-    func fetchInitialData() {
+    func initialize() {
         let dateString = selectedDate.apiFormat
         fetchTodosForDate(dateString)
         fetchDailyStatForDate(dateString)
@@ -74,7 +73,9 @@ class StatisticsViewModel: ObservableObject {
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
                 isDailyStatLoading = false
-                dailyStatForDate = dailyStat
+                if let dailyStat = dailyStat {
+                    dailyStatForDate = dailyStat
+                }
             }
             .store(in: &cancellables)
     }

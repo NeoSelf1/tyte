@@ -8,7 +8,6 @@ import SwiftUI
 
 struct StatisticsView: View {
     @StateObject private var viewModel: StatisticsViewModel
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     @Environment(\.dismiss) var dismiss
     
     init(selectedDate: Date) {

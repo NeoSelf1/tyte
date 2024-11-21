@@ -1,19 +1,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject private var viewModel = HomeViewModel()
     @EnvironmentObject var appState: AppState
     
-    @StateObject private var viewModel: HomeViewModel
-    @State private var isShowingMonthPicker = false
-    
-    init(viewModel: HomeViewModel = HomeViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
-    
     var body: some View {
-        ZStack{
-            VStack (spacing:0){
+        ZStack {
+            VStack(spacing:0){
                 header
+                
                 Divider().frame(minHeight:3).background(.gray10)
                 
                 List {
@@ -23,8 +18,7 @@ struct HomeView: View {
                         .padding(.horizontal)
                         .padding(.top, 12)
                     
-                    
-                    if (viewModel.todosForDate.isEmpty){
+                   if viewModel.todosForDate.isEmpty {
                         Spacer()
                             .listRowInsets(EdgeInsets())
                             .listRowSeparator(.hidden)
@@ -65,34 +59,18 @@ struct HomeView: View {
                     }
                 }
                 .listStyle(PlainListStyle())
+                .background(.gray10)
                 
-                .refreshable(action: { viewModel.fetchInitialData() })
-                .onAppear { viewModel.fetchInitialData() }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    viewModel.fetchInitialData()
-                }
+                .refreshable(action: { viewModel.handleRefresh() } )
             }
-            .background(.gray10)
+            
+            if viewModel.isLoading, !viewModel.isCreateTodoPresented {
+                ProgressView()
+            }
             
             floatingActionButton
-            .padding(24)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            
-            Color.black
-                .opacity(isShowingMonthPicker ? 0.3 : 0.0)
-                .ignoresSafeArea()
-                .animation(.spring(duration:0.1),value:isShowingMonthPicker)
-                .onTapGesture { isShowingMonthPicker = false }
-            
-            MonthYearPickerPopup(
-                isShowing: $isShowingMonthPicker,
-                viewModel:viewModel
-            )
-            .opacity(isShowingMonthPicker ? 1 : 0)
-            .offset(y: isShowingMonthPicker ? 0 : -80)
-            .animation(.spring(duration:0.3),value:isShowingMonthPicker)
+            monthPicker
         }
-        
         .sheet(isPresented: $viewModel.isCreateTodoPresented) {
             CreateTodoBottomSheet(viewModel:viewModel)
                 .presentationDetents([.height(260)])
@@ -100,7 +78,7 @@ struct HomeView: View {
                 .presentationBackground(.gray00)
         }
         .sheet(isPresented: $viewModel.isDetailPresented) {
-            if let todo = viewModel.selectedTodo{
+            if let todo = viewModel.selectedTodo {
                 TodoEditBottomSheet(
                     tags: viewModel.tags,
                     todo: todo,
@@ -116,6 +94,24 @@ struct HomeView: View {
                 .presentationDetents([.height(600)])
             }
         }
+    }
+    
+    @ViewBuilder
+    private var monthPicker: some View {
+        Color.black
+            .opacity(viewModel.isMonthPickerPresented ? 0.3 : 0.0)
+            .ignoresSafeArea()
+            .animation(.spring(duration:0.1), value:viewModel.isMonthPickerPresented)
+            .onTapGesture { viewModel.isMonthPickerPresented = false }
+        
+        MonthYearPickerPopup(
+            isShowing: $viewModel.isMonthPickerPresented,
+            viewModel:viewModel
+        )
+        .opacity(viewModel.isMonthPickerPresented ? 1 : 0)
+        .offset(y: viewModel.isMonthPickerPresented ? 0 : -80)
+        
+        .animation(.spring(duration:0.4), value: viewModel.isMonthPickerPresented)
     }
     
     private var floatingActionButton: some View {
@@ -134,78 +130,87 @@ struct HomeView: View {
                 .clipShape(Circle())
                 .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 2)
         }
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
     }
     
     private var header: some View {
         ScrollViewReader { proxy in
-            HStack {
-                Button(action: {
-                    isShowingMonthPicker = true
-                }) {
-                    Text(viewModel.selectedDate.formattedMonth)
-                        .font(._headline2)
-                        .foregroundStyle(.gray90)
-                    
-                    Image(systemName: "chevron.down")
-                        .font(._subhead2)
-                        .foregroundStyle(.gray90)
-                }
-                
-                Spacer()
-                
-                Button {
-                    viewModel.scrollToToday(proxy: proxy)
-                } label: {
-                    HStack{
-                        Text("오늘")
-                            .font(._subhead2)
+            VStack {
+                HStack {
+                    Button(action: { viewModel.isMonthPickerPresented = true }
+                    ) {
+                        Text(viewModel.selectedDate.formattedMonth)
+                            .font(._headline2)
                             .foregroundStyle(.gray90)
                         
-                        Image(systemName: "arrow.counterclockwise")
-                            .font(._title)
+                        Image(systemName: "chevron.down")
+                            .font(._subhead2)
                             .foregroundStyle(.gray90)
                     }
-                    .padding(.horizontal,16)
-                    .padding(.vertical,8)
-                    .background(.gray00)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 99)
-                            .stroke(.blue10, lineWidth: 1)
-                    )
-                    .padding(1)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                             withAnimation { viewModel.setDateToTodayAndScrollCalendar(proxy) } // 가로 스크롤 애니메이션 위해 필요
+                    }) {
+                        HStack{
+                            Text("오늘")
+                                .font(._subhead2)
+                                .foregroundStyle(.gray90)
+                            
+                            Image(systemName: "arrow.counterclockwise")
+                                .font(._title)
+                                .foregroundStyle(.gray90)
+                        }
+                        .padding(.horizontal,16)
+                        .padding(.vertical,8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 99)
+                                .stroke(.blue10, lineWidth: 1)
+                        )
+                        .padding(1)
+                    }
+                    
+                    if appState.isGuestMode {
+                        Button(action: { appState.showPopup(
+                            type: .loginRequired,
+                            action: {appState.changeGuestMode(false) }
+                        )}) {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
+                    } else {
+                        // SwiftUI는 View의 body를 평가하고 렌더링 트리를 구성할 때 모든 하위 뷰들의 구조를 파악해야 함
+                        // NavigationLink(destination:) 생성자는 매개변수로 받은 뷰를 즉시 초기화하게 됨
+
+                        NavigationLink(destination: TagEditView()) {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
+                    }
                 }
+                .frame(height:52)
+                .padding(.horizontal)
                 
-                if appState.isGuestMode {
-                    Button(action: { appState.showPopup(
-                        type: .loginRequired,
-                        action: {appState.changeGuestMode(false) }
-                    )}) {
-                        Image(systemName: "tag.fill")
-                            .resizable()
-                            .frame(width: 24,height:24)
-                            .foregroundColor(.gray90)
-                            .padding(12)
-                    }
-                } else {
-                    NavigationLink(destination: TagEditView()) {
-                        Image(systemName: "tag.fill")
-                            .resizable()
-                            .frame(width: 24,height:24)
-                            .foregroundColor(.gray90)
-                            .padding(12)
-                    }
-                }
+                MonthlyCalendar(
+                    viewModel:viewModel,
+                    isShowingMonthPicker:$viewModel.isMonthPickerPresented
+                )
+                .padding(.top, -16)
             }
-            .frame(height:52)
-            .padding(.horizontal)
-            
-            MonthlyCalendar(
-                viewModel:viewModel,
-                isShowingMonthPicker:$isShowingMonthPicker
-            )
-            .padding(.top, -16)
             .padding(.bottom,16)
-            .onAppear { viewModel.scrollToToday(proxy: proxy) }
+            
+            .onAppear {
+                viewModel.getTags()
+                viewModel.setDateToTodayAndScrollCalendar(proxy)
+            }
         }
     }
 }

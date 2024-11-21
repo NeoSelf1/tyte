@@ -7,36 +7,26 @@ struct FriendSearchView: View {
     @State private var isSearching = false
     
     var body: some View {
+        ZStack {
             VStack {
-                SearchBar(
-                    text: $viewModel.searchText,
-                    isSearching: $isSearching
-                )
-                
-                if viewModel.isLoading {
-                    ProgressView()
-                } else if viewModel.searchResults.isEmpty {
+                SearchBar(text: $viewModel.searchText,isSearching: $isSearching)
+                if viewModel.searchResults.isEmpty {
                     VStack(spacing: 12) {
                         if viewModel.searchText.isEmpty {
                             Image(systemName: "magnifyingglass")
                                 .font(.system(size: 40))
-                                .foregroundColor(.gray30)
-                            
-                            Text("친구를 검색해보세요")
-                                .font(._body1)
                                 .foregroundColor(.gray50)
                             
-                            Text("닉네임으로 친구를 찾을 수 있어요")
-                                .font(._caption)
-                                .foregroundColor(.gray30)
-                                .multilineTextAlignment(.center)
+                            Text("닉네임으로 친구를 검색해보세요")
+                                .font(._title)
+                                .foregroundColor(.gray60)
                         } else {
                             Image(systemName: "person.slash")
                                 .font(.system(size: 40))
                                 .foregroundColor(.gray30)
                             
                             Text("검색 결과가 없습니다")
-                                .font(._body1)
+                                .font(._title)
                                 .foregroundColor(.gray50)
                         }
                     }
@@ -57,11 +47,12 @@ struct FriendSearchView: View {
                                             .foregroundStyle(.gray50)
                                     }
                                     Spacer()
+
                                     statusButton(for: searchedUser)
                                 }
                                 .background(.clear)
                                 .onTapGesture {
-                                    viewModel.selectUser(searchedUser)
+                                    viewModel.handleUserButtonClick(searchedUser)
                                 }
                                 .frame(maxWidth: .infinity,alignment: .leading)
                             }
@@ -69,7 +60,8 @@ struct FriendSearchView: View {
                         .padding()
                     }
                 }
-            
+            }
+            if viewModel.isLoading { ProgressView() }
         }
         .navigationBarTitle("친구 검색", displayMode: .inline)
         .navigationBarBackButtonHidden(true)

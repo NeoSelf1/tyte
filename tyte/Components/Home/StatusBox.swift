@@ -54,7 +54,7 @@ struct StatusBoxContent: View {
                     
                     Spacer()
                     
-                    if let index = viewModel.weekCalendarData.firstIndex(where: {
+                    if let _ = viewModel.weekCalendarData.firstIndex(where: {
                         viewModel.selectedDate.apiFormat == $0.date
                     }){
                         NavigationLink(destination: StatisticsView(selectedDate: viewModel.selectedDate)) {
