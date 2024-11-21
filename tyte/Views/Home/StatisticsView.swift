@@ -20,8 +20,6 @@ struct StatisticsView: View {
             dailyStatForDate: viewModel.dailyStatForDate,
             isLoading: viewModel.isTodoLoading || viewModel.isDailyStatLoading
         )
-        .onAppear{viewModel.initialize()}
-        
         .navigationBarTitle("AI 분석리포트", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(

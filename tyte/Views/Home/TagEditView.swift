@@ -1,14 +1,8 @@
 import SwiftUI
 
 struct TagEditView: View {
-//    @StateObject private var viewModel = TagEditViewModel()
-    @StateObject private var viewModel: TagEditViewModel
+    @StateObject private var viewModel = TagEditViewModel()
     @Environment(\.dismiss) var dismiss
-    
-    init(viewModel: TagEditViewModel = TagEditViewModel()) {
-        print("TagEditView initialized")
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -29,7 +23,7 @@ struct TagEditView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .background(.gray10)
-//                .refreshable(action: {viewModel.handleRefresh()})
+                .refreshable(action: {viewModel.handleRefresh()})
                 
                 if viewModel.isLoading { ProgressView() }
             }
@@ -138,5 +132,5 @@ struct TagEditView: View {
 }
 
 #Preview{
-    TagEditView(viewModel: TagEditViewModel())
+    TagEditView()
 }

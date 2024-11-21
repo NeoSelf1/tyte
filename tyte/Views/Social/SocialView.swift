@@ -6,11 +6,7 @@ enum Route: Hashable {
 }
 
 struct SocialView: View {
-    @StateObject private var viewModel: SocialViewModel
-    
-    init(viewModel: SocialViewModel = SocialViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @StateObject private var viewModel = SocialViewModel()
     
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
@@ -28,8 +24,7 @@ struct SocialView: View {
                 Spacer()
             }
             .background(.gray10)
-            .onAppear{ viewModel.initialize() }
-            
+
             .sheet(isPresented: $viewModel.isDetailViewPresent) {
                 DetailView(todosForDate: viewModel.todosForDate,
                            dailyStatForDate: viewModel.dailyStatForDate,

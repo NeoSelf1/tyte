@@ -11,8 +11,6 @@ import SwiftUI
 
 class MyPageViewModel: ObservableObject {
     private let appState: AppState
-    private var isInitialized = false
-    
     // calendarView 내부 dayView 클릭시 바텀시트에서 필요 -> 실시간으로 값이 변경되면서 업데이트 필요없기에 @published 제거
     var dailyStatForDate: DailyStat = .empty
     
@@ -23,7 +21,6 @@ class MyPageViewModel: ObservableObject {
     } }
     
     @Published var todosForDate: [Todo] = []
-    
     @Published var currentTab: Int = 0
     
     @Published var isDetailViewPresent: Bool = false
@@ -43,6 +40,8 @@ class MyPageViewModel: ObservableObject {
         self.todoService = todoService
         self.authService = authService
         self.appState = appState
+        
+        initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
@@ -50,8 +49,6 @@ class MyPageViewModel: ObservableObject {
     //MARK: - Method
     // 친구 요청 조회 및 친구 조회
     func initialize(){
-        guard !isInitialized else { return }
-        isInitialized = true
         getCalendarAndGraphData(in: String(Date().koreanDate.apiFormat.prefix(7)))
     }
     
@@ -112,7 +109,6 @@ class MyPageViewModel: ObservableObject {
                     )
                 }
             }
-            animateGraph()
         }
         .store(in: &cancellables)
     }

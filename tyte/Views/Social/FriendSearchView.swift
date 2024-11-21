@@ -47,6 +47,7 @@ struct FriendSearchView: View {
                                             .foregroundStyle(.gray50)
                                     }
                                     Spacer()
+
                                     statusButton(for: searchedUser)
                                 }
                                 .background(.clear)

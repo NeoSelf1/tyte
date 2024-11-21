@@ -1,17 +1,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject private var viewModel = HomeViewModel()
     @EnvironmentObject var appState: AppState
-    @StateObject private var viewModel: HomeViewModel
-    
-    init(viewModel: HomeViewModel = HomeViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
         ZStack {
             VStack(spacing:0){
                 header
+                
                 Divider().frame(minHeight:3).background(.gray10)
                 
                 List {
@@ -64,7 +61,7 @@ struct HomeView: View {
                 .listStyle(PlainListStyle())
                 .background(.gray10)
                 
-                .refreshable(action: {viewModel.handleRefresh()})
+                .refreshable(action: { viewModel.handleRefresh() } )
             }
             
             if viewModel.isLoading, !viewModel.isCreateTodoPresented {
@@ -190,13 +187,13 @@ struct HomeView: View {
                         // SwiftUI는 View의 body를 평가하고 렌더링 트리를 구성할 때 모든 하위 뷰들의 구조를 파악해야 함
                         // NavigationLink(destination:) 생성자는 매개변수로 받은 뷰를 즉시 초기화하게 됨
 
-//                        NavigationLink(destination: TagEditView()) {
-//                            Image(systemName: "tag.fill")
-//                                .resizable()
-//                                .frame(width: 24,height:24)
-//                                .foregroundColor(.gray90)
-//                                .padding(12)
-//                        }
+                        NavigationLink(destination: TagEditView()) {
+                            Image(systemName: "tag.fill")
+                                .resizable()
+                                .frame(width: 24,height:24)
+                                .foregroundColor(.gray90)
+                                .padding(12)
+                        }
                     }
                 }
                 .frame(height:52)
@@ -211,16 +208,9 @@ struct HomeView: View {
             .padding(.bottom,16)
             
             .onAppear {
+                viewModel.getTags()
                 viewModel.setDateToTodayAndScrollCalendar(proxy)
-//                viewModel.initialize()
-//                viewModel.getTags()
             }
         }
     }
-}
-
-
-#Preview{
-    HomeView()
-        .environmentObject(AppState.shared)
 }

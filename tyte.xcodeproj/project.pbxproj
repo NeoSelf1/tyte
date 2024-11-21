@@ -78,11 +78,6 @@
 		E519BE452CC8CA8E00DD21B7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Friend.swift */; };
 		E519BE472CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E519BE482CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
-		E5261BAD2CE7357500E5657C /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BAC2CE7356F00E5657C /* MockAuthService.swift */; };
-		E5261BAF2CE73B7600E5657C /* MockTodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BAE2CE73B7000E5657C /* MockTodoService.swift */; };
-		E5261BB12CE73BA400E5657C /* MockTagService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB02CE73BA400E5657C /* MockTagService.swift */; };
-		E5261BB32CE73C0600E5657C /* MockDailyStatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB22CE73BFD00E5657C /* MockDailyStatService.swift */; };
-		E5261BB52CE73C3200E5657C /* MockAppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB42CE73C2E00E5657C /* MockAppState.swift */; };
 		E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB62CE7576800E5657C /* APIResult.swift */; };
 		E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB82CE7578000E5657C /* APIResponse.swift */; };
 		E52628832CC3563B004B290C /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
@@ -242,11 +237,6 @@
 		E519BE412CC8CA4500DD21B7 /* SocialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialService.swift; sourceTree = "<group>"; };
 		E519BE432CC8CA8B00DD21B7 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		E5261BAC2CE7356F00E5657C /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
-		E5261BAE2CE73B7000E5657C /* MockTodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTodoService.swift; sourceTree = "<group>"; };
-		E5261BB02CE73BA400E5657C /* MockTagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTagService.swift; sourceTree = "<group>"; };
-		E5261BB22CE73BFD00E5657C /* MockDailyStatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDailyStatService.swift; sourceTree = "<group>"; };
-		E5261BB42CE73C2E00E5657C /* MockAppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppState.swift; sourceTree = "<group>"; };
 		E5261BB62CE7576800E5657C /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
@@ -383,7 +373,6 @@
 		AB5BB27D2C836C0500DC4D72 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				E5261BB42CE73C2E00E5657C /* MockAppState.swift */,
 				E5261BAB2CE7355D00E5657C /* MockServices */,
 				AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */,
 			);
@@ -536,10 +525,6 @@
 		E5261BAB2CE7355D00E5657C /* MockServices */ = {
 			isa = PBXGroup;
 			children = (
-				E5261BB22CE73BFD00E5657C /* MockDailyStatService.swift */,
-				E5261BB02CE73BA400E5657C /* MockTagService.swift */,
-				E5261BAE2CE73B7000E5657C /* MockTodoService.swift */,
-				E5261BAC2CE7356F00E5657C /* MockAuthService.swift */,
 			);
 			path = MockServices;
 			sourceTree = "<group>";
@@ -1017,7 +1002,6 @@
 				E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */,
 				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
 				E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */,
-				E5261BAD2CE7357500E5657C /* MockAuthService.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */,
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
@@ -1038,7 +1022,6 @@
 				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
 				E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
-				E5261BB32CE73C0600E5657C /* MockDailyStatService.swift in Sources */,
 				E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */,
 				E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */,
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
@@ -1064,7 +1047,6 @@
 				AB4498852C89930500B2B74A /* String+.swift in Sources */,
 				AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */,
 				ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */,
-				E5261BB52CE73C3200E5657C /* MockAppState.swift in Sources */,
 				ABEA72332C98065B00D80633 /* ViewSelector.swift in Sources */,
 				AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */,
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
@@ -1080,8 +1062,6 @@
 				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
 				ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */,
 				ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */,
-				E5261BB12CE73BA400E5657C /* MockTagService.swift in Sources */,
-				E5261BAF2CE73B7600E5657C /* MockTodoService.swift in Sources */,
 				ABC86D342C9F942B0089DC61 /* TabBarButton.swift in Sources */,
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */,

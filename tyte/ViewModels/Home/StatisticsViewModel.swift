@@ -12,7 +12,6 @@ import SwiftUI
 
 class StatisticsViewModel: ObservableObject {
     private let appState: AppState
-    private var isInitialized = false
     
     @Published var todosForDate: [Todo] = []
     @Published var dailyStatForDate: DailyStat = .empty
@@ -34,14 +33,13 @@ class StatisticsViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.appState = appState
+        initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
     
     //MARK: - Method
     func initialize() {
-        guard !isInitialized else { return }
-        isInitialized = true
         let dateString = selectedDate.apiFormat
         fetchTodosForDate(dateString)
         fetchDailyStatForDate(dateString)

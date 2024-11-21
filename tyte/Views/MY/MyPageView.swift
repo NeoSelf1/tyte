@@ -1,12 +1,8 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @StateObject private var viewModel: MyPageViewModel
+    @StateObject private var viewModel = MyPageViewModel()
     @State private var bottomSheetPosition: PresentationDetent = .height(720)
-    
-    init(viewModel: MyPageViewModel = MyPageViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
         VStack (spacing:0){
@@ -37,8 +33,9 @@ struct MyPageView: View {
                 } else {
                     GraphView(viewModel: viewModel)
                         .frame(maxHeight: 360)
-                    
+                        .onAppear{ viewModel.animateGraph() }
                 }
+                
                 if viewModel.isLoading { ProgressView() }
             }
             
@@ -50,13 +47,12 @@ struct MyPageView: View {
                 .presentationDetents([.height(720), .large])
                 .presentationDragIndicator(.hidden)
         }
-        
-        .onAppear{ viewModel.initialize() }
     }
     
     private var header: some View {
         HStack (alignment: .center){
             ViewSelector(viewModel: viewModel)
+            
             Spacer()
                 .frame(width:120)
             

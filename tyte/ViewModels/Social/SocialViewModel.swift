@@ -5,7 +5,6 @@ import SwiftUI // NavigationPath
 
 class SocialViewModel: ObservableObject {
     private let appState: AppState
-    private var isInitialized = false
     
     @Published var navigationPath = NavigationPath()
     // MARK: 소셜(메인)뷰에 필요
@@ -46,6 +45,8 @@ class SocialViewModel: ObservableObject {
         self.todoService = todoService
         self.socialService = socialService
         self.appState = appState
+        
+        initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
@@ -53,9 +54,6 @@ class SocialViewModel: ObservableObject {
     //MARK: - Method
     // 친구 요청 조회 및 친구 조회
     func initialize(){
-        guard !isInitialized else { return }
-        isInitialized = true
-        
         fetchFriends()
         fetchPendingRequests()
         

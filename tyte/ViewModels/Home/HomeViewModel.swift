@@ -5,7 +5,6 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     private let appState: AppState
-    private var isInitialized = false
     
     @Published var weekCalendarData: [DailyStat] = []
     @Published var todosForDate: [Todo] = []
@@ -21,8 +20,7 @@ class HomeViewModel: ObservableObject {
     
     private let todoService: TodoServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
-    // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
-    private let tagService: TagServiceProtocol
+    private let tagService: TagServiceProtocol // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
     
     init(
         todoService: TodoServiceProtocol = TodoService(),
@@ -34,7 +32,6 @@ class HomeViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.tagService = tagService
         self.appState = appState
-        print("homeViewModel initialized")
         initialize()
     }
     
@@ -50,8 +47,6 @@ class HomeViewModel: ObservableObject {
     }
     
     func initialize() {
-//        guard !isInitialized else { return }
-//        isInitialized = true
         getDailyStatsForMonth(selectedDate.apiFormat)
         getDailyStatForDate(selectedDate.apiFormat)
     }
