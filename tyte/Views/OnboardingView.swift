@@ -28,11 +28,10 @@ struct OnboardingView: View {
                 
                 if !viewModel.isSignUp {
                     loginSection
+                        .onAppear { focusedField = Field.password }
                 } else {
                     signUpSection
-                        .onAppear {
-                            focusedField = Field.username
-                        }
+                        .onAppear { focusedField = Field.username }
                 }
             }
         }
@@ -46,6 +45,7 @@ struct OnboardingView: View {
         
         .animation(.fastEaseInOut,value:viewModel.isExistingUser)
         .animation(.fastEaseInOut,value:viewModel.isPasswordWrong)
+        
         .onAppear{
             viewModel.isSignUp = false
             viewModel.isExistingUser = false
@@ -104,9 +104,6 @@ struct OnboardingView: View {
                         .stroke(.blue10, lineWidth: 1)
                 )
                 .offset(x: shakeOffset)
-                .onAppear {
-                    focusedField = Field.password
-                }
                 .onChange(of: viewModel.isPasswordWrong) { _, newValue in
                     if newValue {
                         withAnimation(.snappy(duration: 0.13, extraBounce: 0).speed(1.5).repeatCount(3)) {

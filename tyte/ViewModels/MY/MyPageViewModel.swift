@@ -52,6 +52,12 @@ class MyPageViewModel: ObservableObject {
         getCalendarAndGraphData(in: String(Date().koreanDate.apiFormat.prefix(7)))
     }
     
+    func changeTab(_ tab: Int) {
+        currentTab = tab
+        if tab == 1 {
+            withAnimation(.fastEaseOut) { self.animateGraph() }
+        }
+    }
     func selectCalendarDate(date: Date) {
         guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
         isLoading = true
