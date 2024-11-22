@@ -19,10 +19,26 @@ struct CustomPopup: View {
             }
             .padding(.vertical,12)
             
-            if popupData.type.isBtnHorizontal {
-                horizontalButtonLayer
-            } else {
-                verticalButtonLayer
+            if popupData.type.isMandatory {
+                Button(action: {
+                    popupData.action()
+                }) {
+                    Text(popupData.type.primaryButtonText)
+                        .frame(maxWidth: .infinity)
+                        .font(._body1)
+                        .padding(.vertical, 9)
+                        .foregroundStyle(.gray00)
+                        .background(RoundedRectangle(cornerRadius: 8)
+                            .fill(.blue30)
+                        )
+                }
+                .padding(8)
+            } else{
+                if popupData.type.isBtnHorizontal {
+                    horizontalButtonLayer
+                } else {
+                    verticalButtonLayer
+                }
             }
         }
         .padding(.horizontal,12)

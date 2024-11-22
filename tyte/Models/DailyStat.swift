@@ -22,8 +22,8 @@ struct DailyStat: Codable, Identifiable {
     }
     
     static let empty = DailyStat(
-        date: "empty",
-        user: "dummy_user_id",
+        date: "emptyData",
+        user: "emptyData",
         balanceData: BalanceData(
             title: "Todo가 없네요 :(",
             message: "아래 + 버튼을 눌러 Todo를 추가해주세요",

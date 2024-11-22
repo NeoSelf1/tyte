@@ -10,8 +10,7 @@ class HomeViewModel: ObservableObject {
     @Published var todosForDate: [Todo] = []
     @Published var selectedTodo: Todo?
     @Published var tags: [Tag] = []
-    @Published var selectedDate: Date = Date().koreanDate { didSet { getTodosForDate(selectedDate.apiFormat)
-    } }
+    @Published var selectedDate: Date = Date().koreanDate { didSet { getTodosForDate(selectedDate.apiFormat) } }
     
     @Published var isLoading: Bool = false
     @Published var isMonthPickerPresented:Bool = false
@@ -32,6 +31,7 @@ class HomeViewModel: ObservableObject {
         self.dailyStatService = dailyStatService
         self.tagService = tagService
         self.appState = appState
+        
         initialize()
     }
     
@@ -48,13 +48,17 @@ class HomeViewModel: ObservableObject {
     
     func initialize() {
         getDailyStatsForMonth(selectedDate.apiFormat)
-        getDailyStatForDate(selectedDate.apiFormat)
     }
     
-    // Todo 바텀시트 트리거
+    // Todo 선택
     func selectTodo(_ todo: Todo){
-        selectedTodo = todo
-        isDetailPresented = true
+        // 이전 투두의 경우
+        if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate){
+            appState.showToast(.invalidTodoEdit)
+        } else {
+            selectedTodo = todo
+            isDetailPresented = true
+        }
     }
     
     func handleRefresh(){
@@ -98,7 +102,6 @@ class HomeViewModel: ObservableObject {
                 
                 getTodosForDate(selectedDate.apiFormat)
                 getDailyStatsForMonth(selectedDate.apiFormat)
-                
                 
                 UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             }
@@ -168,8 +171,8 @@ class HomeViewModel: ObservableObject {
     //MARK: - 내부 함수
     // 특정 날짜에 대한 Todo들 fetch
     private func getTodosForDate(_ deadline: String) {
-        todosForDate = []
         isLoading = true
+        todosForDate = []
         todoService.fetchTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -199,7 +202,7 @@ class HomeViewModel: ObservableObject {
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
                 if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
-                    withAnimation(.mediumEaseInOut){ self.weekCalendarData[index] = dailyStat ?? .empty }
+                    withAnimation { self.weekCalendarData[index] = dailyStat ?? .empty }
                 }
             }
             .store(in: &cancellables)
@@ -216,7 +219,7 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                withAnimation(.mediumEaseInOut){ self.weekCalendarData = dailyStats }
+                    withAnimation { self.weekCalendarData = dailyStats }
             }
             .store(in: &cancellables)
     }

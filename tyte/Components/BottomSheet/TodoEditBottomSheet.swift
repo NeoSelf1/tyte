@@ -56,17 +56,14 @@ struct TodoEditBottomSheet: View {
                         } label: {
                             Image(systemName: "arrow.up.arrow.down")
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .frame(width:24,height: 20)
                                 .padding(8)
-                                .frame(height: 32)
                                 .foregroundColor(.gray60)
                         }
-                        
-                        
                     }
                     
                     HStack(spacing:4){
-                        Text("입력내용:")
+                        Text("초기 입력내용:")
                             .font(.caption)
                             .foregroundColor(.gray50)
                         
@@ -84,6 +81,19 @@ struct TodoEditBottomSheet: View {
                             .padding(.leading,4)
                         
                         Toggle("", isOn: $editedTodo.isImportant)
+                            .labelsHidden()
+                            .tint(.blue30)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("생활 관련")
+                            .font(._body3)
+                            .foregroundColor(.gray60)
+                            .padding(.leading,4)
+                        
+                        Toggle("", isOn: $editedTodo.isLife)
                             .labelsHidden()
                             .tint(.blue30)
                     }
@@ -109,7 +119,6 @@ struct TodoEditBottomSheet: View {
                         .labelsHidden()
                     }
                     
-                    Spacer()
                 }
                 
                 VStack(alignment: .leading, spacing: 6) {
@@ -126,8 +135,7 @@ struct TodoEditBottomSheet: View {
                                     
                                     Text(tag.name)
                                         .font(tag == editedTodo.tagId ? ._subhead2 : ._body2)
-                                        .foregroundColor(.gray90 )
-                                    
+                                        .foregroundColor(.gray90)
                                 }
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 6)
@@ -217,4 +225,10 @@ struct TodoEditBottomSheet: View {
         }
         .background(.gray00)
     }
+}
+
+#Preview {
+    TodoEditBottomSheet(tags: [Tag.mock], todo: Todo.mock, onUpdate: {_ in print("onUpdate")}, onDelete: {_ in print("onUpdate")})
+        .frame(maxHeight:600)
+        .border(.gray50)
 }

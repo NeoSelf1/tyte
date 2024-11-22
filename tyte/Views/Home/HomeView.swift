@@ -11,54 +11,29 @@ struct HomeView: View {
                 
                 Divider().frame(minHeight:3).background(.gray10)
                 
-                List {
-                    StatusBoxContent(viewModel: viewModel)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .padding(.horizontal)
-                        .padding(.top, 12)
-                    
-                   if viewModel.todosForDate.isEmpty {
-                        Spacer()
-                            .listRowInsets(EdgeInsets())
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.clear)
-                            .padding(.top,16)
-                    } else {
-                        ForEach(viewModel.todosForDate) { todo in
-                            let isPast = todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate)
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        StatusBoxContent(viewModel: viewModel)
+                            .padding(.horizontal)
+                            .padding(.top, 12)
+                        
+                        if viewModel.todosForDate.isEmpty {
+                            Spacer().padding(.top,16)
                             
-                            HStack(spacing:12){
-                                Button(action: {
-                                    viewModel.toggleTodo(todo.id)
-                                }) {
-                                    Image(todo.isCompleted ? "checked" : "unchecked")
-                                        .resizable()
-                                        .frame(width: 40,height:40)
-                                        .foregroundStyle(todo.isCompleted ? .gray50 : .gray60)
-                                        .animation(.fastEaseInOut, value: todo.isCompleted)
-                                }
-                                .padding(.leading,16)
-                                
-                                TodoItemView(todo: todo, isHome: false)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        if isPast {
-                                            appState.showToast(.invalidTodoEdit)
-                                        } else {
-                                            viewModel.selectTodo(todo)
-                                        }
-                                    }
+                        } else {
+                            ForEach(viewModel.todosForDate) { todo in
+                                TodoItemView(
+                                    todo: todo,
+                                    isPast: todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate),
+                                    isButtonPresent: true,
+                                    onToggle:{ viewModel.toggleTodo(todo.id) },
+                                    onSelect: { viewModel.selectTodo(todo) }
+                                )
+                                .animation(.fastEaseInOut, value: todo.isCompleted)
                             }
-                            .listRowInsets(EdgeInsets())
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.clear)
-                            .padding(.top,16)
-                            .opacity(!isPast && !todo.isCompleted ? 1.0 : 0.6)
                         }
                     }
                 }
-                .listStyle(PlainListStyle())
                 .background(.gray10)
                 
                 .refreshable(action: { viewModel.handleRefresh() } )
@@ -184,9 +159,6 @@ struct HomeView: View {
                                 .padding(12)
                         }
                     } else {
-                        // SwiftUI는 View의 body를 평가하고 렌더링 트리를 구성할 때 모든 하위 뷰들의 구조를 파악해야 함
-                        // NavigationLink(destination:) 생성자는 매개변수로 받은 뷰를 즉시 초기화하게 됨
-
                         NavigationLink(destination: TagEditView()) {
                             Image(systemName: "tag.fill")
                                 .resizable()
@@ -213,4 +185,9 @@ struct HomeView: View {
             }
         }
     }
+}
+
+#Preview {
+    HomeView()
+        .environmentObject(AppState.shared)
 }

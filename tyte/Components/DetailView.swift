@@ -111,7 +111,7 @@ struct DetailView: View {
                             }
                         }
                     }
-                    .frame(width:.infinity, height: prismSize*1.18)
+                    .frame(maxWidth:.infinity, maxHeight: prismSize*1.18)
                     
                     VStack(spacing:4) {
                         Text("이날의 조언")
@@ -147,9 +147,15 @@ struct DetailView: View {
                         }
                         
                         ForEach(todosForDate.filter{$0.isCompleted==true}) { todo in
-                            TodoItemView(todo: todo, isHome: false)
-                                .opacity(0.6)
-                                .padding(4)
+                            TodoItemView(
+                                todo: todo,
+                                isPast: true,
+                                isButtonPresent: false,
+                                onToggle: {print("onToggle")},
+                                onSelect: {print("onSelect")}
+                            )
+                            .opacity(0.6)
+                            .padding(4)
                         }
                     }
                 }

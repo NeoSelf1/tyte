@@ -16,8 +16,10 @@ struct DayView: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     balanceIndicator(for: dailyStat)
+                    
                     Spacer()
-                    dateText()
+                    
+                    dateText
                 }
                 .frame(width: size, height: size)
             } else {
@@ -31,29 +33,14 @@ struct DayView: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer()
-                    dateText()
+                    dateText
                 }
                 .frame(width: size, height: size)
             }
         }
     }
     
-    // 속성 래퍼 = 여러개의 뷰를 선언적 구문 형태로 선언 및 조합해 하나의 뷰 계층 구조를 만들수 있게 해주는 속성 래퍼
-    // stat 인자를 받는 함수 형태로 구성했고, Circle, Spacer로 구성된 복합 뷰 구조이기에 ViewBuilder가 유용
-    @ViewBuilder
-    private func balanceIndicator(for stat: DailyStat) -> some View {
-        HStack {
-            Circle()
-                .fill(stat.balanceData.balanceNum.colorByBalanceData)
-                .frame(width: 6, height: 6)
-                .padding(.top, 8)
-                .padding(.leading, 8)
-            
-            Spacer()
-        }
-    }
-    @ViewBuilder
-    private func dateText() -> some View {
+    private var dateText: some View {
         VStack (alignment: .center, spacing:0) {
             Text(date.formattedDay)
                 .font(isSelected || isToday ? ._subhead2 : ._body2)
@@ -69,6 +56,22 @@ struct DayView: View {
         .offset(y: isDayVisible ? 10 : 0)
         .padding(.leading, 44)
     }
+    
+    // 속성 래퍼 = 여러개의 뷰를 선언적 구문 형태로 선언 및 조합해 하나의 뷰 계층 구조를 만들수 있게 해주는 속성 래퍼
+    // stat 인자를 받는 함수 형태로 구성했고, Circle, Spacer로 구성된 복합 뷰 구조이기에 ViewBuilder가 유용
+    private func balanceIndicator(for stat: DailyStat) -> some View {
+        HStack {
+            Circle()
+                .fill(stat.balanceData.balanceNum.colorByBalanceData)
+                .frame(width: 6, height: 6)
+                .padding(.top, 8)
+                .padding(.leading, 8)
+            
+            Spacer()
+        }
+    }
+    
+    
     
     // 조건부 렌더링의 경우 @ViewBuilder 불필요
     @ViewBuilder

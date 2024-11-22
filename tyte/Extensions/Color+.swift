@@ -66,8 +66,8 @@ extension Color {
         return Color(blended)
     }
     
-    func toHex() -> String? {
-        guard let components = UIColor(self).cgColor.components else { return nil }
+    func toHex() -> String {
+        let components = UIColor(self).cgColor.components!
         let r = Float(components[0])
         let g = Float(components[1])
         let b = Float(components[2])

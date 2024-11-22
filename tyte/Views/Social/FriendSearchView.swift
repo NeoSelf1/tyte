@@ -106,9 +106,7 @@ struct SearchBar: View {
             .padding(.vertical, 8)
             .background(.gray10)
             .cornerRadius(8)
-            .onAppear {
-                isTodoInputFocused = true
-            }
+            .onAppear { isTodoInputFocused = true }
             
             if isSearching {
                 Button("취소") {

@@ -33,7 +33,6 @@ struct MyPageView: View {
                 } else {
                     GraphView(viewModel: viewModel)
                         .frame(maxHeight: 360)
-                        .onAppear{ viewModel.animateGraph() }
                 }
                 
                 if viewModel.isLoading { ProgressView() }

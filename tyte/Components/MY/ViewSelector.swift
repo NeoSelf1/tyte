@@ -27,9 +27,7 @@ struct ViewSelector: View {
     
     private func tabButton(title: String, tab: Int, geometry: GeometryProxy) -> some View {
         Button(action: {
-            withAnimation(.fastEaseOut) {
-                viewModel.currentTab = tab
-            }
+                viewModel.changeTab(tab)
         }) {
             Text(title)
                 .font(._subhead2)

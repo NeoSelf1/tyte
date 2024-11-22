@@ -7,7 +7,10 @@ struct TagEditBottomSheet: View {
     
     @State private var editedName: String
     @State private var editedColor: String
-    @State private var isColorPickerPresented = false
+    @State var customColor = Color.gray
+    
+    @State var isCustomColorSelected = false
+    @State private var showingColorPicker = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -21,6 +24,14 @@ struct TagEditBottomSheet: View {
     }
     
     var body: some View {
+        if showingColorPicker {
+            colorPickerView
+        } else {
+            editView
+        }
+    }
+    
+    private var editView: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("태그 편집")
                 .font(._headline2)
@@ -47,7 +58,7 @@ struct TagEditBottomSheet: View {
                     .foregroundColor(.gray60)
                 
                 Button(action: {
-                    isColorPickerPresented = true
+                    withAnimation(.mediumFastEaseInOut) { showingColorPicker = true }
                 }) {
                     HStack {
                         Circle()
@@ -76,7 +87,7 @@ struct TagEditBottomSheet: View {
                 }
                 
                 Button(action: {
-                    onUpdate(Tag(id: tag.id, name:editedName, color: editedColor, user: tag.user))
+                    onUpdate(Tag(id: tag.id, name: editedName, color: editedColor, user: tag.user))
                     dismiss()
                 }) {
                     Text("변경하기")
@@ -91,9 +102,83 @@ struct TagEditBottomSheet: View {
         }
         .padding()
         .background(.gray00)
-        .sheet(isPresented: $isColorPickerPresented) {
-            ColorPickerBottomSheet(selectedColor: $editedColor)
-                .presentationDetents([.height(360)])
+        .transition(.move(edge: .leading))
+    }
+    
+    private var colorPickerView: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Button(action: {
+                    withAnimation(.mediumFastEaseInOut) { showingColorPicker = false }
+                }) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.gray90)
+                }
+                
+                Text("색상 선택")
+                    .font(._headline2)
+                    .foregroundColor(.gray90)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer()
+            
+            let colors = [
+                "FFF700", "FFA07A", "FF6347", "FF1493", "FF00FF",
+                "DA70D6", "9370DB", "8A2BE2", "4169E1", "00CED1"
+            ]
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 8) {
+                ForEach(colors, id: \.self) { colorHex in
+                    Button(action: {
+                        editedColor = colorHex
+                        withAnimation(.mediumFastEaseInOut) { showingColorPicker = false }
+                    }) {
+                        Rectangle()
+                            .fill(Color(hex: colorHex))
+                            .frame(width: 64, height: 64)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray30, lineWidth: 1)
+                            )
+                    }
+                }
+            }
+            
+            Divider()
+            
+            HStack {
+                ColorPicker("", selection: $customColor, supportsOpacity: false)
+                    .labelsHidden()
+                    .frame(width: 120, height: 44)
+                    .background(.gray00)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray30, lineWidth: 1)
+                    )
+                    .onChange(of: customColor){ isCustomColorSelected = true }
+                
+                Button(action: {
+                    editedColor = customColor.toHex()
+                    withAnimation(.mediumFastEaseInOut) { showingColorPicker = false }
+                }) {
+                    Text(isCustomColorSelected ?
+                         "\(customColor.toHex()) 색상 선택하기" : "색상 선택되지 않음"
+                    )
+                    .font(._body2)
+                    .foregroundColor(isCustomColorSelected ? .gray00 : .gray50)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(isCustomColorSelected ? .blue30 : .gray30)
+                    .cornerRadius(8)
+                }
+                .disabled(!isCustomColorSelected)
+            }
         }
+        .padding()
+        .background(Color.gray00)
+        .transition(.move(edge: .trailing))
     }
 }
