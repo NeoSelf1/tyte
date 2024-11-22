@@ -48,7 +48,5 @@ struct CustomToast_Preview: View {
 
     var body: some View {
         CustomToast(toastData: ToastData(type: .friendRequested("테스트"), action: {print("heeloo")}))
-        Spacer()
-        CustomToast(toastData: ToastData(type: .invalidTodo, action: {print("heeloo")}))
     }
 }

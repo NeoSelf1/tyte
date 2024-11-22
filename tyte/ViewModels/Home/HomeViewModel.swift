@@ -54,7 +54,6 @@ class HomeViewModel: ObservableObject {
     func selectTodo(_ todo: Todo){
         // 이전 투두의 경우
         if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate){
-            print("isPast")
             appState.showToast(.invalidTodoEdit)
         } else {
             selectedTodo = todo
@@ -103,7 +102,6 @@ class HomeViewModel: ObservableObject {
                 
                 getTodosForDate(selectedDate.apiFormat)
                 getDailyStatsForMonth(selectedDate.apiFormat)
-                
                 
                 UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             }
@@ -204,7 +202,7 @@ class HomeViewModel: ObservableObject {
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
                 if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
-                    withAnimation(.mediumEaseInOut){ self.weekCalendarData[index] = dailyStat ?? .empty }
+                    withAnimation { self.weekCalendarData[index] = dailyStat ?? .empty }
                 }
             }
             .store(in: &cancellables)
@@ -221,7 +219,7 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
-                withAnimation(.mediumEaseInOut){ self.weekCalendarData = dailyStats }
+                    withAnimation { self.weekCalendarData = dailyStats }
             }
             .store(in: &cancellables)
     }
