@@ -49,7 +49,7 @@ struct StatusBoxContent: View {
                         .foregroundColor(balanceData.balanceNum.colorByBalanceData)
                 }
             }
-            .padding(.leading,4)
+            .padding(.leading,16)
             
             VStack(alignment: .leading, spacing:0) {
                 HStack {
@@ -64,12 +64,17 @@ struct StatusBoxContent: View {
                             dailyStat: dailyStat,
                             todos: viewModel.todosForDate)
                         ) {
-                            Text("AI 분석리포트")
-                                .font(._body3)
-                                .foregroundStyle(.gray60)
+                            HStack(spacing: 6){
+                                Text("AI분석 보기")
+                                    .font(._body3)
+                                    .foregroundStyle(.gray60)
+                                
+                                Image(systemName: "chevron.right")
+                                    .resizable()
+                                    .frame(width: 6, height: 12)
+                                    .foregroundStyle(.gray60)
+                            }
                         }
-                        .frame(maxWidth: 92)
-                        .padding(.trailing, -12)
                     }
                 }
                 .padding(.bottom,4)
@@ -86,7 +91,6 @@ struct StatusBoxContent: View {
             
             Spacer()
         }
-        .padding(10)
         .frame(height:96)
         .background(.gray00)
         .clipShape(RoundedRectangle(cornerRadius: 8))

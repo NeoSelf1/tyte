@@ -50,10 +50,16 @@ class HomeViewModel: ObservableObject {
         getDailyStatsForMonth(selectedDate.apiFormat)
     }
     
-    // Todo 바텀시트 트리거
+    // Todo 선택
     func selectTodo(_ todo: Todo){
-        selectedTodo = todo
-        isDetailPresented = true
+        // 이전 투두의 경우
+        if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate){
+            print("isPast")
+            appState.showToast(.invalidTodoEdit)
+        } else {
+            selectedTodo = todo
+            isDetailPresented = true
+        }
     }
     
     func handleRefresh(){
@@ -167,8 +173,8 @@ class HomeViewModel: ObservableObject {
     //MARK: - 내부 함수
     // 특정 날짜에 대한 Todo들 fetch
     private func getTodosForDate(_ deadline: String) {
-        todosForDate = []
         isLoading = true
+        todosForDate = []
         todoService.fetchTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

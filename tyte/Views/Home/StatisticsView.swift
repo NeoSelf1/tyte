@@ -27,3 +27,18 @@ struct StatisticsView: View {
         )
     }
 }
+
+#Preview{
+    StatisticsView(dailyStat: DailyStat(
+        date: Date().apiFormat,
+        user: "mock-user",
+        balanceData: BalanceData(
+            title: "Mock",
+            message: "Mock message",
+            balanceNum: 50
+        ),
+        productivityNum: 75.0,
+        tagStats: [],
+        center: SIMD2<Float>(x: 0.5, y: 0.5)
+    ), todos: [Todo.mock])
+}

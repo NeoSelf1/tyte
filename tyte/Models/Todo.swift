@@ -26,4 +26,18 @@ struct Todo: Identifiable, Codable {
         case id = "_id"  // MongoDB의 _id를 id로  // MongoDB의 tagId를 tag로
         case raw, tagId, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted, user
     }
+    
+    static let mock = Todo(
+        id: "new-id",
+        raw: "테스트 할일추가",
+        title: "테스트 할 일",
+        isImportant: false,
+        isLife: true,
+        tagId: nil,
+        difficulty: 3,
+        estimatedTime: 30,
+        deadline: Date().apiFormat,
+        isCompleted: true,
+        user: "test-user"
+    )
 }

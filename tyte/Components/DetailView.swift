@@ -147,9 +147,15 @@ struct DetailView: View {
                         }
                         
                         ForEach(todosForDate.filter{$0.isCompleted==true}) { todo in
-                            TodoItemView(todo: todo, isHome: false)
-                                .opacity(0.6)
-                                .padding(4)
+                            TodoItemView(
+                                todo: todo,
+                                isPast: true,
+                                isButtonPresent: false,
+                                onToggle: {print("onToggle")},
+                                onSelect: {print("onSelect")}
+                            )
+                            .opacity(0.6)
+                            .padding(4)
                         }
                     }
                 }
