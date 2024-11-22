@@ -5,6 +5,7 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     private let appState: AppState
+    @Published var isInitialized: Bool = false
     
     @Published var weekCalendarData: [DailyStat] = []
     @Published var todosForDate: [Todo] = []
@@ -38,16 +39,21 @@ class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     //MARK: - Method
-    // selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
+    
+    func initialize() {
+        getDailyStatsForMonth(selectedDate.apiFormat)
+        //TODO: 임시방편임. 해결방안 도출할 것.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.isInitialized = true
+        }
+    }
+    
+    //selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
     func setDateToTodayAndScrollCalendar(_ proxy: ScrollViewProxy? = nil) {
         selectedDate = Date().koreanDate
         if let proxy = proxy {
             proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
         }
-    }
-    
-    func initialize() {
-        getDailyStatsForMonth(selectedDate.apiFormat)
     }
     
     // Todo 선택
@@ -57,6 +63,7 @@ class HomeViewModel: ObservableObject {
             appState.showToast(.invalidTodoEdit)
         } else {
             selectedTodo = todo
+            getTags()
             isDetailPresented = true
         }
     }

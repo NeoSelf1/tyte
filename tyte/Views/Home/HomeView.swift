@@ -127,7 +127,7 @@ struct HomeView: View {
                     Spacer()
                     
                     Button(action: {
-                             withAnimation { viewModel.setDateToTodayAndScrollCalendar(proxy) } // 가로 스크롤 애니메이션 위해 필요
+                        withAnimation { viewModel.setDateToTodayAndScrollCalendar(proxy) } // 가로 스크롤 애니메이션 위해 필요
                     }) {
                         HStack{
                             Text("오늘")
@@ -178,10 +178,12 @@ struct HomeView: View {
                 .padding(.top, -16)
             }
             .padding(.bottom,16)
-            
-            .onAppear {
-                viewModel.getTags()
-                viewModel.setDateToTodayAndScrollCalendar(proxy)
+            .onChange(of: viewModel.isInitialized){
+                if $1 {
+                    withAnimation {
+                        viewModel.setDateToTodayAndScrollCalendar(proxy)
+                    }
+                }
             }
         }
     }

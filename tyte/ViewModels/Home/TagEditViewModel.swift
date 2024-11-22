@@ -32,7 +32,6 @@ class TagEditViewModel: ObservableObject {
     ) {
         self.tagService = tagService
         self.appState = appState
-        print("tagEditViewModel init")
         initialize()
     }
     
