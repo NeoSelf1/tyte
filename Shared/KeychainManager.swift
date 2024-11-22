@@ -27,7 +27,7 @@ class KeychainManager:KeychainManagerProtocol {
     
     func getAccessToken() -> String? {
         do {
-            return try retrieve(forKey: KeychainKeys.accessToken)
+            return APIConstants.isUserDevelopment ? "dummyToken" : try retrieve(forKey: KeychainKeys.accessToken)
         } catch {
             print("getAccessToken Error in KeychainManager")
             return nil
