@@ -32,9 +32,13 @@ struct ContentView: View {
     @State private var isToastPresent = false
     @State private var isPopupPresent = false
     
+    private var currentAppVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+    
     var body: some View {
         ZStack {
-            if appState.isLoggedIn || appState.isGuestMode { // 게스트모드일 때에도 부분적으로 MainTabView 접근할 수 있도록 조건 추가
+            if appState.isLoggedIn || appState.isGuestMode {
                 MainTabView()
             } else {
                 OnboardingView()
@@ -45,7 +49,7 @@ struct ContentView: View {
                 Color.black
                     .edgesIgnoringSafeArea(.all)
                     .opacity(isPopupPresent ? 0.3 : 0.0)
-                    .onTapGesture { hidePopup() }
+                    .onTapGesture { popup.type.isMandatory ? print("isMandatory") : hidePopup() }
                     .animation(.spring(duration:0.1),value:isPopupPresent)
                 
                 CustomPopup(hidePopup:hidePopup, popupData: popup)
@@ -70,7 +74,23 @@ struct ContentView: View {
         .onChange(of: appState.currentPopup?.type) { _, newPopup in
             handlePopupChange(newPopup)
         }
+        .onAppear {
+            checkAppVersion()
+        }
     }
+    
+    private func checkAppVersion() {
+           if Double(currentAppVersion)! < 1.1 {
+               appState.showPopup(
+                   type: .update,
+                   action: {
+                       if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
+                           UIApplication.shared.open(url)
+                       }
+                   }
+               )
+           }
+       }
     
     private func handlePopupChange(_ newPopup:PopupType?){
         if newPopup != nil { isPopupPresent = true }
