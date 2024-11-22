@@ -14,13 +14,14 @@ class TagEditViewModel: ObservableObject {
     private let appState: AppState
     
     @Published var selectedColor: String = "FF0000"
-    @Published var selectedTag: Tag?
     @Published var tags: [Tag] = []
+    @Published var selectedTag: Tag?
     @Published var tagInput = ""
     
     @Published var isDuplicateWarningPresent = false
-    @Published var isColorPickerPresent = false
     @Published var isEditBottomPresent = false
+    
+    @Published var isColorPickerPresent = false
     @Published var isLoading = false
     
     private let tagService: TagServiceProtocol
@@ -31,14 +32,13 @@ class TagEditViewModel: ObservableObject {
     ) {
         self.tagService = tagService
         self.appState = appState
-        
+        print("tagEditViewModel init")
         initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
     
-    //MARK: - Method
-    
+    //MARK: - Methodx[tx
     func initialize(){
         getTags()
     }
@@ -123,6 +123,7 @@ class TagEditViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else {return}
+                print("getTags done in TagEditView")
                 isLoading = false
                 if case .failure(let error) = completion {
                     appState.showToast(.error(error.localizedDescription))

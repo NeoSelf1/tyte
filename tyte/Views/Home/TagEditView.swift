@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TagEditView: View {
-    @StateObject private var viewModel = TagEditViewModel()
+    @StateObject var viewModel = TagEditViewModel()
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -23,7 +23,7 @@ struct TagEditView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .background(.gray10)
-                .refreshable(action: {viewModel.handleRefresh()})
+                .refreshable(action: { viewModel.handleRefresh()} )
                 
                 if viewModel.isLoading { ProgressView() }
             }
@@ -38,11 +38,6 @@ struct TagEditView: View {
         )
         .background(.gray00)
         
-        .sheet(isPresented: $viewModel.isColorPickerPresent) {
-            ColorPickerBottomSheet(selectedColor: $viewModel.selectedColor)
-                .presentationDetents([.height(360)])
-                .presentationBackground(.gray00)
-        }
         .sheet(isPresented: $viewModel.isEditBottomPresent, content: {
             if let tag = viewModel.selectedTag {
                 TagEditBottomSheet(
@@ -50,9 +45,9 @@ struct TagEditView: View {
                     onUpdate: { updatedTag in viewModel.editTag(updatedTag) },
                     onDelete: { tagId in viewModel.deleteTag(id: tagId) }
                 )
-                .presentationDetents([.height(360)])
+                .presentationDetents([.height(320)])
             }
-        })
+        } )
         .alert(isPresented: $viewModel.isDuplicateWarningPresent) {
             Alert( title: Text("중복된 태그"), message: Text("이미 존재하는 태그입니다."), dismissButton: .default(Text("확인")) )
         }
@@ -126,11 +121,13 @@ struct TagEditView: View {
         .padding()
         .background(RoundedRectangle(cornerRadius: 8).fill(.gray00)
                 .stroke(.gray30, lineWidth: 1).padding(1))
-        .onTapGesture { viewModel.selectTag(tag) }
+        .onTapGesture {
+            viewModel.selectTag(tag)
+        }
     }
     
 }
 
 #Preview{
-    TagEditView()
+    TagEditView(viewModel: TagEditViewModel())
 }
