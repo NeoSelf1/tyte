@@ -11,16 +11,23 @@ struct GraphView: View {
     var body: some View {
         // MARK: New Chart API
         VStack(alignment: .leading, spacing:0 ){
-            HStack {
+            HStack(alignment:.top) {
+                Text(viewModel.currentDate.formattedMonth)
+                    .font(._headline2)
+                    .foregroundStyle(.gray90)
+                
+                Spacer()
+                
                 VStack (alignment: .leading){
                     Text("\(viewModel.graphData.reduce(0) {$0 + $1.productivityNum}.formatted())")
-                        .font(._headline2)
+                        .font(._subhead2)
                         .foregroundStyle(.gray90)
                     
                     Text("총 생산지수")
                         .font(._body3)
                         .foregroundStyle(.gray50)
                 }
+                
                 Spacer()
             }
             .padding(.horizontal)
