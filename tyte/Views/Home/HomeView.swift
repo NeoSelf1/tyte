@@ -16,10 +16,10 @@ struct HomeView: View {
                         StatusBoxContent(viewModel: viewModel)
                             .padding(.horizontal)
                             .padding(.top, 12)
-                        
+
                         if viewModel.todosForDate.isEmpty {
                             Spacer().padding(.top,16)
-                            
+
                         } else {
                             ForEach(viewModel.todosForDate) { todo in
                                 TodoItemView(
@@ -50,7 +50,7 @@ struct HomeView: View {
             CreateTodoBottomSheet(viewModel:viewModel)
                 .presentationDetents([.height(260)])
                 .presentationDragIndicator(.visible)
-                .presentationBackground(.gray00)
+
         }
         .sheet(isPresented: $viewModel.isDetailPresented) {
             if let todo = viewModel.selectedTodo {

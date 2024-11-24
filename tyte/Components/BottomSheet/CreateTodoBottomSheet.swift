@@ -29,48 +29,8 @@ struct CreateTodoBottomSheet: View {
     
     var body: some View {
         VStack {
-            Spacer().frame(height:16)
-            
-            ZStack{
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack (alignment: .bottom, spacing: 2){
-                        Text("\(currentExampleIndex+1).")
-                            .font(._subhead1)
-                            .foregroundColor(.gray60)
-                        
-                        Text("\"")
-                            .font(._body3)
-                            .foregroundColor(.gray90)
-                        
-                        Text(examples[currentExampleIndex].0)
-                            .font(._subhead1)
-                            .foregroundColor(.gray90)
-                        
-                        Text("\"")
-                            .font(._body3)
-                            .foregroundColor(.gray90)
-                        
-                        Text(" 라고 입력해보세요")
-                            .font(._body3)
-                            .foregroundColor(.gray50)
-                        
-                        Spacer()
-                    }
-                    
-                    Text(examples[currentExampleIndex].1)
-                        .font(._body1)
-                        .foregroundColor(.gray50)
-                }
-                .padding(16)
-                .frame(maxWidth:.infinity)
-                .background(RoundedRectangle(cornerRadius: 12).fill(.gray10))
-                .opacity(isAnimating ? 1 : 0)
-                .offset(y: isAnimating ? 0 : 20)
-                .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.5), value: isAnimating)
-                .id(currentExampleIndex)
-                .transition(.asymmetric(insertion: .scale.combined(with: .opacity),
-                                        removal: .scale.combined(with: .opacity)))
-            }
+            animatedGuide
+                .padding(.top,16)
             
             Spacer()
             
@@ -94,7 +54,7 @@ struct CreateTodoBottomSheet: View {
                 .foregroundColor(.gray90)
                 .submitLabel(.done)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 16).fill(.gray10))
+                .background( RoundedRectangle(cornerRadius: 16).fill(.gray10) )
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
                         .stroke(.blue10, lineWidth: 1)
@@ -110,11 +70,11 @@ struct CreateTodoBottomSheet: View {
         }
         .padding(16)
         .background(.gray00)
+        
         .onReceive(timer) { _ in
             withAnimation {
                 isAnimating = false
             }
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 currentExampleIndex = (currentExampleIndex + 1) % examples.count
                 withAnimation {
@@ -123,13 +83,54 @@ struct CreateTodoBottomSheet: View {
             }
         }
         .onChange(of: viewModel.isLoading) { _,newValue in
-            if !newValue {
-                dismiss()
-            }
+            if !newValue { dismiss() }
         }
         .onAppear {
             isAnimating = true
             isTodoInputFocused = true
+        }
+    }
+    
+    private var animatedGuide: some View {
+        ZStack {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack (alignment: .bottom, spacing: 2){
+                    Text("\(currentExampleIndex+1).")
+                        .font(._subhead1)
+                        .foregroundColor(.gray60)
+                    
+                    Text("\"")
+                        .font(._body3)
+                        .foregroundColor(.gray90)
+                    
+                    Text(examples[currentExampleIndex].0)
+                        .font(._subhead1)
+                        .foregroundColor(.gray90)
+                    
+                    Text("\"")
+                        .font(._body3)
+                        .foregroundColor(.gray90)
+                    
+                    Text(" 라고 입력해보세요")
+                        .font(._body3)
+                        .foregroundColor(.gray50)
+                    
+                    Spacer()
+                }
+                
+                Text(examples[currentExampleIndex].1)
+                    .font(._body1)
+                    .foregroundColor(.gray50)
+            }
+            .padding(16)
+            .frame(maxWidth:.infinity)
+            .background(RoundedRectangle(cornerRadius: 12).fill(.gray10))
+            .opacity(isAnimating ? 1 : 0)
+            .offset(y: isAnimating ? 0 : 20)
+            .animation(.spring(response: 0.5, dampingFraction: 0.8, blendDuration: 0.5), value: isAnimating)
+            .id(currentExampleIndex)
+            .transition(.asymmetric(insertion: .scale.combined(with: .opacity),
+                                    removal: .scale.combined(with: .opacity)))
         }
     }
 }
