@@ -89,7 +89,7 @@ struct SearchBar: View {
                     .foregroundColor(.gray90)
                     .focused($isTodoInputFocused)
                     .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
+                    .textInputAutocapitalization(.never)
                     .overlay(
                         Image(systemName: "xmark.circle.fill")
                             .padding()

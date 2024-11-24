@@ -2,13 +2,18 @@ import SwiftUI
 
 struct TagEditView: View {
     @StateObject var viewModel = TagEditViewModel()
+    @FocusState private var isTagInputFocused: Bool
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            header
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture { isTagInputFocused = false }
             
-            ZStack {
+            VStack(alignment: .leading, spacing: 8) {
+                header
+                
                 ScrollView {
                     LazyVStack(alignment:.leading, spacing: 16) {
                         specialTagView(Tag(id: "dummy_1", name: "학습", color: "FF0000", user: "dummyUser"))
@@ -23,11 +28,15 @@ struct TagEditView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .background(.gray10)
-                .refreshable(action: { viewModel.handleRefresh()} )
                 
-                if viewModel.isLoading { ProgressView() }
+                .onTapGesture { isTagInputFocused = false }
+                .refreshable(action: { viewModel.handleRefresh()} )
             }
+            
+            if viewModel.isLoading { ProgressView() }
         }
+        .background(.gray00)
+        
         .navigationBarTitle("Tag 관리", displayMode: .inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
@@ -36,7 +45,6 @@ struct TagEditView: View {
                     .foregroundColor(.gray90)
             }
         )
-        .background(.gray00)
         
         .sheet(isPresented: $viewModel.isEditBottomPresent, content: {
             if let tag = viewModel.selectedTag {
@@ -51,8 +59,6 @@ struct TagEditView: View {
         .alert(isPresented: $viewModel.isDuplicateWarningPresent) {
             Alert( title: Text("중복된 태그"), message: Text("이미 존재하는 태그입니다."), dismissButton: .default(Text("확인")) )
         }
-        
-        
     }
     
     @ViewBuilder
@@ -70,8 +76,11 @@ struct TagEditView: View {
                       prompt: Text("태그 제목").foregroundColor(.gray50)
             )
             .foregroundColor(.gray90)
-            .autocapitalization(.none)
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
             .submitLabel(.done)
+            .focused($isTagInputFocused)
+            
             .onSubmit { viewModel.addTag() }
             
             Button(action: {
