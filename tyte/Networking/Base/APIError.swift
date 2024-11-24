@@ -13,6 +13,7 @@ enum APIError: Error {
 
     case wrongPassword
     
+    case guestMode
     case networkError
     case serverError(String)
     case unknown
@@ -22,6 +23,7 @@ enum APIError: Error {
         case .invalidURL(let url):
             self = .invalidURL
             print("Invalid URL: \(url)")
+            
         case .responseSerializationFailed(reason: .decodingFailed(_)):
             self = .decodingError
             
@@ -47,6 +49,7 @@ enum APIError: Error {
             default:
                 self = .networkError
             }
+            
         default:
             self = .unknown
         }
