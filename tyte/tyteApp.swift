@@ -42,7 +42,7 @@ struct ContentView: View {
                 MainTabView()
             } else {
                 OnboardingView()
-                    .ignoresSafeArea()
+
             }
             
             if let popup = appState.currentPopup {
