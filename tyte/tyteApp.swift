@@ -42,7 +42,6 @@ struct ContentView: View {
                 MainTabView()
             } else {
                 OnboardingView()
-
             }
             
             if let popup = appState.currentPopup {

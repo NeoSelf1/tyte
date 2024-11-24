@@ -15,7 +15,6 @@ class SocialViewModel: ObservableObject {
         getCalendarData(in:String( currentDate.apiFormat.prefix(7)))
     } }
     
-    
     // MARK: 캘린더 아이템 클릭 시 세부 정보창 조회 위해 필요
     @Published var dailyStatForDate: DailyStat = .empty
     @Published var todosForDate: [Todo] = []
