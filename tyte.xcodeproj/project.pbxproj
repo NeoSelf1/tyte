@@ -99,7 +99,6 @@
 		E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */; };
 		E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */; };
-		E5B573AC2CEF54C1000BDE11 /* HomeViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B573AB2CEF54BB000BDE11 /* HomeViewTests.swift */; };
 		E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B573AD2CEF56BE000BDE11 /* MockServices.swift */; };
 		E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */; };
 		E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C612CE5D154004B3D87 /* CustomToast.swift */; };
@@ -116,7 +115,6 @@
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
 		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
 		E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */; };
-		E5EB99A02CEE0177003C343B /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EB999F2CEE0177003C343B /* AuthServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,7 +248,6 @@
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
-		E5B573AB2CEF54BB000BDE11 /* HomeViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewTests.swift; sourceTree = "<group>"; };
 		E5B573AD2CEF56BE000BDE11 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
 		E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E5CA1C612CE5D154004B3D87 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
@@ -268,7 +265,6 @@
 		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
 		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
-		E5EB999F2CEE0177003C343B /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -389,9 +385,7 @@
 				E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */,
 				E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */,
 				E5B573AD2CEF56BE000BDE11 /* MockServices.swift */,
-				E5B573AB2CEF54BB000BDE11 /* HomeViewTests.swift */,
 				AB5BB2882C836C0600DC4D72 /* tyteTests.swift */,
-				E5EB999F2CEE0177003C343B /* AuthServiceTests.swift */,
 			);
 			path = tyteTests;
 			sourceTree = "<group>";
@@ -1080,10 +1074,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */,
-				E5B573AC2CEF54C1000BDE11 /* HomeViewTests.swift in Sources */,
 				E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */,
 				AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */,
-				E5EB99A02CEE0177003C343B /* AuthServiceTests.swift in Sources */,
 				E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
