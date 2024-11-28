@@ -37,16 +37,30 @@ class AuthViewModel: ObservableObject {
     @Published var isPasswordInvalid: Bool = false
     
     @Published var isLoading: Bool = false
-    
     @Published var isGoogleLoading: Bool = false
     @Published var isAppleLoading: Bool = false
     
-    var isButtonDisabled: Bool { email.isEmpty || (isExistingUser && password.isEmpty) || isEmailInvalid || isPasswordWrong || isLoading }
-    var isSignUpButtonDisabled:Bool { username.isEmpty || password.isEmpty || isEmailInvalid || isPasswordInvalid || isLoading }
+    var isButtonDisabled: Bool {
+        email.isEmpty ||
+        (isExistingUser && password.isEmpty) ||
+        isEmailInvalid ||
+        isPasswordWrong ||
+        isLoading }
     
-    private let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
-    private let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^.{8,}$")
-    private let usernamePredicate = NSPredicate(format: "SELF MATCHES %@", "^[a-zA-Z0-9_]{3,20}$")
+    var isSignUpButtonDisabled:Bool {
+        username.isEmpty ||
+        password.isEmpty ||
+        !isUsernameValid ||
+        !isPasswordValid ||
+        isLoading
+    }
+    
+     let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
+     let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^.{8,}$")
+     let usernamePredicate = NSPredicate(format: "SELF MATCHES %@", "^[a-zA-Z0-9_\u{AC00}-\u{D7A3}\u{3131}-\u{318E}]{3,20}$")
+    
+    private var isUsernameValid: Bool { return usernamePredicate.evaluate(with: username) }
+    private var isPasswordValid: Bool { return passwordPredicate.evaluate(with: password) }
     
     private let authService: AuthServiceProtocol
     
@@ -99,7 +113,6 @@ class AuthViewModel: ObservableObject {
     
     func login() {
         isLoading = true
-        print("login")
         authService.login(email: email, password: password)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -121,6 +134,16 @@ class AuthViewModel: ObservableObject {
     }
     
     func signUp() {
+        guard isUsernameValid else {
+            isUsernameInvalid = true
+            return
+        }
+        
+        guard isPasswordValid else {
+            isPasswordInvalid = true
+            return
+        }
+        
         isLoading = true
         
         authService.signUp(email: email, username: username, password: password)

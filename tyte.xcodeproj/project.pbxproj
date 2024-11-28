@@ -91,6 +91,8 @@
 		E52628DD2CC3AE56004B290C /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
 		E52628DE2CC3AE56004B290C /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
 		E55D8A7C2CBF7D6000849DF1 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E55D8A7B2CBF7D6000849DF1 /* .gitignore */; };
+		E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */; };
+		E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */; };
 		E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */; };
 		E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F1FD42CD0F401007940BB /* SettingsViewModel.swift */; };
 		E5A4A83A2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
@@ -114,7 +116,7 @@
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
 		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
 		E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */; };
-		E5EB99A02CEE0177003C343B /* HomeViewUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EB999F2CEE0177003C343B /* HomeViewUITest.swift */; };
+		E5EB99A02CEE0177003C343B /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EB999F2CEE0177003C343B /* AuthServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -241,6 +243,8 @@
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E55D8A7B2CBF7D6000849DF1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewTests.swift; sourceTree = "<group>"; };
+		E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountValidationTests.swift; sourceTree = "<group>"; };
 		E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestsView.swift; sourceTree = "<group>"; };
 		E58F1FD42CD0F401007940BB /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -264,7 +268,7 @@
 		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
 		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
-		E5EB999F2CEE0177003C343B /* HomeViewUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewUITest.swift; sourceTree = "<group>"; };
+		E5EB999F2CEE0177003C343B /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -382,10 +386,12 @@
 		AB5BB2872C836C0600DC4D72 /* tyteTests */ = {
 			isa = PBXGroup;
 			children = (
+				E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */,
+				E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */,
 				E5B573AD2CEF56BE000BDE11 /* MockServices.swift */,
 				E5B573AB2CEF54BB000BDE11 /* HomeViewTests.swift */,
 				AB5BB2882C836C0600DC4D72 /* tyteTests.swift */,
-				E5EB999F2CEE0177003C343B /* HomeViewUITest.swift */,
+				E5EB999F2CEE0177003C343B /* AuthServiceTests.swift */,
 			);
 			path = tyteTests;
 			sourceTree = "<group>";
@@ -1073,9 +1079,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */,
 				E5B573AC2CEF54C1000BDE11 /* HomeViewTests.swift in Sources */,
+				E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */,
 				AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */,
-				E5EB99A02CEE0177003C343B /* HomeViewUITest.swift in Sources */,
+				E5EB99A02CEE0177003C343B /* AuthServiceTests.swift in Sources */,
 				E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1324,8 +1332,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H856SYKNM8;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "/Users/gimhyeongseog/Desktop/front-app/tyte/tyte/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteTests;
@@ -1344,8 +1354,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H856SYKNM8;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "/Users/gimhyeongseog/Desktop/front-app/tyte/tyte/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteTests;
@@ -1363,8 +1375,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H856SYKNM8;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "/Users/gimhyeongseog/Desktop/front-app/tyte/tyte/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteUITests;
@@ -1382,8 +1396,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H856SYKNM8;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "/Users/gimhyeongseog/Desktop/front-app/tyte/tyte/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.neoself.tyteUITests;
