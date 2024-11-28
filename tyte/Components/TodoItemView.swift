@@ -46,15 +46,15 @@ struct TodoItemView: View {
             
             Spacer()
             
-            VStack(spacing: 4) {
+            VStack(alignment:.trailing, spacing: 4) {
                 Image(systemName: todo.isLife ? "bolt.heart.fill" : "latch.2.case.fill")
                     .font(._body4)
                 
                 Text(todo.estimatedTime.formattedDuration)
                     .font(._body2)
-                    .padding(.trailing)
             }
             .foregroundColor(.gray50)
+            .padding(.trailing)
         }
         .onTapGesture { onSelect() }
         .opacity(!isPast && !todo.isCompleted ? 1.0 : 0.6)

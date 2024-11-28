@@ -34,8 +34,11 @@ struct GraphView: View {
             
             if (viewModel.graphData.isEmpty){
                 Text("데이터가 없어요!")
+                    .font(._body3)
+                    .foregroundStyle(.gray50)
                     .frame(maxWidth: .infinity, maxHeight: 250, alignment: .center)
                     .padding(.horizontal)
+                
             } else {
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal, showsIndicators: false) {
