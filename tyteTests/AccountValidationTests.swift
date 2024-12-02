@@ -17,7 +17,7 @@ final class AccountValidationTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockAuthService = MockAuthService()
-        viewModel = AuthViewModel(authService: mockAuthService, appState: AppState.shared)
+        viewModel = AuthViewModel(authService: mockAuthService)
     }
     
     override func tearDown() {

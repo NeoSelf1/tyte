@@ -70,5 +70,4 @@ struct MyPageView: View {
 
 #Preview {
     MyPageView()
-        .environmentObject(AppState.shared)
 }

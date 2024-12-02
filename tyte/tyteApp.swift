@@ -28,9 +28,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 //MARK: - Toast, Popup 상태관리 및 온보딩 vs 메인화면 관리
 struct ContentView: View {
+    @StateObject private var toastManager = ToastManager.shared
+    @StateObject private var popupManager = PopupManager.shared
+    
     @EnvironmentObject var appState: AppState
-    @State private var isToastPresent = false
-    @State private var isPopupPresent = false
     
     private var currentAppVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -43,74 +44,30 @@ struct ContentView: View {
             } else {
                 OnboardingView()
             }
-            
-            if let popup = appState.currentPopup {
-                Color.black
-                    .edgesIgnoringSafeArea(.all)
-                    .opacity(isPopupPresent ? 0.3 : 0.0)
-                    .onTapGesture { popup.type.isMandatory ? print("isMandatory") : hidePopup() }
-                    .animation(.spring(duration:0.1),value:isPopupPresent)
-                
-                CustomPopup(hidePopup:hidePopup, popupData: popup)
-                    .opacity(isPopupPresent ? 1 : 0)
-                    .offset(y: isPopupPresent ? 0 : -80)
-                    .animation(.spring(duration:0.3),value:isPopupPresent)
-            }
-            
-            if let toast = appState.currentToast {
-                CustomToast(toastData: toast)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                    .padding(.top, 40)
-                    .zIndex(1)
-                    .opacity(isToastPresent ? 1 : 0)
-                    .offset(y: isToastPresent ? 0 : -80)
-                    .animation(.spring(duration:0.5),value:isToastPresent)
-            }
         }
-        .onChange(of: appState.currentToast?.type) { _, newToast in
-            handleToastChange(newToast,in: 3.0)
-        }
-        .onChange(of: appState.currentPopup?.type) { _, newPopup in
-            handlePopupChange(newPopup)
-        }
+        .presentToast(
+            isPresented: $toastManager.toastPresented,
+            data: toastManager.currentToastData
+        )
+        .presentPopup(
+            isPresented: $popupManager.popupPresented,
+            data: popupManager.currentPopupData
+        )
         .onAppear {
             checkAppVersion()
         }
     }
     
     private func checkAppVersion() {
-           if Double(currentAppVersion)! < 1.1 {
-               appState.showPopup(
-                   type: .update,
-                   action: {
-                       if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
-                           UIApplication.shared.open(url)
-                       }
-                   }
-               )
-           }
-       }
-    
-    private func handlePopupChange(_ newPopup:PopupType?){
-        if newPopup != nil { isPopupPresent = true }
-    }
-    
-    private func hidePopup(){
-        isPopupPresent = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            appState.removePopup()
-        }
-    }
-    
-    private func handleToastChange(_ newToast: ToastType?, in interval:Double) {
-        if newToast != nil {
-            isToastPresent = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-                isToastPresent = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    appState.removeToast()
+        if Double(currentAppVersion)! < 1.1 {
+            PopupManager.shared.show(
+                type: .update,
+                action: {
+                    if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
+                        UIApplication.shared.open(url)
+                    }
                 }
-            }
+            )
         }
     }
 }

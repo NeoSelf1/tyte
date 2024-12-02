@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct FriendRequestsView: View {
-    @EnvironmentObject var appState :AppState
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: SocialViewModel
     
@@ -45,7 +44,7 @@ struct FriendRequestsView: View {
                                         .foregroundStyle(.gray00)
                                 }
                                 .onTapGesture {
-                                    appState.showPopup(
+                                    PopupManager.shared.show(
                                         type: .acceptFriend(username: request.fromUser.username),
                                         action: { viewModel.acceptFriendRequest(request) }
                                     )

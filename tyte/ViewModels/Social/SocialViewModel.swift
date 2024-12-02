@@ -4,8 +4,6 @@ import Alamofire
 import SwiftUI // NavigationPath
 
 class SocialViewModel: ObservableObject {
-    private let appState: AppState
-    
     @Published var navigationPath = NavigationPath()
     // MARK: 소셜(메인)뷰에 필요
     @Published var friends: [User] = []
@@ -37,13 +35,11 @@ class SocialViewModel: ObservableObject {
     init(
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
         todoService: TodoServiceProtocol = TodoService(),
-        socialService:SocialServiceProtocol = SocialService(),
-        appState: AppState = .shared
+        socialService:SocialServiceProtocol = SocialService()
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.socialService = socialService
-        self.appState = appState
         
         initialize()
     }
@@ -73,7 +69,7 @@ class SocialViewModel: ObservableObject {
     // 친구검색창 내부 유저 버튼 클릭처리
     func handleUserButtonClick(_ _selectedUser: SearchResult) {
         if _selectedUser.isPending{
-            appState.showToast(.friendAlreadyRequested(_selectedUser.username))
+            ToastManager.shared.show(.friendAlreadyRequested(_selectedUser.username))
         } else {
             if _selectedUser.isFriend {
                 selectFriend(User(
@@ -106,7 +102,7 @@ class SocialViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -126,7 +122,7 @@ class SocialViewModel: ObservableObject {
                     self.isLoading=false
                 }
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] requests in
                 self?.pendingRequests = requests
@@ -142,11 +138,11 @@ class SocialViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] _ in
                 guard let self = self else {return}
-                appState.showToast(.friendRequestAccepted(request.fromUser.username))
+                ToastManager.shared.show(.friendRequestAccepted(request.fromUser.username))
                 pendingRequests.removeAll { $0.id == request.id }
                 fetchFriends()
             }
@@ -163,7 +159,7 @@ class SocialViewModel: ObservableObject {
             guard let self = self else {return}
             isLoading = false
             if case .failure(let error) = completion {
-                appState.showToast(.error(error.localizedDescription))
+                ToastManager.shared.show(.error(error.localizedDescription))
             }
         } receiveValue: { [weak self] stats in
             self?.friendDailyStats = stats
@@ -179,7 +175,7 @@ class SocialViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] fetchedFriends in
                 self?.friends = fetchedFriends
@@ -203,7 +199,7 @@ class SocialViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] res in
                 guard let self = self else { return }
@@ -211,7 +207,7 @@ class SocialViewModel: ObservableObject {
                 if let index = searchResults.firstIndex(where: {res.id == $0.id}){
                     searchResults[index].isPending = true
                 }
-                appState.showToast(.friendRequested(searchedUser.username))
+                ToastManager.shared.show(.friendRequested(searchedUser.username))
             }
             .store(in: &cancellables)
     }
@@ -224,7 +220,7 @@ class SocialViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] results in
                 self?.searchResults = results

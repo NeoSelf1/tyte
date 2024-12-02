@@ -39,14 +39,14 @@ struct CustomToast: View {
     }
 }
 
-#Preview("Toast") {
-    CustomToast_Preview()
-}
-
-struct CustomToast_Preview: View {
-    @State private var showPopup = false
-
-    var body: some View {
-        CustomToast(toastData: ToastData(type: .friendRequested("테스트"), action: {print("heeloo")}))
-    }
-}
+//#Preview("Toast") {
+//    CustomToast_Preview()
+//}
+//
+//struct CustomToast_Preview: View {
+//    @State private var showPopup = false
+//
+//    var body: some View {
+//        CustomToast(toastData: ToastData(type: .friendRequested("테스트"), action: {print("heeloo")}))
+//    }
+//}

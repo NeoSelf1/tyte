@@ -11,7 +11,6 @@ import Alamofire
 import SwiftUI
 
 class TagEditViewModel: ObservableObject {
-    private let appState: AppState
     
     @Published var selectedColor: String = "FF0000"
     @Published var tags: [Tag] = []
@@ -27,11 +26,9 @@ class TagEditViewModel: ObservableObject {
     private let tagService: TagServiceProtocol
     
     init(
-        tagService: TagServiceProtocol = TagService(),
-        appState: AppState = .shared
+        tagService: TagServiceProtocol = TagService()
     ) {
         self.tagService = tagService
-        self.appState = appState
         initialize()
     }
     
@@ -64,11 +61,11 @@ class TagEditViewModel: ObservableObject {
                         guard let self = self else {return}
                         isLoading = false
                         if case .failure(let error) = completion {
-                            appState.showToast(.error(error.localizedDescription))
+                            ToastManager.shared.show(.error(error.localizedDescription))
                         }
                     } receiveValue: { [weak self] newTagId in
                         guard let self = self else { return }
-                        appState.showToast(.tagAdded)
+                        ToastManager.shared.show(.tagAdded)
                         tagInput = ""
                         handleRefresh()
                     }
@@ -86,11 +83,11 @@ class TagEditViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] deletedTagId in
                 guard let self = self else { return }
-                appState.showToast(.tagDeleted)
+                ToastManager.shared.show(.tagDeleted)
                 tags = tags.filter{$0.id != deletedTagId.id}
             }
             .store(in: &cancellables)
@@ -105,11 +102,11 @@ class TagEditViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] updatedTagId in
                 guard let self = self else { return }
-                appState.showToast(.tagEdited)
+                ToastManager.shared.show(.tagEdited)
                 handleRefresh()
             }
             .store(in: &cancellables)
@@ -125,7 +122,7 @@ class TagEditViewModel: ObservableObject {
                 print("getTags done in TagEditView")
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
