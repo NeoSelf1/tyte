@@ -16,10 +16,10 @@ struct HomeView: View {
                         StatusBoxContent(viewModel: viewModel)
                             .padding(.horizontal)
                             .padding(.top, 12)
-
+                        
                         if viewModel.todosForDate.isEmpty {
                             Spacer().padding(.top,16)
-
+                            
                         } else {
                             ForEach(viewModel.todosForDate) { todo in
                                 TodoItemView(
@@ -50,7 +50,7 @@ struct HomeView: View {
             CreateTodoBottomSheet(viewModel:viewModel)
                 .presentationDetents([.height(260)])
                 .presentationDragIndicator(.visible)
-
+            
         }
         .sheet(isPresented: $viewModel.isDetailPresented) {
             if let todo = viewModel.selectedTodo {
@@ -92,7 +92,7 @@ struct HomeView: View {
     private var floatingActionButton: some View {
         Button(action: {
             if appState.isGuestMode {
-                appState.showPopup(type: .loginRequired, action: {appState.changeGuestMode(false)})
+                PopupManager.shared.show(type: .loginRequired, action: {appState.changeGuestMode(false)})
             } else {
                 viewModel.isCreateTodoPresented = true
             }
@@ -148,7 +148,7 @@ struct HomeView: View {
                     }
                     
                     if appState.isGuestMode {
-                        Button(action: { appState.showPopup(
+                        Button(action: { PopupManager.shared.show(
                             type: .loginRequired,
                             action: {appState.changeGuestMode(false) }
                         )}) {

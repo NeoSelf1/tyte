@@ -10,7 +10,6 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
-    private let appState: AppState
     // calendarView 내부 dayView 클릭시 바텀시트에서 필요 -> 실시간으로 값이 변경되면서 업데이트 필요없기에 @published 제거
     var dailyStatForDate: DailyStat = .empty
     
@@ -33,13 +32,11 @@ class MyPageViewModel: ObservableObject {
     init(
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
         authService: AuthServiceProtocol = AuthService(),
-        todoService: TodoServiceProtocol = TodoService(),
-        appState: AppState = .shared
+        todoService: TodoServiceProtocol = TodoService()
     ) {
         self.dailyStatService = dailyStatService
         self.todoService = todoService
         self.authService = authService
-        self.appState = appState
         
         initialize()
     }
@@ -69,7 +66,7 @@ class MyPageViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -89,7 +86,7 @@ class MyPageViewModel: ObservableObject {
             guard let self = self else {return}
             isLoading = false
             if case .failure(let error) = completion {
-                appState.showToast(.error(error.localizedDescription))
+                ToastManager.shared.show(.error(error.localizedDescription))
             }
         } receiveValue: { [weak self] stats in
             guard let self = self else { return }

@@ -4,7 +4,6 @@ import AuthenticationServices
 import GoogleSignIn
 
 class AuthViewModel: ObservableObject {
-    private let appState: AppState
     @Published var email: String = "" { didSet {
         if email != oldValue {
                 isPasswordInvalid = false
@@ -65,11 +64,9 @@ class AuthViewModel: ObservableObject {
     private let authService: AuthServiceProtocol
     
     init(
-        authService: AuthServiceProtocol = AuthService(),
-        appState: AppState = .shared
+        authService: AuthServiceProtocol = AuthService()
     ) {
         self.authService = authService
-        self.appState = appState
         // TODO: 유효기간 만료와 같은 이유로 토큰 유효하지 않을 경우 필요하나, 네트워크 핸들러에서 자동으로 컷 시키기 때문에 지금은 필요없을듯
         //      checkLoginStatus()
     }
@@ -99,7 +96,7 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] res in
                 guard let self = self else {return}
@@ -124,7 +121,7 @@ class AuthViewModel: ObservableObject {
                         errorText = "비밀번호가 맞지 않아요. 천천히 다시 입력해 보세요."
                         isPasswordWrong = true
                     default:
-                        appState.showToast(.error(error.localizedDescription))
+                        ToastManager.shared.show(.error(error.localizedDescription))
                     }
                 }
             } receiveValue: { [weak self] loginResponse in
@@ -152,7 +149,7 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] signUpResponse in
                 self?.handleSuccessfulLogin(loginResponse: signUpResponse)
@@ -163,7 +160,7 @@ class AuthViewModel: ObservableObject {
     //MARK: - 소셜로그인 관련 메서드
     func startGoogleSignIn() {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
-            appState.showToast(.error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요."))
+            ToastManager.shared.show(.error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요."))
             return
         }
         isGoogleLoading = true
@@ -188,10 +185,10 @@ class AuthViewModel: ObservableObject {
             case .canceled:
                 print("구글 로그인 도중에 취소됨")
             default:
-                appState.showToast(.googleError)
+                ToastManager.shared.show(.googleError)
             }
         } else {
-            appState.showToast(.googleError)
+            ToastManager.shared.show(.googleError)
         }
     }
     
@@ -200,7 +197,7 @@ class AuthViewModel: ObservableObject {
             performGoogleLogin(with: idToken)
         } else {
             isGoogleLoading = false
-            appState.showToast(.googleError)
+            ToastManager.shared.show(.googleError)
         }
     }
     
@@ -211,7 +208,7 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else {return}
                 isGoogleLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] loginResponse in
                 self?.handleSuccessfulLogin(loginResponse: loginResponse)
@@ -241,7 +238,7 @@ class AuthViewModel: ObservableObject {
                 guard let self = self else {return}
                 isAppleLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] loginResponse in
                 self?.handleSuccessfulLogin(loginResponse: loginResponse)

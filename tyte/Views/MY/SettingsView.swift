@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = SettingsViewModel()
     @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     @Environment(\.dismiss) var dismiss
@@ -28,7 +27,7 @@ struct SettingsView: View {
             
             VStack(spacing:12){
                 Button(action: {
-                    appState.showPopup(type: .logout, action: viewModel.logout)
+                    PopupManager.shared.show(type: .logout, action: viewModel.logout)
                 }) {
                     Text("로그아웃")
                         .font(._body1)
@@ -42,7 +41,7 @@ struct SettingsView: View {
                 Spacer()
                 
                 Button(action: {
-                    appState.showPopup(type: .deleteAccount, action: viewModel.deleteAccount)
+                    PopupManager.shared.show(type: .deleteAccount, action: viewModel.deleteAccount)
                 }) {
                     Text("계정삭제")
                         .font(._body1)

@@ -90,6 +90,9 @@
 		E52628DC2CC3AE56004B290C /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
 		E52628DD2CC3AE56004B290C /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
 		E52628DE2CC3AE56004B290C /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
+		E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4222CFDD7BD00B61A4F /* View+.swift */; };
+		E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */; };
+		E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */; };
 		E55D8A7C2CBF7D6000849DF1 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E55D8A7B2CBF7D6000849DF1 /* .gitignore */; };
 		E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */; };
 		E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */; };
@@ -240,6 +243,9 @@
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E55CE4222CFDD7BD00B61A4F /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
+		E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
+		E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupManager.swift; sourceTree = "<group>"; };
 		E55D8A7B2CBF7D6000849DF1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewTests.swift; sourceTree = "<group>"; };
 		E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountValidationTests.swift; sourceTree = "<group>"; };
@@ -436,6 +442,7 @@
 		AB6A495D2C86069B00B782A1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E55CE4222CFDD7BD00B61A4F /* View+.swift */,
 				AB6A0F762C8E45F100254299 /* Color+.swift */,
 				AB10144B2C980F7F00F9A9BC /* Animation+.swift */,
 				AB4498842C89930500B2B74A /* String+.swift */,
@@ -566,6 +573,8 @@
 		E52628D42CC392F8004B290C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
+				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
 				E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */,
 				AB84C5302C918EA9000164AC /* Utils.swift */,
 			);
@@ -1002,6 +1011,7 @@
 				E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */,
 				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
 				E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */,
+				E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */,
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
@@ -1022,6 +1032,7 @@
 				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
 				E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
+				E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */,
 				E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */,
 				E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */,
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
@@ -1034,6 +1045,7 @@
 				E519BE472CC8CCA600DD21B7 /* User.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
 				E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */,
+				E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */,
 				ABD666BC2C83735F0005D3C1 /* HomeViewModel.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
 				AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */,

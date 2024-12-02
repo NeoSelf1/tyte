@@ -4,7 +4,6 @@ import Alamofire
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
-    private let appState: AppState
     @Published var isInitialized: Bool = false
     
     @Published var weekCalendarData: [DailyStat] = []
@@ -25,13 +24,11 @@ class HomeViewModel: ObservableObject {
     init(
         todoService: TodoServiceProtocol = TodoService(),
         dailyStatService: DailyStatServiceProtocol = DailyStatService(),
-        tagService: TagServiceProtocol = TagService(),
-        appState: AppState = .shared
+        tagService: TagServiceProtocol = TagService()
     ) {
         self.todoService = todoService
         self.dailyStatService = dailyStatService
-        self.tagService = tagService
-        self.appState = appState
+        self.tagService = tagService 
         
         initialize()
     }
@@ -60,7 +57,7 @@ class HomeViewModel: ObservableObject {
     func selectTodo(_ todo: Todo){
         // 이전 투두의 경우
         if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate){
-            appState.showToast(.invalidTodoEdit)
+            ToastManager.shared.show(.invalidTodoEdit)
         } else {
             selectedTodo = todo
             getTags()
@@ -96,15 +93,15 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] newTodos in
                 guard let self = self else { return }
                 
                 if newTodos.count == 1 {
-                    appState.showToast(.todoAddedIn(newTodos[0].deadline))
+                    ToastManager.shared.show(.todoAddedIn(newTodos[0].deadline))
                 } else {
-                    appState.showToast(.todosAdded(newTodos.count))
+                    ToastManager.shared.show(.todosAdded(newTodos.count))
                 }
                 
                 getTodosForDate(selectedDate.apiFormat)
@@ -126,7 +123,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                     todosForDate[index].isCompleted = originalState
                 }
             } receiveValue: { [weak self] updatedTodo in
@@ -145,11 +142,11 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] deletedTodo in
                 guard let self = self else { return }
-                appState.showToast(.todoDeleted)
+                ToastManager.shared.show(.todoDeleted)
                 todosForDate = todosForDate.filter{$0.id != deletedTodo.id}
                 getDailyStatForDate(deletedTodo.deadline)
             }
@@ -165,7 +162,7 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
@@ -186,7 +183,7 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
@@ -204,7 +201,7 @@ class HomeViewModel: ObservableObject {
                 if case .failure(let error) = completion {
                     print(error)
                     // TODO: 백엔드에서 nil값 받을때, decode 에러 발생안하게 변경 필요
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] dailyStat in
                 guard let self = self else { return }
@@ -222,7 +219,7 @@ class HomeViewModel: ObservableObject {
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] dailyStats in
                 guard let self = self else { return }
@@ -240,7 +237,7 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 isLoading = false
                 if case .failure(let error) = completion {
-                    appState.showToast(.error(error.localizedDescription))
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] tags in
                 self?.tags = tags

@@ -33,7 +33,7 @@ struct MainTabView: View {
                 ForEach(0..<3, id: \.self) { index in
                     Button(action:{
                         if index==2 && appState.isGuestMode {
-                            appState.showPopup(type: .loginRequired, action: UserDefaultsManager.shared.logout)
+                            PopupManager.shared.show(type: .loginRequired, action: UserDefaultsManager.shared.logout)
                         } else {
                             withAnimation(.fastEaseInOut) { selectedTab = index }
                         }
