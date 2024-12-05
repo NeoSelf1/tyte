@@ -2,37 +2,24 @@ import SwiftUI
 
 struct MyPageView: View {
     @StateObject private var viewModel = MyPageViewModel()
-    @State private var bottomSheetPosition: PresentationDetent = .height(720)
     
     var body: some View {
-        VStack (spacing:0){
+        VStack (spacing: 0){
             header
+            CalendarDateSelector(currentMonth: $viewModel.currentDate)
             
-            ZStack{
-                if (viewModel.currentTab == 0){
-                    VStack(spacing: 12) {
-                        HStack{
-                            Text("기록이 있는 날짜를 선택하면 상세분석결과를 확인할 수 있어요")
-                                .font(._body3)
-                                .foregroundColor(.gray50)
-                            Spacer()
-                        }
-                        .padding()
-                        .background(.gray10)
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                        
-                        CalenderView(
-                            currentMonth: $viewModel.currentDate,
+            ZStack {
+                if viewModel.isCalendarMode {
+                    VStack(spacing:24){
+                        guideBox
+                        CalendarView(
+                            currentMonth: viewModel.currentDate,
                             dailyStats:viewModel.dailyStats,
                             selectDateForInsightData: viewModel.selectCalendarDate
                         )
                     }
-                    .frame(maxHeight: 450)
-                    
                 } else {
                     GraphView(viewModel: viewModel)
-                        .frame(maxHeight: 360)
                 }
                 
                 if viewModel.isLoading { ProgressView() }
@@ -42,23 +29,55 @@ struct MyPageView: View {
         }
         .background(.gray00)
         .sheet(isPresented: $viewModel.isDetailViewPresent) {
-            MultiLayerBottomSheet(viewModel: viewModel, bottomSheetPosition: $bottomSheetPosition)
+            MultiLayerBottomSheet(viewModel: viewModel)
                 .presentationDetents([.height(720), .large])
                 .presentationDragIndicator(.hidden)
         }
     }
     
+    private var guideBox: some View {
+            Text("기록이 있는 날짜를 선택하면 상세분석결과를 확인할 수 있어요")
+                .font(._body3)
+                .foregroundColor(.gray50)
+                .frame(maxWidth:.infinity,alignment: .leading)
+                .padding()
+                .background(.gray10)
+                .cornerRadius(8)
+                .padding(.horizontal)
+    }
+    
     private var header: some View {
         HStack (alignment: .center){
-            ViewSelector(viewModel: viewModel)
+            Text("MY")
+                .font(._headline2)
+                .foregroundStyle(.gray90)
             
             Spacer()
-                .frame(width:120)
+            
+            Button(action: { withAnimation { viewModel.toggleMode() } }
+            ) {
+                ZStack {
+                    Circle()
+                        .stroke(.blue10, lineWidth: 1)
+                        .frame(width:48,height:48)
+                    
+                    if viewModel.isCalendarMode {
+                        Image(systemName: "chart.xyaxis.line")
+                            .font(._headline2)
+                            .tint(.gray90)
+                        
+                    } else {
+                        Image("calendar")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                }
+            }
             
             NavigationLink(destination: SettingsView()) {
                 Image(systemName: "gearshape.fill")
                     .resizable()
-                    .frame(width: 24,height:24)
+                    .frame(width: 24, height:24)
                     .foregroundColor(.gray90)
                     .padding(12)
             }

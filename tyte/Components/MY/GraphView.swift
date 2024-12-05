@@ -5,96 +5,90 @@ struct GraphView: View {
     // MARK: @State 프로토콜 변수가 변경되면 뷰를 다시 그림.
     @ObservedObject var viewModel : MyPageViewModel
     
-    @State var plotWidth: CGFloat = 0
-    @State private var animationAmount: CGFloat = 1.0
-    
     var body: some View {
-        // MARK: New Chart API
-        VStack(alignment: .leading, spacing:0 ){
-            HStack(alignment:.top) {
-                Text(viewModel.currentDate.formattedMonth)
+        VStack(alignment:.leading, spacing:0){
+            VStack(alignment:.leading){
+                let totalProductivityNum = Double(viewModel.graphData.reduce(0) {$0 + $1.productivityNum}.formatted()) ?? 0.0
+                Text(totalProductivityNum.formatted())
                     .font(._headline2)
                     .foregroundStyle(.gray90)
+                    .contentTransition(.numericText(value: totalProductivityNum))
+                    .animation(.snappy, value: totalProductivityNum)
                 
-                Spacer()
-                
-                VStack (alignment: .leading){
-                    Text("\(viewModel.graphData.reduce(0) {$0 + $1.productivityNum}.formatted())")
-                        .font(._subhead2)
-                        .foregroundStyle(.gray90)
-                    
-                    Text("총 생산지수")
-                        .font(._body3)
-                        .foregroundStyle(.gray50)
-                }
-                
-                Spacer()
+                Text("총 생산지수")
+                    .font(._body3)
+                    .foregroundStyle(.gray50)
             }
-            .padding(.horizontal)
+            .padding(.leading,24)
             
             if (viewModel.graphData.isEmpty){
                 Text("데이터가 없어요!")
                     .font(._body3)
                     .foregroundStyle(.gray50)
-                    .frame(maxWidth: .infinity, maxHeight: 250, alignment: .center)
-                    .padding(.horizontal)
-                
+                    .frame(maxWidth: .infinity, maxHeight: 240, alignment: .center)
             } else {
-                ScrollViewReader { proxy in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        AnimatedChart()
-                            .frame(width: UIScreen.main.bounds.width - 40, alignment: .trailing)
-                            .id("chart")
-                            .scaleEffect(animationAmount)
-                            .padding()
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal)
+                LineGraph()
+                    .id("chart")
+                    .frame(maxWidth: .infinity)
+                    .padding(16)
             }
         }
     }
     
     @ViewBuilder
-    func AnimatedChart()->some View {
+    func LineGraph()->some View {
         let max:Int = Int(viewModel.graphData.max { item1, item2 in
             return item2.productivityNum > item1.productivityNum
         }?.productivityNum ?? 0)
         
+        let lastDay = Int(String(viewModel.graphData.last?.date.suffix(2) ?? "30")) ?? 30
+
         Chart {
             ForEach(viewModel.graphData){ dailyStat in
+                let day = Int(dailyStat.date.suffix(2)) ?? 1
+                
                 LineMark(
-                    x: .value("Date", dailyStat.date.parsedDate),
-                    y: .value("ProductivityNum", dailyStat.animate ? dailyStat.productivityNum : 0)
+                    x: .value("Date", day),
+                    y: .value("ProductivityNum", viewModel.isGraphPresent ? dailyStat.productivityNum : 0)
                 )
                 .foregroundStyle(Color(.blue30).gradient)
                 .interpolationMethod(.catmullRom)
                 
                 AreaMark(
-                    x: .value("Date", dailyStat.date.parsedDate),
-                    y: .value("ProductivityNum", dailyStat.animate ? dailyStat.productivityNum : 0)
+                    x: .value("Date", day),
+                    y: .value("ProductivityNum", viewModel.isGraphPresent ? dailyStat.productivityNum : 0)
                 )
                 .foregroundStyle(Color(.blue30).opacity(0.1).gradient)
                 .interpolationMethod(.catmullRom)
             }
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day)) {
-                AxisGridLine().foregroundStyle(.gray50)
-                AxisTick().foregroundStyle(.gray50)
-                AxisValueLabel(format: .dateTime.day()).foregroundStyle(.gray50)
+            AxisMarks(values: .stride(by: 1)) { value in
+                if let day = value.as(Int.self) {
+                    AxisGridLine().foregroundStyle(day%5==0 ? .gray90 : .gray50)
+                    
+                    if day % 5 == 0 || day == 1 {
+                        AxisValueLabel {
+                            Text("\(day)일")
+                                .font(._caption)
+                                .foregroundStyle(.gray60)
+                                .frame(width:32,alignment:.trailing)
+                                .offset(x:-16)
+                        }
+                    }
+                }
             }
         }
-        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: viewModel.graphData.first?.date.parsedDate ?? Date().koreanDate, upper: viewModel.graphData.last?.date.parsedDate ?? Date().koreanDate))) 
-        .chartYScale(domain: -1...(max + 2))
         .chartYAxis {
             AxisMarks { value in
-                AxisGridLine().foregroundStyle(.gray50)
-                AxisTick().foregroundStyle(.gray50)
+                AxisGridLine().foregroundStyle(.gray60)
                 AxisValueLabel()
-                    .foregroundStyle(.gray50)  // Y 축 레이블 텍스트 색상을 .gray50으로 설정
+                    .font(._caption)
+                    .foregroundStyle(.gray90)
             }
         }
-        .frame(height: 250)
+        .chartXScale(domain: 1...lastDay)
+        .chartYScale(domain: -1...(max + 2))
+        .frame(height: 240)
     }
 }

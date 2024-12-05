@@ -12,15 +12,19 @@ struct SocialView: View {
         NavigationStack(path: $viewModel.navigationPath) {
             VStack {
                 header
-                
+                CalendarDateSelector(currentMonth: $viewModel.currentDate)
+                guideBox
+                    .padding(.bottom,16)
                 ZStack {
-                    CalenderView(
-                        currentMonth: $viewModel.currentDate,
+                    CalendarView(
+                        currentMonth: viewModel.currentDate,
                         dailyStats: viewModel.friendDailyStats,
                         selectDateForInsightData: viewModel.selectCalendarDate
                     )
+                    
                     if viewModel.isLoading{ ProgressView() }
                 }
+                
                 Spacer()
             }
             .background(.gray10)
@@ -34,6 +38,16 @@ struct SocialView: View {
                 .presentationDragIndicator(.visible)
             }
         }
+    }
+    
+    private var guideBox: some View {
+            Text("기록이 있는 날짜를 선택하면 친구의 활동을 확인할 수 있어요")
+                .font(._body3)
+                .foregroundColor(.gray50)
+                .frame(maxWidth:.infinity,alignment: .leading)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 8).stroke(.gray20, lineWidth: 1))
+                .padding(.horizontal)
     }
     
     private var header: some View {
@@ -90,6 +104,7 @@ struct SocialView: View {
         }
         .padding(.horizontal, 16)
         .frame(maxWidth:.infinity,maxHeight: 56 ,alignment: .trailing)
+        .background(.gray00)
             
         .navigationDestination(for: Route.self) { route in
             switch route {

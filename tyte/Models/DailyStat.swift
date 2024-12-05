@@ -22,6 +22,7 @@ struct DailyStat: Codable, Identifiable {
     }
     
     static let empty = DailyStat(
+        id: UUID().uuidString,
         date: "emptyData",
         user: "emptyData",
         balanceData: BalanceData(
@@ -33,8 +34,21 @@ struct DailyStat: Codable, Identifiable {
         tagStats: [],
         center: SIMD2<Float>(x: 0.5, y: 0.5)
     )
+}
 
+struct DailyStat_Graph: Identifiable,Codable,Equatable {
+    let id: String
+    let date: String
+    let productivityNum: Double
     
+    init(
+        date: String,
+        productivityNum: Double
+    ) {
+        self.id = date
+        self.date = date
+        self.productivityNum = productivityNum
+    }
 }
 
 struct BalanceData: Codable {
@@ -66,42 +80,3 @@ struct _Tag: Codable, Identifiable {
         case color, name, user
     }
 }
-
-extension DailyStat {
-    init(
-        date: String,
-        user: String,
-        balanceData: BalanceData,
-        productivityNum: Double,
-        tagStats: [TagStat],
-        center: SIMD2<Float>
-    ) {
-        self.id = UUID().uuidString // 클라이언트에서 임시 ID 생성
-        self.date = date
-        self.user = user
-        self.balanceData = balanceData
-        self.productivityNum = productivityNum
-        self.tagStats = tagStats
-        self.center = center
-    }
-}
-
-struct DailyStat_Graph: Identifiable,Codable {
-    let id: String
-    let date: String
-    let productivityNum: Double
-    var animate: Bool = false
-    
-    init(
-        date: String,
-        productivityNum: Double,
-        animate: Bool = false
-    ) {
-        self.id = date  // date를 id로 설정
-        self.date = date
-        self.productivityNum = productivityNum
-        self.animate = animate
-    }
-}
-
-

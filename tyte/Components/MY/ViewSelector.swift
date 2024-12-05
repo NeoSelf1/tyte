@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct ViewSelector: View {
-    // MARK: StateObject는 객체의 소유권과 생명주기를 관리하는데 사용
-    @ObservedObject var viewModel : MyPageViewModel
-    
-    private let animationDuration:Double = 0.2
+    @Binding var currentTab: Int
+    let width: CGFloat
+    private let animationDuration: Double = 0.2
     
     var body: some View {
         GeometryReader { geometry in
@@ -18,23 +17,23 @@ struct ViewSelector: View {
                 Rectangle()
                     .fill(.gray90)
                     .frame(width: geometry.size.width / 2, height: 3)
-                    .offset(x: viewModel.currentTab == 0 ? 0 : geometry.size.width / 2, y: -3)
-                    .animation(.easeInOut(duration: animationDuration), value: viewModel.currentTab)
+                    .offset(x: currentTab == 0 ? 0 : geometry.size.width / 2, y: -3)
+                    .animation(.easeInOut(duration: animationDuration), value: currentTab)
             }
         }
-        .frame(height: 44)  // 적절한 높이 설정
+        .frame(width:width, height: 44)  // 적절한 높이 설정
     }
     
     private func tabButton(title: String, tab: Int, geometry: GeometryProxy) -> some View {
         Button(action: {
-                viewModel.changeTab(tab)
+            currentTab = tab
         }) {
             Text(title)
                 .font(._subhead2)
-                .foregroundStyle(viewModel.currentTab == tab ? .gray90 : .gray50)
+                .foregroundStyle(currentTab == tab ? .gray90 : .gray50)
                 .frame(width: geometry.size.width / 2, height: 40,alignment: .center)
         }
-        .animation(.easeOut(duration: animationDuration), value: viewModel.currentTab)
+        .animation(.easeOut(duration: animationDuration), value: currentTab)
     }
 }
 

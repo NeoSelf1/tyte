@@ -4,8 +4,6 @@ import Alamofire
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
-    @Published var isInitialized: Bool = false
-    
     @Published var weekCalendarData: [DailyStat] = []
     @Published var todosForDate: [Todo] = []
     @Published var selectedTodo: Todo?
@@ -19,7 +17,8 @@ class HomeViewModel: ObservableObject {
     
     private let todoService: TodoServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
-    private let tagService: TagServiceProtocol // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
+    private let tagService: TagServiceProtocol
+    // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
     
     init(
         todoService: TodoServiceProtocol = TodoService(),
@@ -36,13 +35,8 @@ class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     //MARK: - Method
-    
     func initialize() {
         getDailyStatsForMonth(selectedDate.apiFormat)
-        //TODO: 임시방편임. 해결방안 도출할 것.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.isInitialized = true
-        }
     }
     
     //selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
