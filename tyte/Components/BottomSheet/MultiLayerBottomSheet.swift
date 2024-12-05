@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MultiLayerBottomSheet: View {
     @ObservedObject var viewModel: MyPageViewModel
-    @Binding var bottomSheetPosition: PresentationDetent
     @State private var isScreenshotTaken = false
     @State private var screenshotImage: UIImage?
     @State private var detailViewSize: CGSize = .zero
@@ -110,8 +109,5 @@ struct ViewSizeKey: PreferenceKey {
 }
 
 #Preview {
-    MultiLayerBottomSheet(
-        viewModel: MyPageViewModel(),
-        bottomSheetPosition: .constant(.height(720))
-    )
+    MultiLayerBottomSheet(viewModel: MyPageViewModel())
 }

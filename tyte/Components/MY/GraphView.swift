@@ -5,8 +5,6 @@ struct GraphView: View {
     // MARK: @State 프로토콜 변수가 변경되면 뷰를 다시 그림.
     @ObservedObject var viewModel : MyPageViewModel
     
-    @State var plotWidth: CGFloat = 0
-    @State private var animationAmount: CGFloat = 1.0
     
     var body: some View {
         // MARK: New Chart API

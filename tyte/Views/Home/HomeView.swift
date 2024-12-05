@@ -178,12 +178,8 @@ struct HomeView: View {
                 .padding(.top, -16)
             }
             .padding(.bottom,16)
-            .onChange(of: viewModel.isInitialized){
-                if $1 {
-                    withAnimation {
-                        viewModel.setDateToTodayAndScrollCalendar(proxy)
-                    }
-                }
+            .onAppear{
+                withAnimation { viewModel.setDateToTodayAndScrollCalendar(proxy) }
             }
         }
     }
