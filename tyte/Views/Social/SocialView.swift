@@ -104,6 +104,7 @@ struct SocialView: View {
         }
         .padding(.horizontal, 16)
         .frame(maxWidth:.infinity,maxHeight: 56 ,alignment: .trailing)
+        .background(.gray00)
             
         .navigationDestination(for: Route.self) { route in
             switch route {
