@@ -90,6 +90,7 @@
 		E52628DC2CC3AE56004B290C /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
 		E52628DD2CC3AE56004B290C /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
 		E52628DE2CC3AE56004B290C /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
+		E5374F782D0180DC0075427C /* CalendarDateSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5374F772D0180A20075427C /* CalendarDateSelector.swift */; };
 		E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4222CFDD7BD00B61A4F /* View+.swift */; };
 		E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */; };
 		E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */; };
@@ -243,6 +244,7 @@
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E5374F772D0180A20075427C /* CalendarDateSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateSelector.swift; sourceTree = "<group>"; };
 		E55CE4222CFDD7BD00B61A4F /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupManager.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 		ABF93D272C95834900C7D2BC /* MY */ = {
 			isa = PBXGroup;
 			children = (
+				E5374F772D0180A20075427C /* CalendarDateSelector.swift */,
 				ABF93D292C95835E00C7D2BC /* GraphView.swift */,
 				AB6A0F742C8AE5A000254299 /* CalendarView.swift */,
 				ABEA72322C98065B00D80633 /* ViewSelector.swift */,
@@ -1078,6 +1081,7 @@
 				AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
 				AB6A495F2C8606AF00B782A1 /* Int+.swift in Sources */,
+				E5374F782D0180DC0075427C /* CalendarDateSelector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
