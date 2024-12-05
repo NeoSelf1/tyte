@@ -5,17 +5,12 @@ import SwiftUI // NavigationPath
 
 class SocialViewModel: ObservableObject {
     @Published var navigationPath = NavigationPath()
+    
     // MARK: 소셜(메인)뷰에 필요
     @Published var friends: [User] = []
     @Published var selectedFriend: User?
     @Published var friendDailyStats: [DailyStat] = []
-    @Published var currentDate: Date = Date().koreanDate { didSet {
-        getCalendarData(in:String( currentDate.apiFormat.prefix(7)))
-    } }
-    
-    // MARK: 캘린더 아이템 클릭 시 세부 정보창 조회 위해 필요
-    @Published var dailyStatForDate: DailyStat = .empty
-    @Published var todosForDate: [Todo] = []
+    @Published var currentDate: Date = Date().koreanDate { didSet { getCalendarData()} }
     
     // MARK: Request List에 필요
     @Published var pendingRequests: [FriendRequest] = []
@@ -23,10 +18,13 @@ class SocialViewModel: ObservableObject {
     // MARK: 친구 탐색창에 필요
     @Published var searchText = ""
     @Published var searchResults: [SearchResult] = []
-    @Published var selectedUser: SearchResult?
     
     @Published var isLoading = false
     @Published var isDetailViewPresent: Bool = false
+    
+    // MARK: 캘린더 아이템 클릭 시 세부 정보창 조회 위해 필요
+    var dailyStatForDate: DailyStat = .empty
+    var todosForDate: [Todo] = []
     
     private let todoService: TodoServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
@@ -150,10 +148,11 @@ class SocialViewModel: ObservableObject {
     }
     
     // MARK: - Private Method
-    private func getCalendarData(in yearMonth: String){
+    private func getCalendarData(){
         guard let friendId = selectedFriend?.id else { return }
         isLoading = true
-        dailyStatService.fetchMonthlyStats(for: friendId, in: yearMonth)
+        let yearMonth = currentDate.apiFormat.prefix(7)
+        dailyStatService.fetchMonthlyStats(for: friendId, in: String(yearMonth))
         .receive(on: DispatchQueue.main)
         .sink { [weak self] completion in
             guard let self = self else {return}
@@ -162,7 +161,7 @@ class SocialViewModel: ObservableObject {
                 ToastManager.shared.show(.error(error.localizedDescription))
             }
         } receiveValue: { [weak self] stats in
-            self?.friendDailyStats = stats
+            withAnimation { self?.friendDailyStats = stats }
         }
         .store(in: &cancellables)
     }

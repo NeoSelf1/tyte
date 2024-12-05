@@ -10,20 +10,20 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
-    // calendarView 내부 dayView 클릭시 바텀시트에서 필요 -> 실시간으로 값이 변경되면서 업데이트 필요없기에 @published 제거
-    var dailyStatForDate: DailyStat = .empty
     
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
-    @Published var currentDate: Date = Date().koreanDate { didSet {
-        getCalendarAndGraphData(in:String(currentDate.apiFormat.prefix(7)))
-    } }
     
-    @Published var todosForDate: [Todo] = []
-    @Published var currentTab: Int = 0
+    /// 날짜수정 메서드가 하위 메서드가 많이 연결되어있는 별도 구조체 내부에 정의되어있어서, 분리하고자 didSet 클로저에 호출
+    @Published var currentDate: Date = Date().koreanDate { didSet { getData() } }
     
     @Published var isDetailViewPresent: Bool = false
     @Published var isLoading: Bool = true
+    @Published var isCalendarMode: Bool = false
+    @Published var isGraphPresent: Bool = false
+    /// calendarView 내부 dayView 클릭시 바텀시트에서 필요 -> 실시간으로 값이 변경되면서 업데이트 필요없기에 @published 제거
+    var dailyStatForDate: DailyStat = .empty
+    var todosForDate: [Todo] = []
     
     private let dailyStatService: DailyStatServiceProtocol
     private let todoService: TodoServiceProtocol
@@ -35,8 +35,8 @@ class MyPageViewModel: ObservableObject {
         todoService: TodoServiceProtocol = TodoService()
     ) {
         self.dailyStatService = dailyStatService
-        self.todoService = todoService
         self.authService = authService
+        self.todoService = todoService
         
         initialize()
     }
@@ -46,17 +46,16 @@ class MyPageViewModel: ObservableObject {
     //MARK: - Method
     // 친구 요청 조회 및 친구 조회
     func initialize(){
-        getCalendarAndGraphData(in: String(Date().koreanDate.apiFormat.prefix(7)))
+        getData()
     }
     
-    func changeTab(_ tab: Int) {
-        currentTab = tab
-        if tab == 1 {
-            withAnimation(.fastEaseOut) { self.animateGraph() }
-        }
+    func toggleMode(){
+        isCalendarMode = !isCalendarMode
+        getData()
     }
+    
     func selectCalendarDate(date: Date) {
-        guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else {return}
+        guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else { return }
         isLoading = true
         dailyStatForDate = dailyStats[index]
         
@@ -77,54 +76,51 @@ class MyPageViewModel: ObservableObject {
     }
     
     // MARK: - Private Method
-    // TODO: Index out of range 버그 수정하기
-    private func getCalendarAndGraphData(in yearMonth: String){
+    private func getData(){
         isLoading = true
-        dailyStatService.fetchMonthlyStats(in: yearMonth)
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] completion in
-            guard let self = self else {return}
-            isLoading = false
-            if case .failure(let error) = completion {
-                ToastManager.shared.show(.error(error.localizedDescription))
-            }
-        } receiveValue: { [weak self] stats in
-            guard let self = self else { return }
-            dailyStats = stats
-            
-            let calendar = Calendar.current
-            let startDate: Date = calendar.date(byAdding: .month, value: -1, to: currentDate)!
-            let dateRange = calendar.dateComponents([.day], from: startDate, to: currentDate).day! + 1
-            
-            graphData = (0..<dateRange).compactMap { dayOffset -> DailyStat_Graph? in
-                guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
+        let todayYearMonth = currentDate.apiFormat.prefix(7)
+        dailyStatService.fetchMonthlyStats(in: String(todayYearMonth))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {return}
+                isLoading = false
+                if case .failure(let error) = completion {
+                    ToastManager.shared.show(.error(error.localizedDescription))
+                }
+            } receiveValue: { [weak self] stats in
+                guard let self = self else { return }
                 
-                // Graph의 경우, animate 속성값 및 데이터가 없는 날짜에 대한 더미데이터 생성이 필요하므로 필요한 필드로만 구성된 새로운 struct인 DailyStat_Graph 추가
-                if let existingStat = stats.first(where: { $0.date == date.apiFormat }) {
-                    return DailyStat_Graph(
-                        date: existingStat.date,
-                        productivityNum: existingStat.productivityNum
-                    )
+                if !isCalendarMode {
+                    isGraphPresent = false
+                    let calendar = Calendar.current
+                    let components = calendar.dateComponents([.year, .month], from: currentDate)
+                    let startDate = calendar.date(from: components)!
+                    let range = calendar.range(of: .day, in: .month, for: currentDate)!
+                    
+                    graphData = (0..<range.count).compactMap { dayOffset -> DailyStat_Graph? in
+                        guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
+                        
+                        if let existingStat = stats.first(where: { $0.date == date.apiFormat }) {
+                            return DailyStat_Graph(
+                                date: existingStat.date,
+                                productivityNum: existingStat.productivityNum
+                            )
+                        } else {
+                            return DailyStat_Graph(
+                                date: date.apiFormat,
+                                productivityNum: 0
+                            )
+                        }
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                        withAnimation{ self.isGraphPresent = true }
+                    }
                 } else {
-                    return DailyStat_Graph(
-                        date: date.apiFormat,
-                        productivityNum: 0
-                    )
+                    withAnimation{ self.dailyStats = stats }
                 }
             }
-        }
-        .store(in: &cancellables)
-    }
-    
-    func animateGraph(){
-        for (index,_) in graphData.enumerated(){
-            // Using Dispatch Queue Delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * (0.03)){
-                // 현재 BlendDuration은 어떠한 시각적 효과가 없음.
-                withAnimation( .interactiveSpring(response: 0.8, dampingFraction: 0.8, blendDuration: 0.3) ){
-                    self.graphData[index].animate = true
-                }
-            }
-        }
+            .store(in: &cancellables)
     }
 }
+ 

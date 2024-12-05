@@ -30,6 +30,7 @@ struct StatisticsView: View {
 
 #Preview{
     StatisticsView(dailyStat: DailyStat(
+        id:"TestId",
         date: Date().apiFormat,
         user: "mock-user",
         balanceData: BalanceData(
