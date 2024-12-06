@@ -10,11 +10,16 @@ struct SocialView: View {
     
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
-            VStack {
+            VStack (spacing:0){
                 header
+                Divider().frame(minHeight:3).background(.gray10)
+                    .padding(.bottom,16)
+                
                 CalendarDateSelector(currentMonth: $viewModel.currentDate)
+                
                 guideBox
                     .padding(.bottom,16)
+                
                 ZStack {
                     CalendarView(
                         currentMonth: viewModel.currentDate,

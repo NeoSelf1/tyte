@@ -24,16 +24,18 @@ struct DetailView: View {
         ScrollView {
             VStack (spacing: 12) {
                 if #unavailable(iOS 18.0) {
-                    HStack{
+                    HStack {
                         Text("iOS 18버전으로 업데이트 시, 더 생생한 프리즘을 볼 수 있어요")
                             .font(._body3)
                             .foregroundColor(.gray50)
+                        
                         Spacer()
                     }
                         .padding()
                         .background(.gray10)
                         .cornerRadius(8)
                         .padding(.horizontal)
+                    
                 } else {
                     Spacer().frame(height:12)
                 }

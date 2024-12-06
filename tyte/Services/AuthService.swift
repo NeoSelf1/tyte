@@ -24,6 +24,10 @@ class AuthService: AuthServiceProtocol {
         return networkService.requestWithoutAuth(.checkEmail, method: .post, parameters: parameters)
     }
     
+    func checkVersion() -> AnyPublisher<VersionResponse, APIError> {
+        return networkService.requestWithoutAuth(.checkVersion, method: .get, parameters: nil)
+    }
+    
     func signUp(email: String, username: String, password: String) -> AnyPublisher<LoginResponse, APIError> {
         let parameters: [String: Any] = ["email": email, "username": username, "password": password]
         return networkService.requestWithoutAuth(.signUp, method: .post, parameters: parameters)

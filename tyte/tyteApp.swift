@@ -1,5 +1,6 @@
 import SwiftUI
 import GoogleSignIn
+import Combine
 
 @main
 struct tyteApp: App {
@@ -28,14 +29,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 //MARK: - Toast, Popup 상태관리 및 온보딩 vs 메인화면 관리
 struct ContentView: View {
+    @StateObject private var viewModel = ContentViewModel()
     @StateObject private var toastManager = ToastManager.shared
     @StateObject private var popupManager = PopupManager.shared
     
     @EnvironmentObject var appState: AppState
-    
-    private var currentAppVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-    }
     
     var body: some View {
         ZStack {
@@ -44,6 +42,8 @@ struct ContentView: View {
             } else {
                 OnboardingView()
             }
+            
+            if viewModel.isLoading { ProgressView() }
         }
         .presentToast(
             isPresented: $toastManager.toastPresented,
@@ -53,21 +53,5 @@ struct ContentView: View {
             isPresented: $popupManager.popupPresented,
             data: popupManager.currentPopupData
         )
-        .onAppear {
-            checkAppVersion()
-        }
-    }
-    
-    private func checkAppVersion() {
-        if Double(currentAppVersion)! < 1.1 {
-            PopupManager.shared.show(
-                type: .update,
-                action: {
-                    if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
-                        UIApplication.shared.open(url)
-                    }
-                }
-            )
-        }
     }
 }

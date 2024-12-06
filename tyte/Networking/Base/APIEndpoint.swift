@@ -11,30 +11,36 @@ enum APIEndpoint {
     case login
     case signUp
     case checkEmail
-    case validateToken // Token
+    case checkVersion
+    case validateToken
     case socialLogin(String) // Provider
-    case deleteAccount
-    case fetchTodosForDate(String) // deadline
+    
+    case fetchTodosForDate(String) // Deadline
     case fetchFriendTodosForDate(friendId:String, deadline:String)
+    
     case createTodo
     case toggleTodo(String) // todoId
     case updateTodo(String)  // todoId
     case deleteTodo(String)  // todoId
+    
     case fetchTags
     case createTag
     case updateTag(String)  // tagId
     case deleteTag(String)  // tagId
+    
     case fetchDailyStatsForDate(String) // date
     case fetchDailyStatsForMonth(String) // yearMonth
-    case searchUser(String) // query
-    case requestFriend(String) // userId
-    case getFriends
+    case getFriendDailyStats(friendId: String, yearMonth: String) // 친구의 DailyStat 조회
     
+    case searchUser(String) // query
+    case getFriends
+    case requestFriend(String) // userId
     case getPendingRequests // 받은 친구 요청 목록 조회
     case acceptFriendRequest(String) // requestId
     case rejectFriendRequest(String) // requestId
-    case getFriendDailyStats(friendId: String, yearMonth: String) // 친구의 DailyStat 조회
     case removeFriend(String) // friendId
+    
+    case deleteAccount
     
     var path: String {
         switch self {
@@ -42,12 +48,12 @@ enum APIEndpoint {
             return "/auth/login"
         case .signUp:
             return "/auth/register"
-        case .deleteAccount:
-            return "/auth"
         case .validateToken:
             return "/auth/validate-token"
         case .checkEmail:
             return "/auth/check"
+        case .checkVersion:
+            return "/auth/version"
         case .socialLogin(let provider):
             return "/auth/\(provider)"
             
@@ -77,7 +83,6 @@ enum APIEndpoint {
             return "/dailyStat/\(date)"
         case .fetchDailyStatsForMonth(let yearMonth):
             return "/dailyStat/all/\(yearMonth)"
-            
         case .getFriendDailyStats(let friendId, let yearMonth):
             return "/dailyStat/friend/\(friendId)/\(yearMonth)"
             
@@ -89,13 +94,15 @@ enum APIEndpoint {
             return "/social/request/\(userId)"
         case .getPendingRequests:
             return "/social/requests/pending"
-            
         case .acceptFriendRequest(let requestId):
             return "/social/accept/\(requestId)"
         case .rejectFriendRequest(let requestId):
             return "/social/reject/\(requestId)"
         case .removeFriend(let friendId):
             return "/social/\(friendId)"
+            
+        case .deleteAccount:
+            return "/auth"
         }
     }
 }
