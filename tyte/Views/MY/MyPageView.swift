@@ -20,6 +20,7 @@ struct MyPageView: View {
                 if viewModel.isCalendarMode {
                     VStack(spacing:16){
                         guideBox
+                        
                         CalendarView(
                             currentMonth: viewModel.currentDate,
                             dailyStats:viewModel.dailyStats,
@@ -56,7 +57,7 @@ struct MyPageView: View {
                     HStack(spacing: 6) {
                         Circle()
                             .fill(Color(hex: tagStat.tag.color))
-                            .frame(width: 6, height: 6)
+                            .frame(width: 8, height: 8)
                             .overlay(Circle().stroke(.gray50))
                         
                         Text(tagStat.tag.name)
@@ -73,7 +74,7 @@ struct MyPageView: View {
             }
         }
         .padding()
-        .frame(minHeight:80,alignment: .top)
+        .frame(minHeight:104,alignment: .top)
         .background(.gray10)
         .cornerRadius(8)
         .padding(.horizontal)

@@ -8,7 +8,8 @@ struct GraphView: View {
         VStack(alignment:.leading, spacing:0){
             VStack(alignment:.leading){
                 let totalProductivityNum = Double(viewModel.graphData.reduce(0) {$0 + $1.productivityNum})
-                Text(String(totalProductivityNum))
+                
+                Text(totalProductivityNum.formatted())
                     .font(._headline2)
                     .foregroundStyle(.gray90)
                     .contentTransition(.numericText(value: totalProductivityNum))
