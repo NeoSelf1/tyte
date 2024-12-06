@@ -12,6 +12,11 @@ struct ValidateResponse: Codable {
     let isValid: Bool
 }
 
+struct VersionResponse: Codable {
+    let newVersion: String
+    let minVersion: String
+}
+
 // MARK: - Todo 관련 api 함수 응답값 타입
 // 단일 Todo 생성/수정/삭제 응답에 사용
 typealias TodoResponse = Todo

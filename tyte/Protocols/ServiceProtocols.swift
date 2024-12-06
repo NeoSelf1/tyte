@@ -22,6 +22,7 @@ protocol AuthServiceProtocol {
     func validateToken(_ token: String) -> AnyPublisher<ValidateResponse, APIError>
     func deleteAccount() -> AnyPublisher<EmptyResponse, APIError>
     func checkEmail(_ email: String) -> AnyPublisher<ValidateResponse, APIError>
+    func checkVersion() -> AnyPublisher<VersionResponse, APIError>
 }
 
 protocol TodoServiceProtocol {
