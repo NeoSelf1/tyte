@@ -10,7 +10,7 @@ struct CustomPopup: View {
                 Text(popupData.type.title)
                     .font(._headline2)
                     .foregroundColor(.gray90)
-                    .padding(.top,12)
+                    .padding(.top,4)
                 
                 Text(popupData.type.description)
                     .font(._body3)
