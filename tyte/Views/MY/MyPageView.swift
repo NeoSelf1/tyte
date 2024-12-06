@@ -101,8 +101,10 @@ struct MyPageView: View {
                         
                     } else {
                         Image("calendar")
+                            .renderingMode(.template)
                             .resizable()
                             .frame(width: 24, height: 24)
+                            .foregroundStyle(.gray90)
                     }
                 }
             }

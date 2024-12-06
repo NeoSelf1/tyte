@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct MeshGradientView: View {
-    let colors: [Color]
-    let center : SIMD2<Float>
-    let isSelected: Bool
-    let cornerRadius: CGFloat
     @State private var isAnimating = false
     @Environment(\.colorScheme) var colorScheme
 
+    private let colors: [Color]
+    private let center : SIMD2<Float>
+    private let isSelected: Bool
+    private let cornerRadius: CGFloat
+    
     init(
         colors: [Color] = [.red, .purple, .indigo, .orange, .brown, .blue, .yellow, .green, .mint],
         center:SIMD2<Float> = [0.8,0.5],
@@ -25,17 +26,6 @@ struct MeshGradientView: View {
         self.center = center
         self.isSelected = isSelected
         self.cornerRadius = cornerRadius
-    }
-    
-    func calculateCenterPoint() -> SIMD2<Float> {
-        if cornerRadius != 6 {
-            let offset: Float = 0.3
-            let x = isAnimating ? max(0.1, center.x - offset) : min(0.9, center.x + offset)
-            let y = isAnimating ? max(0.1, center.y - offset) : min(0.9, center.y + offset)
-            return [x, y]
-        } else {
-            return SIMD2<Float>(center)
-        }
     }
     
     var body: some View {
@@ -69,6 +59,17 @@ struct MeshGradientView: View {
                 .rotationEffect(.degrees(isSelected ? 45 : 0))
                 .opacity(isSelected ? 1.0 : 0.5)
                 .padding(isSelected ? 14 : 20)
+        }
+    }
+    
+    func calculateCenterPoint() -> SIMD2<Float> {
+        if cornerRadius != 6 {
+            let offset: Float = 0.3
+            let x = isAnimating ? max(0.1, center.x - offset) : min(0.9, center.x + offset)
+            let y = isAnimating ? max(0.1, center.y - offset) : min(0.9, center.y + offset)
+            return [x, y]
+        } else {
+            return SIMD2<Float>(center)
         }
     }
 }
