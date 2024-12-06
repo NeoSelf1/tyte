@@ -115,9 +115,8 @@ struct DetailView: View {
                     
                     VStack(spacing:4) {
                         Text("이날의 조언")
-                            .font(._body3)
+                            .font(._body2)
                             .foregroundStyle(.gray60)
-                            .padding(.leading,2)
                             .frame(maxWidth: .infinity,alignment: .leading)
                         
                         Text(dailyStatForDate.balanceData.message)
@@ -136,9 +135,8 @@ struct DetailView: View {
                     VStack(spacing:4){
                         HStack{
                             Text("완료한 Todo들")
-                                .font(._body3)
+                                .font(._body2)
                                 .foregroundStyle(.gray60)
-                                .padding(.leading,2)
                             
                             Text("\(todosForDate.filter{$0.isCompleted==true}.count)개")
                                 .font(._body3)
@@ -151,10 +149,9 @@ struct DetailView: View {
                                 todo: todo,
                                 isPast: true,
                                 isButtonPresent: false,
-                                onToggle: {print("onToggle")},
-                                onSelect: {print("onSelect")}
+                                onToggle: {},
+                                onSelect: {}
                             )
-                            .opacity(0.6)
                             .padding(4)
                         }
                     }
