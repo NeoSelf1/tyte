@@ -10,7 +10,6 @@ import Combine
 import SwiftUI
 
 class MyPageViewModel: ObservableObject {
-    
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     
@@ -19,8 +18,9 @@ class MyPageViewModel: ObservableObject {
     
     @Published var isDetailViewPresent: Bool = false
     @Published var isLoading: Bool = true
-    @Published var isCalendarMode: Bool = false
+    @Published var isCalendarMode: Bool = true
     @Published var isGraphPresent: Bool = false
+    
     /// calendarView 내부 dayView 클릭시 바텀시트에서 필요 -> 실시간으로 값이 변경되면서 업데이트 필요없기에 @published 제거
     var dailyStatForDate: DailyStat = .empty
     var todosForDate: [Todo] = []
@@ -112,9 +112,8 @@ class MyPageViewModel: ObservableObject {
                             )
                         }
                     }
-                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                        withAnimation{ self.isGraphPresent = true }
+                        withAnimation { self.isGraphPresent = true }
                     }
                 } else {
                     withAnimation{ self.dailyStats = stats }
