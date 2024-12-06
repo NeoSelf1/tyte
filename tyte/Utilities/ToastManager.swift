@@ -32,27 +32,21 @@ struct ToastViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .overlay(alignment: .top) {
-                if let data = data {
+                if let data = data, isPresented {
                     CustomToast(toastData: data)
                         .padding(.top, 40)
                         .opacity(isAnimating ? 1 : 0)
                         .offset(y: isAnimating ? 0 : -80)
                         .animation(.spring(duration: 0.5), value: isAnimating)
-                        .task {
-                            try? await Task.sleep(nanoseconds: UInt64(3 * 1_000_000_000))
-                            isPresented = false
-                            isAnimating = false
-                            onDismiss?()
+                        .onAppear {
+                            withAnimation { isAnimating = true }
+                            
+                            withAnimation(.spring.delay(2)) {
+                                isAnimating = false
+                                isPresented = false
+                                onDismiss?()
+                            }
                         }
-                }
-            }
-            .onChange(of: isPresented) {prev, new in
-                if new {
-                    if data == nil {
-                        return
-                    } else {
-                        isAnimating = new
-                    }
                 }
             }
     }
