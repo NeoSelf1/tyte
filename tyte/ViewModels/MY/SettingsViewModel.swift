@@ -16,7 +16,7 @@ class SettingsViewModel: ObservableObject {
     func deleteAccount() {
         authService.deleteAccount()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { completion in
                 if case .failure(let error) = completion {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
