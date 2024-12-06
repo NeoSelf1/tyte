@@ -50,11 +50,11 @@ struct CalendarDateSelector: View {
     
     // MARK: - Private Methods
     private func debounceButton() {
-            isButtonEnabled = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                isButtonEnabled = true
-            }
+        isButtonEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            isButtonEnabled = true
         }
+    }
     
     /// 월 변경
     private func changeMonth(by value: Int) {
@@ -65,7 +65,7 @@ struct CalendarDateSelector: View {
     private func canMoveToPreviousMonth() -> Bool {
         let currentDate = Date().koreanDate
         let calendar = Calendar.current
-        let targetDate = calendar.date(byAdding: .month, value: -3, to: currentDate) ?? currentDate
+        let targetDate = calendar.date(byAdding: .month, value: -12, to: currentDate) ?? currentDate
         
         if adjustedMonth(by: -1) < targetDate {
             return false
@@ -76,10 +76,8 @@ struct CalendarDateSelector: View {
     /// 다음 월로 이동 가능한지 확인
     private func canMoveToNextMonth() -> Bool {
         let currentDate = Date().koreanDate
-        let calendar = Calendar.current
-        let targetDate = calendar.date(byAdding: .month, value: 3, to: currentDate) ?? currentDate
         
-        if adjustedMonth(by: 1) > targetDate {
+        if adjustedMonth(by: 1) > currentDate {
             return false
         }
         return true
