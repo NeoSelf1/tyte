@@ -119,7 +119,6 @@ class TagEditViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else {return}
-                print("getTags done in TagEditView")
                 isLoading = false
                 if case .failure(let error) = completion {
                     ToastManager.shared.show(.error(error.localizedDescription))

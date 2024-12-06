@@ -6,8 +6,7 @@ struct WorkLifeBalanceBar: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("워라벨")
-                .font(._body3)
-                .padding(.leading,2)
+                .font(._body2)
                 .foregroundStyle(.gray60)
             
             GeometryReader { geometry in
