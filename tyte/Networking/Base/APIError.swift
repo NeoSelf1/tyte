@@ -49,7 +49,6 @@ enum APIError: Error, Equatable {
             default:
                 self = .networkError
             }
-            
         default:
             self = .unknown
         }
@@ -57,10 +56,8 @@ enum APIError: Error, Equatable {
     
     var localizedDescription: String {
         switch self {
-        case .invalidURL:
-            "죄송해요. 주소에 문제가 있어요. 잠시 후 다시 시도해 주세요."
-        case .decodingError:
-            "서버에서 온 정보를 해석하는 데 문제가 있어요. 나중에 다시 시도해 주세요."
+        case .invalidURL, .notFound, .decodingError:
+            "서버에 문제가 생겼어요. 잠시 후에 다시 시도해 주세요."
         case .unauthorized:
             "보안을 위해 다시 로그인해 주세요. 불편을 드려 죄송합니다."
         case .invalidTodo:

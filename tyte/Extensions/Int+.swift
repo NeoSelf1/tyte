@@ -11,9 +11,9 @@ import SwiftUI
 extension Int {
     var colorByBalanceData: Color {
         switch self {
-        case 81...: return .red
-        case 61...80: return .orange
-        case 20...60: return .green
+        case 81...: return .red0
+        case 61...80: return .orange0
+        case 20...60: return .green0
         default: return .gray50
         }
     }

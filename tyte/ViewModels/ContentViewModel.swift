@@ -31,11 +31,10 @@ class ContentViewModel: ObservableObject {
                 guard let self = self else {return}
                 isLoading = false
                 if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))   
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] versionResponse in
                 guard let self = self else { return }
-                print(currentAppVersion,versionResponse)
                 // 강제 업데이트 필요한 경우
                 if self.currentAppVersion < versionResponse.minVersion {
                     PopupManager.shared.show(

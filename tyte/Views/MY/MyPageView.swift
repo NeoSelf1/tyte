@@ -74,7 +74,7 @@ struct MyPageView: View {
             }
         }
         .padding()
-        .frame(minHeight:104,alignment: .top)
+        .frame(minHeight:112,alignment: .top)
         .background(.gray10)
         .cornerRadius(8)
         .padding(.horizontal)

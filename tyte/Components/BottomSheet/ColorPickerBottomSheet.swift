@@ -60,10 +60,10 @@ struct ColorPickerBottomSheet: View {
                     )
                 
                 Button(action: {
-                    selectedColor = customColor.toHex() ?? "#000000"
+                    selectedColor = customColor.toHex()
                     dismiss()
                 }) {
-                    Text(isCustomColorSelected ? "\(customColor.toHex() ?? "#747474") 색상 선택하기" : "색상 선택되지 않음")
+                    Text(isCustomColorSelected ? "\(customColor.toHex()) 색상 선택하기" : "색상 선택되지 않음")
                         .font(._body2)
                         .foregroundColor(isCustomColorSelected ? .gray00 : .gray50)
                         .frame(maxWidth: .infinity)

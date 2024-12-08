@@ -190,8 +190,7 @@ class HomeViewModel: ObservableObject {
     private func getDailyStatForDate(_ deadline: String) {
         dailyStatService.fetchDailyStat(for: deadline)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
+            .sink { completion in
                 if case .failure(let error) = completion {
                     print(error)
                     // TODO: 백엔드에서 nil값 받을때, decode 에러 발생안하게 변경 필요
@@ -210,8 +209,7 @@ class HomeViewModel: ObservableObject {
     private func getDailyStatsForMonth(_ date: String) {
         dailyStatService.fetchMonthlyStats(in: String(date.prefix(7)))
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
+            .sink { completion in
                 if case .failure(let error) = completion {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
