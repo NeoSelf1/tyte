@@ -160,7 +160,7 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
-                getTodosForDate(updatedTodo.deadline)
+                getTodosForDate(selectedDate.apiFormat)
                 getDailyStatForDate(updatedTodo.deadline)
             }
             .store(in: &cancellables)
