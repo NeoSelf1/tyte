@@ -11,7 +11,6 @@ import Alamofire
 import SwiftUI
 
 class TagEditViewModel: ObservableObject {
-    
     @Published var selectedColor: String = "FF0000"
     @Published var tags: [Tag] = []
     @Published var selectedTag: Tag?
@@ -19,7 +18,6 @@ class TagEditViewModel: ObservableObject {
     
     @Published var isDuplicateWarningPresent = false
     @Published var isEditBottomPresent = false
-    
     @Published var isColorPickerPresent = false
     @Published var isLoading = false
     
@@ -34,7 +32,7 @@ class TagEditViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    //MARK: - Methodx[tx
+    //MARK: - Methods
     func initialize(){
         getTags()
     }

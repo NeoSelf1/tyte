@@ -45,7 +45,7 @@ final class UserDefaultsManager {
         return appleUserEmails[userId]
     }
     
-    // - UserDefaults 업데이트 -> isLoggedInPublisher에 새 값 전달 -> AppState의 isLoggedIn 업데이트 -> UI 자동 갱신
+    /// - UserDefaults 업데이트 -> AppState의 isLoggedIn 업데이트 -> UI 자동 갱신
     func login() {
         isLoggedIn = true
     }

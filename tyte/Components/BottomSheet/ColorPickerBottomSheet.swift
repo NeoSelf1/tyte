@@ -13,15 +13,30 @@ struct ColorPickerBottomSheet: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("색상 선택")
-                .font(._headline2)
-                .foregroundColor(.gray90)
-                .frame(maxWidth: .infinity, alignment: .topLeading)
+            HStack {
+                Text("색상 선택")
+                    .font(._headline2)
+                    .foregroundColor(.gray90)
+                
+                Spacer()
+                
+                Button(action: {
+                    dismiss()
+                    print("closed")
+                }) {
+                    Image(systemName: "xmark")
+                        .foregroundStyle(.gray60)
+                        .font(._headline2)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            
+            Spacer()
             
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 8) {
                 ForEach(colors, id: \.self) { colorHex in
                     Button(action: {
-                        selectedColor = colorHex
+                        withAnimation { selectedColor = colorHex }
                         dismiss()
                     }) {
                         Rectangle()
@@ -38,16 +53,6 @@ struct ColorPickerBottomSheet: View {
             
             Divider()
             
-            HStack{
-                Text("아래 원을 클릭해 직접 색을 설정할 수 있어요.")
-                    .font(._body3)
-                    .foregroundColor(.gray50)
-                Spacer()
-            }
-            .padding()
-            .background(.gray10)
-            .cornerRadius(8)
-            
             HStack {
                 ColorPicker("", selection: $customColor, supportsOpacity: false)
                     .labelsHidden()
@@ -58,33 +63,26 @@ struct ColorPickerBottomSheet: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.gray30, lineWidth: 1)
                     )
+                    .onChange(of: customColor){ isCustomColorSelected = true }
                 
                 Button(action: {
-                    selectedColor = customColor.toHex() ?? "#000000"
+                    withAnimation { selectedColor = customColor.toHex() }
                     dismiss()
                 }) {
-                    Text(isCustomColorSelected ? "\(customColor.toHex() ?? "#747474") 색상 선택하기" : "색상 선택되지 않음")
-                        .font(._body2)
-                        .foregroundColor(isCustomColorSelected ? .gray00 : .gray50)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(isCustomColorSelected ? .blue30 : .gray30)
-                        .cornerRadius(8)
+                    Text(isCustomColorSelected ?
+                         "\(customColor.toHex()) 색상 선택하기" : "색상 선택되지 않음"
+                    )
+                    .font(._body2)
+                    .foregroundColor(isCustomColorSelected ? .gray00 : .gray50)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(isCustomColorSelected ? .blue30 : .gray30)
+                    .cornerRadius(8)
                 }
                 .disabled(!isCustomColorSelected)
             }
         }
         .padding()
         .background(Color.gray00)
-        .onChange(of: customColor){ _,newValue in
-            isCustomColorSelected = true
-        }
     }
-}
-
-
-#Preview {
-    ColorPickerBottomSheet(selectedColor: .constant("747474"))
-        .frame(height: 360)
-        .border(.gray60)
 }
