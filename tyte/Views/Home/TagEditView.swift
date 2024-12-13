@@ -16,12 +16,23 @@ struct TagEditView: View {
                 
                 ScrollView {
                     LazyVStack(alignment:.leading, spacing: 16) {
-                        specialTagView(Tag(id: "dummy_1", name: "학습", color: "FF0000", user: "dummyUser"))
-                        specialTagView(Tag(id: "dummy_2", name: "여가", color: "F0E68C", user: "dummyUser"))
-                        specialTagView(Tag(id: "dummy_3", name: "건강", color: "00FFFF", user: "dummyUser"))
-                        
-                        ForEach(viewModel.tags.filter{!["학습","여가","건강"].contains($0.name)}) { tag in
-                            regularTagView(tag)
+                        ForEach(viewModel.tags) { tag in
+                            HStack(spacing: 8) {
+                                Circle()
+                                    .fill(Color(hex:"#\(tag.color)"))
+                                    .frame(width: 10, height: 10)
+                                    .overlay(Circle().stroke(.gray50))
+                                
+                                Text(tag.name)
+                                    .font(._subhead2)
+                                    .foregroundColor(.gray90)
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 8).fill(.gray00)
+                                .stroke(.gray30, lineWidth: 1).padding(1))
+                            .onTapGesture {
+                                viewModel.selectTag(tag)
+                            }
                         }
                     }
                     .padding()
@@ -45,7 +56,10 @@ struct TagEditView: View {
                     .foregroundColor(.gray90)
             }
         )
-        
+        .sheet(isPresented: $viewModel.isColorPickerPresent, content: {
+            ColorPickerBottomSheet(selectedColor:$viewModel.selectedColor)
+                .presentationDetents([.height(280)])
+        })
         .sheet(isPresented: $viewModel.isEditBottomPresent, content: {
             if let tag = viewModel.selectedTag {
                 TagEditBottomSheet(
@@ -55,9 +69,13 @@ struct TagEditView: View {
                 )
                 .presentationDetents([.height(320)])
             }
-        } )
+        })
         .alert(isPresented: $viewModel.isDuplicateWarningPresent) {
-            Alert( title: Text("중복된 태그"), message: Text("이미 존재하는 태그입니다."), dismissButton: .default(Text("확인")) )
+            Alert(
+                title: Text("중복된 태그"),
+                message: Text("이미 존재하는 태그입니다."),
+                dismissButton: .default(Text("확인"))
+            )
         }
     }
     
@@ -83,13 +101,16 @@ struct TagEditView: View {
             
             .onSubmit { viewModel.addTag() }
             
-            Button(action: {
-                viewModel.isColorPickerPresent = true
-            }) {
-                Circle().fill(Color(hex:"#\(viewModel.selectedColor)")).frame(width: 24, height: 24)
-                    .opacity(viewModel.tagInput.isEmpty ? 0 : 1.0)
+            if !viewModel.tagInput.isEmpty {
+                Button(action: {
+                    viewModel.isColorPickerPresent = true
+                }) {
+                    Circle()
+                        .fill(Color(hex:"#\(viewModel.selectedColor)"))
+                        .frame(width: 22, height: 22)
+                }
+                .transition(.scale.combined(with: .opacity))
             }
-            .disabled(viewModel.tagInput.isEmpty)
         }
         .padding()
         .background(
@@ -99,42 +120,9 @@ struct TagEditView: View {
         .padding(.horizontal,16)
         .padding(.bottom,16)
         .background(.gray00)
+        
+        .animation(.spring(duration:0.2).delay(0.1), value: viewModel.tagInput.isEmpty)
     }
-    
-    private func specialTagView(_ tag: Tag) -> some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(Color(hex:"#\(tag.color)"))
-                .frame(width: 10, height: 10)
-                .overlay(Circle().stroke(.gray50))
-            
-            Text(tag.name)
-                .font(._subhead2)
-                .foregroundColor(.gray60)
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 8).fill(.gray20))
-    }
-    
-    private func regularTagView(_ tag: Tag) -> some View {
-        HStack(spacing: 8) {
-            Circle()
-                .fill(Color(hex:"#\(tag.color)"))
-                .frame(width: 10, height: 10)
-                .overlay(Circle().stroke(.gray50))
-            
-            Text(tag.name)
-                .font(._subhead2)
-                .foregroundColor(.gray90)
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 8).fill(.gray00)
-                .stroke(.gray30, lineWidth: 1).padding(1))
-        .onTapGesture {
-            viewModel.selectTag(tag)
-        }
-    }
-    
 }
 
 #Preview{
