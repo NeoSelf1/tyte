@@ -21,10 +21,10 @@ struct CalendarDateSelector: View {
                     Image(systemName: "chevron.left")
                         .resizable()
                         .frame(width: 10, height: 16)
+                        .padding()
                         .foregroundColor(canMoveToPreviousMonth() ? .gray90 : . gray30)
                 }
             )
-            .padding()
             .disabled(!canMoveToPreviousMonth() || !isButtonEnabled)
             
             Text(currentMonth.formattedMonth)
@@ -40,10 +40,10 @@ struct CalendarDateSelector: View {
                     Image(systemName: "chevron.right")
                         .resizable()
                         .frame(width: 10, height: 16)
+                        .padding()
                         .foregroundColor(canMoveToNextMonth() ? .gray90 : .gray30)
                 }
             )
-            .padding()
             .disabled(!canMoveToNextMonth() || !isButtonEnabled)
         }
     }
