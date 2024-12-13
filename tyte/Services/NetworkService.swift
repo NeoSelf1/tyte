@@ -11,7 +11,6 @@ class NetworkService: NetworkServiceProtocol {
         return Future { promise in
             if AppState.shared.isGuestMode {
                 print("requesting API in guest Mode: returning...")
-                promise(.failure(.guestMode))
                 return
             }
             guard let token = KeychainManager.shared.getAccessToken() else {

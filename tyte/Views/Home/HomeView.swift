@@ -92,7 +92,10 @@ struct HomeView: View {
     private var floatingActionButton: some View {
         Button(action: {
             if appState.isGuestMode {
-                PopupManager.shared.show(type: .loginRequired, action: {appState.changeGuestMode(false)})
+                PopupManager.shared.show(
+                    type: .loginRequired,
+                    action: { appState.isGuestMode=false }
+                )
             } else {
                 viewModel.isCreateTodoPresented = true
             }
@@ -150,7 +153,7 @@ struct HomeView: View {
                     if appState.isGuestMode {
                         Button(action: { PopupManager.shared.show(
                             type: .loginRequired,
-                            action: {appState.changeGuestMode(false) }
+                            action: { appState.isGuestMode=false }
                         )}) {
                             Image(systemName: "tag.fill")
                                 .resizable()

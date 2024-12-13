@@ -138,7 +138,7 @@ struct OnboardingView: View {
             appleButton
             
             Button(action:{
-                appState.changeGuestMode(true)
+                appState.isGuestMode=true
             }){
                 Text("게스트모드로 시작하기")
                     .font(._body4)
