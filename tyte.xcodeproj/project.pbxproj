@@ -91,6 +91,13 @@
 		E52628DD2CC3AE56004B290C /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
 		E52628DE2CC3AE56004B290C /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
 		E5374F782D0180DC0075427C /* CalendarDateSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5374F772D0180A20075427C /* CalendarDateSelector.swift */; };
+		E54FC83F2D15532A007B359A /* DailyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC83E2D15532A007B359A /* DailyStat.swift */; };
+		E54FC8432D15537E007B359A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8412D15537E007B359A /* CalendarView.swift */; };
+		E54FC8442D15537E007B359A /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8422D15537E007B359A /* DayView.swift */; };
+		E54FC8462D1553B2007B359A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8452D1553B2007B359A /* Utils.swift */; };
+		E54FC8472D1553DA007B359A /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
+		E54FC8482D15576A007B359A /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+.swift */; };
+		E54FC84A2D15587C007B359A /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8492D15587C007B359A /* MeshGradientView.swift */; };
 		E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4222CFDD7BD00B61A4F /* View+.swift */; };
 		E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */; };
 		E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */; };
@@ -113,10 +120,8 @@
 		E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660232CBFB10300A8279B /* WidgetKit.framework */; };
 		E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660252CBFB10300A8279B /* SwiftUI.framework */; };
 		E5D660372CBFB10400A8279B /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E5D660222CBFB10200A8279B /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E5D660452CBFB1FB00A8279B /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */; };
 		E5D660462CBFB1FB00A8279B /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660402CBFB1FB00A8279B /* widget.swift */; };
 		E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660412CBFB1FB00A8279B /* widgetBundle.swift */; };
-		E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660422CBFB1FB00A8279B /* widgetControl.swift */; };
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
 		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
 		E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */; };
@@ -246,6 +251,11 @@
 		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E5374F772D0180A20075427C /* CalendarDateSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateSelector.swift; sourceTree = "<group>"; };
+		E54FC83E2D15532A007B359A /* DailyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStat.swift; sourceTree = "<group>"; };
+		E54FC8412D15537E007B359A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		E54FC8422D15537E007B359A /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		E54FC8452D1553B2007B359A /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		E54FC8492D15587C007B359A /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
 		E55CE4222CFDD7BD00B61A4F /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupManager.swift; sourceTree = "<group>"; };
@@ -267,12 +277,10 @@
 		E5D660222CBFB10200A8279B /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D660232CBFB10300A8279B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E5D660252CBFB10300A8279B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
 		E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E5D6603F2CBFB1FB00A8279B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E5D660402CBFB1FB00A8279B /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		E5D660412CBFB1FB00A8279B /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
-		E5D660422CBFB1FB00A8279B /* widgetControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetControl.swift; sourceTree = "<group>"; };
 		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
 		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -447,10 +455,8 @@
 			isa = PBXGroup;
 			children = (
 				E55CE4222CFDD7BD00B61A4F /* View+.swift */,
-				AB6A0F762C8E45F100254299 /* Color+.swift */,
 				AB10144B2C980F7F00F9A9BC /* Animation+.swift */,
 				AB4498842C89930500B2B74A /* String+.swift */,
-				AB6A495E2C8606AE00B782A1 /* Int+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -570,7 +576,9 @@
 		E52628D12CC38E33004B290C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AB6A495E2C8606AE00B782A1 /* Int+.swift */,
 				ABDE8B972C86FEE000F3CB68 /* Date+.swift */,
+				AB6A0F762C8E45F100254299 /* Color+.swift */,
 				ABA920762C897FC000B9F8F1 /* Font+.swift */,
 			);
 			path = Extensions;
@@ -585,6 +593,16 @@
 				AB84C5302C918EA9000164AC /* Utils.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E54FC8402D155374007B359A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E54FC8492D15587C007B359A /* MeshGradientView.swift */,
+				E54FC8412D15537E007B359A /* CalendarView.swift */,
+				E54FC8422D15537E007B359A /* DayView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E5CA1C632CE5D154004B3D87 /* Toast */ = {
@@ -675,13 +693,14 @@
 		E5D660442CBFB1FB00A8279B /* widget */ = {
 			isa = PBXGroup;
 			children = (
+				E54FC8452D1553B2007B359A /* Utils.swift */,
+				E54FC8402D155374007B359A /* Views */,
+				E54FC83E2D15532A007B359A /* DailyStat.swift */,
 				E52628982CC356E3004B290C /* TodoDataModel.swift */,
-				E5D6603D2CBFB1FB00A8279B /* AppIntent.swift */,
 				E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */,
 				E5D6603F2CBFB1FB00A8279B /* Info.plist */,
 				E5D660402CBFB1FB00A8279B /* widget.swift */,
 				E5D660412CBFB1FB00A8279B /* widgetBundle.swift */,
-				E5D660422CBFB1FB00A8279B /* widgetControl.swift */,
 			);
 			path = widget;
 			sourceTree = "<group>";
@@ -1113,17 +1132,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E54FC8482D15576A007B359A /* Int+.swift in Sources */,
+				E54FC8432D15537E007B359A /* CalendarView.swift in Sources */,
+				E54FC8472D1553DA007B359A /* Color+.swift in Sources */,
+				E54FC8442D15537E007B359A /* DayView.swift in Sources */,
 				E52628D32CC392C7004B290C /* Tag.swift in Sources */,
+				E54FC83F2D15532A007B359A /* DailyStat.swift in Sources */,
 				E519BE442CC8CA8E00DD21B7 /* Friend.swift in Sources */,
 				E52628962CC3569B004B290C /* KeychainManager.swift in Sources */,
 				E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
-				E5D660452CBFB1FB00A8279B /* AppIntent.swift in Sources */,
 				E5D660462CBFB1FB00A8279B /* widget.swift in Sources */,
 				E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */,
 				E519BE482CC8CCA600DD21B7 /* User.swift in Sources */,
-				E5D660482CBFB1FB00A8279B /* widgetControl.swift in Sources */,
+				E54FC8462D1553B2007B359A /* Utils.swift in Sources */,
 				E52628DA2CC3AB45004B290C /* Date+.swift in Sources */,
 				E52628D92CC3A97F004B290C /* Font+.swift in Sources */,
+				E54FC84A2D15587C007B359A /* MeshGradientView.swift in Sources */,
 				E52628832CC3563B004B290C /* Todo.swift in Sources */,
 				E52628992CC356E3004B290C /* TodoDataModel.swift in Sources */,
 			);
@@ -1205,7 +1229,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "타이트";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1264,7 +1288,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "타이트";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
