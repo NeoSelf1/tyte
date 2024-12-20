@@ -2,6 +2,7 @@ import Foundation
 import Combine
 import Alamofire
 import SwiftUI
+import WidgetKit
 
 class HomeViewModel: ObservableObject {
     @Published var weekCalendarData: [DailyStat] = []
@@ -202,6 +203,7 @@ class HomeViewModel: ObservableObject {
                 if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
                     withAnimation { self.weekCalendarData[index] = dailyStat ?? .empty }
                 }
+                WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
             }
             .store(in: &cancellables)
     }
