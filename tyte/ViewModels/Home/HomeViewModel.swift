@@ -166,8 +166,13 @@ class HomeViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
+                ToastManager.shared.show(.todoEdited)
+                
                 getTodosForDate(selectedDate.apiFormat)
+                
+                // 출발지점에 대한 dailyStat와 변경된 도착지에 대한 dailyStat 둘다 수정 필요
                 getDailyStatForDate(updatedTodo.deadline)
+                getDailyStatForDate(selectedDate.apiFormat)
             }
             .store(in: &cancellables)
     }
