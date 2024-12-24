@@ -41,9 +41,12 @@ struct MeshGradientView: View {
                 colorSpace: .perceptual
             )
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                .stroke(isSelected ? .gray50 : .clear , lineWidth: 1)
+            )
             .rotationEffect(.degrees(45))
             .padding(14)
-            .shadow(color: isSelected ? .gray60 : .clear , radius:12,x:0,y:0)
+            .shadow(color: isSelected ? .gray50 : .clear , radius:4,x:0,y:0)
            
         } else {
             LinearGradientMeshFallback(colors: colors)

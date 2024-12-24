@@ -21,19 +21,20 @@ struct DailyStat: Codable, Identifiable {
         case date, user, balanceData, productivityNum, tagStats, center
     }
     
-    static let empty = DailyStat(
-        id: UUID().uuidString,
-        date: "emptyData",
-        user: "emptyData",
-        balanceData: BalanceData(
-            title: "Todo가 없네요 :(",
-            message: "아래 + 버튼을 눌러 Todo를 추가해주세요",
-            balanceNum: 0
-        ),
-        productivityNum: 0,
-        tagStats: [],
-        center: SIMD2<Float>(x: 0.5, y: 0.5)
-    )
+    static let dummyStat =
+        DailyStat(
+            id: "dummy1",
+            date: Date().apiFormat,
+            user: "dummyUser",
+            balanceData: BalanceData(title: "이상적인 하루", message: "오늘의 일정은 그야말로 이상적이에요. 무엇이 좋았는지 기록해두세요.", balanceNum: 90),
+            productivityNum: 85.0,
+            tagStats: [
+                TagStat(id: "tagDummy1", tag: _Tag(id: "tag1", name: "1", color: "FFF700", user: "dummyUser"), count: 2),
+                TagStat(id: "tagDummy2", tag: _Tag(id: "tag2", name: "2", color: "4169E1", user: "dummyUser"), count: 4),
+                TagStat( id: "tagDummy3", tag: _Tag(id: "tag2", name: "3", color: "00CED1", user: "dummyUser"), count: 3 )],
+            center: SIMD2<Float>(0.4, 0.5)
+        )
+    
 }
 
 struct DailyStat_Graph: Identifiable,Codable,Equatable {
@@ -80,3 +81,5 @@ struct _Tag: Codable, Identifiable {
         case color, name, user
     }
 }
+
+
