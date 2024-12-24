@@ -205,10 +205,8 @@ class HomeViewModel: ObservableObject {
     private func getDailyStatForDate(_ deadline: String) {
         dailyStatService.fetchDailyStat(for: deadline)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
+            .sink { completion in
                 if case .failure(let error) = completion {
-                    print(error)
                     // TODO: 백엔드에서 nil값 받을때, decode 에러 발생안하게 변경 필요
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
@@ -216,6 +214,12 @@ class HomeViewModel: ObservableObject {
                 guard let self = self else { return }
                 if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
                     withAnimation { self.weekCalendarData[index] = dailyStat ?? .empty }
+                } else {
+                    var newStats = self.weekCalendarData
+                    newStats.append(dailyStat ?? .empty)
+                    withAnimation {
+                        self.weekCalendarData = newStats.sorted { $0.date < $1.date }
+                    }
                 }
             }
             .store(in: &cancellables)
@@ -225,8 +229,7 @@ class HomeViewModel: ObservableObject {
     private func getDailyStatsForMonth(_ date: String) {
         dailyStatService.fetchMonthlyStats(in: String(date.prefix(7)))
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
+            .sink { completion in
                 if case .failure(let error) = completion {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
