@@ -5,7 +5,13 @@ import SwiftUI
 import WidgetKit
 
 class HomeViewModel: ObservableObject {
-    @Published var weekCalendarData: [DailyStat] = []
+    @Published var weekCalendarData: [DailyStat] = [] {
+        didSet {
+            //TODO: 연쇄적 뷰 업데이트 발생하는지 프로파일링 필요
+            UserDefaultsManager.shared.saveDailyStats(weekCalendarData)
+            WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
+        }
+    }
     @Published var todosForDate: [Todo] = []
     @Published var selectedTodo: Todo?
     @Published var tags: [Tag] = []
@@ -18,8 +24,7 @@ class HomeViewModel: ObservableObject {
     
     private let todoService: TodoServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
-    private let tagService: TagServiceProtocol
-    // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
+    private let tagService: TagServiceProtocol // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
     
     init(
         todoService: TodoServiceProtocol = TodoService(),
@@ -203,7 +208,6 @@ class HomeViewModel: ObservableObject {
                 if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
                     withAnimation { self.weekCalendarData[index] = dailyStat ?? .empty }
                 }
-                WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
             }
             .store(in: &cancellables)
     }
