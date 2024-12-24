@@ -11,6 +11,7 @@ enum ToastType:Equatable {
     case todoAddedIn(String)
     case todosAdded(Int)
     case todoDeleted
+    case todoEdited
     case tagAdded
     case tagEdited
     case tagDeleted
@@ -32,6 +33,8 @@ enum ToastType:Equatable {
             "총 \(count)개의 투두가 추가되었습니다."
         case  .todoDeleted:
             "투두가 삭제되었습니다."
+        case  .todoEdited:
+            "투두 수정이 완료되었습니다."
         case .tagAdded:
             "태그가 추가되었습니다."
         case .tagEdited:
