@@ -22,8 +22,8 @@ class TodoService: TodoServiceProtocol {
         return networkService.request(.fetchFriendTodosForDate(friendId: id, deadline: deadline), method: .get, parameters: nil)
     }
     
-    func createTodo(text: String) -> AnyPublisher<[Todo], APIError> {
-        return networkService.request( .createTodo, method: .post, parameters: ["text": text])
+    func createTodo(text: String, in date: String) -> AnyPublisher<[Todo], APIError> {
+        return networkService.request( .createTodo, method: .post, parameters: ["text": text,"selectedDate":date])
     }
     
     func updateTodo(todo: Todo) -> AnyPublisher<Todo, APIError> {
