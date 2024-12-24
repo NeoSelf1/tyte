@@ -7,27 +7,30 @@ enum KeychainError: Error {
     case encodingError
 }
 
-enum KeychainKeys {
-    static let serviceName = "com.clip.tyte"
+struct KeychainConfiguration {
+    static let serviceName = "com.neox.tyte"
+    static let accessGroup: String? = nil // Set if needed for app groups
     
-    static let accessToken = "accessToken"
-    static let refreshToken = "refreshToken"
+    struct Keys {
+        static let accessToken = "accessToken"
+        static let refreshToken = "refreshToken"
+    }
 }
 
-protocol KeychainManagerProtocol {
+protocol KeychainManaging {
     func saveToken(_ accessToken: String)
     func getAccessToken() -> String?
     func clearToken()
 }
 
-class KeychainManager:KeychainManagerProtocol {
+class KeychainManager:KeychainManaging {
     static let shared = KeychainManager()
     
     private init() {}
     
     func getAccessToken() -> String? {
         do {
-            return APIConstants.isUserDevelopment ? "dummyToken" : try retrieve(forKey: KeychainKeys.accessToken)
+            return APIConstants.isUserDevelopment ? "dummyToken" : try retrieve(forKey: KeychainConfiguration.Keys.accessToken)
         } catch {
             print("getAccessToken Error in KeychainManager")
             return nil
@@ -36,7 +39,7 @@ class KeychainManager:KeychainManagerProtocol {
     
     func clearToken() {
         do {
-            try delete(forKey: KeychainKeys.accessToken)
+            try delete(forKey: KeychainConfiguration.Keys.accessToken)
         } catch{
             print("clear token Error in KeychainManager")
         }
@@ -44,7 +47,7 @@ class KeychainManager:KeychainManagerProtocol {
     
     func saveToken(_ accessToken: String) {
         do{
-            try save(token: accessToken, forKey: KeychainKeys.accessToken)
+            try save(token: accessToken, forKey: KeychainConfiguration.Keys.accessToken)
         } catch {
             print("Save token Error in KeychainManager")
         }
@@ -53,7 +56,7 @@ class KeychainManager:KeychainManagerProtocol {
 
 // MARK: - 내부용 핵심 함수
 private extension KeychainManager {
-    func save(token: String, forKey key: String, service: String = KeychainKeys.serviceName) throws {
+    func save(token: String, forKey key: String, service: String = KeychainConfiguration.serviceName) throws {
         guard let data = token.data(using: .utf8) else {
             throw KeychainError.encodingError
         }
@@ -86,7 +89,7 @@ private extension KeychainManager {
         }
     }
     
-    func retrieve(forKey key: String, service: String = KeychainKeys.serviceName) throws -> String {
+    func retrieve(forKey key: String, service: String = KeychainConfiguration.serviceName) throws -> String {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -112,7 +115,7 @@ private extension KeychainManager {
         return token
     }
     
-    func delete(forKey key: String, service: String = KeychainKeys.serviceName) throws {
+    func delete(forKey key: String, service: String = KeychainConfiguration.serviceName) throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,

@@ -50,8 +50,9 @@ extension Date {
     
     var koreanDate: Date {
         var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)! // UTC
-        let components = calendar.dateComponents(in: Date.koreanTimeZone, from: self)
+        calendar.timeZone = Date.koreanTimeZone // Asia/Seoul로 설정
+        
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
         return calendar.date(from: components) ?? self
     }
     

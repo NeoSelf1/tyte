@@ -1,116 +1,169 @@
-//
-//  widget.swift
-//  widget
-//
-//  Created by Neoself on 10/16/24.
-//
 import WidgetKit
 import SwiftUI
-import Alamofire
-import Combine
 
-// 위젯의 데이터를 제공하는 구조체
-struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> TodoEntry {
-        TodoEntry(filteredTodos:Array(TodoDataModel.shared.todos.prefix(3)))
+struct Provider: TimelineProvider {
+    func placeholder(in context: Context) -> CalendarEntry {
+        let calendar = Calendar.current
+        let today = Date()
+        let components = calendar.dateComponents([.year, .month], from: today)
+        let firstDayOfMonth = calendar.date(from: components)!
+        
+        let numberOfDays = calendar.component(.day, from: today)
+        let dates = (0..<numberOfDays).compactMap { day in
+            calendar.date(byAdding: .day, value: day, to: firstDayOfMonth)
+        }
+        
+        let dummyStats = dates.map { date in
+            return DailyStat.dummyStat
+        }
+        
+        return CalendarEntry(date: Date(), dailyStats: dummyStats, isLoggedIn: true)
     }
     
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> TodoEntry {
-        TodoEntry(filteredTodos:Array(TodoDataModel.shared.todos.prefix(3)))
-    }
-    
-    // 위젯이 업데이트되는 시기와 표시할 데이터 결정
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<TodoEntry> {
-        do {
-            let todos = try await fetchTodosForDate(deadline: Date().koreanDate.apiFormat)
-            TodoDataModel.shared.todos = todos
-            return Timeline(entries: [TodoEntry(filteredTodos: Array(todos.prefix(3)))], policy: .atEnd)
-        } catch {
-            print("Error fetching todos: \(error.localizedDescription)")
-            return Timeline(entries: [TodoEntry(filteredTodos: [])], policy: .atEnd)
+    func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
+        let defaults = UserDefaultsManager.shared
+        
+        if defaults.isLoggedIn {
+            completion(CalendarEntry(date: Date().koreanDate, dailyStats: defaults.dailyStats ?? [], isLoggedIn: true))
+        } else {
+            completion(CalendarEntry(date: Date(), dailyStats: [], isLoggedIn: false))
         }
     }
-
-    func fetchTodosForDate(deadline: String) async throws -> [Todo] {
-        let baseURL = APIConstants.baseUrl
-        let endpoint = "/todo/\(deadline)"
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(KeychainManager.shared.getAccessToken() ?? "")",
-            "Content-Type": "application/json"
-        ]
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarEntry>) -> ()) {
+        let defaults = UserDefaultsManager.shared
         
-        return try await AF.request(baseURL + endpoint,
-                                    method: .get,
-                                    encoding: URLEncoding.queryString,
-                                    headers: headers)
-        .validate()
-        .serializingDecodable([Todo].self)
-        .value
+        if defaults.isLoggedIn {
+            let dailyStats = defaults.dailyStats
+            let timeline = Timeline(
+                entries: [CalendarEntry(date: Date().koreanDate, dailyStats: dailyStats ?? [], isLoggedIn: true)],
+                policy: .never
+            )
+            
+            completion(timeline)
+        } else {
+            let emptyTimeline = Timeline(
+                entries: [CalendarEntry(date: Date(), dailyStats: [], isLoggedIn: false)],
+                policy: .never
+            )
+            
+            completion(emptyTimeline)
+        }
     }
 }
 
-// 위젯에 표시될 데이터 구조 정의
-struct TodoEntry: TimelineEntry {
-    let date: Date = .now
-    var filteredTodos:[Todo]
+struct CalendarEntry: TimelineEntry {
+    let date: Date
+    let dailyStats: [DailyStat]
+    let isLoggedIn: Bool
 }
 
-// 실제 UI 뷰
-struct TodoWidgetEntryView : View {
+struct CalendarWidgetEntryView : View {
+    @Environment(\.widgetFamily) var family
+    
     var entry: Provider.Entry
-
+    
     var body: some View {
-        VStack (alignment:.leading,spacing: 2){
-            Text(Date().koreanDate.formattedMonthDate)
-                .font(._subhead1)
-                .padding(.bottom,10)
-            
-            if entry.filteredTodos.isEmpty {
-                Text("Todo가 없어요")
-                    .font(._body2)
-                    .foregroundStyle(.gray50)
-                    .frame(maxWidth: .infinity,maxHeight: .infinity)
-                
-            } else {
-                ForEach(entry.filteredTodos){ todo in
-                    HStack(alignment: .top, spacing:4) {
-                        Button(intent: ToogleStateIntent(id: todo.id)){
-                            Image(systemName: todo.isCompleted ? "checkmark.square.fill": "square")
-                                .foregroundStyle(.blue30)
-                        }
-                        .buttonStyle(.plain)
-                        
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(todo.title)
-                                .font(._caption)
-                                .lineLimit(1)
-                            
-                            Divider()
-                        }
-                    }
+        if entry.isLoggedIn {
+            if family == .systemLarge {
+                VStack(alignment:.leading, spacing:4) {
+                    Text(entry.date.formattedMonth)
+                        .font(._headline2)
+                        .foregroundStyle(.gray90)
                     
-                    if todo.id != entry.filteredTodos.last?.id {
-                        Spacer().frame(maxHeight: 8)
-                    }
+                    Spacer()
+                    
+                    CalendarView(
+                        currentMonth: entry.date,
+                        dailyStats: entry.dailyStats,
+                        selectDateForInsightData: { _ in }
+                    )
                 }
-                Spacer()
+            } else if family == .systemMedium {
+                VStack(alignment:.leading, spacing:4) {
+                    Text(entry.date.formattedMonth)
+                        .font(._headline2)
+                        .foregroundStyle(.gray90)
+                    
+                    weeklyCalendarView
+                        .frame(maxHeight:.infinity)
+                }
+            } else {
+                let dailyStat = entry.dailyStats.first { $0.date == entry.date.apiFormat }
+                
+                DayView(dailyStat: dailyStat, date: entry.date, isToday:false, isDayVisible: false, size:120)
+            }
+        } else {
+            VStack(spacing: 4) {
+                Text("TyTE 앱에서")
+                    .font(._caption)
+                    .foregroundStyle(.gray60)
+                
+                Text("로그인이 필요해요")
+                    .font(._subhead2)
+                    .foregroundStyle(.gray90)
             }
         }
+    }
+    
+    private var weeklyCalendarView: some View {
+        let calendar = Calendar.current
+        let weekDates = (0...6).compactMap { dayOffset in
+            calendar.date(byAdding: .day, value: dayOffset - calendar.component(.weekday, from: entry.date) + 1, to: entry.date)
+        }
         
+        return VStack(spacing: 4) {
+            HStack(spacing:0) {
+                ForEach(Calendar.current.shortWeekdaySymbols, id: \.self) { symbol in
+                    Text(symbol.prefix(1))
+                        .font(._caption)
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(.gray50)
+                }
+            }
+            
+            HStack(spacing:0) {
+                ForEach(weekDates, id: \.self) { date in
+                    let dailyStat = entry.dailyStats.first { $0.date == date.apiFormat }
+                    let isToday = calendar.isDateInToday(date)
+                    
+                    DayView(dailyStat: dailyStat, date: date, isToday: isToday, isDayVisible: false, size:57)
+                        .frame(width:46, height:42)
+                }
+            }
+        }
     }
 }
 
-
-// 위젯의 구성을 정의하는 구조체. 이름, 지원하는 크기, 설명 등 지정
-struct widget: Widget {
-    let kind: String = "widget"
+struct CalendarWidget: Widget {
+    let kind: String = "CalendarWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
-            TodoWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+        StaticConfiguration(
+            kind: kind,
+            provider: Provider()
+        ) { entry in
+            if #available(iOS 17.0, *) {
+                CalendarWidgetEntryView(entry: entry)
+                    .containerBackground(.fill.tertiary, for: .widget)
+            } else {
+                CalendarWidgetEntryView(entry: entry)
+                    .padding()
+                    .background(Color(UIColor.systemBackground))
+            }
         }
-        .configurationDisplayName("투두 위젯")
-        .configurationDisplayName("할일 체크가 가능한 위젯이에요.")
+        .configurationDisplayName("TyTE 캘린더")
+        .description("생산성을 한눈에 확인해보세요")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
+
+//struct CalendarWidget_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CalendarWidgetEntryView(
+//            entry: CalendarEntry(date: Date(), dailyStats: DailyStat.dummyDailyStats, isLoggedIn: true)
+//        )
+//        .containerBackground(.gray00, for: .widget)
+//        .previewContext(WidgetPreviewContext(family: .systemLarge))
+//    }
+//}
