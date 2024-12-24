@@ -205,7 +205,7 @@ extension TodoEditBottomSheet {
                             .cornerRadius(20)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 24)
-                                    .stroke(tag == editedTodo.tagId ? Color(hex:tag.color) : .clear, lineWidth: 1)
+                                    .stroke(tag == editedTodo.tagId ? .blue30 : .clear, lineWidth: 1)
                             )
                             .padding(1)
                         }

@@ -28,7 +28,7 @@ protocol AuthServiceProtocol {
 protocol TodoServiceProtocol {
     func fetchTodos(for date: String) -> AnyPublisher<TodosResponse, APIError>
     func fetchTodos(for id: String, in deadline: String) -> AnyPublisher<TodosResponse, APIError>
-    func createTodo(text: String) -> AnyPublisher<TodosResponse, APIError>
+    func createTodo(text: String, in date: String) -> AnyPublisher<TodosResponse, APIError>
     func updateTodo(todo: Todo) -> AnyPublisher<TodoResponse, APIError>
     func deleteTodo(id: String) -> AnyPublisher<TodoResponse, APIError>
     func toggleTodo(id: String) -> AnyPublisher<TodoResponse, APIError>

@@ -87,7 +87,11 @@ class HomeViewModel: ObservableObject {
     // Todo 추가
     func addTodo(_ text: String) {
         isLoading = true
-        todoService.createTodo(text: text)
+        
+        let today = Date().koreanDate
+        let dateToUse = selectedDate < today ? today.apiFormat : selectedDate.apiFormat
+        
+        todoService.createTodo(text: text, in: dateToUse)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
