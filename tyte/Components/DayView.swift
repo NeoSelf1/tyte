@@ -25,6 +25,9 @@ struct DayView: View {
             } else {
                 Rectangle()
                 .clipShape(RoundedRectangle(cornerRadius: 6))
+                .overlay(RoundedRectangle(cornerRadius: 6)
+                    .stroke(.gray50 , lineWidth: 1)
+                )
                 .rotationEffect(.degrees(isSelected ? 45 : 0))
                 .padding(isSelected ? 14 : 20)
                 .opacity(isSelected ? 1.0 : 0.5)
