@@ -15,16 +15,18 @@ struct Todo: Identifiable, Codable {
     var title: String
     var isImportant: Bool
     var isLife: Bool
-    var tagId: Tag?
+    var tag: Tag?
     var difficulty: Int
     var estimatedTime: Int
     var deadline: String
     var isCompleted: Bool
-    let user: String
+    let userId: String
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"  // MongoDB의 _id를 id로  // MongoDB의 tagId를 tag로
-        case raw, tagId, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted, user
+        case userId = "user"
+        case tag = "tagId"
+        case raw, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted
     }
     
     static let mock = Todo(
@@ -33,11 +35,11 @@ struct Todo: Identifiable, Codable {
         title: "테스트 할 일",
         isImportant: false,
         isLife: true,
-        tagId: nil,
+        tag: nil,
         difficulty: 3,
         estimatedTime: 30,
         deadline: Date().apiFormat,
         isCompleted: true,
-        user: "test-user"
+        userId: "test-user"
     )
 }

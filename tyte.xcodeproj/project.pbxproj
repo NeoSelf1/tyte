@@ -81,7 +81,6 @@
 		E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB62CE7576800E5657C /* APIResult.swift */; };
 		E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB82CE7578000E5657C /* APIResponse.swift */; };
 		E52628832CC3563B004B290C /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
-		E52628992CC356E3004B290C /* TodoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628982CC356E3004B290C /* TodoDataModel.swift */; };
 		E52628CF2CC38D42004B290C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
 		E52628D32CC392C7004B290C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F782C8EAF5500254299 /* Tag.swift */; };
 		E52628D92CC3A97F004B290C /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
@@ -107,8 +106,11 @@
 		E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */; };
 		E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */; };
-		E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B573AD2CEF56BE000BDE11 /* MockServices.swift */; };
 		E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */; };
+		E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
+		E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
+		E5BFE3322D1C714E00E558AD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */; };
+		E5BFE3342D1C716E00E558AD /* CoreDataSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE3332D1C716E00E558AD /* CoreDataSyncService.swift */; };
 		E5C35BA72D1A8BBC002DCEBD /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
 		E5C35BA82D1A8BC7002DCEBD /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */; };
 		E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */; };
@@ -253,7 +255,6 @@
 		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E5261BB62CE7576800E5657C /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
-		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E5374F772D0180A20075427C /* CalendarDateSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateSelector.swift; sourceTree = "<group>"; };
 		E54FC83E2D15532A007B359A /* DailyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStat.swift; sourceTree = "<group>"; };
@@ -274,8 +275,10 @@
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
-		E5B573AD2CEF56BE000BDE11 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
 		E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tyte.xcdatamodel; sourceTree = "<group>"; };
+		E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E5BFE3332D1C716E00E558AD /* CoreDataSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSyncService.swift; sourceTree = "<group>"; };
 		E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E5CA1C612CE5D154004B3D87 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
 		E5CA1C622CE5D154004B3D87 /* ToastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastData.swift; sourceTree = "<group>"; };
@@ -347,6 +350,7 @@
 		AB5BB26B2C836C0400DC4D72 = {
 			isa = PBXGroup;
 			children = (
+				E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */,
 				E54FC84B2D157451007B359A /* widgetExtension.entitlements */,
 				E55D8A7B2CBF7D6000849DF1 /* .gitignore */,
 				AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */,
@@ -377,20 +381,20 @@
 			children = (
 				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
-				AB5BB27D2C836C0500DC4D72 /* Preview Content */,
 				E5DE68732CD354090055CADB /* Protocols */,
 				AB6A0F812C8EB01300254299 /* Networking */,
+				E526289C2CC35750004B290C /* Services */,
 				ABD666B22C83731F0005D3C1 /* Models */,
 				ABD666B42C83732E0005D3C1 /* Views */,
 				ABD666B32C8373270005D3C1 /* ViewModels */,
 				AB6A0F7C2C8EAF7400254299 /* Components */,
-				E526289C2CC35750004B290C /* Services */,
 				E52628D42CC392F8004B290C /* Utilities */,
 				AB6A495D2C86069B00B782A1 /* Extensions */,
 				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
 				ABC9937C2CABC2A400D8414F /* tyte.entitlements */,
 				AB5394FD2C85981500A9D1FE /* Info.plist */,
 				AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */,
+				AB5BB27D2C836C0500DC4D72 /* Preview Content */,
 			);
 			path = tyte;
 			sourceTree = "<group>";
@@ -409,7 +413,6 @@
 			children = (
 				E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */,
 				E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */,
-				E5B573AD2CEF56BE000BDE11 /* MockServices.swift */,
 				AB5BB2882C836C0600DC4D72 /* tyteTests.swift */,
 			);
 			path = tyteTests;
@@ -574,6 +577,7 @@
 		E526289C2CC35750004B290C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E5BFE3332D1C716E00E558AD /* CoreDataSyncService.swift */,
 				E5DE68792CD35D040055CADB /* NetworkService.swift */,
 				E519BE412CC8CA4500DD21B7 /* SocialService.swift */,
 				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
@@ -598,6 +602,7 @@
 		E52628D42CC392F8004B290C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */,
 				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
 				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
 				AB84C5302C918EA9000164AC /* Utils.swift */,
@@ -706,7 +711,6 @@
 				E54FC8452D1553B2007B359A /* Utils.swift */,
 				E54FC8402D155374007B359A /* Views */,
 				E54FC83E2D15532A007B359A /* DailyStat.swift */,
-				E52628982CC356E3004B290C /* TodoDataModel.swift */,
 				E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */,
 				E5D6603F2CBFB1FB00A8279B /* Info.plist */,
 				E5D660402CBFB1FB00A8279B /* widget.swift */,
@@ -1070,6 +1074,7 @@
 				E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */,
 				E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */,
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
+				E5BFE3322D1C714E00E558AD /* CoreDataStack.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
 				ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */,
 				E517C2572CCF69960000805C /* SocialView.swift in Sources */,
@@ -1086,6 +1091,7 @@
 				AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */,
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
 				E519BE452CC8CA8E00DD21B7 /* Friend.swift in Sources */,
+				E5BFE3342D1C716E00E558AD /* CoreDataSyncService.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,
 				AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */,
 				AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */,
@@ -1101,6 +1107,7 @@
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
 				AB9037262C9EB7D000F7BB73 /* WorkLifeBalancer.swift in Sources */,
 				AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */,
+				E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
 				ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */,
 				E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */,
 				E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */,
@@ -1127,7 +1134,6 @@
 				E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */,
 				E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */,
 				AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */,
-				E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1148,6 +1154,7 @@
 				E54FC8432D15537E007B359A /* CalendarView.swift in Sources */,
 				E5C35BA72D1A8BBC002DCEBD /* AppState.swift in Sources */,
 				E54FC8472D1553DA007B359A /* Color+.swift in Sources */,
+				E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
 				E54FC8442D15537E007B359A /* DayView.swift in Sources */,
 				E52628D32CC392C7004B290C /* Tag.swift in Sources */,
 				E5C35BA82D1A8BC7002DCEBD /* UserDefaultsManager.swift in Sources */,
@@ -1162,7 +1169,6 @@
 				E52628D92CC3A97F004B290C /* Font+.swift in Sources */,
 				E54FC84A2D15587C007B359A /* MeshGradientView.swift in Sources */,
 				E52628832CC3563B004B290C /* Todo.swift in Sources */,
-				E52628992CC356E3004B290C /* TodoDataModel.swift in Sources */,
 				E5DE11AD2D1A993300D460FE /* KeychainManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1243,7 +1249,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "타이트";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1302,7 +1308,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "타이트";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1558,6 +1564,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */,
+			);
+			currentVersion = E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */;
+			path = tyte.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AB5BB26C2C836C0400DC4D72 /* Project object */;
 }

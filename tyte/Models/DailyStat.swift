@@ -10,7 +10,7 @@ import Foundation
 struct DailyStat: Codable, Identifiable {
     let id: String
     let date: String
-    let user: String
+    let userId: String
     let balanceData: BalanceData
     let productivityNum: Double
     let tagStats: [TagStat]
@@ -18,13 +18,14 @@ struct DailyStat: Codable, Identifiable {
      
     enum CodingKeys: String, CodingKey {
         case id = "_id"  // MongoDB의 _id를 id로 매핑
-        case date, user, balanceData, productivityNum, tagStats, center
+        case userId = "user"
+        case date, balanceData, productivityNum, tagStats, center
     }
     
     static let empty = DailyStat(
         id: UUID().uuidString,
         date: "emptyData",
-        user: "emptyData",
+        userId: "emptyData",
         balanceData: BalanceData(
             title: "Todo가 없네요 :(",
             message: "아래 + 버튼을 눌러 Todo를 추가해주세요",
@@ -73,10 +74,11 @@ struct _Tag: Codable, Identifiable {
     let id: String
     let name: String
     let color: String
-    let user: String
+    let userId: String
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case color, name, user
+        case userId = "user"
+        case color, name
     }
 }

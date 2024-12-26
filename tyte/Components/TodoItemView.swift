@@ -25,10 +25,10 @@ struct TodoItemView: View {
                     .foregroundColor(.gray90)
                 
                 HStack(spacing: 4) {
-                    if let tagId = todo.tagId {
+                    if let tag = todo.tag {
                         HStack(spacing: 4) {
-                            Circle().fill(Color(hex: "#\(tagId.color)")).frame(width: 6)
-                            Text(tagId.name)
+                            Circle().fill(Color(hex: "#\(tag.color)")).frame(width: 6)
+                            Text(tag.name)
                                 .font(._caption)
                                 .foregroundColor(.gray60)
                         }
