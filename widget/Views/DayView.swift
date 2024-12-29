@@ -10,7 +10,7 @@ struct DayView: View {
     var body: some View {
         ZStack {
             if let dailyStat = dailyStat {
-                MeshGradientView(colors: getColors(dailyStat), center: dailyStat.center, isSelected: isToday, cornerRadius:size==120 ? 12 : 6)
+                MeshGradientView(colors: getColors(dailyStat), center: dailyStat.center, isSelected: isToday, cornerRadius:size/8)
                     .frame(width: size,height: size)
                 
                 VStack(alignment: .leading, spacing: 0) {

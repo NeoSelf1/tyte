@@ -1,7 +1,7 @@
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
+struct CalendarWidgetProvider: TimelineProvider {
     func placeholder(in context: Context) -> CalendarEntry {
         let calendar = Calendar.current
         let today = Date()
@@ -31,12 +31,48 @@ struct Provider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarEntry>) -> ()) {
-        let defaults = UserDefaultsManager.shared
-        
-        if defaults.isLoggedIn {
-            let dailyStats = defaults.dailyStats
+        if UserDefaultsManager.shared.isLoggedIn {
+            let yearMonth = String(Date().koreanDate.apiFormat.prefix(7))
+            
+            let request = DailyStatEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "date BEGINSWITH %@",  yearMonth)
+            
+            let dailyStats:[DailyStat]
+            if let statEntities = try? CoreDataStack.shared.context.fetch(request) {
+                dailyStats = statEntities.map { entity in
+                    let tagStats: [TagStat] = (entity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
+                        TagStat(
+                            id: tagStatEntity.id ?? "",
+                            tag: _Tag(
+                                id: tagStatEntity.tag?.id ?? "",
+                                name: tagStatEntity.tag?.name ?? "",
+                                color: tagStatEntity.tag?.color ?? "",
+                                userId: tagStatEntity.tag?.userId ?? ""
+                            ),
+                            count: Int(tagStatEntity.count)
+                        )
+                    } ?? []
+                    
+                    return DailyStat(
+                        id: entity.id ?? "",
+                        date: entity.date ?? "",
+                        userId: entity.userId ?? "",
+                        balanceData: BalanceData(
+                            title: entity.balanceTitle ?? "",
+                            message: entity.balanceMessage ?? "",
+                            balanceNum: Int(entity.balanceNum)
+                        ),
+                        productivityNum: entity.productivityNum,
+                        tagStats: tagStats,
+                        center: SIMD2<Float>(entity.centerX, entity.centerY)
+                    )
+                }
+            } else {
+                dailyStats = []
+            }
+            
             let timeline = Timeline(
-                entries: [CalendarEntry(date: Date().koreanDate, dailyStats: dailyStats ?? [], isLoggedIn: true)],
+                entries: [CalendarEntry(date: Date().koreanDate, dailyStats: dailyStats, isLoggedIn: true)],
                 policy: .never
             )
             
@@ -61,7 +97,7 @@ struct CalendarEntry: TimelineEntry {
 struct CalendarWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     
-    var entry: Provider.Entry
+    var entry: CalendarWidgetProvider.Entry
     
     var body: some View {
         if entry.isLoggedIn {
@@ -141,7 +177,7 @@ struct CalendarWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: kind,
-            provider: Provider()
+            provider: CalendarWidgetProvider()
         ) { entry in
             if #available(iOS 17.0, *) {
                 CalendarWidgetEntryView(entry: entry)
@@ -157,13 +193,3 @@ struct CalendarWidget: Widget {
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
-
-//struct CalendarWidget_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CalendarWidgetEntryView(
-//            entry: CalendarEntry(date: Date(), dailyStats: DailyStat.dummyDailyStats, isLoggedIn: true)
-//        )
-//        .containerBackground(.gray00, for: .widget)
-//        .previewContext(WidgetPreviewContext(family: .systemLarge))
-//    }
-//}

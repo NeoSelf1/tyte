@@ -22,6 +22,20 @@ struct DailyStat: Codable, Identifiable {
         case date, balanceData, productivityNum, tagStats, center
     }
     
+    static let empty = DailyStat(
+        id: UUID().uuidString,
+        date: "emptyData",
+        userId: "emptyData",
+        balanceData: BalanceData(
+            title: "Todo가 없네요 :(",
+            message: "아래 + 버튼을 눌러 Todo를 추가해주세요",
+            balanceNum: 0
+        ),
+        productivityNum: 0,
+        tagStats: [],
+        center: SIMD2<Float>(x: 0.5, y: 0.5)
+    )
+    
     static let dummyStat =
         DailyStat(
             id: "dummy1",
