@@ -14,18 +14,23 @@ final class CoreDataStack {
     var context: NSManagedObjectContext
     
     private init() {
-        let container = NSPersistentContainer(name: "tyte")
-        
-        container.loadPersistentStores { _, error in
-            if let error {
-                fatalError("Failed to load persistent stores: \(error.localizedDescription)")
+        persistentContainer = {
+            let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.neox.tyte")!
+            let storeDescription = NSPersistentStoreDescription(url: storeURL.appendingPathComponent("DataModel.sqlite"))
+            
+            let container = NSPersistentContainer(name: "tyte")
+            container.persistentStoreDescriptions = [storeDescription]
+            
+            container.loadPersistentStores { description, error in
+                if let error = error {
+                    fatalError("Unable to load persistent stores: \(error)")
+                }
             }
-        }
-        
-        persistentContainer = container
-        context = container.viewContext
-    }
+            return container
+        }()
     
+        context = persistentContainer.viewContext
+    }
     
     /// 트랜잭션 내에서 작업을 수행하고 자동으로 저장 또는 롤백을 처리하는 메서드
         /// - Parameter block: 트랜잭션 내에서 실행할 작업
@@ -41,10 +46,21 @@ final class CoreDataStack {
                     try context.save()
                 }
             } catch {
-                // 오류 발생 시 롤백
                 context.rollback()
                 throw error
             }
+        }
+    }
+    
+    func clearUserData(for userId: String) throws {
+        print("clearUserData")
+        let entities = ["TodoEntity", "TagEntity", "DailyStatEntity", "TagStatEntity", "SyncCommandEntity"]
+        
+        for entityName in entities {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            try context.execute(deleteRequest)
         }
     }
 }
