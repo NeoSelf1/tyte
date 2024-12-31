@@ -19,9 +19,17 @@
             </uniquenessConstraint>
             <uniquenessConstraint>
                 <constraint value="date"/>
-                <constraint value="userId"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
+    </entity>
+    <entity name="SyncCommandEntity" representedClassName="SyncCommandEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="errorMessage" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastAttempt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="payload" attributeType="Binary"/>
+        <attribute name="retryCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
     </entity>
     <entity name="TagEntity" representedClassName="TagEntity" syncable="YES" codeGenerationType="class">
         <attribute name="color" optional="YES" attributeType="String"/>
@@ -43,22 +51,19 @@
     </entity>
     <entity name="TagStatEntity" representedClassName="TagStatEntity" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="tagId" optional="YES" attributeType="String"/>
         <relationship name="dailyStat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyStatEntity" inverseName="tagStats" inverseEntity="DailyStatEntity"/>
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TagEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
             </uniquenessConstraint>
-            <uniquenessConstraint>
-                <constraint value="dailyStat"/>
-                <constraint value="tag"/>
-            </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
     <entity name="TodoEntity" representedClassName="TodoEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdAt" optional="YES" attributeType="String"/>
         <attribute name="deadline" optional="YES" attributeType="String"/>
         <attribute name="difficulty" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="estimatedTime" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
