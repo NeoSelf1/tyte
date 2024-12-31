@@ -47,8 +47,8 @@ struct TodoListWidgetProvider: TimelineProvider {
             let date = Date().koreanDate.apiFormat
             let dailyStatRequest = DailyStatEntity.fetchRequest()
             let todoRequest = TodoEntity.fetchRequest()
-            dailyStatRequest.predicate = NSPredicate(format: "deadline == %@", date)
-            todoRequest.predicate = NSPredicate(format: "date BEGINSWITH %@", date.prefix(7) as CVarArg)
+            dailyStatRequest.predicate = NSPredicate(format: "date == %@", date)
+            todoRequest.predicate = NSPredicate(format: "deadline == %@", date)
             
             if let statEntity = try? CoreDataStack.shared.context.fetch(dailyStatRequest)[0],
                let todoEntities = try? CoreDataStack.shared.context.fetch(todoRequest) {
@@ -90,7 +90,8 @@ struct TodoListWidgetProvider: TimelineProvider {
                         estimatedTime: Int(entity.estimatedTime),
                         deadline: entity.deadline ?? "",
                         isCompleted: entity.isCompleted,
-                        userId: entity.userId ?? ""
+                        userId: entity.userId ?? "",
+                        createdAt: entity.createdAt ?? ""
                     )
                 }
             } else {
@@ -144,7 +145,7 @@ struct TodoListWidgetEntryView : View {
                     HStack{
                         Text(entry.date.formattedMonthDate)
                             .font(._body2)
-                            .foregroundStyle(.blue10)
+                            .foregroundStyle(.gray90)
                         
                         Spacer()
                         
@@ -158,7 +159,8 @@ struct TodoListWidgetEntryView : View {
                         date: entry.date,
                         isToday:false,
                         isDayVisible: false,
-                        size:92
+                        size:92,
+                        isCircleVisible: false
                     )
                     
                     todoList(maxNum: 5)
@@ -168,7 +170,7 @@ struct TodoListWidgetEntryView : View {
                     HStack {
                         Text(entry.date.formattedMonthDate)
                             .font(._body2)
-                            .foregroundStyle(.blue10)
+                            .foregroundStyle(.gray90)
                         
                         Spacer()
                         
@@ -177,14 +179,17 @@ struct TodoListWidgetEntryView : View {
                             .foregroundStyle(.gray50)
                     }
                     
-                    HStack(alignment: .top, spacing: 20){
+                    HStack(alignment: .top){
                         DayView(
                             dailyStat: entry.dailyStat,
                             date: entry.date,
                             isToday:false,
                             isDayVisible: false,
-                            size:92
+                            size:92,
+                            isCircleVisible: false
                         )
+                        .padding(.trailing,20)
+                        
                         todoList(maxNum: 3)
                     }
                 }
@@ -193,7 +198,7 @@ struct TodoListWidgetEntryView : View {
                     HStack(spacing:0) {
                         Text(entry.date.formattedMonthDate)
                             .font(._body2)
-                            .foregroundStyle(.blue10)
+                            .foregroundStyle(.gray90)
                         
                         Spacer()
                         
@@ -202,23 +207,24 @@ struct TodoListWidgetEntryView : View {
                             date: entry.date,
                             isToday:false,
                             isDayVisible: false,
-                            size:48
+                            size:48,
+                            isCircleVisible: false
                         )
-                        .frame(width:28, height:28)
+                        .frame(width:16, height:16)
                     }
                     
                     todoList(maxNum: 3)
                 }
             }
         } else {
-            VStack(spacing: 4) {
+            VStack(spacing: 2) {
                 Text("TyTE 앱에서")
                     .font(._caption)
-                    .foregroundStyle(.gray60)
+                    .foregroundStyle(.gray50)
                 
                 Text("로그인이 필요해요")
                     .font(._subhead2)
-                    .foregroundStyle(.gray90)
+                    .foregroundStyle(.gray50)
             }
         }
     }
@@ -239,25 +245,24 @@ struct TodoListWidgetEntryView : View {
             }
             .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .center)
             .background(
-                RoundedRectangle(cornerRadius: 16).fill(.white.opacity(0.1))
+                RoundedRectangle(cornerRadius: 16).fill(.gray95.opacity(0.1))
             )
         } else {
             VStack(alignment: .leading, spacing: 4) {
-                ForEach(entry.todos.prefix(maxNum)) { todo in
+                ForEach(entry.todos.sorted { !$0.isCompleted && $1.isCompleted }.prefix(maxNum)) { todo in
                     HStack(spacing:4) {
                         Circle().fill(Color(hex:todo.tag?.color ?? "747474")).frame(width: 4, height: 4)
                         
                         Text(todo.title)
                             .font(._caption)
-                            .foregroundStyle(.gray30)
+                            .foregroundStyle(.gray70)
                             .frame(maxWidth: .infinity,alignment: .leading)
                             .lineLimit(1)
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 6)
-                    .frame(maxWidth: .infinity)
                     .background(
-                        RoundedRectangle(cornerRadius: 8).fill(.white.opacity(0.1))
+                        RoundedRectangle(cornerRadius: 8).fill(.gray95.opacity(0.1))
                     )
                     .opacity(todo.isCompleted ? 0.4 : 1)
                 }
@@ -276,10 +281,14 @@ struct TodoListWidget: Widget {
             kind: kind,
             provider: TodoListWidgetProvider()
         ) { entry in
-            TodoListWidgetEntryView(entry: entry)
-                .padding()
-                .background(.gray90)
-            
+            if #available(iOS 17.0, *) {
+                TodoListWidgetEntryView(entry: entry)
+                    .containerBackground(.gray10, for: .widget)
+            } else {
+                TodoListWidgetEntryView(entry: entry)
+                    .padding()
+                    .background(.gray10)
+            }
         }
         .configurationDisplayName("TyTE 할일 리스트")
         .description("할일들을 한눈에 확인해보세요")
@@ -293,11 +302,12 @@ struct TodoListWidget_Previews: PreviewProvider {
             entry: TodoListEntry(
                 date: Date().koreanDate,
                 dailyStat: .empty,
-                todos:[.mock,.mock1,.mock2],
+                todos:[.mock,.mock2,.mock1],
+//                todos:[],
                 isLoggedIn: true
             )
         )
-        .containerBackground(.gray90, for: .widget)
+        .containerBackground(.gray10, for: .widget)
         .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }

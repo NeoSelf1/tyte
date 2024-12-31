@@ -16,7 +16,7 @@ protocol NetworkServiceProtocol {
 }
 
 protocol WidgetServiceProtocol {
-    func updateWidget()
+    func updateWidget(_ type: WidgetType)
 }
 
 protocol AuthServiceProtocol {

@@ -106,8 +106,12 @@ class CoreDataSyncService {
             switch operation.type {
             case .updateTodo(let todo):
                 try saveTodoToStore(todo)
+                
+                widgetService.updateWidget(.todoList)
             case .deleteTodo(let id):
                 try deleteTodoToStore(id)
+                
+                widgetService.updateWidget(.todoList)
             case .updateTag(let tag):
                 try saveTagToStore(tag)
             case .deleteTag(let id):
@@ -136,6 +140,8 @@ extension CoreDataSyncService {
         return todoService.createTodo(text: text, in: date)
             .tryMap { [weak self] todos in
                 try self?.saveTodosToStore(todos)
+                
+                self?.widgetService.updateWidget(.todoList)
                 return todos
             }
             .eraseToAnyPublisher()
@@ -197,7 +203,7 @@ extension CoreDataSyncService {
             .tryMap { [weak self] _dailyStat in
                 if let dailyStat = _dailyStat{
                     try self?.saveDailyStatToStore(dailyStat)
-                    self?.widgetService.updateWidget()
+                    self?.widgetService.updateWidget(.calendar)
                 }
                 return _dailyStat
             }
@@ -208,7 +214,7 @@ extension CoreDataSyncService {
         return dailyStatService.fetchMonthlyStats(in: yearMonth)
             .tryMap { [weak self] dailyStats in
                 try self?.saveDailyStatsToStore(dailyStats)
-                self?.widgetService.updateWidget()
+                self?.widgetService.updateWidget(.calendar)
                 return dailyStats
             }
             .eraseToAnyPublisher()

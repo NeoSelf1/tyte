@@ -6,6 +6,22 @@ struct DayView: View {
     let isToday: Bool
     let isDayVisible: Bool
     let size: CGFloat
+    let isCircleVisible: Bool
+    
+    init(dailyStat: DailyStat?,
+         date: Date,
+         isToday: Bool,
+         isDayVisible: Bool,
+         size: CGFloat,
+         isCircleVisible:Bool = true
+    ) {
+        self.dailyStat = dailyStat
+        self.date = date
+        self.isToday = isToday
+        self.isDayVisible = isDayVisible
+        self.size = size
+        self.isCircleVisible = isCircleVisible
+    }
     
     var body: some View {
         ZStack {
@@ -13,12 +29,14 @@ struct DayView: View {
                 MeshGradientView(colors: getColors(dailyStat), center: dailyStat.center, isSelected: isToday, cornerRadius:size/8)
                     .frame(width: size,height: size)
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    balanceIndicator(for: dailyStat)
-                    
-                    Spacer()
+                if isCircleVisible{
+                    VStack(alignment: .leading, spacing: 0) {
+                        balanceIndicator(for: dailyStat)
+                        
+                        Spacer()
+                    }
+                    .frame(width: size, height: size)
                 }
-                .frame(width: size, height: size)
             } else {
                 Rectangle()
                 .clipShape(RoundedRectangle(cornerRadius: 6))
