@@ -34,17 +34,7 @@ class HomeViewModel: ObservableObject {
         
         let today = Date().koreanDate
         
-        if let localTags = try? syncService.readTagsFromStore() {
-            tags = localTags
-        }
-        
-        if let localTodos = try? syncService.readTodosFromStore(for: today.apiFormat) {
-            todosForDate = localTodos
-        }
-        
-        if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(today.apiFormat.prefix(7))) {
-            weekCalendarData = localDailyStats
-        }
+        readLocalData(type: .all, in: today)
         
         isLoading = false
         
@@ -68,6 +58,7 @@ class HomeViewModel: ObservableObject {
             ToastManager.shared.show(.invalidTodoEdit)
         } else {
             selectedTodo = todo
+            readLocalData(type: .tag, in: selectedDate)
             isDetailPresented = true
         }
     }
@@ -81,9 +72,7 @@ class HomeViewModel: ObservableObject {
     func changeDate(_ date: Date){
         guard date != selectedDate else { return }
         
-        if let localTodos = try? syncService.readTodosFromStore(for: date.apiFormat) {
-            todosForDate = localTodos
-        }
+        readLocalData(type: .todo, in: date)
         
         refreshTodos(for: date.apiFormat)
         
@@ -91,9 +80,8 @@ class HomeViewModel: ObservableObject {
         let newYearMonth = date.apiFormat.prefix(7)
         
         if currentYearMonth != newYearMonth {
-            if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(newYearMonth)) {
-                weekCalendarData = localDailyStats
-            }
+            readLocalData(type: .dailyStat, in: date)
+            
             refreshMonthlyStats(for: date.apiFormat)
         }
         
@@ -178,9 +166,7 @@ extension HomeViewModel {
                 
                 // Refresh에서 read로 대체하여 네트워크 호출 수 줄이자.
                 // refreshTodos(for: selectedDate.apiFormat)
-                if let localTodos = try? syncService.readTodosFromStore(for: selectedDate.apiFormat) {
-                    todosForDate = localTodos
-                }
+                readLocalData(type: .todo, in: selectedDate)
                 
                 // 출발지점에 대한 dailyStat와 변경된 도착지에 대한 dailyStat 둘다 수정 필요
                 refreshDailyStat(for: updatedTodo.deadline)
@@ -215,6 +201,7 @@ extension HomeViewModel {
             .sink { _ in
             } receiveValue: {  [weak self] _tags in
                 guard let self = self else { return }
+                print(_tags)
                 tags = _tags
                 
                 refreshTodos(for: selectedDate.apiFormat)
@@ -269,9 +256,7 @@ extension HomeViewModel {
             .store(in: &cancellables)
     }
     
-    
-    // MARK: - Tag 관련 메서드
-    func refreshTags() {
+    private func refreshTags() {
         syncService.refreshTags()
             .receive(on: DispatchQueue.main)
             .sink { _ in
@@ -280,4 +265,40 @@ extension HomeViewModel {
             }
             .store(in: &cancellables)
     }
+    
+    private func readLocalData(type: LocalDataType, in date: Date) {
+        switch type {
+        case .all:
+            if let localTags = try? syncService.readTagsFromStore() {
+                tags = localTags
+            }
+            
+            if let localTodos = try? syncService.readTodosFromStore(for: date.apiFormat) {
+                todosForDate = localTodos
+            }
+            
+            if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(date.apiFormat.prefix(7))) {
+                weekCalendarData = localDailyStats
+            }
+        case .todo:
+            if let localTodos = try? syncService.readTodosFromStore(for: date.apiFormat) {
+                todosForDate = localTodos
+            }
+        case .tag:
+            if let localTags = try? syncService.readTagsFromStore() {
+                tags = localTags
+            }
+        case .dailyStat:
+            if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(date.apiFormat.prefix(7))) {
+                weekCalendarData = localDailyStats
+            }
+        }
+    }
+}
+
+enum LocalDataType {
+    case all
+    case tag
+    case todo
+    case dailyStat
 }
