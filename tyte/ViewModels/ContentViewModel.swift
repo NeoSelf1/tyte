@@ -12,7 +12,7 @@ class ContentViewModel: ObservableObject {
     @Published var isLoading: Bool = true
     
     private var currentAppVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.5"
     }
     
     private let authService: AuthServiceProtocol
