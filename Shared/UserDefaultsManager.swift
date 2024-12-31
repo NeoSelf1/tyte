@@ -76,6 +76,9 @@ final class UserDefaultsManager {
     }
     
     func logout() {
+        if let userId = currentUserId {
+            try? CoreDataStack.shared.clearUserData(for: userId)
+        }
         KeychainManager.shared.clearToken()
         currentUserId = nil
         isLoggedIn = false

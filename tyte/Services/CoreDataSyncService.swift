@@ -1,122 +1,226 @@
-//
-//  CoreDataSyncService.swift
-//  tyte
-//
-//  Created by Neoself on 12/26/24.
-//
-
 /// 1. 네트워크에서 데이터 fetch 후 CoreData 저장
 /// 2. CoreData에서 데이터 읽기
 /// 3. 사용자 변경 시 데이터 삭제
 /// 4. 데이터 동기화 및 충돌 관리
 
 // MARK: save = create || update
+// MARK: -  CoreData로 영구저장소와 동기화 이후, 네트워크 통신으로 데이터 fetch
 
 import Combine
 import CoreData
+import Foundation
+import Network
+
+/// createTodo 및 createTag는 서버에서의 고유ID와 오프라인에서 발급받은 임시 ID와의 충돌 문제로 인해
+/// 네트워크 연결 확인 -> 네트워크 통신으로 생성 -> 로컬에 저장 흐름으로 로직 전개
+enum SyncOperationType: Codable {
+    case updateTodo(Todo)
+    case deleteTodo(String)
+    
+    case updateTag(Tag)
+    case deleteTag(String)
+}
+
+enum SyncStatus: String, Codable {
+    case pending
+    case inProgress
+    case completed
+    case failed
+}
+
+// MARK: 동기화해야 할 작업을 정의
+struct SyncOperation: Codable {
+    let type: SyncOperationType
+    let timestamp: Date
+    
+    static func create(type: SyncOperationType) -> SyncOperation {
+        SyncOperation(
+            type: type,
+            timestamp: Date()
+        )
+    }
+}
+
+// MARK: 동기화해야 할 명령을 표현
+struct SyncCommand: Codable {
+    let id: UUID
+    let operation: SyncOperation
+    var status: SyncStatus
+    var retryCount: Int
+    var lastAttempt: Date?
+    var errorMessage: String?
+}
+
 // TODO: Repository 패턴으로 분리하여 관심사 분리 및 의존성 방향 역전
 // TODO: 동기화 상태 추적 : 각 엔티티의 마지막 동기화 시간 추적 필요
 
+/// 전체 동기화 프로세스를 관리하는 메인 서비스
 class CoreDataSyncService {
     static let shared = CoreDataSyncService()
     
-    private let coreDataStack = CoreDataStack.shared
+    private let coreDataStack: CoreDataStack = .shared
     
     private let todoService: TodoServiceProtocol
     private let tagService: TagServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
+    private let widgetService: WidgetServiceProtocol
+    private let syncQueue = SyncQueue()
     
-    init(
+    private var cancellables = Set<AnyCancellable>()
+    
+    init (
         todoService: TodoServiceProtocol = TodoService(),
         tagService: TagServiceProtocol = TagService(),
-        dailyStatService: DailyStatServiceProtocol = DailyStatService()
+        dailyStatService: DailyStatServiceProtocol = DailyStatService(),
+        widgetService: WidgetServiceProtocol = WidgetService()
     ) {
         self.todoService = todoService
         self.tagService = tagService
         self.dailyStatService = dailyStatService
+        self.widgetService = widgetService
+        
+        setupNetworkMonitoring()
     }
     
+    // MARK: 네트워크 상태를 실시간으로 감시
+    /// 온라인 상태가 되면 자동으로 동기화 시작
+    /// 오프라인 상태가 되면 동기화 중지
+    func setupNetworkMonitoring() {
+        NetworkManager.shared.$isConnected
+            .sink { [weak self] isConnected in
+                if isConnected {
+                    self?.syncQueue.startSync()
+                } else {
+                    self?.syncQueue.stopSync()
+                }
+            }
+            .store(in: &cancellables)
+    }
     
-    // MARK: - 네트워크 통신으로 데이터 fetch 후, CoreData로 영구저장소와 동기화
-    
-    
-    /// 특정 날짜의 Todo 목록을 fetch하고 CoreData와 동기화
-    /// - Parameter date: 조회할 날짜
-    /// - Returns: 동기화된 Todo 목록을 포함한 Publisher
-    func fetchSyncTodosForDate(_ date: String) -> AnyPublisher<[Todo], Error> {
-        return todoService.fetchTodos(for: date)
+    ///로컬 저장소 업데이트
+    /// - Parameter operation:진행중인 작업
+    /// 네트워크 동기화 수행, 오프라인일 경우 작업을 큐에 저장
+    func performSync(_ operation: SyncOperation) -> AnyPublisher<Any, Error> {
+        print("1. performSync: \(operation.type)".prefix(56))
+        // 1. CoreData로 영구저장소에 변경사항 먼저 반영
+        do {
+            switch operation.type {
+            case .updateTodo(let todo):
+                try saveTodoToStore(todo)
+            case .deleteTodo(let id):
+                try deleteTodoToStore(id)
+            case .updateTag(let tag):
+                try saveTagToStore(tag)
+            case .deleteTag(let id):
+                try deleteTagToStore(id)
+            }
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        // 2. SyncCommand 생성 및 SyncQueue로 처리 요청
+        return syncQueue.process(SyncCommand(
+            id: UUID(),
+            operation: operation,
+            status: .pending,
+            retryCount: 0
+        ))
+        .eraseToAnyPublisher()
+    }
+}
+
+
+// MARK: - CRUD Method
+
+extension CoreDataSyncService {
+    func createTodo(text: String, in date: String) -> AnyPublisher<[Todo], Error> {
+        return todoService.createTodo(text: text, in: date)
             .tryMap { [weak self] todos in
                 try self?.saveTodosToStore(todos)
                 return todos
             }
-            .mapError { $0 }
             .eraseToAnyPublisher()
     }
     
-    /// Todo 삭제 및 CoreData 동기화
-    func deleteSyncTodo(_ id: String) -> AnyPublisher<Todo, Error> {
-        return todoService.deleteTodo(id: id)
-            .tryMap { [weak self] deletedTodo in
-                try self?.deleteTodoToStore(deletedTodo.id)
-                return deletedTodo
+    func updateTodo(_ todo: Todo) -> AnyPublisher<Todo, Error> {
+        performSync(.create(type: .updateTodo(todo)))
+            .map { $0 as! Todo }
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteTodo(_ id: String) -> AnyPublisher<String, Error> {
+        performSync(.create(type: .deleteTodo(id)))
+            .map { $0 as! String } // deletedTodoId
+            .eraseToAnyPublisher()
+    }
+    
+    
+    // MARK: - Tag domain
+    
+    func createTag(name: String, color: String) -> AnyPublisher<Tag, Error> {
+        return tagService.createTag(name: name, color: color)
+            .tryMap { [weak self] createdTag in
+                try self?.saveTagToStore(createdTag)
+                return createdTag
             }
-            .mapError { $0 }
             .eraseToAnyPublisher()
     }
     
-    /// DailyStat fetch 및 CoreData 동기화
-    func fetchSyncDailyStat(for deadline: String) -> AnyPublisher<DailyStat?, Error> {
-        return dailyStatService.fetchDailyStat(for: deadline)
-            .tryMap { [weak self] dailyStat in
-                try self?.saveDailyStatToStore(dailyStat ?? .empty)
-                return dailyStat
-            }
-            .mapError { $0 }
+    func updateTag(_ tag: Tag) -> AnyPublisher<Tag, Error> {
+        performSync(.create(type: .updateTag(tag)))
+            .map { $0 as! Tag }
             .eraseToAnyPublisher()
     }
     
-    /// DailyStats fetch 및 CoreData 동기화
-    func fetchSyncDailyStats(for yearMonth: String) -> AnyPublisher<[DailyStat], Error> {
-        return dailyStatService.fetchMonthlyStats(in: yearMonth)
-            .tryMap { [weak self] stats in
-                print(stats)
-                try self?.saveDailyStatsToStore(stats)
-                return stats
-            }
-            .mapError { $0 }
+    func deleteTag(_ id: String) -> AnyPublisher<String, Error> {
+        performSync(.create(type: .deleteTag(id)))
+            .map { $0 as! String }
             .eraseToAnyPublisher()
     }
-    
-    /// Tags fetch 및 CoreData 동기화
-    func fetchSyncTags() -> AnyPublisher<[Tag], Error> {
+}
+
+
+// MARK: - Refresh Method
+/// 네트워크 통신부터 하고, 새로운거 있으면 sync
+extension CoreDataSyncService {
+    //MARK: 밑 refresh 메서드를 실행하기 전에 필수로 호출이 필수 -> Presentation layer에서 refresh메서드 호출 순서에 대해 유념해야함.
+    func refreshTags() -> AnyPublisher<[Tag], Error> {
         return tagService.fetchTags()
             .tryMap { [weak self] tags in
                 try self?.saveTagsToStore(tags)
                 return tags
             }
-            .mapError { $0 }
             .eraseToAnyPublisher()
     }
     
-    /// Todo 생성 및 CoreData 동기화
-    func createSyncTodoForDate(text: String,in deadline:String) -> AnyPublisher<[Todo], Error>{
-        return todoService.createTodo(text: text, in: deadline)
-            .tryMap { [weak self] newTodos in
-                try self?.saveTodosToStore(newTodos)
-                return newTodos
+    func refreshDailyStat(for date: String) -> AnyPublisher<DailyStat?, Error> {
+        return dailyStatService.fetchDailyStat(for: date)
+            .tryMap { [weak self] _dailyStat in
+                if let dailyStat = _dailyStat{
+                    try self?.saveDailyStatToStore(dailyStat)
+                    self?.widgetService.updateWidget()
+                }
+                return _dailyStat
             }
-            .mapError { $0 }
             .eraseToAnyPublisher()
     }
     
-    /// Todo 수정(Update) 및 CoreData 동기화
-    func updateSyncTodoForDate(_ todo: Todo) -> AnyPublisher<Todo, Error>{
-        return todoService.updateTodo(todo:todo)
-            .tryMap { [weak self] updatedTodo in
-                try self?.saveTodoToStore(updatedTodo)
-                return updatedTodo
+    func refreshDailyStats(for yearMonth: String) -> AnyPublisher<[DailyStat], Error> {
+        return dailyStatService.fetchMonthlyStats(in: yearMonth)
+            .tryMap { [weak self] dailyStats in
+                try self?.saveDailyStatsToStore(dailyStats)
+                self?.widgetService.updateWidget()
+                return dailyStats
             }
-            .mapError { $0 }
+            .eraseToAnyPublisher()
+    }
+    
+    func refreshTodos(for date: String) -> AnyPublisher<[Todo], Error> {
+        return todoService.fetchTodos(for: date)
+            .tryMap { [weak self] todos in
+                try self?.saveTodosToStore(todos)
+                return todos
+            }
             .eraseToAnyPublisher()
     }
 }
@@ -129,13 +233,15 @@ extension CoreDataSyncService {
         let request = TodoEntity.fetchRequest()
         request.predicate = NSPredicate(format: "deadline == %@", date)
         request.sortDescriptors = [
-                NSSortDescriptor(key: "isImportant", ascending: false),
-                NSSortDescriptor(key: "createdAt", ascending: true)
-            ]
-        
+            NSSortDescriptor(key: "isImportant", ascending: false),
+            NSSortDescriptor(key: "createdAt", ascending: false),
+            NSSortDescriptor(key: "title", ascending: true)
+        ]
+
         let todoEntities = try coreDataStack.context.fetch(request)
-        return todoEntities.map { entity in
-            Todo(
+        
+        let todos = todoEntities.map { entity in
+            return Todo(
                 id: entity.id ?? "",
                 raw: entity.raw ?? "",
                 title: entity.title ?? "",
@@ -146,18 +252,33 @@ extension CoreDataSyncService {
                 estimatedTime: Int(entity.estimatedTime),
                 deadline: entity.deadline ?? "",
                 isCompleted: entity.isCompleted,
-                userId: entity.userId ?? ""
+                userId: entity.userId ?? "",
+                createdAt: entity.createdAt ?? ""
             )
         }
+        return todos
     }
     
     func readDailyStatsFromStore(for yearMonth: String) throws -> [DailyStat] {
         let request = DailyStatEntity.fetchRequest()
         request.predicate = NSPredicate(format: "date BEGINSWITH %@", yearMonth)
-        
         let statEntities = try coreDataStack.context.fetch(request)
         return statEntities.map { entity in
-            DailyStat(
+            // TagStats 변환 로직
+            let tagStats: [TagStat] = (entity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
+                TagStat(
+                    id: tagStatEntity.id ?? "",
+                    tag: _Tag(
+                        id: tagStatEntity.tag?.id ?? "",
+                        name: tagStatEntity.tag?.name ?? "",
+                        color: tagStatEntity.tag?.color ?? "",
+                        userId: tagStatEntity.tag?.userId ?? ""
+                    ),
+                    count: Int(tagStatEntity.count)
+                )
+            } ?? []
+            
+            return DailyStat(
                 id: entity.id ?? "",
                 date: entity.date ?? "",
                 userId: entity.userId ?? "",
@@ -167,7 +288,7 @@ extension CoreDataSyncService {
                     balanceNum: Int(entity.balanceNum)
                 ),
                 productivityNum: entity.productivityNum,
-                tagStats: [], // TODO: Handle tagStats relationship
+                tagStats: tagStats,
                 center: SIMD2<Float>(entity.centerX, entity.centerY)
             )
         }
@@ -192,18 +313,14 @@ extension CoreDataSyncService {
 }
 
 
-
-
 // MARK: - CoreData CRUD(단일)
 
 extension CoreDataSyncService {
-    
-    /// CoreData에 Todo 저장 시 동기화 상태 관리
+    // MARK: - Todo domain
     private func saveTodoToStore(_ todo: Todo) throws{
         try coreDataStack.performInTransaction {
             let request = TodoEntity.fetchRequest()
             request.predicate = NSPredicate(format: "id == %@", todo.id)
-            
             let todoEntity = try coreDataStack.context.fetch(request).first ?? TodoEntity(context: coreDataStack.context)
             
             todoEntity.id = todo.id
@@ -216,10 +333,8 @@ extension CoreDataSyncService {
             todoEntity.deadline = todo.deadline
             todoEntity.isCompleted = todo.isCompleted
             todoEntity.userId = todo.userId
+            todoEntity.createdAt = todo.createdAt
             
-            if todoEntity.createdAt == nil {
-                todoEntity.createdAt = Date()
-            }
             
             if let tag = todo.tag {
                 try setupTagRelationship(for: todoEntity, with: tag)
@@ -229,6 +344,21 @@ extension CoreDataSyncService {
         }
     }
     
+    func deleteTodoToStore(_ id: String) throws {
+        try coreDataStack.performInTransaction {
+            let request = TodoEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", id)
+            
+            guard let todoEntity = try coreDataStack.context.fetch(request).first else {
+                throw NSError(domain: "TodoNotFound", code: 404)
+            }
+            print("todo deleted: \(id)")
+            coreDataStack.context.delete(todoEntity)
+        }
+    }
+    
+    
+    // MARK: - DailyStat
     private func saveDailyStatToStore(_ stat: DailyStat) throws {
         try coreDataStack.performInTransaction {
             let request = DailyStatEntity.fetchRequest()
@@ -246,21 +376,39 @@ extension CoreDataSyncService {
             statEntity.centerY = stat.center.y
             
             // TODO: Save tagStats relationship 버그 수정
-//            try setupTagRelationship(for: statEntity, with: stat.tagStats)
+            try setupTagRelationship(for: statEntity, with: stat.tagStats)
         }
     }
     
-    /// deleteTodo : Todo 삭제
-    func deleteTodoToStore(_ id: String) throws {
+    
+    // MARK: - Tag
+    
+    private func saveTagToStore(_ tag: Tag) throws {
         try coreDataStack.performInTransaction {
-            let request = TodoEntity.fetchRequest()
+            let request = TagEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", tag.id)
+            
+            let tagEntity = try coreDataStack.context.fetch(request).first ?? TagEntity(context: coreDataStack.context)
+            
+            tagEntity.id = tag.id
+            tagEntity.color = tag.color
+            tagEntity.name = tag.name
+            tagEntity.userId = tag.userId
+            tagEntity.lastUpdated = Date().koreanDate
+            
+        }
+    }
+    
+    func deleteTagToStore(_ id: String) throws {
+        try coreDataStack.performInTransaction {
+            let request = TagEntity.fetchRequest()
             request.predicate = NSPredicate(format: "id == %@", id)
             
-            guard let todoEntity = try coreDataStack.context.fetch(request).first else {
-                throw NSError(domain: "TodoNotFound", code: 404)
+            guard let tagEntity = try coreDataStack.context.fetch(request).first else {
+                throw NSError(domain: "TagNotFound", code: 404)
             }
             
-            coreDataStack.context.delete(todoEntity)
+            coreDataStack.context.delete(tagEntity)
         }
     }
 }
@@ -268,8 +416,9 @@ extension CoreDataSyncService {
 
 // MARK: - CoreData CRUD(복수) Batch Operations with Transaction
 
-extension CoreDataSyncService{
+extension CoreDataSyncService {
     private func saveTodosToStore(_ todos: [Todo]) throws {
+        print(todos)
         try coreDataStack.performInTransaction {
             for todo in todos {
                 try saveTodoToStore(todo)
@@ -300,21 +449,8 @@ extension CoreDataSyncService{
         }
     }
     
-    // MARK: 사용자 변경 시 데이터 삭제
-    private func clearUserData(for userId: String) throws {
-        try coreDataStack.performInTransaction {
-            let entities = ["TodoEntity", "TagEntity", "DailyStatEntity", "TagStatEntity"]
-            
-            for entityName in entities {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-                fetchRequest.predicate = NSPredicate(format: "userId == %@", userId)
-                
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-                try coreDataStack.context.execute(deleteRequest)
-            }
-        }
-    }
     
+    // TODO: Debug needed
     private func setupTagRelationship(for statEntity: DailyStatEntity, with tagStats: [TagStat]) throws {
         // 기존 관계 제거
         if let existingStats = statEntity.tagStats as? Set<TagStatEntity> {
@@ -323,23 +459,38 @@ extension CoreDataSyncService{
                 coreDataStack.context.delete(stat)
             }
         }
+        // 여기까지 문제없음
+//tagStats = 0 : TagStat
+//        - id : "6759a0e339c44e4e4d4b5728"
+//        ▿ tag : _Tag
+//          - id : "6702b4ff16e504b438e05edf"
+//          - name : "블로그"
+//          - color : "FFA07A"
+//          - userId : "66fbbdcbadc0649337f5c371"
+//        - count : 1
         
+//MARK: - server
+//        tagStats: [
+//            {
+         // id
+//              tagId: { type: mongoose.Schema.Types.ObjectId, ref: 'Tag' },
+//              count: { type: Number, default: 0 },
+//            },
         // 새로운 TagStat 관계 설정
         for tagStat in tagStats {
             let tagStatEntity = TagStatEntity(context: coreDataStack.context)
             tagStatEntity.id = tagStat.id
             tagStatEntity.count = Int16(tagStat.count)
             
-            // Tag 관계 설정
+            // Tag 관계 설정 -> 여기서 local 저장소에 tagStat에 명시된 id값을 지닌 tag가 없을 경우, tag가 연결되지 않음에 따라 버그 발생
             let tagRequest = TagEntity.fetchRequest()
-            tagRequest.predicate = NSPredicate(format: "id == %@", tagStat.id)
+            tagRequest.predicate = NSPredicate(format: "id == %@", tagStat.tag.id)
             
             if let tagEntity = try coreDataStack.context.fetch(tagRequest).first {
                 tagStatEntity.tag = tagEntity
+                statEntity.addToTagStats(tagStatEntity)
+                tagStatEntity.dailyStat = statEntity
             }
-            
-            statEntity.addToTagStats(tagStatEntity)
-            tagStatEntity.dailyStat = statEntity
         }
     }
     
@@ -361,3 +512,214 @@ extension CoreDataSyncService{
         todoEntity.tag = tagEntity
     }
 }
+
+
+// MARK: 오프라인 상태에서의 작업을 큐에 저장하고 관리
+private class SyncQueue {
+    private let coreDataStack: CoreDataStack = .shared
+    
+    private let todoService: TodoServiceProtocol
+    private let tagService: TagServiceProtocol
+    private let dailyStatService: DailyStatServiceProtocol
+    
+    private var syncTimer: Timer?
+    private var retryInterval: TimeInterval = 15
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(
+        todoService: TodoServiceProtocol = TodoService(),
+        tagService: TagServiceProtocol = TagService(),
+        dailyStatService: DailyStatServiceProtocol = DailyStatService()
+    ) {
+        self.todoService = todoService
+        self.tagService = tagService
+        self.dailyStatService = dailyStatService
+    }
+    
+    func process(_ command: SyncCommand) -> AnyPublisher<Any, Error> {
+        
+        if NetworkManager.shared.isConnected {
+            print("2. process online: \(command.operation.type)".prefix(56))
+            return executeCommand(command) // 온라인: 즉시 서버와 동기화
+        } else {
+            print("2. process offline: \(command.operation.type)".prefix(56))
+            return Future { promise in
+                do {
+                    try self.saveCommand(command)
+                    switch command.operation.type {
+                    case .updateTodo(let todo):
+                        promise(.success(todo))
+                    case .updateTag(let tag):
+                        promise(.success(tag))
+                    case .deleteTodo(let todoId):
+                        promise(.success(todoId))
+                    case .deleteTag(let tagId):
+                        promise(.success(tagId))
+                    }
+                } catch {
+                    promise(.failure(error))
+                }
+            }.eraseToAnyPublisher()
+        }
+    }
+    
+    private func executeCommand(_ command: SyncCommand) -> AnyPublisher<Any, Error> {
+        switch command.operation.type {
+        case .updateTodo(let todo):
+            return todoService.updateTodo(todo: todo)
+                .map { $0 as Any }
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+            
+        case .deleteTodo(let id):
+            return todoService.deleteTodo(id: id)
+                .map { $0.id as Any }
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+            
+        case .updateTag(let tag):
+            return tagService.updateTag(tag)
+                .map { $0 as Any }
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+            
+        case .deleteTag(let id):
+            return tagService.deleteTag(id: id)
+                .map { $0.id as Any }
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+        }
+    }
+    
+    
+    // MARK: - SyncQueue Background Processing
+    
+    func startSync() {
+        stopSync()
+        
+        syncTimer = Timer.scheduledTimer(withTimeInterval: retryInterval, repeats: true) { [weak self] _ in
+            self?.processPendingCommands()
+        }
+        processPendingCommands()
+        
+    }
+    
+    func stopSync() {
+        print("stopSync")
+        syncTimer?.invalidate()
+        syncTimer = nil
+    }
+    
+    private func processPendingCommands() {
+        guard let commands = try? getPendingCommands(), !commands.isEmpty else {
+            stopSync()
+            return
+        }
+        
+        for command in commands {
+            print("startSync -> processPendingCommand: \(command.operation.type)".prefix(64))
+            executeCommand(command)
+                .sink(
+                    receiveCompletion: { [weak self] completion in
+                        guard let self = self else { return }
+                        
+                        switch completion {
+                        case .failure(let error):
+                            print("processPendingCommands failed: \(error)")
+                            let newRetryCount = command.retryCount + 1
+                            if newRetryCount >= 3 {
+                                try? self.markAsFailed(command.id, error: error)
+                            } else {
+                                try? self.updateRetryCount(command.id, count: newRetryCount)
+                            }
+                        case .finished:
+                            break
+                        }
+                    },
+                    receiveValue: { [weak self] _ in
+                        guard let self = self else { return }
+                        try? self.markAsCompleted(command.id)
+                        
+                        // 모든 명령 처리 완료 후 상태 체크
+                        if let remainingCommands = try? self.getPendingCommands(), remainingCommands.isEmpty {
+                            self.stopSync()
+                        }
+                    }
+                )
+                .store(in: &cancellables)
+        }
+    }
+    
+}
+
+
+// MARK: - Core Data Operations
+
+private extension SyncQueue {
+    func saveCommand(_ command: SyncCommand) throws {
+        print("3.(off)saveCommand: \(command.operation.type)".prefix(56))
+        try coreDataStack.performInTransaction {
+            let entity = SyncCommandEntity(context: coreDataStack.context)
+            entity.id = command.id
+            entity.payload = try JSONEncoder().encode(command)
+            entity.status = command.status.rawValue
+            entity.createdAt = Date()
+        }
+    }
+    
+    func getPendingCommands() throws -> [SyncCommand] {
+        let request = SyncCommandEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "status == %@", SyncStatus.pending.rawValue)
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        
+        let entities = try coreDataStack.context.fetch(request)
+        return try entities.map {
+            if let data = $0.payload {
+                return try JSONDecoder().decode(SyncCommand.self, from: data)
+            }
+            throw NSError(domain: "SyncCommand", code: 404, userInfo: [NSLocalizedDescriptionKey: "Invalid payload data"])
+        }
+    }
+    
+    func markAsCompleted(_ commandId: UUID) throws {
+        try coreDataStack.performInTransaction {
+            let request = SyncCommandEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", commandId as CVarArg)
+            
+            if let entity = try coreDataStack.context.fetch(request).first {
+                entity.status = SyncStatus.completed.rawValue
+            }
+        }
+    }
+    
+    private func updateRetryCount(_ commandId: UUID, count: Int) throws {
+        print("\(commandId): updateRetryCount")
+        try coreDataStack.performInTransaction {
+            let request = SyncCommandEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", commandId as CVarArg)
+            
+            if let entity = try coreDataStack.context.fetch(request).first {
+                var command = try JSONDecoder().decode(SyncCommand.self, from: entity.payload ?? Data())
+                command.retryCount = count
+                entity.payload = try JSONEncoder().encode(command)
+            }
+        }
+    }
+
+    private func markAsFailed(_ commandId: UUID, error: Error) throws {
+        print("\(commandId): markAsFailed")
+        try coreDataStack.performInTransaction {
+            let request = SyncCommandEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", commandId as CVarArg)
+            
+            if let entity = try coreDataStack.context.fetch(request).first {
+                var command = try JSONDecoder().decode(SyncCommand.self, from: entity.payload ?? Data())
+                command.status = .failed
+                command.errorMessage = error.localizedDescription
+                entity.payload = try JSONEncoder().encode(command)
+            }
+        }
+    }
+}
+
