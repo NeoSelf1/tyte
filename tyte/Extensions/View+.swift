@@ -30,4 +30,12 @@ extension View {
             data: data
         ))
     }
+    
+    func presentOfflineUI(
+        isPresented: Binding<Bool>
+    ) -> some View {
+        modifier(OfflineUIViewModifier(
+            isPresented: isPresented
+        ))
+    }
 }
