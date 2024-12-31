@@ -17,9 +17,6 @@
             <uniquenessConstraint>
                 <constraint value="id"/>
             </uniquenessConstraint>
-            <uniquenessConstraint>
-                <constraint value="date"/>
-            </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
     <entity name="SyncCommandEntity" representedClassName="SyncCommandEntity" syncable="YES" codeGenerationType="class">

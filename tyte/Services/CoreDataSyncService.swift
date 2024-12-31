@@ -101,7 +101,7 @@ class CoreDataSyncService {
     /// - Parameter operation:진행중인 작업
     /// 네트워크 동기화 수행, 오프라인일 경우 작업을 큐에 저장
     func performSync(_ operation: SyncOperation) -> AnyPublisher<Any, Error> {
-        print("1. performSync: \(operation.type)".prefix(56))
+        print("1.performSync: \(operation.type)".prefix(56))
         // 1. CoreData로 영구저장소에 변경사항 먼저 반영
         do {
             switch operation.type {
@@ -352,7 +352,6 @@ extension CoreDataSyncService {
             guard let todoEntity = try coreDataStack.context.fetch(request).first else {
                 throw NSError(domain: "TodoNotFound", code: 404)
             }
-            print("todo deleted: \(id)")
             coreDataStack.context.delete(todoEntity)
         }
     }
@@ -362,9 +361,19 @@ extension CoreDataSyncService {
     private func saveDailyStatToStore(_ stat: DailyStat) throws {
         try coreDataStack.performInTransaction {
             let request = DailyStatEntity.fetchRequest()
-            request.predicate = NSPredicate(format: "id == %@", stat.id)
+            request.predicate = NSPredicate(
+                format: "date == %@ AND userId == %@",
+                stat.date,
+                stat.userId
+            )
             
-            let statEntity = try coreDataStack.context.fetch(request).first ?? DailyStatEntity(context: coreDataStack.context)
+            // 기존 데이터가 있으면 삭제
+            if let existingEntity = try coreDataStack.context.fetch(request).first {
+                coreDataStack.context.delete(existingEntity)
+            }
+            
+            // 새 엔티티 생성
+            let statEntity = DailyStatEntity(context: coreDataStack.context)
             statEntity.id = stat.id
             statEntity.date = stat.date
             statEntity.userId = stat.userId
@@ -375,7 +384,7 @@ extension CoreDataSyncService {
             statEntity.centerX = stat.center.x
             statEntity.centerY = stat.center.y
             
-            // TODO: Save tagStats relationship 버그 수정
+            // TagStats 관계 설정
             try setupTagRelationship(for: statEntity, with: stat.tagStats)
         }
     }
@@ -418,7 +427,6 @@ extension CoreDataSyncService {
 
 extension CoreDataSyncService {
     private func saveTodosToStore(_ todos: [Todo]) throws {
-        print(todos)
         try coreDataStack.performInTransaction {
             for todo in todos {
                 try saveTodoToStore(todo)
@@ -428,6 +436,19 @@ extension CoreDataSyncService {
     
     private func saveDailyStatsToStore(_ stats: [DailyStat]) throws {
         try coreDataStack.performInTransaction {
+            if let firstStat = stats.first {
+                let yearMonth = String(firstStat.date.prefix(7))
+                let request = DailyStatEntity.fetchRequest()
+                request.predicate = NSPredicate(
+                    format: "date BEGINSWITH %@ AND userId == %@",
+                    yearMonth,
+                    firstStat.userId
+                )
+                
+                let existingEntities = try coreDataStack.context.fetch(request)
+                existingEntities.forEach { coreDataStack.context.delete($0) }
+            }
+            
             for stat in stats {
                 try saveDailyStatToStore(stat)
             }
@@ -459,23 +480,7 @@ extension CoreDataSyncService {
                 coreDataStack.context.delete(stat)
             }
         }
-        // 여기까지 문제없음
-//tagStats = 0 : TagStat
-//        - id : "6759a0e339c44e4e4d4b5728"
-//        ▿ tag : _Tag
-//          - id : "6702b4ff16e504b438e05edf"
-//          - name : "블로그"
-//          - color : "FFA07A"
-//          - userId : "66fbbdcbadc0649337f5c371"
-//        - count : 1
         
-//MARK: - server
-//        tagStats: [
-//            {
-         // id
-//              tagId: { type: mongoose.Schema.Types.ObjectId, ref: 'Tag' },
-//              count: { type: Number, default: 0 },
-//            },
         // 새로운 TagStat 관계 설정
         for tagStat in tagStats {
             let tagStatEntity = TagStatEntity(context: coreDataStack.context)
@@ -540,10 +545,10 @@ private class SyncQueue {
     func process(_ command: SyncCommand) -> AnyPublisher<Any, Error> {
         
         if NetworkManager.shared.isConnected {
-            print("2. process online: \(command.operation.type)".prefix(56))
+            print("2.process online: \(command.operation.type)".prefix(56))
             return executeCommand(command) // 온라인: 즉시 서버와 동기화
         } else {
-            print("2. process offline: \(command.operation.type)".prefix(56))
+            print("2.process offline: \(command.operation.type)".prefix(56))
             return Future { promise in
                 do {
                     try self.saveCommand(command)
@@ -618,7 +623,7 @@ private class SyncQueue {
         }
         
         for command in commands {
-            print("startSync -> processPendingCommand: \(command.operation.type)".prefix(64))
+            print("startSync->processPendingCommand: \(command.operation.type)".prefix(64))
             executeCommand(command)
                 .sink(
                     receiveCompletion: { [weak self] completion in
