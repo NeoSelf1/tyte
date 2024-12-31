@@ -36,7 +36,7 @@ protocol TodoServiceProtocol {
 
 protocol TagServiceProtocol {
     func fetchTags() -> AnyPublisher<TagsResponse, APIError>
-    func createTag(name: String, color: String) -> AnyPublisher<IdResponse, APIError>
+    func createTag(name: String, color: String) -> AnyPublisher<Tag, APIError>
     func updateTag(_ tag: Tag) -> AnyPublisher<IdResponse, APIError>
     func deleteTag(id: String) -> AnyPublisher<IdResponse, APIError>
 }

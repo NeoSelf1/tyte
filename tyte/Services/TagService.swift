@@ -12,7 +12,7 @@ class TagService: TagServiceProtocol {
         return networkService.request(.fetchTags, method: .get, parameters: nil)
     }
     
-    func createTag(name: String, color: String) -> AnyPublisher<IdResponse, APIError> {
+    func createTag(name: String, color: String) -> AnyPublisher<Tag, APIError> {
         let parameters: [String: Any] = ["name": name, "color": color]
         return networkService.request( .createTag, method: .post, parameters: parameters)
     }
