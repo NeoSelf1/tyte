@@ -52,7 +52,6 @@ struct SyncCommand: Codable {
 }
 
 // TODO: Repository 패턴으로 분리하여 관심사 분리 및 의존성 방향 역전
-// TODO: 동기화 상태 추적 : 각 엔티티의 마지막 동기화 시간 추적 필요
 
 /// 전체 동기화 프로세스를 관리하는 메인 서비스
 class CoreDataSyncService {
@@ -591,7 +590,7 @@ private class SyncQueue {
             
         case .deleteTag(let id):
             return tagService.deleteTag(id: id)
-                .map { $0.id as Any }
+                .map { $0 as Any }
                 .mapError { $0 as Error }
                 .eraseToAnyPublisher()
         }
@@ -611,7 +610,6 @@ private class SyncQueue {
     }
     
     func stopSync() {
-        print("stopSync")
         syncTimer?.invalidate()
         syncTimer = nil
     }

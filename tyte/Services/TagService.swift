@@ -17,11 +17,11 @@ class TagService: TagServiceProtocol {
         return networkService.request( .createTag, method: .post, parameters: parameters)
     }
     
-    func updateTag(_ tag: Tag) -> AnyPublisher<IdResponse, APIError> {
+    func updateTag(_ tag: Tag) -> AnyPublisher<Tag, APIError> {
         return networkService.request( .updateTag(tag.id), method: .put, parameters: tag.dictionary)
     }
     
-    func deleteTag(id: String) -> AnyPublisher<IdResponse, APIError> {
+    func deleteTag(id: String) -> AnyPublisher<String, APIError> {
         return networkService.request( .deleteTag(id), method: .delete, parameters: nil)
     }
 }
