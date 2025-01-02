@@ -2,7 +2,13 @@ import Foundation
 import Combine
 import Alamofire
 import SwiftUI
-import WidgetKit
+
+enum LocalDataType {
+    case all
+    case tag
+    case todo
+    case dailyStat
+}
 
 class HomeViewModel: ObservableObject {
     @Published var weekCalendarData: [DailyStat] = []
@@ -18,7 +24,6 @@ class HomeViewModel: ObservableObject {
     @Published var isCreateTodoPresented: Bool = false
     @Published var isDetailPresented: Bool = false
     
-    // TODO: Repository 패턴 도입
     private let syncService = CoreDataSyncService.shared
     
     init() {
@@ -41,7 +46,7 @@ class HomeViewModel: ObservableObject {
         syncLatestData()
     }
     
-    //selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
+    /// selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
     func setDateToTodayAndScrollCalendar(_ proxy: ScrollViewProxy? = nil) {
         let today = Date().koreanDate
         
@@ -191,11 +196,12 @@ extension HomeViewModel {
             }
             .store(in: &cancellables)
     }
+}
     
-    
-    //MARK: - 내부 함수
-    
-    private func syncLatestData() {
+
+// MARK: - 내부 함수
+private extension HomeViewModel {
+    func syncLatestData() {
         syncService.refreshTags()
             .receive(on: DispatchQueue.main)
             .sink { _ in
@@ -210,8 +216,7 @@ extension HomeViewModel {
             .store(in: &cancellables)
     }
     
-    // 특정 날짜에 대한 Todo들 fetch
-    private func refreshTodos(for deadline: String) {
+    func refreshTodos(for deadline: String) {
         syncService.refreshTodos(for: deadline)
             .receive(on: DispatchQueue.main)
             .sink { _ in
@@ -221,8 +226,7 @@ extension HomeViewModel {
             .store(in: &cancellables)
     }
     
-    // 선택한 날짜에 대한 DailyStat을 weekCalendarData에 삽입
-    private func refreshDailyStat(for deadline: String) {
+    func refreshDailyStat(for deadline: String) {
         syncService.refreshDailyStat(for:deadline)
             .receive(on: DispatchQueue.main)
             .sink { _ in
@@ -240,15 +244,10 @@ extension HomeViewModel {
     }
     
     
-    //MARK: 선택한 날짜가 포함된 달의 전체 일수에 대한 DailyStat 반환
-    private func refreshMonthlyStats(for date: String) {
+    func refreshMonthlyStats(for date: String) {
         syncService.refreshDailyStats(for: String(date.prefix(7)))
             .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    print("error in refreshMonthlyStats : \(error)")
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
+            .sink { _ in
             } receiveValue: {  [weak self] dailyStats in
                 print("refreshMonthlyStats done")
                 withAnimation { self?.weekCalendarData = dailyStats }
@@ -256,7 +255,7 @@ extension HomeViewModel {
             .store(in: &cancellables)
     }
     
-    private func refreshTags() {
+    func refreshTags() {
         syncService.refreshTags()
             .receive(on: DispatchQueue.main)
             .sink { _ in
@@ -266,7 +265,7 @@ extension HomeViewModel {
             .store(in: &cancellables)
     }
     
-    private func readLocalData(type: LocalDataType, in date: Date) {
+    func readLocalData(type: LocalDataType, in date: Date) {
         switch type {
         case .all:
             if let localTags = try? syncService.readTagsFromStore() {
@@ -294,11 +293,4 @@ extension HomeViewModel {
             }
         }
     }
-}
-
-enum LocalDataType {
-    case all
-    case tag
-    case todo
-    case dailyStat
 }
