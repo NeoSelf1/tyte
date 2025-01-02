@@ -31,6 +31,8 @@ struct CalendarWidgetProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarEntry>) -> ()) {
+        let nextMidnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(24 * 60 * 60)
+        
         if UserDefaultsManager.shared.isLoggedIn {
             let yearMonth = String(Date().koreanDate.apiFormat.prefix(7))
             
@@ -73,14 +75,14 @@ struct CalendarWidgetProvider: TimelineProvider {
             
             let timeline = Timeline(
                 entries: [CalendarEntry(date: Date().koreanDate, dailyStats: dailyStats, isLoggedIn: true)],
-                policy: .never
+                policy: .after(nextMidnight)
             )
             
             completion(timeline)
         } else {
             let emptyTimeline = Timeline(
                 entries: [CalendarEntry(date: Date(), dailyStats: [], isLoggedIn: false)],
-                policy: .never
+                policy: .after(nextMidnight)
             )
             
             completion(emptyTimeline)

@@ -40,6 +40,8 @@ struct TodoListWidgetProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<TodoListEntry>) -> ()) {
+        let nextMidnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(24 * 60 * 60)
+        
         if UserDefaultsManager.shared.isLoggedIn {
             let dailyStat: DailyStat
             let todos:[Todo]
@@ -98,7 +100,7 @@ struct TodoListWidgetProvider: TimelineProvider {
                 dailyStat = .dummyStat
                 todos = []
             }
-            
+
             let timeline = Timeline(
                 entries: [TodoListEntry(
                     date: Date().koreanDate,
@@ -106,7 +108,7 @@ struct TodoListWidgetProvider: TimelineProvider {
                     todos: todos,
                     isLoggedIn: true
                 )],
-                policy: .never
+                policy: .after(nextMidnight)
             )
             
             completion(timeline)
@@ -118,7 +120,7 @@ struct TodoListWidgetProvider: TimelineProvider {
                     todos: [],
                     isLoggedIn: false
                 )],
-                policy: .never
+                policy: .after(nextMidnight)
             )
             
             completion(emptyTimeline)
