@@ -510,14 +510,7 @@ extension CoreDataSyncService {
         let tagRequest = TagEntity.fetchRequest()
         tagRequest.predicate = NSPredicate(format: "id == %@", tag.id)
         
-        let tagEntity = try coreDataStack.context.fetch(tagRequest).first ?? {
-            let newTagEntity = TagEntity(context: coreDataStack.context)
-            newTagEntity.id = tag.id
-            newTagEntity.name = tag.name
-            newTagEntity.color = tag.color
-            newTagEntity.userId = tag.userId
-            return newTagEntity
-        }()
+        let tagEntity = try coreDataStack.context.fetch(tagRequest).first ?? nil
         
         todoEntity.tag = tagEntity
     }
@@ -546,7 +539,7 @@ private class SyncQueue {
         self.tagService = tagService
         self.dailyStatService = dailyStatService
     }
-    
+    // TODO: process 함수 CoreSyncService로 이동시킨 후, !isConnected상태일때, SyncQueue로 이동
     func process(_ command: SyncCommand) -> AnyPublisher<Any, Error> {
         
         if NetworkManager.shared.isConnected {
@@ -573,6 +566,7 @@ private class SyncQueue {
             }.eraseToAnyPublisher()
         }
     }
+    
     
     private func executeCommand(_ command: SyncCommand) -> AnyPublisher<Any, Error> {
         switch command.operation.type {
