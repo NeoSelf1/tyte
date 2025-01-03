@@ -13,9 +13,15 @@ class NetworkService: NetworkServiceProtocol {
                 print("requesting API in guest Mode: returning...")
                 return
             }
+            
+            guard NetworkManager.shared.isConnected else {
+                self.handleError(.networkError)
+                promise(.failure(.networkError)) // Future의 completion handler 호출
+                return
+            }
+            
             guard let token = KeychainManager.shared.getAccessToken() else {
-                self.handleUnauthorized()
-                promise(.failure(.unauthorized))
+                self.handleError(.unauthorized)
                 return
             }
             
@@ -31,16 +37,18 @@ class NetworkService: NetworkServiceProtocol {
             .validate()
             .responseDecodable(of: T.self) { response in
                 if let statusCode = response.response?.statusCode, statusCode == 401 {
-                    self.handleUnauthorized()
+                    self.handleError(.unauthorized)
                     promise(.failure(.unauthorized))
                     return
                 }
                 
                 switch response.result {
                 case .success(let value):
-                    promise(.success(value))
+                    promise(.success(value)) // Future의 completion handler 호출
                 case .failure(let error):
-                    promise(.failure(APIError(afError: error)))
+                    let apiError = APIError(afError: error)
+                    self.handleError(apiError)
+                    promise(.failure(apiError)) // Future의 completion handler 호출
                 }
             }
         }
@@ -51,6 +59,12 @@ class NetworkService: NetworkServiceProtocol {
                                           method: HTTPMethod = .get,
                                           parameters: Parameters? = nil) -> AnyPublisher<T, APIError> {
         return Future { promise in
+            guard NetworkManager.shared.isConnected else {
+                self.handleError(.networkError)
+                promise(.failure(.networkError))
+                return
+            }
+            
             AF.request(
                 APIConstants.baseUrl + endpoint.path,
                 method: method,
@@ -70,7 +84,17 @@ class NetworkService: NetworkServiceProtocol {
         .eraseToAnyPublisher()
     }
     
-    private func handleUnauthorized() {
-        UserDefaultsManager.shared.logout()
+    private func handleError(_ error: APIError) {
+        DispatchQueue.main.async {
+            switch error {
+            case .unauthorized:
+                UserDefaultsManager.shared.logout()
+                break
+            case .networkError:
+                print("network error")
+            default:
+                ToastManager.shared.show(.error(error.localizedDescription))
+            }
+        }
     }
 }

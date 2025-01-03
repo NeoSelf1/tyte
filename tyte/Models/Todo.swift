@@ -15,29 +15,78 @@ struct Todo: Identifiable, Codable {
     var title: String
     var isImportant: Bool
     var isLife: Bool
-    var tagId: Tag?
+    var tag: Tag?
     var difficulty: Int
     var estimatedTime: Int
     var deadline: String
     var isCompleted: Bool
-    let user: String
+    let userId: String
+    let createdAt: String
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"  // MongoDB의 _id를 id로  // MongoDB의 tagId를 tag로
-        case raw, tagId, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted, user
+        case userId = "user"
+        case tag = "tagId"
+        case raw, title, isImportant, isLife, difficulty, estimatedTime, deadline, isCompleted, createdAt
     }
     
     static let mock = Todo(
         id: "new-id",
-        raw: "테스트 할일추가",
-        title: "테스트 할 일",
+        raw: "TyTE 10시 반 회의",
+        title: "TyTE 10시 반 회의",
         isImportant: false,
-        isLife: true,
-        tagId: nil,
-        difficulty: 3,
-        estimatedTime: 30,
+        isLife: false,
+        tag: Tag(
+            id: "mock-tag",
+            name: "TyTE",
+            color: "F2B749",
+            userId: "mock-user"
+        ),
+        difficulty: 5,
+        estimatedTime: 60,
+        deadline: Date().apiFormat,
+        isCompleted: false,
+        userId: "mock-user",
+        createdAt: "createdAt"
+    )
+    
+    static let mock1 = Todo(
+        id: "new-id1",
+        raw: "면접질문 리스트업 및 준비",
+        title: "면접질문 리스트업 및 준비",
+        isImportant: true,
+        isLife: false,
+        tag: Tag(
+            id: "mock-tag1",
+            name: "취업",
+            color: "3D44E2",
+            userId: "mock-user"
+        ),
+        difficulty: 5,
+        estimatedTime: 120,
+        deadline: Date().apiFormat,
+        isCompleted: false,
+        userId: "mock-user",
+        createdAt:"createdAt"
+    )
+    
+    static let mock2 = Todo(
+        id: "new-id2",
+        raw: "피드백 통한 개선점 확인",
+        title: "피드백 통한 개선점 확인",
+        isImportant: true,
+        isLife: false,
+        tag: Tag(
+            id: "mock-tag1",
+            name: "취업",
+            color: "3D44E2",
+            userId: "mock-user"
+        ),
+        difficulty: 4,
+        estimatedTime: 40,
         deadline: Date().apiFormat,
         isCompleted: true,
-        user: "test-user"
+        userId: "mock-user",
+        createdAt: "createdAt"
     )
 }

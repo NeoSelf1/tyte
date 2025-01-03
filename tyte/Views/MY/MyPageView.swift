@@ -3,14 +3,6 @@ import SwiftUI
 struct MyPageView: View {
     @StateObject private var viewModel = MyPageViewModel()
     
-    private var uniqueTagStats: [TagStat] {
-        viewModel.dailyStats.flatMap{$0.tagStats}.reduce(into: [TagStat]()) { result, tagStat in
-            if !result.contains(where: { $0.tag.name == tagStat.tag.name }) {
-                result.append(tagStat)
-            }
-        }
-    }
-    
     var body: some View {
         VStack (spacing: 0){
             header
@@ -53,20 +45,20 @@ struct MyPageView: View {
             Spacer()
             
             VStack (alignment: .leading,spacing: 0){
-                ForEach(Array(uniqueTagStats.prefix(4)), id: \.tag.name) { tagStat in
+                ForEach(viewModel.tags.prefix(4)) { tag in
                     HStack(spacing: 6) {
                         Circle()
-                            .fill(Color(hex: tagStat.tag.color))
+                            .fill(Color(hex: tag.color))
                             .frame(width: 8, height: 8)
                             .overlay(Circle().stroke(.gray50))
                         
-                        Text(tagStat.tag.name)
+                        Text(tag.name)
                             .font(._body3)
                             .foregroundColor(.gray60)
                     }
                 }
                 
-                if uniqueTagStats.count > 4 {
+                if viewModel.tags.count > 4 {
                     Text("...")
                         .font(._body3)
                         .foregroundColor(.gray60)

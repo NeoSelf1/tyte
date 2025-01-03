@@ -11,17 +11,18 @@ struct Tag: Codable, Identifiable, Equatable {
     let id: String
     var name: String
     let color: String
-    let user: String
+    let userId: String
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"  // MongoDB의 _id를 id로 매핑
-        case name, color, user
+        case userId = "user"
+        case name, color
     }
     
     static let mock = Tag(
         id: "mock-tag",
         name: "Mock Tag",
         color: "FF0000",
-        user: "mock-user"
+        userId: "mock-user"
     )
 }

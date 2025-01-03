@@ -15,6 +15,10 @@ protocol NetworkServiceProtocol {
     ) -> AnyPublisher<T, APIError>
 }
 
+protocol WidgetServiceProtocol {
+    func updateWidget(_ type: WidgetType)
+}
+
 protocol AuthServiceProtocol {
     func socialLogin(idToken: String, provider: String) -> AnyPublisher<LoginResponse, APIError>
     func login(email: String, password: String) -> AnyPublisher<LoginResponse, APIError>
@@ -36,9 +40,9 @@ protocol TodoServiceProtocol {
 
 protocol TagServiceProtocol {
     func fetchTags() -> AnyPublisher<TagsResponse, APIError>
-    func createTag(name: String, color: String) -> AnyPublisher<IdResponse, APIError>
-    func updateTag(_ tag: Tag) -> AnyPublisher<IdResponse, APIError>
-    func deleteTag(id: String) -> AnyPublisher<IdResponse, APIError>
+    func createTag(name: String, color: String) -> AnyPublisher<Tag, APIError>
+    func updateTag(_ tag: Tag) -> AnyPublisher<Tag, APIError>
+    func deleteTag(id: String) -> AnyPublisher<String, APIError>
 }
 
 protocol DailyStatServiceProtocol {

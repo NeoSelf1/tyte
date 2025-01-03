@@ -32,6 +32,7 @@ struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
     @StateObject private var toastManager = ToastManager.shared
     @StateObject private var popupManager = PopupManager.shared
+    @StateObject private var offlineUiManager = OfflineUIManager.shared
     
     @EnvironmentObject var appState: AppState
     
@@ -52,6 +53,9 @@ struct ContentView: View {
         .presentPopup(
             isPresented: $popupManager.popupPresented,
             data: popupManager.currentPopupData
+        )
+        .presentOfflineUI(
+            isPresented: $offlineUiManager.offlineUIPresented
         )
     }
 }

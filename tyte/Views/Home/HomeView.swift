@@ -26,7 +26,7 @@ struct HomeView: View {
                                     todo: todo,
                                     isPast: todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate),
                                     isButtonPresent: true,
-                                    onToggle:{ viewModel.toggleTodo(todo.id) },
+                                    onToggle:{ viewModel.toggleTodo(todo) },
                                     onSelect: { viewModel.selectTodo(todo) }
                                 )
                                 .animation(.fastEaseInOut, value: todo.isCompleted)

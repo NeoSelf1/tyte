@@ -185,10 +185,10 @@ extension TodoEditBottomSheet {
                     ForEach(tags) { tag in
                         Button(action: {
                             withAnimation(.fastEaseOut){
-                                if(editedTodo.tagId == tag){
-                                    editedTodo.tagId = nil
+                                if(editedTodo.tag == tag){
+                                    editedTodo.tag = nil
                                 } else {
-                                    editedTodo.tagId = tag
+                                    editedTodo.tag = tag
                                 }
                             }
                         }) {
@@ -196,7 +196,7 @@ extension TodoEditBottomSheet {
                                 Circle().fill(Color(hex:"#\(tag.color)")).frame(width:6)
                                 
                                 Text(tag.name)
-                                    .font(tag == editedTodo.tagId ? ._subhead2 : ._body2)
+                                    .font(tag == editedTodo.tag ? ._subhead2 : ._body2)
                                     .foregroundColor(.gray90)
                             }
                             .padding(.horizontal, 8)
@@ -205,7 +205,7 @@ extension TodoEditBottomSheet {
                             .cornerRadius(20)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 24)
-                                    .stroke(tag == editedTodo.tagId ? .blue30 : .clear, lineWidth: 1)
+                                    .stroke(tag == editedTodo.tag ? .blue30 : .clear, lineWidth: 1)
                             )
                             .padding(1)
                         }

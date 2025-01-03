@@ -12,7 +12,7 @@ class ContentViewModel: ObservableObject {
     @Published var isLoading: Bool = true
     
     private var currentAppVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.5"
     }
     
     private let authService: AuthServiceProtocol
@@ -28,11 +28,7 @@ class ContentViewModel: ObservableObject {
         authService.checkVersion()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))   
-                }
+                self?.isLoading = false
             } receiveValue: { [weak self] versionResponse in
                 guard let self = self else { return }
                 print(currentAppVersion,versionResponse)

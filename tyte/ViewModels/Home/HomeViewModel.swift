@@ -2,101 +2,122 @@ import Foundation
 import Combine
 import Alamofire
 import SwiftUI
-import WidgetKit
+
+enum LocalDataType {
+    case all
+    case tag
+    case todo
+    case dailyStat
+}
 
 class HomeViewModel: ObservableObject {
-    @Published var weekCalendarData: [DailyStat] = [] {
-        didSet {
-            //TODO: 연쇄적 뷰 업데이트 발생하는지 프로파일링 필요
-            UserDefaultsManager.shared.saveDailyStats(weekCalendarData)
-            WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
-        }
-    }
+    @Published var weekCalendarData: [DailyStat] = []
     @Published var todosForDate: [Todo] = []
-    @Published var selectedTodo: Todo?
     @Published var tags: [Tag] = []
-    @Published var selectedDate: Date = Date().koreanDate { didSet { getTodosForDate(selectedDate.apiFormat) } }
+    
+    @Published var selectedDate: Date = Date().koreanDate
+    @Published var selectedTodo: Todo?
     
     @Published var isLoading: Bool = false
-    @Published var isMonthPickerPresented:Bool = false
+    
+    @Published var isMonthPickerPresented: Bool = false
     @Published var isCreateTodoPresented: Bool = false
     @Published var isDetailPresented: Bool = false
     
-    private let todoService: TodoServiceProtocol
-    private let dailyStatService: DailyStatServiceProtocol
-    private let tagService: TagServiceProtocol // 투두 상세 바텀시트 클릭시, 선택지 부여위해 fetchTag 메서드 필요
+    private let syncService = CoreDataSyncService.shared
     
-    init(
-        todoService: TodoServiceProtocol = TodoService(),
-        dailyStatService: DailyStatServiceProtocol = DailyStatService(),
-        tagService: TagServiceProtocol = TagService()
-    ) {
-        self.todoService = todoService
-        self.dailyStatService = dailyStatService
-        self.tagService = tagService 
-        
+    init() {
         initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
     
+    
     //MARK: - Method
     func initialize() {
-        getDailyStatsForMonth(selectedDate.apiFormat)
+        isLoading = true
+        
+        let today = Date().koreanDate
+        
+        readLocalData(type: .all, in: today)
+        
+        isLoading = false
+        
+        syncLatestData()
     }
     
-    //selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
+    /// selectedDate 오늘로 변경 (해당날짜 todos 자동 fetch) -> 오늘로 캘린더 이동
     func setDateToTodayAndScrollCalendar(_ proxy: ScrollViewProxy? = nil) {
-        selectedDate = Date().koreanDate
+        let today = Date().koreanDate
+        
+        changeDate(today)
+        
         if let proxy = proxy {
-            proxy.scrollTo(Calendar.current.startOfDay(for: selectedDate), anchor: .center)
+            proxy.scrollTo(Calendar.current.startOfDay(for: today), anchor: .center)
         }
     }
     
-    // Todo 선택
+    /// HomeView에서 Todo 선택
     func selectTodo(_ todo: Todo){
-        // 이전 투두의 경우
         if todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate){
             ToastManager.shared.show(.invalidTodoEdit)
         } else {
             selectedTodo = todo
-            getTags()
+            readLocalData(type: .tag, in: selectedDate)
             isDetailPresented = true
         }
     }
     
+    /// HomeView에서 리스트 refresh 시 호출
     func handleRefresh(){
-        getTodosForDate(selectedDate.apiFormat)
+        refreshTodos(for:selectedDate.apiFormat)
     }
     
-    // DayView에서 호출
-    func selectDate(_ date: Date){
+    /// DayView에서 호출
+    func changeDate(_ date: Date){
+        guard date != selectedDate else { return }
+        
+        readLocalData(type: .todo, in: date)
+        
+        refreshTodos(for: date.apiFormat)
+        
+        let currentYearMonth = selectedDate.apiFormat.prefix(7)
+        let newYearMonth = date.apiFormat.prefix(7)
+        
+        if currentYearMonth != newYearMonth {
+            readLocalData(type: .dailyStat, in: date)
+            
+            refreshMonthlyStats(for: date.apiFormat)
+        }
+        
         withAnimation(.fastEaseInOut){ selectedDate = date }
-        getTodosForDate(date.apiFormat)
     }
     
-    // MonthPicker에서 호출
+    /// MonthPicker에서 호출
     func changeMonth(_ currentYear: Int, _ currentMonth: Int) {
         let components = DateComponents(year: currentYear, month: currentMonth + 1, day: 1)
         if let newDate = Calendar.current.date(from: components) {
-            selectedDate = newDate
-            getDailyStatsForMonth(newDate.apiFormat)
+            changeDate(newDate)
         }
     }
-    
-    // Todo 추가
+}
+
+
+// MARK: - CRUD Method
+
+extension HomeViewModel {
+    /// Todo 추가
     func addTodo(_ text: String) {
         isLoading = true
         
         let today = Date().koreanDate
         let dateToUse = selectedDate < today ? today.apiFormat : selectedDate.apiFormat
         
-        todoService.createTodo(text: text, in: dateToUse)
+        syncService.createTodo(text: text, in: dateToUse)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else { return }
-                isLoading = false
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error as? APIError {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] newTodos in
@@ -108,152 +129,168 @@ class HomeViewModel: ObservableObject {
                     ToastManager.shared.show(.todosAdded(newTodos.count))
                 }
                 
-                getTodosForDate(selectedDate.apiFormat)
-                getDailyStatsForMonth(selectedDate.apiFormat)
+                refreshTodos(for: selectedDate.apiFormat)
+                // TODO: dailyStat 수정으로 대체한후, 위젯 업데이트 시점 dailyStat 수정으로 한정시키기
+                refreshMonthlyStats(for: selectedDate.apiFormat)
                 
                 UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             }
             .store(in: &cancellables)
     }
     
-    // Todo isCompleted 토글 / MARK: isLoading 붎필요
-    func toggleTodo(_ id: String) {
-        guard let index = todosForDate.firstIndex(where: { $0.id == id } ) else { return }
+    /// Todo isCompleted 토글 / 낙관적 렌더 -> isLoading 붎필요
+    func toggleTodo(_ todo: Todo) {
+        guard let index = todosForDate.firstIndex(where: { $0.id == todo.id } ) else { return }
         let originalState = todosForDate[index].isCompleted
         todosForDate[index].isCompleted.toggle()
         
-        todoService.toggleTodo(id: id)
+        syncService.updateTodo(todosForDate[index])
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else { return }
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                    todosForDate[index].isCompleted = originalState
+                if case .failure = completion {
+                    self?.todosForDate[index].isCompleted = originalState
                 }
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
-                getDailyStatForDate(todosForDate[index].deadline)
+                refreshDailyStat(for: updatedTodo.deadline)
             }
             .store(in: &cancellables)
     }
     
-    // Todo 삭제
-    func deleteTodo(id: String) {
-        isLoading = true
-        todoService.deleteTodo(id: id)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] deletedTodo in
-                guard let self = self else { return }
-                ToastManager.shared.show(.todoDeleted)
-                todosForDate = todosForDate.filter{$0.id != deletedTodo.id}
-                getDailyStatForDate(deletedTodo.deadline)
-            }
-            .store(in: &cancellables)
-    }
-    
-    // Todo 수정
+    /// Todo 수정
     func editTodo(_ todo: Todo) {
         isLoading = true
-        todoService.updateTodo(todo: todo)
+        
+        syncService.updateTodo(todo)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else { return }
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
+                self?.isLoading = false
             } receiveValue: { [weak self] updatedTodo in
                 guard let self = self else { return }
                 ToastManager.shared.show(.todoEdited)
                 
-                getTodosForDate(selectedDate.apiFormat)
+                // Refresh에서 read로 대체하여 네트워크 호출 수 줄이자.
+                // refreshTodos(for: selectedDate.apiFormat)
+                readLocalData(type: .todo, in: selectedDate)
                 
                 // 출발지점에 대한 dailyStat와 변경된 도착지에 대한 dailyStat 둘다 수정 필요
-                getDailyStatForDate(updatedTodo.deadline)
-                getDailyStatForDate(selectedDate.apiFormat)
+                refreshDailyStat(for: updatedTodo.deadline)
+                refreshDailyStat(for: selectedDate.apiFormat)
             }
             .store(in: &cancellables)
     }
     
-    //MARK: - 내부 함수
-    // 특정 날짜에 대한 Todo들 fetch
-    private func getTodosForDate(_ deadline: String) {
+    /// Todo 삭제
+    func deleteTodo(id: String) {
         isLoading = true
-        todosForDate = []
-        todoService.fetchTodos(for: deadline)
+        
+        syncService.deleteTodo(id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
+                self?.isLoading = false
+            } receiveValue: { [weak self] deletedTodoId in
                 guard let self = self else { return }
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] todos in
+                ToastManager.shared.show(.todoDeleted)
+                todosForDate = todosForDate.filter{$0.id != deletedTodoId}
+                refreshDailyStat(for: selectedDate.apiFormat)
+            }
+            .store(in: &cancellables)
+    }
+}
+    
+
+// MARK: - 내부 함수
+private extension HomeViewModel {
+    func syncLatestData() {
+        syncService.refreshTags()
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+            } receiveValue: {  [weak self] _tags in
                 guard let self = self else { return }
-                todosForDate = todos
+                print(_tags)
+                tags = _tags
+                
+                refreshTodos(for: selectedDate.apiFormat)
+                refreshMonthlyStats(for: selectedDate.apiFormat)
             }
             .store(in: &cancellables)
     }
     
-    // 선택한 날짜에 대한 DailyStat을 weekCalendarData에 삽입
-    private func getDailyStatForDate(_ deadline: String) {
-        dailyStatService.fetchDailyStat(for: deadline)
+    func refreshTodos(for deadline: String) {
+        syncService.refreshTodos(for: deadline)
             .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    // TODO: 백엔드에서 nil값 받을때, decode 에러 발생안하게 변경 필요
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] dailyStat in
+            .sink { _ in
+            } receiveValue: {  [weak self] todos in
+                self?.todosForDate = todos
+            }
+            .store(in: &cancellables)
+    }
+    
+    func refreshDailyStat(for deadline: String) {
+        syncService.refreshDailyStat(for:deadline)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+            } receiveValue: {  [weak self] dailyStat in
                 guard let self = self else { return }
                 if let index = weekCalendarData.firstIndex(where: {$0.date == deadline}) {
                     withAnimation { self.weekCalendarData[index] = dailyStat ?? .empty }
                 } else {
                     var newStats = self.weekCalendarData
                     newStats.append(dailyStat ?? .empty)
-                    withAnimation {
-                        self.weekCalendarData = newStats.sorted { $0.date < $1.date }
-                    }
+                    withAnimation { self.weekCalendarData = newStats.sorted { $0.date < $1.date } }
                 }
             }
             .store(in: &cancellables)
     }
     
-    //MARK: 선택한 날짜가 포함된 달의 전체 일수에 대한 DailyStat 반환
-    private func getDailyStatsForMonth(_ date: String) {
-        dailyStatService.fetchMonthlyStats(in: String(date.prefix(7)))
+    
+    func refreshMonthlyStats(for date: String) {
+        syncService.refreshDailyStats(for: String(date.prefix(7)))
             .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] dailyStats in
-                guard let self = self else { return }
-                    withAnimation { self.weekCalendarData = dailyStats }
+            .sink { _ in
+            } receiveValue: {  [weak self] dailyStats in
+                print("refreshMonthlyStats done")
+                withAnimation { self?.weekCalendarData = dailyStats }
             }
             .store(in: &cancellables)
     }
     
-    // MARK: - Tag 관련 메서드
-    func getTags() {
-        isLoading = true
-        tagService.fetchTags()
+    func refreshTags() {
+        syncService.refreshTags()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] tags in
-                self?.tags = tags
+            .sink { _ in
+            } receiveValue: { [weak self] _tags in
+                self?.tags = _tags
             }
             .store(in: &cancellables)
+    }
+    
+    func readLocalData(type: LocalDataType, in date: Date) {
+        switch type {
+        case .all:
+            if let localTags = try? syncService.readTagsFromStore() {
+                tags = localTags
+            }
+            
+            if let localTodos = try? syncService.readTodosFromStore(for: date.apiFormat) {
+                todosForDate = localTodos
+            }
+            
+            if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(date.apiFormat.prefix(7))) {
+                weekCalendarData = localDailyStats
+            }
+        case .todo:
+            if let localTodos = try? syncService.readTodosFromStore(for: date.apiFormat) {
+                todosForDate = localTodos
+            }
+        case .tag:
+            if let localTags = try? syncService.readTagsFromStore() {
+                tags = localTags
+            }
+        case .dailyStat:
+            if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(date.apiFormat.prefix(7))) {
+                weekCalendarData = localDailyStats
+            }
+        }
     }
 }

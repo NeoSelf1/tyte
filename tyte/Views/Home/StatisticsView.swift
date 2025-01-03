@@ -32,7 +32,7 @@ struct StatisticsView: View {
     StatisticsView(dailyStat: DailyStat(
         id:"TestId",
         date: Date().apiFormat,
-        user: "mock-user",
+        userId: "mock-user",
         balanceData: BalanceData(
             title: "Mock",
             message: "Mock message",

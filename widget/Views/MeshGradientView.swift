@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MeshGradientView: View {
-    @State private var isAnimating = false
     @Environment(\.colorScheme) var colorScheme
 
     private let colors: [Color]
@@ -33,7 +32,7 @@ struct MeshGradientView: View {
             MeshGradient(
                 width: 3, height: 3, points: [
                     [0.0, 0.0], [0.5, 0], [1.0, 0.0],
-                    [0.0, 0.5], calculateCenterPoint(), [1.0, 0.5],
+                    [0.0, 0.5], SIMD2<Float>(center), [1.0, 0.5],
                     [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
                 ],
                 colors: colors,
@@ -54,17 +53,6 @@ struct MeshGradientView: View {
                 .rotationEffect(.degrees(45))
                 .opacity(1.0)
                 .padding(14)
-        }
-    }
-    
-    func calculateCenterPoint() -> SIMD2<Float> {
-        if cornerRadius != 6 {
-            let offset: Float = 0.3
-            let x = isAnimating ? max(0.1, center.x - offset) : min(0.9, center.x + offset)
-            let y = isAnimating ? max(0.1, center.y - offset) : min(0.9, center.y + offset)
-            return [x, y]
-        } else {
-            return SIMD2<Float>(center)
         }
     }
 }

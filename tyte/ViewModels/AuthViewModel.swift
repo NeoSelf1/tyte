@@ -247,8 +247,7 @@ class AuthViewModel: ObservableObject {
     }
     
     private func handleSuccessfulLogin(loginResponse: LoginResponse) {
-        print("token: \(loginResponse.token)")
         KeychainManager.shared.saveToken(loginResponse.token)
-        UserDefaultsManager.shared.login()
+        UserDefaultsManager.shared.login(loginResponse.user.id)
     }
 }

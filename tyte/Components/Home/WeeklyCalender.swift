@@ -29,7 +29,7 @@ struct MonthlyCalendar: View {
         return(
             DayView(dailyStat: dailyStat ?? nil, date: date, isSelected: isSelected, isToday: isToday,isDayVisible:true,size: 64)
                 .onTapGesture {
-                    viewModel.selectDate(date)
+                    viewModel.changeDate(date)
                 }
         )
     }

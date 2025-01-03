@@ -83,6 +83,7 @@ struct TimeWheelPicker: View {
                 .onChange(of: scrollID) { oldValue, newValue in
                     if let newValue {
                         value = (CGFloat(newValue) / CGFloat(steps)) * CGFloat(multiplier) * 6
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     }
                 }
                 .overlay(alignment: .center) {

@@ -21,24 +21,22 @@ class TagEditViewModel: ObservableObject {
     @Published var isColorPickerPresent = false
     @Published var isLoading = false
     
-    private let tagService: TagServiceProtocol
+    private let syncService = CoreDataSyncService.shared
     
-    init(
-        tagService: TagServiceProtocol = TagService()
-    ) {
-        self.tagService = tagService
+    init() {
         initialize()
     }
     
     private var cancellables = Set<AnyCancellable>()
     
-    //MARK: - Methods
+    
+    // MARK: - Methods
     func initialize(){
-        getTags()
+        refreshTags()
     }
     
     func handleRefresh(){
-        getTags()
+        refreshTags()
     }
     
     func selectTag(_ tag :Tag){
@@ -46,81 +44,74 @@ class TagEditViewModel: ObservableObject {
         isEditBottomPresent = true
     }
     
-    // Tag 추가
+    /// Tag 추가
     func addTag() {
-        isLoading = true
-        if !tagInput.isEmpty {
-            if tags.contains(where: { $0.name.lowercased() == tagInput.lowercased() }) {
-                isDuplicateWarningPresent = true
-            } else {
-                tagService.createTag(name: tagInput,color:selectedColor)
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] completion in
-                        guard let self = self else {return}
-                        isLoading = false
-                        if case .failure(let error) = completion {
-                            ToastManager.shared.show(.error(error.localizedDescription))
-                        }
-                    } receiveValue: { [weak self] newTagId in
-                        guard let self = self else { return }
-                        ToastManager.shared.show(.tagAdded)
-                        tagInput = ""
-                        handleRefresh()
-                    }
-                    .store(in: &cancellables)
-            }
+        guard !tagInput.isEmpty else { return }
+        guard !tags.contains(where: { $0.name.lowercased() == tagInput.lowercased()}) else {
+            isDuplicateWarningPresent = true
+            return
         }
-    }
-    
-    // Tag 삭제
-    func deleteTag(id: String) {
+        
         isLoading = true
-        tagService.deleteTag(id: id)
+        syncService.createTag(name: tagInput,color:selectedColor)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error as? APIError {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
+            } receiveValue: { [weak self] newTag in
+                guard let self = self else { return }
+                ToastManager.shared.show(.tagAdded)
+                tagInput = ""
+                selectedColor = "FF0000"
+                refreshTags()
+            }
+            .store(in: &cancellables)
+    }
+
+    
+    /// Tag 삭제
+    func deleteTag(id: String) {
+        isLoading = true
+        
+        syncService.deleteTag(id)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                self?.isLoading = false
             } receiveValue: { [weak self] deletedTagId in
                 guard let self = self else { return }
                 ToastManager.shared.show(.tagDeleted)
-                tags = tags.filter{$0.id != deletedTagId.id}
+                tags = tags.filter{$0.id != deletedTagId}
             }
             .store(in: &cancellables)
     }
     
-    // Tag 수정
+    /// Tag 수정
     func editTag(_ tag: Tag) {
         isLoading = true
-        tagService.updateTag(tag)
+        
+        syncService.updateTag(tag)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] updatedTagId in
+                self?.isLoading = false
+            } receiveValue: { [weak self] updatedTag in
                 guard let self = self else { return }
                 ToastManager.shared.show(.tagEdited)
-                handleRefresh()
+                refreshTags()
             }
             .store(in: &cancellables)
     }
     
-    // Tag 서버에서 호출
-    private func getTags() {
+    
+    // MARK: - Private Method
+    
+    private func refreshTags() {
         isLoading = true
-        tagService.fetchTags()
+        syncService.refreshTags()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
+            .sink { [weak self] _ in
+                self?.isLoading = false
             } receiveValue: { [weak self] tags in
                 self?.tags = tags
             }

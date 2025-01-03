@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 import Alamofire
-import SwiftUI // NavigationPath
+import SwiftUI
 
 class SocialViewModel: ObservableObject {
     @Published var navigationPath = NavigationPath()
@@ -10,7 +10,7 @@ class SocialViewModel: ObservableObject {
     @Published var friends: [User] = []
     @Published var selectedFriend: User?
     @Published var friendDailyStats: [DailyStat] = []
-    @Published var currentDate: Date = Date().koreanDate { didSet { getCalendarData()} }
+    @Published var currentDate: Date = Date().koreanDate { didSet { getCalendarData() } }
     
     // MARK: Request List에 필요
     @Published var pendingRequests: [FriendRequest] = []
@@ -43,6 +43,7 @@ class SocialViewModel: ObservableObject {
     }
     
     private var cancellables = Set<AnyCancellable>()
+    
     
     //MARK: - Method
     // 친구 요청 조회 및 친구 조회
@@ -92,16 +93,13 @@ class SocialViewModel: ObservableObject {
         guard let index = friendDailyStats.firstIndex(where: { date.apiFormat == $0.date}),
                 let friend = selectedFriend else {return}
         isLoading = true
+        
         dailyStatForDate = friendDailyStats[index]
         
         todoService.fetchTodos(for: friend.id ,in: date.apiFormat)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else { return }
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
+                self?.isLoading = false
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
                 todosForDate = todos
@@ -112,14 +110,12 @@ class SocialViewModel: ObservableObject {
     
     func fetchPendingRequests() {
         isLoading = true
+        
         socialService.getPendingRequests()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.isLoading=false
-                }
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] requests in
@@ -130,34 +126,38 @@ class SocialViewModel: ObservableObject {
     
     func acceptFriendRequest(_ request: FriendRequest) {
         isLoading = true
+        
         socialService.acceptFriendRequest(requestId: request.id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] _ in
                 guard let self = self else {return}
                 ToastManager.shared.show(.friendRequestAccepted(request.fromUser.username))
+                
                 pendingRequests.removeAll { $0.id == request.id }
                 fetchFriends()
             }
             .store(in: &cancellables)
     }
     
+    
     // MARK: - Private Method
     private func getCalendarData(){
         guard let friendId = selectedFriend?.id else { return }
+        
         isLoading = true
+        
         let yearMonth = currentDate.apiFormat.prefix(7)
+        
         dailyStatService.fetchMonthlyStats(for: friendId, in: String(yearMonth))
         .receive(on: DispatchQueue.main)
         .sink { [weak self] completion in
-            guard let self = self else {return}
-            isLoading = false
-            if case .failure(let error) = completion {
+            self?.isLoading = false
+            if case .failure(let error) = completion, case .networkError = error {
                 ToastManager.shared.show(.error(error.localizedDescription))
             }
         } receiveValue: { [weak self] stats in
@@ -168,19 +168,21 @@ class SocialViewModel: ObservableObject {
     
     private func fetchFriends() {
         isLoading = true
+        
         socialService.getFriends()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] fetchedFriends in
                 self?.friends = fetchedFriends
+                
                 if self?.selectedFriend == nil, let firstFriend = fetchedFriends.first {
                     self?.selectFriend(firstFriend)
                 }
+                
                 // 선택된 친구가 있지만 더 이상 친구 목록에 없는 경우 선택 해제
                 else if let selected = self?.selectedFriend,
                         !fetchedFriends.contains(where: { $0.id == selected.id }) {
@@ -192,20 +194,20 @@ class SocialViewModel: ObservableObject {
     
     private func requestFriend(searchedUser:SearchResult) {
         isLoading = true
+        
         socialService.requestFriend(userId:searchedUser.id)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] res in
                 guard let self = self else { return }
-                isLoading = false
                 if let index = searchResults.firstIndex(where: {res.id == $0.id}){
                     searchResults[index].isPending = true
                 }
+                
                 ToastManager.shared.show(.friendRequested(searchedUser.username))
             }
             .store(in: &cancellables)
@@ -213,12 +215,12 @@ class SocialViewModel: ObservableObject {
     
     private func performSearch(_ query: String) {
         isLoading = true
+        
         socialService.searchUsers(query: query)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
+                self?.isLoading = false
+                if case .failure(let error) = completion, case .networkError = error {
                     ToastManager.shared.show(.error(error.localizedDescription))
                 }
             } receiveValue: { [weak self] results in

@@ -87,7 +87,7 @@ struct TagEditBottomSheet: View {
                 }
                 
                 Button(action: {
-                    onUpdate(Tag(id: tag.id, name: editedName, color: editedColor, user: tag.user))
+                    onUpdate(Tag(id: tag.id, name: editedName, color: editedColor, userId: tag.userId))
                     dismiss()
                 }) {
                     Text("변경하기")

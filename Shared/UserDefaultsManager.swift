@@ -7,9 +7,9 @@ struct UserDefaultsConfiguration {
     
     struct Keys {
         static let isLoggedIn = "isLoggedIn"
-        static let username = "username"
         static let appleUserEmails = "appleUserEmails"
         static let dailyStats = "dailyStats"
+        static let currentUserId = "currentUserId"
     }
 }
 
@@ -31,17 +31,18 @@ final class UserDefaultsManager {
             defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.isLoggedIn)
             AppState.shared.isLoggedIn = newValue // TODO: 다른 반응형 프레임워크로 환경객체 접근하는 방안 모색 필요
             WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
+            WidgetCenter.shared.reloadTimelines(ofKind: "TodoListWidget")
         }
-    }
-    
-    private(set) var username: String? {
-        get { defaults.string(forKey: UserDefaultsConfiguration.Keys.username) }
-        set { defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.username) }
     }
     
     private(set) var appleUserEmails: [String: String] {
         get { defaults.dictionary(forKey: UserDefaultsConfiguration.Keys.appleUserEmails) as? [String: String] ?? [:] }
         set { defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.appleUserEmails) }
+    }
+    
+    private(set) var currentUserId: String? {
+        get { defaults.string(forKey: UserDefaultsConfiguration.Keys.currentUserId) }
+        set { defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.currentUserId) }
     }
     
     /// UserDefaults는 직접적으로 커스텀 타입 저장이 불가함 -> JSON 형태로 변환하여 Data 타입으로 저장 및 읽어와야함.
@@ -70,13 +71,18 @@ final class UserDefaultsManager {
     }
     
     /// - UserDefaults 업데이트 -> AppState의 isLoggedIn 업데이트 -> UI 자동 갱신
-    func login() {
+    func login(_ userId: String) {
+        currentUserId = userId
         isLoggedIn = true
     }
     
     func logout() {
+        if let userId = currentUserId {
+            try? CoreDataStack.shared.clearUserData(for: userId)
+        }
+        
         KeychainManager.shared.clearToken()
+        currentUserId = nil
         isLoggedIn = false
-        username = nil
     }
 }
