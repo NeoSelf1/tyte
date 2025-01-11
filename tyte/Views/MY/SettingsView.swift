@@ -2,12 +2,17 @@ import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack{
-            Toggle(isOn: $isDarkMode) {
+            Toggle(isOn: Binding(
+                get: { UserDefaultsManager.shared.isDarkMode },
+                set: {
+                    UserDefaultsManager.shared.setDarkMode($0)
+                    setAppearance(isDarkMode: $0)
+                }
+            )){
                 Text("다크모드")
                     .font(._body2)
                     .foregroundColor(.gray90)
@@ -16,11 +21,6 @@ struct SettingsView: View {
             .tint(.blue30)
             .background(Color.gray10)
             .cornerRadius(8)
-            .onChange(of: isDarkMode) { _,newValue in
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    setAppearance(isDarkMode: newValue)
-                }
-            }
             
             Divider()
                 .padding(.vertical,12)
@@ -65,14 +65,15 @@ struct SettingsView: View {
             }
         )
     }
-}
-
-private func setAppearance(isDarkMode: Bool) {
-    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-          let window = windowScene.windows.first else { return }
     
-    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-        window.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+    private func setAppearance(isDarkMode: Bool) {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return }
+        withAnimation(.mediumEaseInOut){
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                window.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+            }
+        }
     }
 }
 

@@ -8,8 +8,6 @@ import Combine
 import SwiftUI
 
 struct DetailView: View {
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
-    
     let todosForDate: [Todo]
     let dailyStatForDate: DailyStat
     let isLoading: Bool
@@ -67,9 +65,11 @@ struct DetailView: View {
                                 }
                                 Spacer()
                                 
-                                Image(isDarkMode ? "logo-dark" : "logo-light")
+                                Image("logo")
+                                    .renderingMode(.template)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(.gray90)
                                     .padding(6)
                                     .opacity(0.8)
                                     .frame(height:44)

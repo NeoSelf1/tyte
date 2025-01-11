@@ -10,6 +10,7 @@ struct UserDefaultsConfiguration {
         static let appleUserEmails = "appleUserEmails"
         static let dailyStats = "dailyStats"
         static let currentUserId = "currentUserId"
+        static let isDarkMode = "isDarkMode"
     }
 }
 
@@ -33,6 +34,11 @@ final class UserDefaultsManager {
             WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
             WidgetCenter.shared.reloadTimelines(ofKind: "TodoListWidget")
         }
+    }
+    
+    private(set) var isDarkMode: Bool {
+        get { defaults.bool(forKey: UserDefaultsConfiguration.Keys.isDarkMode) }
+        set { defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.isDarkMode) }
     }
     
     private(set) var appleUserEmails: [String: String] {
@@ -74,6 +80,10 @@ final class UserDefaultsManager {
     func login(_ userId: String) {
         currentUserId = userId
         isLoggedIn = true
+    }
+    
+    func setDarkMode(_ _isDarkMode: Bool) {
+        isDarkMode = _isDarkMode
     }
     
     func logout() {

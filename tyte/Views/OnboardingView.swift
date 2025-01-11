@@ -10,9 +10,6 @@ enum Field: Hashable {
 struct OnboardingView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = AuthViewModel()
-    
-    @AppStorage("isDarkMode") private var isDarkMode = UITraitCollection.current.userInterfaceStyle == .dark
-    
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
     
@@ -58,9 +55,11 @@ struct OnboardingView: View {
                 .frame(width: 160, height: 160)
                 .padding(.bottom,8)
             
-            Image(isDarkMode ? "logo-dark" : "logo-light")
+            Image("logo")
+                .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+                .foregroundColor(.gray90)
                 .frame(height:24)
             
             Text("일상의 균형과 생산성을 높이는 스마트한\nTodo 어플리케이션")
