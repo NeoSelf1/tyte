@@ -8,7 +8,6 @@ struct UserDefaultsConfiguration {
     struct Keys {
         static let isLoggedIn = "isLoggedIn"
         static let appleUserEmails = "appleUserEmails"
-        static let dailyStats = "dailyStats"
         static let currentUserId = "currentUserId"
         static let isDarkMode = "isDarkMode"
     }
@@ -50,26 +49,10 @@ final class UserDefaultsManager {
         get { defaults.string(forKey: UserDefaultsConfiguration.Keys.currentUserId) }
         set { defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.currentUserId) }
     }
-    
-    /// UserDefaults는 직접적으로 커스텀 타입 저장이 불가함 -> JSON 형태로 변환하여 Data 타입으로 저장 및 읽어와야함.
-    private(set) var dailyStats: [DailyStat]? {
-        get {
-            guard let data = defaults.data(forKey: UserDefaultsConfiguration.Keys.dailyStats) else { return nil }
-            return try? JSONDecoder().decode([DailyStat].self, from: data)
-        }
-        set {
-            guard let data = try? JSONEncoder().encode(newValue) else { return }
-            defaults.set(data, forKey: UserDefaultsConfiguration.Keys.dailyStats)
-        }
-    }
-    
+
     // MARK: - Methods
     func saveAppleUserEmail(_ email: String, for userId: String) {
         appleUserEmails[userId] = email
-    }
-    
-    func saveDailyStats(_ _dailyStats: [DailyStat]) {
-        dailyStats = _dailyStats
     }
     
     func getAppleUserEmail(for userId: String) -> String? {

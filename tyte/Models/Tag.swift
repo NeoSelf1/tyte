@@ -1,10 +1,3 @@
-//
-//  Tag.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/9/24.
-//
-
 import Foundation
 
 struct Tag: Codable, Identifiable, Equatable {

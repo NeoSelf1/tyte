@@ -1,5 +1,17 @@
 import Foundation
 import Alamofire
+/// API 호출 시 발생할 수 있는 에러 타입들을 정의하는 파일입니다.
+/// Alamofire의 에러를 앱 내부에서 사용하는 에러 타입으로 매핑합니다.
+///
+/// ## 주요 에러 타입
+/// - 네트워크 관련: ``invalidURL``, ``networkError``
+/// - 인증 관련: ``unauthorized``, ``wrongPassword``
+/// - 데이터 관련: ``decodingError``, ``serverDataInvalid``
+/// - 비즈니스 로직: ``invalidTodo``, ``alreadyRequested``
+/// - 서버에 대한 에러: ``serverError(_:)``
+///
+/// - Important: 모든 에러는 사용자 친화적인 메시지를 포함합니다.
+/// - Note: Alamofire의 AFError를 이 타입으로 변환하는 이니셜라이저를 제공합니다.
 
 enum APIError: Error, Equatable {
     case invalidURL
@@ -13,7 +25,6 @@ enum APIError: Error, Equatable {
 
     case wrongPassword
     
-    case guestMode
     case networkError
     case serverError(String)
     case unknown
@@ -22,13 +33,9 @@ enum APIError: Error, Equatable {
         switch afError {
         case .invalidURL(let url):
             self = .invalidURL
-            print("Invalid URL: \(url)")
             
         case .responseSerializationFailed(reason: .decodingFailed(_)):
             self = .decodingError
-            
-        case .sessionTaskFailed:
-                self = .networkError
             
         case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
             switch code {

@@ -9,7 +9,7 @@ enum KeychainError: Error {
 
 struct KeychainConfiguration {
     static let serviceName = "com.neox.tyte"
-    static let accessGroup: String? = nil // Set if needed for app groups
+    static let accessGroup: String? = nil
     
     struct Keys {
         static let accessToken = "accessToken"

@@ -12,7 +12,9 @@ enum WidgetType{
     case todoList
 }
 
-class WidgetService: WidgetServiceProtocol {
+final class WidgetManager {
+    static let shared = WidgetManager()
+    
     func updateWidget(_ type: WidgetType) {
         switch type {
         case .all:

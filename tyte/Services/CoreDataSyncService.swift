@@ -1,18 +1,26 @@
-/// 1. 네트워크에서 데이터 fetch 후 CoreData 저장
-/// 2. CoreData에서 데이터 읽기
-/// 3. 사용자 변경 시 데이터 삭제
-/// 4. 데이터 동기화 및 충돌 관리
-
-// MARK: save = create || update
-// MARK: -  CoreData로 영구저장소와 동기화 이후, 네트워크 통신으로 데이터 fetch
-
 import Combine
 import CoreData
 import Foundation
 import Network
+/// CoreDataSyncService는 앱의 오프라인 동기화를 관리하는 메인 서비스입니다.
+/// 이 서비스는 CoreData를 사용한 로컬 저장소와 서버 간의 데이터 동기화를 처리하며,
+/// 네트워크 연결이 불안정하거나 없는 상황에서도 앱이 정상적으로 작동할 수 있도록 합니다.
+///
+/// 주요 기능:
+/// - 로컬 저장소(CoreData)와 서버 간의 데이터 동기화
+/// - 오프라인 상태에서의 작업 큐 관리
+/// - 네트워크 상태 모니터링 및 자동 동기화
+/// - 데이터 무결성 보장을 위한 트랜잭션 처리
+///
+/// 동기화 대상 도메인:
+/// - Todo: 사용자의 할일 관리
+/// - Tag: Todo에 연결되는 태그
+/// - DailyStat: 날짜별 통계 데이터
+///
+/// - Note:save는 create와 update를 모두 수행할 수 있음을 의미합니다.
+/// - Warning:SRP를 준수하지 않고 있으며, 도메인 별 파일 분리 및 의존성 역전이 필요합니다.
 
-/// createTodo 및 createTag는 서버에서의 고유ID와 오프라인에서 발급받은 임시 ID와의 충돌 문제로 인해
-/// 네트워크 연결 확인 -> 네트워크 통신으로 생성 -> 로컬에 저장 흐름으로 로직 전개
+
 enum SyncOperationType: Codable {
     case updateTodo(Todo)
     case deleteTodo(String)
@@ -28,7 +36,8 @@ enum SyncStatus: String, Codable {
     case failed
 }
 
-// MARK: 동기화해야 할 작업을 정의
+/// SyncOperation은 동기화해야 할 작업을 정의하는 구조체입니다.
+/// - 작업 타입과 타임스탬프를 포함합니다.
 struct SyncOperation: Codable {
     let type: SyncOperationType
     let timestamp: Date
@@ -41,7 +50,8 @@ struct SyncOperation: Codable {
     }
 }
 
-// MARK: 동기화해야 할 명령을 표현
+/// SyncCommand는 동기화 작업의 실행 상태를 추적하는 구조체입니다.
+/// - 작업 ID, 작업 내용, 상태, 재시도 횟수 등을 포함합니다.
 struct SyncCommand: Codable {
     let id: UUID
     let operation: SyncOperation
@@ -51,39 +61,50 @@ struct SyncCommand: Codable {
     var errorMessage: String?
 }
 
-// TODO: Repository 패턴으로 분리하여 관심사 분리 및 의존성 방향 역전
 
-/// 전체 동기화 프로세스를 관리하는 메인 서비스
 class CoreDataSyncService {
+    // MARK: - Properties
+    
+    /// 싱글톤 인스턴스
     static let shared = CoreDataSyncService()
     
+    /// CoreData 스택 인스턴스
     private let coreDataStack: CoreDataStack = .shared
+    /// 위젯 업데이트 매니저
+    private let widgetManager: WidgetManager = .shared
     
+    /// 도메인별 서비스 인스턴스들
     private let todoService: TodoServiceProtocol
     private let tagService: TagServiceProtocol
     private let dailyStatService: DailyStatServiceProtocol
-    private let widgetService: WidgetServiceProtocol
+    
+    /// 오프라인 작업 큐
     private let syncQueue = SyncQueue()
     
+    /// Combine 구독 저장소
     private var cancellables = Set<AnyCancellable>()
     
+    /// CoreDataSyncService 초기화
+    /// - Parameters:
+    ///   - todoService: Todo 관련 네트워크 요청을 처리하는 서비스
+    ///   - tagService: Tag 관련 네트워크 요청을 처리하는 서비스
+    ///   - dailyStatService: DailyStat 관련 네트워크 요청을 처리하는 서비스
     init (
         todoService: TodoServiceProtocol = TodoService(),
         tagService: TagServiceProtocol = TagService(),
-        dailyStatService: DailyStatServiceProtocol = DailyStatService(),
-        widgetService: WidgetServiceProtocol = WidgetService()
+        dailyStatService: DailyStatServiceProtocol = DailyStatService()
     ) {
         self.todoService = todoService
         self.tagService = tagService
         self.dailyStatService = dailyStatService
-        self.widgetService = widgetService
         
         setupNetworkMonitoring()
     }
     
-    // MARK: 네트워크 상태를 실시간으로 감시
-    /// 온라인 상태가 되면 자동으로 동기화 시작
-    /// 오프라인 상태가 되면 동기화 중지
+    
+    // MARK: - Core Methods
+    
+    /// 네트워크 상태 모니터링을 설정하고 상태 변화에 따라 동기화를 시작하거나 중지합니다.
     func setupNetworkMonitoring() {
         NetworkManager.shared.$isConnected
             .sink { [weak self] isConnected in
@@ -96,22 +117,22 @@ class CoreDataSyncService {
             .store(in: &cancellables)
     }
     
-    ///로컬 저장소 업데이트
-    /// - Parameter operation:진행중인 작업
-    /// 네트워크 동기화 수행, 오프라인일 경우 작업을 큐에 저장
+    /// 로컬 저장소 업데이트 후 네트워크 동기화를 수행하는 메서드입니다.
+    /// 오프라인일 경우 작업을 큐에 저장합니다.
+    /// - Parameter operation: 수행할 동기화 작업
+    /// - Returns: 작업 결과를 담은 Publisher
     func performSync(_ operation: SyncOperation) -> AnyPublisher<Any, Error> {
-        print("1.performSync: \(operation.type)".prefix(56))
-        // 1. CoreData로 영구저장소에 변경사항 먼저 반영
+        /// 1. CoreData로 영구저장소에 변경사항 먼저 반영
         do {
             switch operation.type {
             case .updateTodo(let todo):
                 try saveTodoToStore(todo)
                 
-                widgetService.updateWidget(.todoList)
+                widgetManager.updateWidget(.todoList)
             case .deleteTodo(let id):
                 try deleteTodoToStore(id)
                 
-                widgetService.updateWidget(.todoList)
+                widgetManager.updateWidget(.todoList)
             case .updateTag(let tag):
                 try saveTagToStore(tag)
             case .deleteTag(let id):
@@ -121,7 +142,7 @@ class CoreDataSyncService {
             return Fail(error: error).eraseToAnyPublisher()
         }
         
-        // 2. SyncCommand 생성 및 SyncQueue로 처리 요청
+        /// 2. SyncCommand 생성 및 SyncQueue로 처리 요청
         return syncQueue.process(SyncCommand(
             id: UUID(),
             operation: operation,
@@ -133,26 +154,41 @@ class CoreDataSyncService {
 }
 
 
-// MARK: - CRUD Method
+// MARK: - CRUD 연산들
 
 extension CoreDataSyncService {
+    
+    /// 새로운 Todo를 생성합니다.
+    /// 네트워크 연결이 필요한 작업으로, 오프라인에서는 수행할 수 없습니다.
+    /// - Parameters:
+    ///   - text: Todo 내용
+    ///   - date: Todo 날짜
+    /// - Returns: 생성된 Todo 배열을 포함한 Publisher
     func createTodo(text: String, in date: String) -> AnyPublisher<[Todo], Error> {
         return todoService.createTodo(text: text, in: date)
             .tryMap { [weak self] todos in
                 try self?.saveTodosToStore(todos)
                 
-                self?.widgetService.updateWidget(.todoList)
+                self?.widgetManager.updateWidget(.todoList)
                 return todos
             }
             .eraseToAnyPublisher()
     }
-    
+    ///
+    /// Todo를 업데이트합니다.
+    /// 오프라인에서도 작업이 가능하며, 네트워크 연결 시 자동으로 동기화됩니다.
+    /// - Parameter todo: 업데이트할 Todo 객체
+    /// - Returns: 업데이트된 Todo를 포함한 Publisher
     func updateTodo(_ todo: Todo) -> AnyPublisher<Todo, Error> {
         performSync(.create(type: .updateTodo(todo)))
             .map { $0 as! Todo }
             .eraseToAnyPublisher()
     }
     
+    /// Todo를 삭제합니다.
+    /// 오프라인에서도 작업이 가능하며, 네트워크 연결 시 자동으로 동기화됩니다.
+    /// - Parameter id: 삭제할 Todo의 ID
+    /// - Returns: 삭제된 Todo의 ID를 포함한 Publisher
     func deleteTodo(_ id: String) -> AnyPublisher<String, Error> {
         performSync(.create(type: .deleteTodo(id)))
             .map { $0 as! String } // deletedTodoId
@@ -185,11 +221,12 @@ extension CoreDataSyncService {
 }
 
 
-// MARK: - Refresh Method
-/// 네트워크 통신부터 하고, 새로운거 있으면 sync
+// MARK: - Refresh 연산들
+
 extension CoreDataSyncService {
-    //MARK: 밑 refresh 메서드를 실행하기 전에 필수로 호출이 필수 -> Presentation layer에서 refresh메서드 호출 순서에 대해 유념해야함.
-    func refreshTags() -> AnyPublisher<[Tag], Error> {
+/// 서버로부터 최신 Tag 목록을 가져와 로컬 저장소를 업데이트합니다.
+   /// - Returns: 업데이트된 Tag 배열을 포함한 Publisher
+   func refreshTags() -> AnyPublisher<[Tag], Error> {
         return tagService.fetchTags()
             .tryMap { [weak self] tags in
                 try self?.saveTagsToStore(tags)
@@ -198,28 +235,37 @@ extension CoreDataSyncService {
             .eraseToAnyPublisher()
     }
     
+    /// 특정 날짜의 DailyStat을 서버로부터 가져와 로컬 저장소를 업데이트합니다.
+    /// - Parameter date: 조회할 날짜
+    /// - Returns: 업데이트된 DailyStat을 포함한 Publisher
     func refreshDailyStat(for date: String) -> AnyPublisher<DailyStat?, Error> {
         return dailyStatService.fetchDailyStat(for: date)
             .tryMap { [weak self] _dailyStat in
                 if let dailyStat = _dailyStat{
                     try self?.saveDailyStatToStore(dailyStat)
-                    self?.widgetService.updateWidget(.calendar)
+                    self?.widgetManager.updateWidget(.calendar)
                 }
                 return _dailyStat
             }
             .eraseToAnyPublisher()
     }
     
+    /// 특정 연월의 DailyStat 목록을 서버로부터 가져와 로컬 저장소를 업데이트합니다.
+    /// - Parameter yearMonth: 조회할 연월(YYYY-MM 형식)
+    /// - Returns: 업데이트된 DailyStat 배열을 포함한 Publisher
     func refreshDailyStats(for yearMonth: String) -> AnyPublisher<[DailyStat], Error> {
         return dailyStatService.fetchMonthlyStats(in: yearMonth)
             .tryMap { [weak self] dailyStats in
                 try self?.saveDailyStatsToStore(dailyStats)
-                self?.widgetService.updateWidget(.calendar)
+                self?.widgetManager.updateWidget(.calendar)
                 return dailyStats
             }
             .eraseToAnyPublisher()
     }
     
+    /// 특정 날짜의 Todo 목록을 서버로부터 가져와 로컬 저장소를 업데이트합니다.
+    /// - Parameter date: 조회할 날짜
+    /// - Returns: 업데이트된 Todo 배열을 포함한 Publisher
     func refreshTodos(for date: String) -> AnyPublisher<[Todo], Error> {
         return todoService.fetchTodos(for: date)
             .tryMap { [weak self] todos in
@@ -231,9 +277,13 @@ extension CoreDataSyncService {
 }
 
 
-// MARK: - 영구저장소에서 데이터 Read
+// MARK: - Local Storage Operations
 
 extension CoreDataSyncService {
+    /// 로컬 저장소에서 특정 날짜의 Todo 목록을 가져옵니다.
+    /// - Parameter date: 조회할 날짜
+    /// - Returns: Todo 배열
+    /// - Throws: CoreData 관련 에러
     func readTodosFromStore(for date: String) throws -> [Todo] {
         let request = TodoEntity.fetchRequest()
         request.predicate = NSPredicate(format: "deadline == %@", date)
@@ -264,6 +314,10 @@ extension CoreDataSyncService {
         return todos
     }
     
+    /// 로컬 저장소에서 특정 연월의 DailyStat 목록을 가져옵니다.
+    /// - Parameter yearMonth: 조회할 연월(YYYY-MM 형식)
+    /// - Returns: DailyStat 배열
+    /// - Throws: CoreData 관련 에러
     func readDailyStatsFromStore(for yearMonth: String) throws -> [DailyStat] {
         let request = DailyStatEntity.fetchRequest()
         request.predicate = NSPredicate(format: "date BEGINSWITH %@", yearMonth)
@@ -299,6 +353,9 @@ extension CoreDataSyncService {
         }
     }
     
+    /// 로컬 저장소에서 현재 사용자의 모든 Tag를 가져옵니다.
+    /// - Returns: Tag 배열
+    /// - Throws: CoreData 관련 에러
     func readTagsFromStore() throws -> [Tag] {
         guard let userId = UserDefaultsManager.shared.currentUserId else { return [] }
         
@@ -516,8 +573,9 @@ extension CoreDataSyncService {
     }
 }
 
-
-// MARK: 오프라인 상태에서의 작업을 큐에 저장하고 관리
+/// SyncQueue는 오프라인 상태에서의 작업을 관리하는 큐입니다.
+/// - 작업의 저장, 실행, 재시도를 관리합니다.
+/// - 네트워크 연결 시 자동으로 저장된 작업을 처리합니다.
 private class SyncQueue {
     private let coreDataStack: CoreDataStack = .shared
     

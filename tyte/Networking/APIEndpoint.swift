@@ -1,9 +1,21 @@
-//
-//  APIEndpoint.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/9/24.
-//
+/// API 엔드포인트를 정의하는 파일입니다.
+/// 앱에서 사용하는 모든 API 경로와 파라미터를 캡슐화합니다.
+///
+/// ## 기능별 엔드포인트 그룹
+/// - 인증: ``login``, ``signUp``, ``validateToken``
+/// - Todo 관리: ``fetchTodosForDate``, ``createTodo``, ``updateTodo``
+/// - 태그 관리: ``fetchTags``, ``createTag``, ``updateTag``
+/// - 통계: ``fetchDailyStatsForDate``, ``fetchMonthlyStats``
+/// - 소셜: ``searchUser``, ``getFriends``, ``requestFriend``
+///
+/// ## 사용 예시
+/// ```swift
+/// let endpoint = APIEndpoint.login
+/// let path = endpoint.path  // "/auth/login"
+/// ```
+///
+/// - Important: 모든 엔드포인트는 `APIConstants.baseUrl`과 결합되어 완전한 URL을 형성합니다.
+/// - Note: 각 엔드포인트는 필요한 파라미터를 연관값으로 포함합니다.
 
 import Foundation
 

@@ -1,10 +1,3 @@
-//
-//  BalanceNum.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/4/24.
-//
-
 import Foundation
 
 struct DailyStat: Codable, Identifiable {

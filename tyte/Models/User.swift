@@ -1,9 +1,3 @@
-//
-//  User.swift
-//  tyte
-//
-//  Created by Neoself on 10/23/24.
-//
 struct User: Codable, Identifiable {
     let id: String
     let username: String
