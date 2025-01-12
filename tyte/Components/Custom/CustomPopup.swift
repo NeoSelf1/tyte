@@ -1,3 +1,20 @@
+/// 사용자 상호작용이 필요한 팝업 다이얼로그 컴포넌트
+///
+/// 제목, 설명, 그리고 하나 또는 두 개의 액션 버튼을 포함하는 모달 팝업을 표시합니다.
+/// 필수 액션이나 선택적 액션을 처리하는 데 사용됩니다.
+///
+/// - Parameters:
+///   - hidePopup: 팝업을 닫는 클로저
+///   - popupData: 팝업에 표시할 데이터와 액션을 포함하는 `PopupData` 객체
+///
+/// - Note: PopupManager에 의해 관리되며, 앱 전역에서 사용됩니다.
+///
+/// ```swift
+/// PopupManager.shared.show(
+///     type: .loginRequired,
+///     action: { appState.isGuestMode = false }
+/// )
+/// ```
 import SwiftUI
 
 struct CustomPopup: View {
@@ -106,18 +123,3 @@ struct CustomPopup: View {
         .font(._body1)
     }
 }
-
-//#Preview("Popup") {
-//    CustomPopup_Preview()
-//}
-//
-//struct CustomPopup_Preview: View {
-//    @State private var showPopup = true
-//
-//    var body: some View {
-//        CustomPopup(isShowing: $showPopup, popupData: PopupData(type:.storeRegister("이대"),action:{print("storeRegister")}))
-//        CustomPopup(isShowing: $showPopup, popupData: PopupData(type:.storeDelete("이대"),action:{print("storeDelete")}))
-//        CustomPopup(isShowing: $showPopup, popupData: PopupData(type:.login,action:{print("login")}))
-//        CustomPopup(isShowing: $showPopup, popupData: PopupData(type:.storeFull,action:{print("storeFull")}))
-//    }
-//}

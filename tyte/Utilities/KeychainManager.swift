@@ -1,3 +1,10 @@
+/// 보안이 필요한 데이터를 Keychain에 저장하고 관리하는 싱글톤 클래스
+///
+/// 액세스 토큰과 같은 민감한 인증 정보를 안전하게 저장하고 관리합니다.
+/// 개발 환경에서는 더미 토큰을 사용할 수 있도록 구성되어 있습니다.
+///
+/// - Important: 토큰은 기기 잠금 해제 시에만 접근 가능하도록 저장됩니다.
+/// - Warning: 키체인 작업 실패 시 적절한 에러 처리가 필요합니다.
 import Foundation
 import Security
 
@@ -23,7 +30,7 @@ protocol KeychainManaging {
     func clearToken()
 }
 
-class KeychainManager:KeychainManaging {
+final class KeychainManager:KeychainManaging {
     static let shared = KeychainManager()
     
     private init() {}

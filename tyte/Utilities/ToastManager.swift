@@ -1,10 +1,10 @@
-//
-//  ToastManager.swift
-//  tyte
-//
-//  Created by Neoself on 12/2/24.
-//
-
+/// 앱의 토스트 메시지를 관리하는 싱글톤 클래스
+///
+/// 다양한 유형의 토스트 메시지를 표시하고 관리합니다.
+/// 자동으로 사라지는 애니메이션이 적용된 토스트를 제공합니다.
+///
+/// - Note: 토스트는 2초 후 자동으로 사라집니다.
+/// - Important: 토스트는 한 번에 하나만 표시될 수 있습니다.
 import SwiftUI
 
 final class ToastManager: ObservableObject {

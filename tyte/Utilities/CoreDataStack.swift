@@ -1,9 +1,10 @@
-//
-//  CoreDataStack.swift
-//  tyte
-//
-//  Created by Neoself on 12/26/24.
-//
+/// Core Data 영구 저장소를 관리하는 싱글톤 클래스
+///
+/// 앱의 로컬 데이터베이스를 관리하며, 트랜잭션 처리와 데이터 정리 기능을 제공합니다.
+/// App Group을 통해 위젯과 데이터베이스를 공유합니다.
+///
+/// - Important: DataModel.sqlite 파일은 App Group 컨테이너에 저장됩니다.
+/// - Warning: Context 작업은 반드시 performInTransaction 메서드를 통해 수행해야 합니다.
 import Foundation
 import CoreData
 

@@ -1,7 +1,24 @@
+/// 월별 캘린더를 표시하는 위젯
+///
+/// 일별 생산성 데이터를 캘린더 형태로 시각화하며, 시스템 사이즈에 따라 다른 뷰를 제공합니다.
+///
+/// - SupportedFamilies:
+///   - small: 오늘 날짜의 프리즘만 표시
+///   - medium: 현재 주의 프리즘 캘린더 표시
+///   - large: 현재 월의 전체 캘린더 표시
+///
+/// - Note: CoreData를 통해 데이터를 관리하며, 자정에 데이터가 갱신됩니다.
+
 import WidgetKit
 import SwiftUI
 
+/// 캘린더 위젯의 데이터 제공자
+///
+/// TimelineProvider 프로토콜을 구현하여 위젯의 데이터를 관리합니다.
 struct CalendarWidgetProvider: TimelineProvider {
+    /// 위젯의 플레이스홀더 상태를 제공합니다.
+    /// - Parameter context: 위젯 컨텍스트
+    /// - Returns: 더미 데이터가 포함된 엔트리
     func placeholder(in context: Context) -> CalendarEntry {
         let calendar = Calendar.current
         let today = Date()
@@ -20,6 +37,10 @@ struct CalendarWidgetProvider: TimelineProvider {
         return CalendarEntry(date: Date(), dailyStats: dummyStats, isLoggedIn: true)
     }
     
+    /// 위젯의 현재 상태의 스냅샷을 제공합니다.
+    /// - Parameters:
+    ///   - context: 위젯 컨텍스트
+    ///   - completion: 스냅샷 완료 핸들러
     func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
         let defaults = UserDefaultsManager.shared
         
@@ -30,6 +51,11 @@ struct CalendarWidgetProvider: TimelineProvider {
         }
     }
     
+    /// 위젯의 시간에 따른 업데이트 타임라인을 제공합니다.
+    /// - Parameters:
+    ///   - context: 위젯 컨텍스트
+    ///   - completion: 타임라인 생성 완료 핸들러
+    /// - Note: 자정을 기준으로 데이터가 갱신됩니다.
     func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarEntry>) -> ()) {
         let nextMidnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(24 * 60 * 60)
         

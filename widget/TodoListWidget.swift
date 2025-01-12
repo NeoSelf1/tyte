@@ -1,15 +1,24 @@
-//
-//  TodoListWidgetProvider.swift
-//  tyte
-//
-//  Created by Neoself on 12/29/24.
-//
-
-
+/// Todo 목록을 표시하는 위젯
+///
+/// 오늘의 할 일 목록을 위젯으로 표시하며, 시스템 사이즈에 따라 다른 레이아웃을 제공합니다.
+///
+/// - SupportedFamilies:
+///   - small: 프리즘과 최대 3개의 Todo 항목 표시
+///   - medium: 프리즘과 최대 3개의 Todo 항목을 가로 배치
+///   - large: 프리즘과 최대 5개의 Todo 항목을 세로 배치
+///
+/// - Note: CoreData를 통해 데이터를 관리하며, 자정에 데이터가 갱신됩니다.
 import WidgetKit
 import SwiftUI
 
+/// Todo 목록 위젯의 데이터 제공자
+///
+/// TimelineProvider 프로토콜을 구현하여 위젯의 데이터를 관리합니다.
 struct TodoListWidgetProvider: TimelineProvider {
+    /// 위젯의 플레이스홀더 상태를 제공합니다.
+    /// - Parameter context: 위젯 컨텍스트
+    /// - An object that contains details about how a widget is rendered, including its size and whether it appears in the widget gallery.
+    /// - Returns: 더미 데이터가 포함된 엔트리
     func placeholder(in context: Context) -> TodoListEntry {
         return TodoListEntry(
             date: Date().koreanDate,
@@ -19,6 +28,10 @@ struct TodoListWidgetProvider: TimelineProvider {
         )
     }
     
+    /// 위젯의 현재 상태의 스냅샷을 제공합니다.
+    /// - Parameters:
+    ///   - context: 위젯 컨텍스트
+    ///   - completion: 스냅샷 완료 핸들러
     func getSnapshot(in context: Context, completion: @escaping (TodoListEntry) -> ()) {
         let defaults = UserDefaultsManager.shared
         
@@ -39,6 +52,11 @@ struct TodoListWidgetProvider: TimelineProvider {
         }
     }
     
+    /// 위젯의 시간에 따른 업데이트 타임라인을 제공합니다.
+    /// - Parameters:
+    ///   - context: 위젯 컨텍스트
+    ///   - completion: 타임라인 생성 완료 핸들러
+    /// - Note: 자정을 기준으로 데이터가 갱신됩니다.
     func getTimeline(in context: Context, completion: @escaping (Timeline<TodoListEntry>) -> ()) {
         let nextMidnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(24 * 60 * 60)
         

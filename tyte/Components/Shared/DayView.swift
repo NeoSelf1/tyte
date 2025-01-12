@@ -1,3 +1,17 @@
+/// 캘린더의 개별 날짜를 표시하는 셀 컴포넌트
+///
+/// 날짜 표시와 함께 해당 날짜의 통계 데이터를 MeshGradient로 시각화합니다.
+/// 오늘 날짜 표시, 선택 상태 표시 등의 기능을 포함합니다.
+///
+/// - Parameters:
+///   - dailyStat: 해당 날짜의 통계 데이터
+///   - date: 표시할 날짜
+///   - isSelected: 선택 상태
+///   - isToday: 오늘 날짜 여부
+///   - isDayVisible: 요일 표시 여부
+///   - size: 셀의 크기
+///
+/// - Note: CalendarView의 그리드 셀과 HomeView의 가로 스크롤 캘린더에서 사용됩니다.
 import SwiftUI
 
 struct DayView: View {

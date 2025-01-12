@@ -1,7 +1,12 @@
 import Foundation
 import Alamofire
 import Combine
-
+/// 인증이 필요한 API 요청을 처리합니다.
+/// - Parameters:
+///   - endpoint: API 엔드포인트
+///   - method: HTTP 메서드
+///   - parameters: 요청 파라미터
+/// - Returns: 디코딩된 응답 데이터를 포함하는 Publisher
 class NetworkService: NetworkServiceProtocol {
     func request<T: Decodable>(
         _ endpoint: APIEndpoint,
@@ -16,7 +21,7 @@ class NetworkService: NetworkServiceProtocol {
             
             guard NetworkManager.shared.isConnected else {
                 self.handleError(.networkError)
-                promise(.failure(.networkError)) // Future의 completion handler 호출
+                promise(.failure(.networkError))
                 return
             }
             
@@ -55,6 +60,12 @@ class NetworkService: NetworkServiceProtocol {
         .eraseToAnyPublisher()
     }
     
+    /// 인증이 필요없는 API 요청을 처리합니다.
+    /// - Parameters:
+    ///   - endpoint: API 엔드포인트
+    ///   - method: HTTP 메서드
+    ///   - parameters: 요청 파라미터
+    /// - Returns: 디코딩된 응답 데이터를 포함하는 Publisher
     func requestWithoutAuth<T: Decodable>(_ endpoint: APIEndpoint,
                                           method: HTTPMethod = .get,
                                           parameters: Parameters? = nil) -> AnyPublisher<T, APIError> {

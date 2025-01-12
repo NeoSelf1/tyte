@@ -125,6 +125,8 @@ struct TagEditView: View {
     }
 }
 
+#if DEBUG
 #Preview{
     TagEditView(viewModel: TagEditViewModel())
 }
+#endif

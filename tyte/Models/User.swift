@@ -1,3 +1,10 @@
+/// 사용자 정보를 나타내는 기본 모델
+///
+/// 앱 내의 사용자 정보를 표현하는 기본 데이터 구조입니다.
+/// - Properties:
+///   - id: 사용자 고유 식별자
+///   - username: 사용자 이름
+///   - email: 사용자 이메일 주소
 struct User: Codable, Identifiable {
     let id: String
     let username: String

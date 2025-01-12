@@ -1,10 +1,3 @@
-//
-//  UIImage+Priority.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/2/24.
-//
-
 import Foundation
 import SwiftUI
 

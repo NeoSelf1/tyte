@@ -1,9 +1,3 @@
-//
-//  View+.swift
-//  tyte
-//
-//  Created by Neoself on 12/2/24.
-//
 import SwiftUI
 
 extension View {

@@ -1,7 +1,4 @@
-import Network
-import Combine
-
-/// # 애플리케이션의 네트워크 연결 상태를 모니터링하고 관리하는 싱글톤 클래스입니다.
+/// 애플리케이션의 네트워크 연결 상태를 모니터링하고 관리하는 싱글톤 클래스
 ///
 /// ## `NetworkManager`는 다음과 같은 기능을 제공합니다:
 /// - 네트워크 연결 상태 변화 모니터링
@@ -45,8 +42,10 @@ import Combine
 /// - Important: 이 클래스는 싱글톤으로 설계되었습니다. 항상 `shared` 인스턴스를 통해 접근해야합니다..
 /// - Note: 네트워크 상태 변화는 `isConnected` published 속성을 통해 발행됩니다.
 /// - Warning: 네트워크 모니터는 UI 업데이트를 위해 메인 큐 작업이 필요합니다.
+import Network
+import Combine
 
-class NetworkManager {
+final class NetworkManager {
     static let shared = NetworkManager()
     
     private let monitor = NWPathMonitor()

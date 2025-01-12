@@ -14,6 +14,14 @@ struct TagEditBottomSheet: View {
     
     @Environment(\.dismiss) var dismiss
     
+    /// @State 프로퍼티 래퍼를 사용하는 editedName과 editedColor는 값 타입 프로퍼티이며, 선언과 동시에 초기값이 필요합니다.
+    /// 하지만 이 초기값들은 외부에서 바인딩으로 전달받는 tag 값에 의존적입니다:
+    /// ```swift
+    /// _editedName = State(initialValue: tag.wrappedValue.name)
+    /// _editedColor = State(initialValue: tag.wrappedValue.color)
+    /// ```
+    /// SwiftUI의 일반적인 프로퍼티 초기화 시점에서는 이 바인딩된 tag 값에 접근할 수 없습니다.
+    /// 따라서 커스텀 초기화기를 통해 State 프로퍼티 래퍼의 프로젝티드 값(_editedName, _editedColor)을 직접 초기화해주는 것이 필요합니다.
     init(tag: Binding<Tag>, onUpdate: @escaping (Tag) -> Void, onDelete: @escaping (String) -> Void) {
         self._tag = tag
         self.onUpdate = onUpdate

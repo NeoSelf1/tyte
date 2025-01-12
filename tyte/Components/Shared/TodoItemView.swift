@@ -1,3 +1,16 @@
+/// 할 일 항목을 표시하는 리스트 아이템 컴포넌트
+///
+/// 할 일의 제목, 태그, 난이도, 예상 소요시간 등의 정보를 표시하며,
+/// 완료 여부 토글 기능과 수정을 위한 선택 기능을 제공합니다.
+///
+/// - Parameters:
+///   - todo: 표시할 할 일 데이터
+///   - isPast: 과거 데이터 여부
+///   - isButtonPresent: 완료 토글 버튼 표시 여부
+///   - onToggle: 완료 상태 변경 콜백
+///   - onSelect: 항목 선택 콜백
+///
+/// - Note: HomeView의 할 일 목록과 DetailView의 완료된 할 일 목록에서 사용됩니다.
 import SwiftUI
 
 struct TodoItemView: View {

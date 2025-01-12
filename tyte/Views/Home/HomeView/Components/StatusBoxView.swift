@@ -1,43 +1,36 @@
-//
-//  StatusBoxContent.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/4/24.
-//
-
 import SwiftUI
 
-struct StatusBoxContent: View {
-    @ObservedObject var viewModel : HomeViewModel
+struct StatusBoxView: View {
+    @ObservedObject var viewModel: HomeViewModel
     private var dailyStat: DailyStat
     private var balanceData: BalanceData
-    private var isValid = false
     
-    init(
-        viewModel: HomeViewModel
-    ) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         
-        if let index = viewModel.weekCalendarData.firstIndex(where: {viewModel.selectedDate.apiFormat == $0.date}){
-            dailyStat = viewModel.weekCalendarData[index]
-            balanceData = dailyStat.balanceData
-            isValid = true
+        if let index = viewModel.weekCalendarData.firstIndex(where: { viewModel.selectedDate.apiFormat == $0.date }) {
+            self.dailyStat = viewModel.weekCalendarData[index]
+            self.balanceData = viewModel.weekCalendarData[index].balanceData
         } else {
-            dailyStat = .empty
-            balanceData = BalanceData(
+            self.dailyStat = .empty
+            self.balanceData = BalanceData(
                 title: "Todo가 없네요 :(",
                 message: "아래 + 버튼을 눌러 Todo를 추가해주세요",
-                balanceNum: 0)
+                balanceNum: 0
+            )
         }
     }
     
     var body: some View {
         HStack(spacing: 12) {
             ZStack {
-                CircularProgressView(progress: Double(balanceData.balanceNum) / 100.0, color: balanceData.balanceNum.colorByBalanceData)
-                    .frame(width: 64, height: 64)
+                circularProgressView(
+                    progress: Double(balanceData.balanceNum) / 100.0,
+                    color: balanceData.balanceNum.colorByBalanceData
+                )
+                .frame(width: 64, height: 64)
                 
-                HStack (spacing:0) {
+                HStack(spacing: 0) {
                     Text("\(balanceData.balanceNum)")
                         .font(._headline2)
                         .foregroundColor(balanceData.balanceNum.colorByBalanceData)
@@ -49,9 +42,9 @@ struct StatusBoxContent: View {
                         .foregroundColor(balanceData.balanceNum.colorByBalanceData)
                 }
             }
-            .padding(.leading,16)
+            .padding(.leading, 16)
             
-            VStack(alignment: .leading, spacing:0) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Text(viewModel.selectedDate.formattedDate)
                         .font(._body3)
@@ -60,11 +53,13 @@ struct StatusBoxContent: View {
                     Spacer()
                     
                     if dailyStat.date != "emptyData" {
-                        NavigationLink(destination: StatisticsView(
-                            dailyStat: dailyStat,
-                            todos: viewModel.todosForDate)
+                        NavigationLink(
+                            destination: StatisticsView(
+                                dailyStat: dailyStat,
+                                todos: viewModel.todosForDate
+                            )
                         ) {
-                            HStack(spacing: 6){
+                            HStack(spacing: 6) {
                                 Text("AI분석 보기")
                                     .font(._body3)
                                     .foregroundStyle(.gray60)
@@ -77,21 +72,19 @@ struct StatusBoxContent: View {
                         }
                     }
                 }
-                .padding(.bottom,4)
+                .padding(.bottom, 4)
                 
                 Text(balanceData.title)
                     .font(._title)
                     .foregroundStyle(.gray90)
-                    .padding(.bottom,2)
+                    .padding(.bottom, 2)
                 
                 Text(balanceData.message)
                     .font(._body3)
                     .foregroundStyle(.gray50)
             }
-            
-            Spacer()
         }
-        .frame(height:96)
+        .frame(height: 96)
         .background(.gray00)
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .shadow(color: .gray90.opacity(0.08), radius: 2)
@@ -100,6 +93,27 @@ struct StatusBoxContent: View {
                 .stroke(.blue10, lineWidth: 1)
         )
         .padding(4)
-        
+    }
+    
+    private func circularProgressView(progress: Double, color: Color) -> some View {
+        ZStack {
+            Circle()
+                .stroke(
+                    color.opacity(0.2),
+                    lineWidth: 3
+                )
+            
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(
+                    color,
+                    style: StrokeStyle(
+                        lineWidth: 3,
+                        lineCap: .round
+                    )
+                )
+                .rotationEffect(.degrees(-90))
+                .animation(.mediumEaseInOut, value: progress)
+        }
     }
 }
