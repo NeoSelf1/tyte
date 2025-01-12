@@ -13,8 +13,6 @@ protocol SocialServiceProtocol {
     func getPendingRequests() -> AnyPublisher<[FriendRequest], APIError>
     /// 친구 요청 수락
     func acceptFriendRequest(requestId: String) -> AnyPublisher<IdResponse, APIError>
-    /// 친구 요청 거절
-    func rejectFriendRequest(requestId: String) -> AnyPublisher<EmptyResponse, APIError>
     /// 친구 삭제
     func removeFriend(friendId: String) -> AnyPublisher<EmptyResponse, APIError>
 }

@@ -49,7 +49,6 @@ enum APIEndpoint {
     case requestFriend(String) // userId
     case getPendingRequests // 받은 친구 요청 목록 조회
     case acceptFriendRequest(String) // requestId
-    case rejectFriendRequest(String) // requestId
     case removeFriend(String) // friendId
     
     case deleteAccount
@@ -108,8 +107,6 @@ enum APIEndpoint {
             return "/social/requests/pending"
         case .acceptFriendRequest(let requestId):
             return "/social/accept/\(requestId)"
-        case .rejectFriendRequest(let requestId):
-            return "/social/reject/\(requestId)"
         case .removeFriend(let friendId):
             return "/social/\(friendId)"
             
