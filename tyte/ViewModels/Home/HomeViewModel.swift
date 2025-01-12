@@ -50,7 +50,7 @@ class HomeViewModel: ObservableObject {
     func setDateToTodayAndScrollCalendar(_ proxy: ScrollViewProxy? = nil) {
         let today = Date().koreanDate
         
-        changeDate(today)
+        selectDate(today)
         
         if let proxy = proxy {
             proxy.scrollTo(Calendar.current.startOfDay(for: today), anchor: .center)
@@ -74,7 +74,7 @@ class HomeViewModel: ObservableObject {
     }
     
     /// DayView에서 호출
-    func changeDate(_ date: Date){
+    func selectDate(_ date: Date){
         guard date != selectedDate else { return }
         
         readLocalData(type: .todo, in: date)
@@ -97,7 +97,7 @@ class HomeViewModel: ObservableObject {
     func changeMonth(_ currentYear: Int, _ currentMonth: Int) {
         let components = DateComponents(year: currentYear, month: currentMonth + 1, day: 1)
         if let newDate = Calendar.current.date(from: components) {
-            changeDate(newDate)
+            selectDate(newDate)
         }
     }
 }
