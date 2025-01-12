@@ -2,10 +2,11 @@ import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack{
+            CustomHeaderWithBackBtn(title: "설정")
+            
             Toggle(isOn: Binding(
                 get: { UserDefaultsManager.shared.isDarkMode },
                 set: {
@@ -55,15 +56,6 @@ struct SettingsView: View {
         }
         .padding()
         .background(.gray00)
-        
-        .navigationBarTitle("설정", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading: Button(action: { dismiss() }){
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.gray90)
-            }
-        )
     }
     
     private func setAppearance(isDarkMode: Bool) {
@@ -77,6 +69,8 @@ struct SettingsView: View {
     }
 }
 
-#Preview{
+#if DEBUG
+#Preview {
     SettingsView()
 }
+#endif

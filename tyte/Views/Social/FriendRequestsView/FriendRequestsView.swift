@@ -1,11 +1,12 @@
 import SwiftUI
 
 struct FriendRequestsView: View {
-    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: SocialViewModel
     
     var body: some View {
         VStack {
+            CustomHeaderWithBackBtn(title: "받은 친구 요청")
+            
             if viewModel.isLoading {
                 ProgressView()
             } else if viewModel.pendingRequests.isEmpty {
@@ -59,13 +60,5 @@ struct FriendRequestsView: View {
                 .refreshable { viewModel.fetchPendingRequests() }
             }
         }
-        .navigationBarTitle("받은 친구 요청", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading: Button(action: { dismiss() }){
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.gray90)
-            }
-        )
     }
 }

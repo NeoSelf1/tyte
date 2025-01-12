@@ -122,6 +122,8 @@ struct SocialView: View {
     }
 }
 
+#if DEBUG
 #Preview{
     SocialView()
 }
+#endif

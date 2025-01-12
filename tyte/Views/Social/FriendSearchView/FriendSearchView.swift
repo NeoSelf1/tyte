@@ -9,7 +9,10 @@ struct FriendSearchView: View {
     var body: some View {
         ZStack {
             VStack {
+                CustomHeaderWithBackBtn(title: "친구 검색")
+                
                 SearchBar(text: $viewModel.searchText,isSearching: $isSearching)
+                
                 if viewModel.searchResults.isEmpty {
                     VStack(spacing: 12) {
                         if viewModel.searchText.isEmpty {
@@ -61,16 +64,9 @@ struct FriendSearchView: View {
                     }
                 }
             }
+            
             if viewModel.isLoading { ProgressView() }
         }
-        .navigationBarTitle("친구 검색", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading: Button(action: { dismiss() }){
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.gray90)
-            }
-        )
     }
 }
 
@@ -156,25 +152,4 @@ private func statusButton(for searchedUser: SearchResult) -> some View {
         }
     }
     
-}
-#Preview{
-    FriendSearchView(viewModel: SocialViewModel())
-//    struct PreviewWrapper: View {
-//        @State var isShowing = true
-//        
-//        var body: some View {
-//            CustomPopupOneBtn(
-//                isShowing: $isShowing,
-//                title: "닉네임 1",
-//                message: false ? "친구 요청중입니다." : "",
-//                primaryButtonTitle: "친구 요청하기",
-//                primaryAction: {
-//                    print("hleeoo")
-//                },
-//                isDisabled: true
-//            )
-//        }
-//    }
-//    
-//    return PreviewWrapper()
 }

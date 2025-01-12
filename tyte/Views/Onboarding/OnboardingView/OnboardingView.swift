@@ -8,13 +8,15 @@ enum Field: Hashable {
 }
 
 struct OnboardingView: View {
-    @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = AuthViewModel()
+    
+    @EnvironmentObject var appState: AppState
+    
     @FocusState private var focusedField: Field?
     @State private var shakeOffset: CGFloat = 0
     
     var body: some View {
-        ZStack{
+        ZStack {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture { focusedField = nil }
@@ -275,7 +277,9 @@ struct OnboardingView: View {
     }
 }
 
+#if DEBUG
 #Preview{
     OnboardingView()
         .environmentObject(AppState.shared)
 }
+#endif

@@ -64,17 +64,6 @@ struct TodoEditBottomSheet: View {
     }
 }
 
-#Preview {
-    TodoEditBottomSheet(
-        tags: [Tag.mock],
-        todo: Todo.mock,
-        onUpdate: {_ in print("onUpdate")},
-        onDelete: {_ in print("onUpdate")}
-    )
-    .frame(maxHeight: 520)
-    .border(.gray50)
-}
-
 
 //MARK: - 하위 메서드
 
@@ -268,5 +257,142 @@ extension TodoEditBottomSheet {
                     .stroke(.gray20, lineWidth: 1)
             )
         }
+    }
+}
+
+private struct DatePickerView: View {
+    @Binding var deadline: String
+    
+    private let dateRange: ClosedRange<Date> = {
+        let calendar = Calendar.current
+        let startComponents = DateComponents(year: calendar.component(.year, from: Date()), month: calendar.component(.month, from: Date()), day: calendar.component(.day, from: Date()))
+        let startDate = calendar.date(from: startComponents)!
+        
+        let endComponents = DateComponents(year: calendar.component(.year, from: Date()) + 1, month: 12, day: 31)
+        let endDate = calendar.date(from: endComponents)!
+        
+        return startDate...endDate
+    }()
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            CustomHeaderWithBackBtn(title: "마감일자 수정")
+            
+            DatePicker(
+                "마감일",
+                selection: Binding(
+                    get: { deadline.parsedDate },
+                    set: { deadline = $0.apiFormat }
+                ),
+                in: dateRange,
+                displayedComponents: [.date]
+            )
+            .datePickerStyle(.graphical)
+            .environment(\.locale, Locale(identifier: "ko_KR"))
+            .padding()
+            
+            Spacer()
+        }
+        .background(.gray00)
+        
+        .navigationBarBackButtonHidden(true)
+    }
+}
+
+private struct TimePickerView: View {
+    @Binding var estimatedTime: Int
+    
+    var body: some View {
+        VStack {
+            CustomHeaderWithBackBtn(title: "소요시간 수정")
+            
+            Spacer()
+            
+            Text(estimatedTime.formattedDuration)
+                .font(._subhead1)
+                .foregroundColor(.gray90)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .contentTransition(.numericText(value: Double(estimatedTime)))
+                .animation(.snappy, value: estimatedTime)
+            
+            TimeWheelPicker(value: Binding<CGFloat>(
+                get: { CGFloat(estimatedTime) },
+                set: { newValue in
+                    estimatedTime = Int(round(newValue))
+                }
+            ))
+            
+            Spacer()
+        }
+        .background(.gray00)
+        
+        .navigationBarBackButtonHidden(true)
+    }
+}
+
+struct TimeWheelPicker: View {
+    private let count:Int = 8
+    private let spacing:CGFloat = 30
+    private let multiplier:Int = 10
+    private let steps:Int = 6
+    
+    @Binding var value: CGFloat
+    @State private var isLoaded: Bool = false
+    @State private var scrollID: Int?
+    
+    var body: some View {
+        VStack{
+            GeometryReader { geometry in
+                let horizontalPadding = geometry.size.width / 2
+                
+                ScrollView(.horizontal) {
+                    HStack(spacing: spacing) {
+                        let totalSteps = steps * count + 1
+                        
+                        ForEach(1..<totalSteps, id: \.self) { index in
+                            let remainder = index % steps
+                            
+                            Divider()
+                                .background(remainder == 0 ? .gray90 : .gray50)
+                                .frame(width: 4, height: remainder == 0 ? 80 : 50, alignment: .center)
+                                .frame(maxHeight: 80, alignment: .top)
+                                .overlay(alignment: .bottom) {
+                                    if remainder == 0 {
+                                        Text(((index / steps) * multiplier * 6).formattedDuration)
+                                            .font(._body1)
+                                            .foregroundColor(.gray60)
+                                            .fixedSize()
+                                            .offset(y: 32)
+                                    }
+                                }
+                        }
+                    }
+                    .frame(height: geometry.size.height)
+                    .scrollTargetLayout()
+                }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+                .scrollPosition(id: $scrollID)
+                .onChange(of: scrollID) { oldValue, newValue in
+                    if let newValue {
+                        value = (CGFloat(newValue) / CGFloat(steps)) * CGFloat(multiplier) * 6
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    }
+                }
+                .overlay(alignment: .center) {
+                    Rectangle()
+                        .frame(width: 1, height: 80)
+                        .padding(.bottom, 50)
+                }
+                .safeAreaPadding(.horizontal, horizontalPadding)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        scrollID = Int(value) * steps / (multiplier * 6)
+                        isLoaded = true
+                    }
+                }
+            }
+        }
+        .frame(height: 280)
     }
 }
