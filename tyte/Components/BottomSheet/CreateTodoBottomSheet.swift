@@ -135,6 +135,7 @@ struct CreateTodoBottomSheet: View {
     }
 }
 
+#if DEBUG
 #Preview {
     struct PreviewWrapper: View {
         var body: some View {
@@ -145,3 +146,4 @@ struct CreateTodoBottomSheet: View {
     
     return PreviewWrapper()
 }
+#endif

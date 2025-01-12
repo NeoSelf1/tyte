@@ -73,6 +73,7 @@ struct MultiLayerBottomSheet: View {
         }
     }
     
+    //TODO: 정리
     private func takeScreenshot() {
         let infoWindowView = DetailView(
             todosForDate: viewModel.todosForDate,
@@ -87,7 +88,7 @@ struct MultiLayerBottomSheet: View {
         if let rootVC = UIApplication.shared.windows.first?.rootViewController {
             rootVC.view.insertSubview(controller.view, at: 0)
 
-            /////이미지 캡쳐
+            /// 이미지 캡쳐
             let renderer = UIGraphicsImageRenderer(size: CGSize(width: detailViewSize.width, height: detailViewSize.height))
 
             let infoWindowImage = renderer.image { context in
@@ -108,6 +109,9 @@ struct ViewSizeKey: PreferenceKey {
     }
 }
 
+
+#if DEBUG
 #Preview {
     MultiLayerBottomSheet(viewModel: MyPageViewModel())
 }
+#endif
