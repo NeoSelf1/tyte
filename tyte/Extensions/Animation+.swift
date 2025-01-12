@@ -16,7 +16,6 @@ extension Animation {
         easeOut(duration: Duration.medium)
     }
     
-    // MARK: - EasnInOut
     static var fastEaseInOut: Animation {
         easeInOut(duration: Duration.fast)
     }
