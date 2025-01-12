@@ -14,31 +14,20 @@
 import SwiftUI
 
 struct MeshGradientView: View {
+    @State private var isAnimating = false
     @Environment(\.colorScheme) var colorScheme
 
-    private let colors: [Color]
-    private let center : SIMD2<Float>
-    private let isSelected: Bool
-    private let cornerRadius: CGFloat
-    
-    init(
-        colors: [Color] = [.red, .purple, .indigo, .orange, .brown, .blue, .yellow, .green, .mint],
-        center:SIMD2<Float> = [0.8,0.5],
-        isSelected:Bool = false,
-        cornerRadius: CGFloat = 6
-    ) {
-        self.colors = colors
-        self.center = center
-        self.isSelected = isSelected
-        self.cornerRadius = cornerRadius
-    }
+    var colors: [Color] = [.red, .purple, .indigo, .orange, .brown, .blue, .yellow, .green, .mint]
+    var center : SIMD2<Float> = [0.8,0.5]
+    var isSelected: Bool = false
+    var cornerRadius: CGFloat = 6
     
     var body: some View {
         if #available(iOS 18.0, *) {
             MeshGradient(
                 width: 3, height: 3, points: [
                     [0.0, 0.0], [0.5, 0], [1.0, 0.0],
-                    [0.0, 0.5], SIMD2<Float>(center), [1.0, 0.5],
+                    [0.0, 0.5], calculateCenterPoint(), [1.0, 0.5],
                     [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
                 ],
                 colors: colors,
@@ -47,18 +36,40 @@ struct MeshGradientView: View {
             )
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(isSelected ? .gray50 : .clear , lineWidth: 1)
+                .stroke(.gray50 , lineWidth: 1)
             )
-            .rotationEffect(.degrees(45))
-            .padding(14)
-            .shadow(color: isSelected ? .gray50 : .clear , radius:4,x:0,y:0)
-           
+            .rotationEffect(.degrees(isSelected ? 45 : 0))
+            .padding(isSelected ? 14 : 20)
+            .saturation(isSelected ? 1.0 : 0.5)
+            .opacity(isSelected ? 1.0 : 0.5)
+            .shadow(color: cornerRadius != 6 ? (colorScheme == .dark ? .gray60 : .gray30) : Color.clear ,radius:24,x:-10,y:10)
+            .onAppear {
+                if cornerRadius != 6 {
+                    withAnimation(.easeInOut(duration: 5).repeatForever(autoreverses: true)){
+                        isAnimating = true
+                    }
+                }
+            }
         } else {
             LinearGradientMeshFallback(colors: colors)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-                .rotationEffect(.degrees(45))
-                .opacity(1.0)
-                .padding(14)
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                    .stroke(.gray50 , lineWidth: 1)
+                )
+                .rotationEffect(.degrees(isSelected ? 45 : 0))
+                .opacity(isSelected ? 1.0 : 0.5)
+                .padding(isSelected ? 14 : 20)
+        }
+    }
+    
+    func calculateCenterPoint() -> SIMD2<Float> {
+        if cornerRadius != 6 {
+            let offset: Float = 0.3
+            let x = isAnimating ? max(0.1, center.x - offset) : min(0.9, center.x + offset)
+            let y = isAnimating ? max(0.1, center.y - offset) : min(0.9, center.y + offset)
+            return [x, y]
+        } else {
+            return SIMD2<Float>(center)
         }
     }
 }
