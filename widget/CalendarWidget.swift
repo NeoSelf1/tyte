@@ -34,7 +34,7 @@ struct CalendarWidgetProvider: TimelineProvider {
             return DailyStat.dummyStat
         }
         
-        return CalendarEntry(date: Date(), dailyStats: dummyStats, isLoggedIn: true)
+        return CalendarEntry(date: Date(), dailyStats: dummyStats)
     }
     
     /// 위젯의 현재 상태의 스냅샷을 제공합니다.
@@ -42,13 +42,21 @@ struct CalendarWidgetProvider: TimelineProvider {
     ///   - context: 위젯 컨텍스트
     ///   - completion: 스냅샷 완료 핸들러
     func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
-        let defaults = UserDefaultsManager.shared
+        let calendar = Calendar.current
+        let today = Date()
+        let components = calendar.dateComponents([.year, .month], from: today)
+        let firstDayOfMonth = calendar.date(from: components)!
         
-        if defaults.isLoggedIn {
-            completion(CalendarEntry(date: Date().koreanDate, dailyStats: defaults.dailyStats ?? [], isLoggedIn: true))
-        } else {
-            completion(CalendarEntry(date: Date(), dailyStats: [], isLoggedIn: false))
+        let numberOfDays = calendar.component(.day, from: today)
+        let dates = (0..<numberOfDays).compactMap { day in
+            calendar.date(byAdding: .day, value: day, to: firstDayOfMonth)
         }
+        
+        let dummyStats = dates.map { date in
+            return DailyStat.dummyStat
+        }
+        
+        completion(CalendarEntry(date: Date().koreanDate, dailyStats:dummyStats))
     }
     
     /// 위젯의 시간에 따른 업데이트 타임라인을 제공합니다.
@@ -58,115 +66,92 @@ struct CalendarWidgetProvider: TimelineProvider {
     /// - Note: 자정을 기준으로 데이터가 갱신됩니다.
     func getTimeline(in context: Context, completion: @escaping (Timeline<CalendarEntry>) -> ()) {
         let nextMidnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(24 * 60 * 60)
+        let yearMonth = String(Date().koreanDate.apiFormat.prefix(7))
         
-        if UserDefaultsManager.shared.isLoggedIn {
-            let yearMonth = String(Date().koreanDate.apiFormat.prefix(7))
-            
-            let request = DailyStatEntity.fetchRequest()
-            request.predicate = NSPredicate(format: "date BEGINSWITH %@",  yearMonth)
-            
-            let dailyStats:[DailyStat]
-            if let statEntities = try? CoreDataStack.shared.context.fetch(request) {
-                dailyStats = statEntities.map { entity in
-                    let tagStats: [TagStat] = (entity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
-                        TagStat(
-                            id: tagStatEntity.id ?? "",
-                            tag: _Tag(
-                                id: tagStatEntity.tag?.id ?? "",
-                                name: tagStatEntity.tag?.name ?? "",
-                                color: tagStatEntity.tag?.color ?? "",
-                                userId: tagStatEntity.tag?.userId ?? ""
-                            ),
-                            count: Int(tagStatEntity.count)
-                        )
-                    } ?? []
-                    
-                    return DailyStat(
-                        id: entity.id ?? "",
-                        date: entity.date ?? "",
-                        userId: entity.userId ?? "",
-                        balanceData: BalanceData(
-                            title: entity.balanceTitle ?? "",
-                            message: entity.balanceMessage ?? "",
-                            balanceNum: Int(entity.balanceNum)
+        let request = DailyStatEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "date BEGINSWITH %@",  yearMonth)
+        
+        let dailyStats:[DailyStat]
+        
+        if let statEntities = try? CoreDataStack.shared.context.fetch(request) {
+            dailyStats = statEntities.map { entity in
+                let tagStats: [TagStat] = (entity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
+                    TagStat(
+                        id: tagStatEntity.id ?? "",
+                        tag: Tag(
+                            id: tagStatEntity.tag?.id ?? "",
+                            name: tagStatEntity.tag?.name ?? "",
+                            color: tagStatEntity.tag?.color ?? "",
+                            userId: tagStatEntity.tag?.userId ?? ""
                         ),
-                        productivityNum: entity.productivityNum,
-                        tagStats: tagStats,
-                        center: SIMD2<Float>(entity.centerX, entity.centerY)
+                        count: Int(tagStatEntity.count)
                     )
-                }
-            } else {
-                dailyStats = []
+                } ?? []
+                
+                return DailyStat(
+                    id: entity.id ?? "",
+                    date: entity.date ?? "",
+                    userId: entity.userId ?? "",
+                    balanceData: BalanceData(
+                        title: entity.balanceTitle ?? "",
+                        message: entity.balanceMessage ?? "",
+                        balanceNum: Int(entity.balanceNum)
+                    ),
+                    productivityNum: entity.productivityNum,
+                    tagStats: tagStats,
+                    center: SIMD2<Float>(entity.centerX, entity.centerY)
+                )
             }
-            
-            let timeline = Timeline(
-                entries: [CalendarEntry(date: Date().koreanDate, dailyStats: dailyStats, isLoggedIn: true)],
-                policy: .after(nextMidnight)
-            )
-            
-            completion(timeline)
         } else {
-            let emptyTimeline = Timeline(
-                entries: [CalendarEntry(date: Date(), dailyStats: [], isLoggedIn: false)],
-                policy: .after(nextMidnight)
-            )
-            
-            completion(emptyTimeline)
+            dailyStats = []
         }
+        
+        let timeline = Timeline(
+            entries: [CalendarEntry(date: Date().koreanDate, dailyStats: dailyStats)],
+            policy: .after(nextMidnight)
+        )
+        
+        completion(timeline)
     }
 }
 
 struct CalendarEntry: TimelineEntry {
     let date: Date
     let dailyStats: [DailyStat]
-    let isLoggedIn: Bool
 }
 
 struct CalendarWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
-    
     var entry: CalendarWidgetProvider.Entry
     
     var body: some View {
-        if entry.isLoggedIn {
-            if family == .systemLarge {
-                VStack(alignment:.leading, spacing:4) {
-                    Text(entry.date.formattedMonth)
-                        .font(._headline2)
-                        .foregroundStyle(.gray90)
-                    
-                    Spacer()
-                    
-                    CalendarView(
-                        currentMonth: entry.date,
-                        dailyStats: entry.dailyStats,
-                        selectDateForInsightData: { _ in }
-                    )
-                }
-            } else if family == .systemMedium {
-                VStack(alignment:.leading, spacing:4) {
-                    Text(entry.date.formattedMonth)
-                        .font(._headline2)
-                        .foregroundStyle(.gray90)
-                    
-                    weeklyCalendarView
-                        .frame(maxHeight:.infinity)
-                }
-            } else {
-                let dailyStat = entry.dailyStats.first { $0.date == entry.date.apiFormat }
+        if family == .systemLarge {
+            VStack(alignment:.leading, spacing:4) {
+                Text(entry.date.formattedMonth)
+                    .font(._headline2)
+                    .foregroundStyle(.gray90)
                 
-                DayView(dailyStat: dailyStat, date: entry.date, isToday:false, isDayVisible: false, size:120)
+                Spacer()
+                
+                CalendarView(
+                    currentMonth: entry.date,
+                    dailyStats: entry.dailyStats,
+                    selectDateForInsightData: { _ in }
+                )
+            }
+        } else if family == .systemMedium {
+            VStack(alignment:.leading, spacing:4) {
+                Text(entry.date.formattedMonth)
+                    .font(._headline2)
+                    .foregroundStyle(.gray90)
+                
+                weeklyCalendarView
+                    .frame(maxHeight:.infinity)
             }
         } else {
-            VStack(spacing: 4) {
-                Text("TyTE 앱에서")
-                    .font(._caption)
-                    .foregroundStyle(.gray60)
-                
-                Text("로그인이 필요해요")
-                    .font(._subhead2)
-                    .foregroundStyle(.gray90)
-            }
+            let dailyStat = entry.dailyStats.first { $0.date == entry.date.apiFormat }
+            
+            DayView(dailyStat: dailyStat, date: entry.date, isToday:false, isDayVisible: false, size:120)
         }
     }
     
@@ -207,14 +192,9 @@ struct CalendarWidget: Widget {
             kind: kind,
             provider: CalendarWidgetProvider()
         ) { entry in
-            if #available(iOS 17.0, *) {
-                CalendarWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                CalendarWidgetEntryView(entry: entry)
-                    .padding()
-                    .background(Color(UIColor.systemBackground))
-            }
+            CalendarWidgetEntryView(entry: entry)
+                .padding()
+                .background(.gray10)
         }
         .configurationDisplayName("TyTE 캘린더")
         .description("생산성을 한눈에 확인해보세요")

@@ -23,8 +23,7 @@ struct TodoListWidgetProvider: TimelineProvider {
         return TodoListEntry(
             date: Date().koreanDate,
             dailyStat: .dummyStat,
-            todos: [.mock,.mock1,.mock2],
-            isLoggedIn: true
+            todos: [.mock,.mock1,.mock2]
         )
     }
     
@@ -33,23 +32,11 @@ struct TodoListWidgetProvider: TimelineProvider {
     ///   - context: 위젯 컨텍스트
     ///   - completion: 스냅샷 완료 핸들러
     func getSnapshot(in context: Context, completion: @escaping (TodoListEntry) -> ()) {
-        let defaults = UserDefaultsManager.shared
-        
-        if defaults.isLoggedIn {
-            completion(TodoListEntry(
-                date: Date().koreanDate,
-                dailyStat: .dummyStat,
-                todos: [.mock,.mock1,.mock2],
-                isLoggedIn: true
-            ))
-        } else {
-            completion(TodoListEntry(
-                date: Date().koreanDate,
-                dailyStat: .dummyStat,
-                todos: [],
-                isLoggedIn: false
-            ))
-        }
+        completion(TodoListEntry(
+            date: Date().koreanDate,
+            dailyStat: .dummyStat,
+            todos: [.mock,.mock1,.mock2]
+        ))
     }
     
     /// 위젯의 시간에 따른 업데이트 타임라인을 제공합니다.
@@ -60,88 +47,84 @@ struct TodoListWidgetProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<TodoListEntry>) -> ()) {
         let nextMidnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(24 * 60 * 60)
         
-        if UserDefaultsManager.shared.isLoggedIn {
-            let dailyStat: DailyStat
-            let todos:[Todo]
-            
-            let date = Date().koreanDate.apiFormat
-            let dailyStatRequest = DailyStatEntity.fetchRequest()
-            let todoRequest = TodoEntity.fetchRequest()
-            dailyStatRequest.predicate = NSPredicate(format: "date == %@", date)
-            todoRequest.predicate = NSPredicate(format: "deadline == %@", date)
-            
-            if let statEntity = try? CoreDataStack.shared.context.fetch(dailyStatRequest)[0],
-               let todoEntities = try? CoreDataStack.shared.context.fetch(todoRequest) {
-                let tagStats: [TagStat] = (statEntity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
-                    TagStat(
-                        id: tagStatEntity.id ?? "",
-                        tag: _Tag(
-                            id: tagStatEntity.tag?.id ?? "",
-                            name: tagStatEntity.tag?.name ?? "",
-                            color: tagStatEntity.tag?.color ?? "",
-                            userId: tagStatEntity.tag?.userId ?? ""
-                        ),
-                        count: Int(tagStatEntity.count)
-                    )
-                } ?? []
-                
-                dailyStat = DailyStat(
-                    id: statEntity.id ?? "",
-                    date: statEntity.date ?? "",
-                    userId: statEntity.userId ?? "",
-                    balanceData: BalanceData(
-                        title: statEntity.balanceTitle ?? "",
-                        message: statEntity.balanceMessage ?? "",
-                        balanceNum: Int(statEntity.balanceNum)
+        let dailyStat: DailyStat
+        let todos:[Todo]
+        
+        let date = Date().koreanDate.apiFormat
+        let dailyStatRequest = DailyStatEntity.fetchRequest()
+        let todoRequest = TodoEntity.fetchRequest()
+        dailyStatRequest.predicate = NSPredicate(format: "date == %@", date)
+        todoRequest.predicate = NSPredicate(format: "deadline == %@", date)
+        
+        if let statEntity = try? CoreDataStack.shared.context.fetch(dailyStatRequest)[0],
+           let todoEntities = try? CoreDataStack.shared.context.fetch(todoRequest) {
+            let tagStats: [TagStat] = (statEntity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
+                TagStat(
+                    id: tagStatEntity.id ?? "",
+                    tag: Tag(
+                        id: tagStatEntity.tag?.id ?? "",
+                        name: tagStatEntity.tag?.name ?? "",
+                        color: tagStatEntity.tag?.color ?? "",
+                        userId: tagStatEntity.tag?.userId ?? ""
                     ),
-                    productivityNum: statEntity.productivityNum,
-                    tagStats: tagStats,
-                    center: SIMD2<Float>(statEntity.centerX, statEntity.centerY)
+                    count: Int(tagStatEntity.count)
                 )
-                
-                todos = todoEntities.map { entity in
-                    return Todo(
-                        id: entity.id ?? "",
-                        raw: entity.raw ?? "",
-                        title: entity.title ?? "",
-                        isImportant: entity.isImportant,
-                        isLife: entity.isLife,
-                        difficulty: Int(entity.difficulty),
-                        estimatedTime: Int(entity.estimatedTime),
-                        deadline: entity.deadline ?? "",
-                        isCompleted: entity.isCompleted,
-                        userId: entity.userId ?? "",
-                        createdAt: entity.createdAt ?? ""
-                    )
-                }
-            } else {
-                dailyStat = .dummyStat
-                todos = []
+            } ?? []
+            
+            dailyStat = DailyStat(
+                id: statEntity.id ?? "",
+                date: statEntity.date ?? "",
+                userId: statEntity.userId ?? "",
+                balanceData: BalanceData(
+                    title: statEntity.balanceTitle ?? "",
+                    message: statEntity.balanceMessage ?? "",
+                    balanceNum: Int(statEntity.balanceNum)
+                ),
+                productivityNum: statEntity.productivityNum,
+                tagStats: tagStats,
+                center: SIMD2<Float>(statEntity.centerX, statEntity.centerY)
+            )
+            
+            todos = todoEntities.map { entity in
+                return Todo(
+                    id: entity.id ?? "",
+                    raw: entity.raw ?? "",
+                    title: entity.title ?? "",
+                    isImportant: entity.isImportant,
+                    isLife: entity.isLife,
+                    difficulty: Int(entity.difficulty),
+                    estimatedTime: Int(entity.estimatedTime),
+                    deadline: entity.deadline ?? "",
+                    isCompleted: entity.isCompleted,
+                    userId: entity.userId ?? "",
+                    createdAt: entity.createdAt ?? ""
+                )
             }
-
+            
             let timeline = Timeline(
                 entries: [TodoListEntry(
                     date: Date().koreanDate,
                     dailyStat: dailyStat,
-                    todos: todos,
-                    isLoggedIn: true
+                    todos: todos
                 )],
                 policy: .after(nextMidnight)
             )
             
             completion(timeline)
         } else {
-            let emptyTimeline = Timeline(
+            dailyStat = .dummyStat
+            todos = []
+            
+            let timeline = Timeline(
                 entries: [TodoListEntry(
                     date: Date().koreanDate,
-                    dailyStat: .dummyStat,
-                    todos: [],
-                    isLoggedIn: false
+                    dailyStat: dailyStat,
+                    todos: todos
                 )],
                 policy: .after(nextMidnight)
             )
             
-            completion(emptyTimeline)
+            completion(timeline)
         }
     }
 }
@@ -150,7 +133,6 @@ struct TodoListEntry: TimelineEntry {
     let date: Date
     let dailyStat: DailyStat
     let todos: [Todo]
-    let isLoggedIn: Bool
 }
 
 struct TodoListWidgetEntryView : View {
@@ -159,21 +141,46 @@ struct TodoListWidgetEntryView : View {
     var entry: TodoListWidgetProvider.Entry
     
     var body: some View {
-        if entry.isLoggedIn {
-            if family == .systemLarge {
-                VStack(alignment:.center, spacing:20) {
-                    HStack{
-                        Text(entry.date.formattedMonthDate)
-                            .font(._body2)
-                            .foregroundStyle(.gray90)
-                        
-                        Spacer()
-                        
-                        Text("\(entry.todos.filter{!$0.isCompleted}.count)/\(entry.todos.count)")
-                            .font(._caption)
-                            .foregroundStyle(.gray50)
-                    }
+        if family == .systemLarge {
+            VStack(alignment:.center, spacing:20) {
+                HStack{
+                    Text(entry.date.formattedMonthDate)
+                        .font(._body2)
+                        .foregroundStyle(.gray90)
                     
+                    Spacer()
+                    
+                    Text("\(entry.todos.filter{!$0.isCompleted}.count)/\(entry.todos.count)")
+                        .font(._caption)
+                        .foregroundStyle(.gray50)
+                }
+                
+                DayView(
+                    dailyStat: entry.dailyStat,
+                    date: entry.date,
+                    isToday:false,
+                    isDayVisible: false,
+                    size:92,
+                    isCircleVisible: false
+                )
+                
+                todoList(maxNum: 5)
+            }
+        } else if family == .systemMedium {
+            VStack(alignment:.leading, spacing:12) {
+                HStack {
+                    Text(entry.date.formattedMonthDate)
+                        .font(._body2)
+                        .foregroundStyle(.gray90)
+                    
+                    Spacer()
+                    
+                    Text("\(entry.todos.filter{!$0.isCompleted}.count)/\(entry.todos.count)")
+                        .font(._caption)
+                        .foregroundStyle(.gray50)
+                }
+                
+                HStack(alignment: .top){
                     DayView(
                         dailyStat: entry.dailyStat,
                         date: entry.date,
@@ -182,69 +189,32 @@ struct TodoListWidgetEntryView : View {
                         size:92,
                         isCircleVisible: false
                     )
-                    
-                    todoList(maxNum: 5)
-                }
-            } else if family == .systemMedium {
-                VStack(alignment:.leading, spacing:12) {
-                    HStack {
-                        Text(entry.date.formattedMonthDate)
-                            .font(._body2)
-                            .foregroundStyle(.gray90)
-                        
-                        Spacer()
-                        
-                        Text("\(entry.todos.filter{!$0.isCompleted}.count)/\(entry.todos.count)")
-                            .font(._caption)
-                            .foregroundStyle(.gray50)
-                    }
-                    
-                    HStack(alignment: .top){
-                        DayView(
-                            dailyStat: entry.dailyStat,
-                            date: entry.date,
-                            isToday:false,
-                            isDayVisible: false,
-                            size:92,
-                            isCircleVisible: false
-                        )
-                        .padding(.trailing,20)
-                        
-                        todoList(maxNum: 3)
-                    }
-                }
-            } else {
-                VStack(alignment:.leading, spacing:16) {
-                    HStack(spacing:0) {
-                        Text(entry.date.formattedMonthDate)
-                            .font(._body2)
-                            .foregroundStyle(.gray90)
-                        
-                        Spacer()
-                        
-                        DayView(
-                            dailyStat: entry.dailyStat,
-                            date: entry.date,
-                            isToday:false,
-                            isDayVisible: false,
-                            size:48,
-                            isCircleVisible: false
-                        )
-                        .frame(width:16, height:16)
-                    }
+                    .padding(.trailing,20)
                     
                     todoList(maxNum: 3)
                 }
             }
         } else {
-            VStack(spacing: 2) {
-                Text("TyTE 앱에서")
-                    .font(._caption)
-                    .foregroundStyle(.gray50)
+            VStack(alignment:.leading, spacing:16) {
+                HStack(spacing:0) {
+                    Text(entry.date.formattedMonthDate)
+                        .font(._body2)
+                        .foregroundStyle(.gray90)
+                    
+                    Spacer()
+                    
+                    DayView(
+                        dailyStat: entry.dailyStat,
+                        date: entry.date,
+                        isToday:false,
+                        isDayVisible: false,
+                        size:48,
+                        isCircleVisible: false
+                    )
+                    .frame(width:16, height:16)
+                }
                 
-                Text("로그인이 필요해요")
-                    .font(._subhead2)
-                    .foregroundStyle(.gray50)
+                todoList(maxNum: 3)
             }
         }
     }
@@ -301,14 +271,10 @@ struct TodoListWidget: Widget {
             kind: kind,
             provider: TodoListWidgetProvider()
         ) { entry in
-            if #available(iOS 17.0, *) {
-                TodoListWidgetEntryView(entry: entry)
-                    .containerBackground(.gray10, for: .widget)
-            } else {
-                TodoListWidgetEntryView(entry: entry)
-                    .padding()
-                    .background(.gray10)
-            }
+            TodoListWidgetEntryView(entry: entry)
+                .padding()
+                .background(.gray10)
+            
         }
         .configurationDisplayName("TyTE 할일 리스트")
         .description("할일들을 한눈에 확인해보세요")
@@ -316,18 +282,19 @@ struct TodoListWidget: Widget {
     }
 }
 
+#if DEBUG
 struct TodoListWidget_Previews: PreviewProvider {
     static var previews: some View {
         TodoListWidgetEntryView(
             entry: TodoListEntry(
                 date: Date().koreanDate,
                 dailyStat: .empty,
-                todos:[.mock,.mock2,.mock1],
-//                todos:[],
-                isLoggedIn: true
+                todos:[.mock,.mock2,.mock1]
+//                todos:[]
             )
         )
         .containerBackground(.gray10, for: .widget)
         .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }
+#endif
