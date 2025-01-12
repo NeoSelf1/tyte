@@ -19,8 +19,6 @@ import Network
 ///
 /// - Note:save는 create와 update를 모두 수행할 수 있음을 의미합니다.
 /// - Warning:SRP를 준수하지 않고 있으며, 도메인 별 파일 분리 및 의존성 역전이 필요합니다.
-
-
 enum SyncOperationType: Codable {
     case updateTodo(Todo)
     case deleteTodo(String)
@@ -327,7 +325,7 @@ extension CoreDataSyncService {
             let tagStats: [TagStat] = (entity.tagStats as? Set<TagStatEntity>)?.map { tagStatEntity in
                 TagStat(
                     id: tagStatEntity.id ?? "",
-                    tag: _Tag(
+                    tag: Tag(
                         id: tagStatEntity.tag?.id ?? "",
                         name: tagStatEntity.tag?.name ?? "",
                         color: tagStatEntity.tag?.color ?? "",
