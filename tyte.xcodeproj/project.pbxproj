@@ -357,7 +357,6 @@
 				AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */,
 				E55D8A7B2CBF7D6000849DF1 /* .gitignore */,
 				ABA920732C897E9A00B9F8F1 /* Font */,
-				E52628852CC35661004B290C /* Shared */,
 				AB5BB2762C836C0400DC4D72 /* tyte */,
 				AB5BB2872C836C0600DC4D72 /* tyteTests */,
 				AB5BB2912C836C0600DC4D72 /* tyteUITests */,
@@ -383,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				E52628CE2CC38D40004B290C /* AppState.swift */,
+				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
 				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
 				E5DE68732CD354090055CADB /* Protocols */,
@@ -514,14 +514,6 @@
 				E5CA1C6E2CE5DC98004B3D87 /* MY */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		E52628852CC35661004B290C /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
-			);
-			path = Shared;
 			sourceTree = "<group>";
 		};
 		E526289C2CC35750004B290C /* Services */ = {
