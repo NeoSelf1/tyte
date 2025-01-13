@@ -16,9 +16,17 @@ service.
 ## Getting Started
 
 Try either the [Objective-C](Samples/ObjC) or [Swift](Samples/Swift) sample app.
-For example, to demo the Objective-C sample project, you have two options:
+For example, to demo the Objective-C sample project, you have three options:
 
-1. Using CocoaPod's `install` method:
+1. Using [CocoaPods](https://cocoapods.org/)'s `try` method:
+
+```
+pod try GoogleSignIn
+```
+
+Note, this will default to providing you with the Objective-C sample app.
+
+2. Using CocoaPod's `install` method:
 
 ```
 git clone https://github.com/google/GoogleSignIn-iOS
@@ -27,7 +35,7 @@ pod install
 open SignInSampleForPod.xcworkspace
 ```
 
-2. Using [Swift Package Manager](https://swift.org/package-manager/):
+3. Using [Swift Package Manager](https://swift.org/package-manager/):
 
 ```
 git clone https://github.com/google/GoogleSignIn-iOS

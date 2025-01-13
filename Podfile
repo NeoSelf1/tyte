@@ -7,8 +7,11 @@ target 'tyte' do
 
   # Pods for tyte
   pod 'Alamofire'
-  pod 'GoogleSignIn'
-  pod 'GoogleSignInSwiftSupport'
+  
+  # Google 관련 2개 라이브러리에서 다른 버전의 GTMSessionFetcher 사용하는 것 방지 위해, 사용 패키지 버전과 함께 명시
+  pod 'GTMSessionFetcher', '~> 3.1.1'
+  pod 'GoogleSignIn', '~> 7.0'
+  pod 'GoogleSignInSwiftSupport', '~> 7.0'
   
   target 'widgetExtension' do
     pod 'Alamofire'

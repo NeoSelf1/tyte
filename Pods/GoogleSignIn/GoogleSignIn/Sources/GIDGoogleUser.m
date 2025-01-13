@@ -19,14 +19,13 @@
 #import "GoogleSignIn/Sources/Public/GoogleSignIn/GIDConfiguration.h"
 #import "GoogleSignIn/Sources/Public/GoogleSignIn/GIDSignIn.h"
 
+#import "GoogleSignIn/Sources/GIDAppAuthFetcherAuthorizationWithEMMSupport.h"
 #import "GoogleSignIn/Sources/GIDAuthentication.h"
 #import "GoogleSignIn/Sources/GIDEMMSupport.h"
 #import "GoogleSignIn/Sources/GIDProfileData_Private.h"
 #import "GoogleSignIn/Sources/GIDSignIn_Private.h"
 #import "GoogleSignIn/Sources/GIDSignInPreferences.h"
 #import "GoogleSignIn/Sources/GIDToken_Private.h"
-
-@import GTMAppAuth;
 
 #ifdef SWIFT_PACKAGE
 @import AppAuth;
@@ -52,14 +51,6 @@ static NSString *const kEMMSupportParameterName = @"emm_support";
 
 // Minimal time interval before expiration for the access token or it needs to be refreshed.
 static NSTimeInterval const kMinimalTimeToExpire = 60.0;
-
-#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
-@interface GIDGoogleUser ()
-
-@property (nonatomic, strong) id<GTMAuthSessionDelegate> authSessionDelegate;
-
-@end
-#endif // TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 
 @implementation GIDGoogleUser {
   GIDConfiguration *_cachedConfiguration;
@@ -188,8 +179,8 @@ static NSTimeInterval const kMinimalTimeToExpire = 60.0;
   }];
 }
 
-- (OIDAuthState *)authState {
-  return ((GTMAuthSession *)self.fetcherAuthorizer).authState;
+- (OIDAuthState *) authState{
+  return ((GTMAppAuthFetcherAuthorization *)self.fetcherAuthorizer).authState;
 }
 
 - (void)addScopes:(NSArray<NSString *> *)scopes
@@ -237,13 +228,17 @@ static NSTimeInterval const kMinimalTimeToExpire = 60.0;
     _tokenRefreshHandlerQueue = [[NSMutableArray alloc] init];
     _profile = profileData;
     
-    GTMAuthSession *authSession = [[GTMAuthSession alloc] initWithAuthState:authState];
 #if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
-    _authSessionDelegate = [[GIDEMMSupport alloc] init];
-    authSession.delegate = _authSessionDelegate;
+    GTMAppAuthFetcherAuthorization *authorization = self.emmSupport ?
+        [[GIDAppAuthFetcherAuthorizationWithEMMSupport alloc] initWithAuthState:authState] :
+        [[GTMAppAuthFetcherAuthorization alloc] initWithAuthState:authState];
+#elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
+    GTMAppAuthFetcherAuthorization *authorization =
+        [[GTMAppAuthFetcherAuthorization alloc] initWithAuthState:authState];
 #endif // TARGET_OS_IOS && !TARGET_OS_MACCATALYST
-    authSession.authState.stateChangeDelegate = self;
-    _fetcherAuthorizer = authSession;
+    authorization.tokenRefreshDelegate = self;
+    authorization.authState.stateChangeDelegate = self;
+    self.fetcherAuthorizer = authorization;
     
     [self updateTokensWithAuthState:authState];
   }
@@ -307,6 +302,18 @@ static NSTimeInterval const kMinimalTimeToExpire = 60.0;
     }
   }
   return nil;
+}
+
+#pragma mark - GTMAppAuthFetcherAuthorizationTokenRefreshDelegate
+
+- (nullable NSDictionary *)additionalRefreshParameters:
+    (GTMAppAuthFetcherAuthorization *)authorization {
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
+  return [GIDEMMSupport updatedEMMParametersWithParameters:
+      authorization.authState.lastTokenResponse.request.additionalParameters];
+#elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
+  return authorization.authState.lastTokenResponse.request.additionalParameters;
+#endif // TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 }
 
 #pragma mark - OIDAuthStateChangeDelegate

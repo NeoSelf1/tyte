@@ -16,12 +16,13 @@
 
 #import "GoogleSignIn/Sources/GIDSignInCallbackSchemes.h"
 
-@import GTMAppAuth;
-
 #ifdef SWIFT_PACKAGE
 @import AppAuth;
+@import GTMAppAuth;
 #else
 #import <AppAuth/AppAuth.h>
+#import <GTMAppAuth/GTMAppAuth.h>
+#import <GTMAppAuth/GTMKeychain.h>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
@@ -38,28 +39,9 @@ static NSString *const kGenericAttribute = @"OAuth";
 // Keychain service name used to store the last used fingerprint value.
 static NSString *const kFingerprintService = @"fingerprint";
 
-@interface GIDAuthStateMigration ()
-
-@property (nonatomic, strong) GTMKeychainStore *keychainStore;
-
-@end
-
 @implementation GIDAuthStateMigration
 
-- (instancetype)initWithKeychainStore:(GTMKeychainStore *)keychainStore {
-  self = [super init];
-  if (self) {
-    _keychainStore = keychainStore;
-  }
-  return self;
-}
-
-- (instancetype)init {
-  GTMKeychainStore *keychainStore = [[GTMKeychainStore alloc] initWithItemName:@"auth"];
-  return [self initWithKeychainStore:keychainStore];
-}
-
-- (void)migrateIfNeededWithTokenURL:(NSURL *)tokenURL
++ (void)migrateIfNeededWithTokenURL:(NSURL *)tokenURL
                        callbackPath:(NSString *)callbackPath
                        keychainName:(NSString *)keychainName
                      isFreshInstall:(BOOL)isFreshInstall {
@@ -73,15 +55,14 @@ static NSString *const kFingerprintService = @"fingerprint";
   // action and go on to mark the migration check as having been performed.
   if (!isFreshInstall) {
     // Attempt migration
-    GTMAuthSession *authSession =
-        [self extractAuthSessionWithTokenURL:tokenURL callbackPath:callbackPath];
+    GTMAppAuthFetcherAuthorization *authorization =
+        [self extractAuthorizationWithTokenURL:tokenURL callbackPath:callbackPath];
 
     // If migration was successful, save our migrated state to the keychain.
-    if (authSession) {
-      NSError *err;
-      [self.keychainStore saveAuthSession:authSession error:&err];
+    if (authorization) {
       // If we're unable to save to the keychain, return without marking migration performed.
-      if (err) {
+      if (![GTMAppAuthFetcherAuthorization saveAuthorization:authorization
+                                           toKeychainForName:keychainName]) {
         return;
       };
     }
@@ -91,10 +72,10 @@ static NSString *const kFingerprintService = @"fingerprint";
   [defaults setBool:YES forKey:kMigrationCheckPerformedKey];
 }
 
-// Returns a |GTMAuthSession| object containing any old auth state or |nil| if none
+// Returns a |GTMAppAuthFetcherAuthorization| object containing any old auth state or |nil| if none
 // was found or the migration failed.
-- (nullable GTMAuthSession *)extractAuthSessionWithTokenURL:(NSURL *)tokenURL
-                                               callbackPath:(NSString *)callbackPath {
++ (nullable GTMAppAuthFetcherAuthorization *)
+    extractAuthorizationWithTokenURL:(NSURL *)tokenURL callbackPath:(NSString *)callbackPath {
   // Retrieve the last used fingerprint.
   NSString *fingerprint = [GIDAuthStateMigration passwordForService:kFingerprintService];
   if (!fingerprint) {
@@ -102,10 +83,8 @@ static NSString *const kFingerprintService = @"fingerprint";
   }
 
   // Retrieve the GTMOAuth2 persistence string.
-  NSError *passwordError;
-  NSString *GTMOAuth2PersistenceString =
-      [self.keychainStore.keychainHelper passwordForService:fingerprint error:&passwordError];
-  if (passwordError) {
+  NSString *GTMOAuth2PersistenceString = [GTMKeychain passwordFromKeychainForName:fingerprint];
+  if (!GTMOAuth2PersistenceString) {
     return nil;
   }
 
@@ -147,17 +126,16 @@ static NSString *const kFingerprintService = @"fingerprint";
                          additionalTokenRequestParameters];
   }
 
-  // Use |GTMOAuth2Compatibility| to generate a |GTMAuthSession| from the
+  // Use |GTMOAuth2KeychainCompatibility| to generate a |GTMAppAuthFetcherAuthorization| from the
   // persistence string, redirect URI, client ID, and token endpoint URL.
-  GTMAuthSession *authSession =
-      [GTMOAuth2Compatibility authSessionForPersistenceString:persistenceString
-                                                     tokenURL:tokenURL
-                                                  redirectURI:redirectURI
-                                                     clientID:clientID
-                                                 clientSecret:nil
-                                                        error:nil];
+  GTMAppAuthFetcherAuthorization *authorization = [GTMOAuth2KeychainCompatibility
+      authorizeFromPersistenceString:persistenceString
+                            tokenURL:tokenURL
+                         redirectURI:redirectURI
+                            clientID:clientID
+                        clientSecret:nil];
 
-  return authSession;
+  return authorization;
 }
 
 // Returns the password string for a given service string stored by an old version of the SDK or
