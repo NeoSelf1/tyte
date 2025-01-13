@@ -15,13 +15,13 @@ struct SocialView: View {
                 Divider().frame(minHeight:3).background(.gray10)
                     .padding(.bottom,16)
                 
-                CalendarDateSelector(currentMonth: $viewModel.currentDate)
+                MonthSelectSection(currentMonth: $viewModel.currentDate)
                 
                 guideBox
                     .padding(.bottom,16)
                 
                 ZStack {
-                    CalendarView(
+                    CalendarSection(
                         currentMonth: viewModel.currentDate,
                         dailyStats: viewModel.friendDailyStats,
                         selectDateForInsightData: viewModel.selectCalendarDate
@@ -34,8 +34,8 @@ struct SocialView: View {
             }
             .background(.gray10)
 
-            .sheet(isPresented: $viewModel.isDetailViewPresent) {
-                DetailView(todosForDate: viewModel.todosForDate,
+            .sheet(isPresented: $viewModel.isDetailSectionPresent) {
+                DetailSection(todosForDate: viewModel.todosForDate,
                            dailyStatForDate: viewModel.dailyStatForDate,
                            isLoading: viewModel.isLoading
                 )

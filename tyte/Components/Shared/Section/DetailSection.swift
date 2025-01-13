@@ -14,7 +14,7 @@
 import Combine
 import SwiftUI
 
-struct DetailView: View {
+struct DetailSection: View {
     let todosForDate: [Todo]
     let dailyStatForDate: DailyStat
     let isLoading: Bool
@@ -50,7 +50,7 @@ struct DetailView: View {
 
 // MARK: - Main View Components
 
-extension DetailView {
+extension DetailSection {
     @ViewBuilder
     private var versionNoticeSection: some View {
         if #unavailable(iOS 18.0) {
@@ -71,7 +71,7 @@ extension DetailView {
     
     private var prismSection: some View {
         ZStack {
-            MeshGradientView(
+            MeshGradientCell(
                 colors: getColors(dailyStatForDate),
                 center: dailyStatForDate.center,
                 isSelected: true,
@@ -117,7 +117,7 @@ extension DetailView {
 
 // MARK: - 컴포넌트 변수
 
-extension DetailView {
+extension DetailSection {
     private var prismHeader: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -201,7 +201,7 @@ extension DetailView {
     
     private var completedTodosList: some View {
         ForEach(todosForDate.filter { $0.isCompleted }) { todo in
-            TodoItemView(
+            TodoItem(
                 todo: todo,
                 isPast: true,
                 isButtonPresent: false,

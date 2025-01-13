@@ -38,7 +38,7 @@ struct MultiLayerBottomSheet: View {
                     
                     Spacer()
                     
-                    Button(action: { viewModel.isDetailViewPresent = false }) {
+                    Button(action: { viewModel.isDetailSectionPresent = false }) {
                         Image(systemName: "xmark")
                             .foregroundStyle(.gray60)
                             .font(._headline2)
@@ -52,7 +52,7 @@ struct MultiLayerBottomSheet: View {
             }
             .zIndex(1)
             
-            DetailView(todosForDate: viewModel.todosForDate,
+            DetailSection(todosForDate: viewModel.todosForDate,
                        dailyStatForDate: viewModel.dailyStatForDate,
                        isLoading: viewModel.isLoading
             )
@@ -75,7 +75,7 @@ struct MultiLayerBottomSheet: View {
     
     //TODO: 정리
     private func takeScreenshot() {
-        let infoWindowView = DetailView(
+        let infoWindowView = DetailSection(
             todosForDate: viewModel.todosForDate,
             dailyStatForDate: viewModel.dailyStatForDate,
             isLoading: viewModel.isLoading

@@ -133,7 +133,7 @@ struct CalendarWidgetEntryView : View {
                 
                 Spacer()
                 
-                CalendarView(
+                CalendarSection_Widget(
                     currentMonth: entry.date,
                     dailyStats: entry.dailyStats,
                     selectDateForInsightData: { _ in }
@@ -145,17 +145,17 @@ struct CalendarWidgetEntryView : View {
                     .font(._headline2)
                     .foregroundStyle(.gray90)
                 
-                weeklyCalendarView
+                weeklyCalendarSection
                     .frame(maxHeight:.infinity)
             }
         } else {
             let dailyStat = entry.dailyStats.first { $0.date == entry.date.apiFormat }
             
-            DayView(dailyStat: dailyStat, date: entry.date, isToday:false, isDayVisible: false, size:120)
+            DayItem_Widget(dailyStat: dailyStat, date: entry.date, isToday:false, isDayVisible: false, size:120)
         }
     }
     
-    private var weeklyCalendarView: some View {
+    private var weeklyCalendarSection: some View {
         let calendar = Calendar.current
         let weekDates = (0...6).compactMap { dayOffset in
             calendar.date(byAdding: .day, value: dayOffset - calendar.component(.weekday, from: entry.date) + 1, to: entry.date)
@@ -176,7 +176,7 @@ struct CalendarWidgetEntryView : View {
                     let dailyStat = entry.dailyStats.first { $0.date == date.apiFormat }
                     let isToday = calendar.isDateInToday(date)
                     
-                    DayView(dailyStat: dailyStat, date: date, isToday: isToday, isDayVisible: false, size:57)
+                    DayItem_Widget(dailyStat: dailyStat, date: date, isToday: isToday, isDayVisible: false, size:57)
                         .frame(width:46, height:42)
                 }
             }

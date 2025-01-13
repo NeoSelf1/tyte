@@ -7,7 +7,7 @@
 /// - Important: 버튼 중복 클릭 방지를 위한 디바운스 로직이 포함되어 있습니다.
 import SwiftUI
 
-struct CalendarDateSelector: View {
+struct MonthSelectSection: View {
     @Binding var currentMonth: Date
     @State private var isButtonEnabled = true
     

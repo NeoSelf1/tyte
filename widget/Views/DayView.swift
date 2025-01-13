@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DayView: View {
+struct DayItem_Widget: View {
     var dailyStat: DailyStat?
     var date: Date
     var isToday: Bool
@@ -11,7 +11,7 @@ struct DayView: View {
     var body: some View {
         ZStack {
             if let dailyStat = dailyStat {
-                MeshGradientView(
+                MeshGradientCell_Widget(
                     colors: getColors(dailyStat),
                     center: dailyStat.center,
                     isSelected: isToday,
@@ -78,7 +78,7 @@ struct DayView: View {
     }
 }
 
-private struct MeshGradientView: View {
+private struct MeshGradientCell_Widget: View {
     @Environment(\.colorScheme) var colorScheme
 
     private let colors: [Color]
@@ -119,7 +119,7 @@ private struct MeshGradientView: View {
             .shadow(color: isSelected ? .gray50 : .clear , radius:4,x:0,y:0)
            
         } else {
-            LinearGradientMeshFallback(colors: colors)
+            LinearGradientMeshFallback_Widget(colors: colors)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .rotationEffect(.degrees(45))
                 .opacity(1.0)
@@ -128,7 +128,7 @@ private struct MeshGradientView: View {
     }
 }
 
-struct LinearGradientMeshFallback: View {
+struct LinearGradientMeshFallback_Widget: View {
     let colors: [Color]
     
     var body: some View {

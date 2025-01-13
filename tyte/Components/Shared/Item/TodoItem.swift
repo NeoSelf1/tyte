@@ -10,10 +10,10 @@
 ///   - onToggle: 완료 상태 변경 콜백
 ///   - onSelect: 항목 선택 콜백
 ///
-/// - Note: HomeView의 할 일 목록과 DetailView의 완료된 할 일 목록에서 사용됩니다.
+/// - Note: HomeView의 할 일 목록과 DetailSection의 완료된 할 일 목록에서 사용됩니다.
 import SwiftUI
 
-struct TodoItemView: View {
+struct TodoItem: View {
     let todo: Todo
     let isPast: Bool
     let isButtonPresent: Bool

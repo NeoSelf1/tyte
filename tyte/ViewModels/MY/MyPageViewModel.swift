@@ -17,7 +17,7 @@ class MyPageViewModel: ObservableObject {
     /// 날짜수정 메서드가 하위 메서드가 많이 연결되어있는 별도 구조체 내부에 정의되어있어서, 분리하고자 didSet 클로저에 호출
     @Published var currentDate: Date = Date().koreanDate { didSet { getData() } }
     
-    @Published var isDetailViewPresent: Bool = false
+    @Published var isDetailSectionPresent: Bool = false
     @Published var isLoading: Bool = true
     
     @Published var isCalendarMode: Bool = true
@@ -52,7 +52,7 @@ class MyPageViewModel: ObservableObject {
         guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else { return }
         dailyStatForDate = dailyStats[index]
         readLocalData(type: .todo, in: date)
-        isDetailViewPresent = true
+        isDetailSectionPresent = true
     }
     
     

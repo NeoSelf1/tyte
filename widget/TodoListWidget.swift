@@ -155,7 +155,7 @@ struct TodoListWidgetEntryView : View {
                         .foregroundStyle(.gray50)
                 }
                 
-                DayView(
+                DayItem_Widget(
                     dailyStat: entry.dailyStat,
                     date: entry.date,
                     isToday:false,
@@ -181,7 +181,7 @@ struct TodoListWidgetEntryView : View {
                 }
                 
                 HStack(alignment: .top){
-                    DayView(
+                    DayItem_Widget(
                         dailyStat: entry.dailyStat,
                         date: entry.date,
                         isToday:false,
@@ -203,7 +203,7 @@ struct TodoListWidgetEntryView : View {
                     
                     Spacer()
                     
-                    DayView(
+                    DayItem_Widget(
                         dailyStat: entry.dailyStat,
                         date: entry.date,
                         isToday:false,

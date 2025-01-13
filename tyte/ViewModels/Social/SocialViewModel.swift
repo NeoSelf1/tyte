@@ -20,7 +20,7 @@ class SocialViewModel: ObservableObject {
     @Published var searchResults: [SearchResult] = []
     
     @Published var isLoading = false
-    @Published var isDetailViewPresent: Bool = false
+    @Published var isDetailSectionPresent: Bool = false
     
     // MARK: 캘린더 아이템 클릭 시 세부 정보창 조회 위해 필요
     var dailyStatForDate: DailyStat = .empty
@@ -103,7 +103,7 @@ class SocialViewModel: ObservableObject {
             } receiveValue: { [weak self] todos in
                 guard let self = self else { return }
                 todosForDate = todos
-                isDetailViewPresent = true
+                isDetailSectionPresent = true
             }
             .store(in: &cancellables)
     }

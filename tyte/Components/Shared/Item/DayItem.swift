@@ -11,10 +11,10 @@
 ///   - isDayVisible: 요일 표시 여부
 ///   - size: 셀의 크기
 ///
-/// - Note: CalendarView의 그리드 셀과 HomeView의 가로 스크롤 캘린더에서 사용됩니다.
+/// - Note: CalendarSection의 그리드 셀과 HomeView의 가로 스크롤 캘린더에서 사용됩니다.
 import SwiftUI
 
-struct DayView: View {
+struct DayItem: View {
     let dailyStat: DailyStat?
     let date: Date
     let isSelected: Bool
@@ -25,7 +25,7 @@ struct DayView: View {
     var body: some View {
         ZStack {
             if let dailyStat = dailyStat {
-                MeshGradientView(colors: getColors(dailyStat), center: dailyStat.center , isSelected: isSelected)
+                MeshGradientCell(colors: getColors(dailyStat), center: dailyStat.center , isSelected: isSelected)
                     .frame(width: size,height: size)
                 
                 VStack(alignment: .leading, spacing: 0) {

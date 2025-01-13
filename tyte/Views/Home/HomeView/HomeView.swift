@@ -61,7 +61,7 @@ extension HomeView {
                 .frame(height: 52)
                 .padding(.horizontal)
                 
-                HorizontalCalendarView(viewModel: viewModel)
+                HorizontalCalendarSection(viewModel: viewModel)
                     .padding(.top, -16)
             }
             .padding(.bottom, 16)
@@ -82,7 +82,7 @@ extension HomeView {
                     Spacer().padding(.top, 16)
                 } else {
                     ForEach(viewModel.todosForDate) { todo in
-                        TodoItemView(
+                        TodoItem(
                             todo: todo,
                             isPast: todo.deadline.parsedDate < Calendar.current.startOfDay(for: Date().koreanDate),
                             isButtonPresent: true,
@@ -206,7 +206,7 @@ extension HomeView {
 
 // MARK: - Calendar Components
 
-private struct HorizontalCalendarView: View {
+private struct HorizontalCalendarSection: View {
     @ObservedObject var viewModel: HomeViewModel
     private let calendar = Calendar.current
     
@@ -227,7 +227,7 @@ private struct HorizontalCalendarView: View {
         let isToday = calendar.isDateInToday(date)
         let dailyStat = viewModel.weekCalendarData.first { $0.date == date.apiFormat }
         
-        return DayView(
+        return DayItem(
             dailyStat: dailyStat,
             date: date,
             isSelected: isSelected,

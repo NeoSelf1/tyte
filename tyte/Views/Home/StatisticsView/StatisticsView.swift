@@ -8,7 +8,7 @@ struct StatisticsView: View {
         VStack {
             CustomHeaderWithBackBtn(title: "AI 분석리포트",isDoneHidden: true)
             
-            DetailView(
+            DetailSection(
                 todosForDate: todos,
                 dailyStatForDate: dailyStat,
                 isLoading: false

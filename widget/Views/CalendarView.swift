@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CalendarView: View {
+struct CalendarSection_Widget: View {
     let currentMonth: Date
     let dailyStats: [DailyStat]
     let selectDateForInsightData:(Date)->Void
@@ -42,7 +42,7 @@ struct CalendarView: View {
                         let isToday = today.apiFormat == date.apiFormat
                         let dailyStat = dailyStats.first{ $0.date == date.apiFormat }
 
-                        DayView(dailyStat: dailyStat, date: date, isToday: isToday, isDayVisible: false,size:60)
+                        DayItem_Widget(dailyStat: dailyStat, date: date, isToday: isToday, isDayVisible: false,size:60)
                             .frame(height:42)
 
                     } else if Calendar.current.date(
@@ -59,7 +59,7 @@ struct CalendarView: View {
     }
 }
 
-private extension CalendarView {
+private extension CalendarSection_Widget {
     static let weekdaySymbols: [String] = Calendar.current.shortWeekdaySymbols
     
     private func getDate(for index: Int) -> Date {

@@ -9,11 +9,11 @@
 ///   - isSelected: 선택 상태에 따른 회전 효과 적용 여부
 ///   - cornerRadius: 모서리 둥글기 정도
 ///
-/// - Note: DayView의 배경과 DetailView의 프리즘 효과로 사용됩니다.
+/// - Note: DayItem의 배경과 DetailSection의 프리즘 효과로 사용됩니다.
 /// - Important: iOS 18 미만 버전에서는 LinearGradient로 자동 대체됩니다.
 import SwiftUI
 
-struct MeshGradientView: View {
+struct MeshGradientCell: View {
     @State private var isAnimating = false
     @Environment(\.colorScheme) var colorScheme
 

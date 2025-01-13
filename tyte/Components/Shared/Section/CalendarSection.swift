@@ -1,6 +1,6 @@
 /// 월별 일정을 그리드 형태로 표시하는 캘린더 컴포넌트
 ///
-/// 요일 헤더와 날짜 그리드로 구성되며, 각 날짜 셀은 DayView를 사용하여 표시됩니다.
+/// 요일 헤더와 날짜 그리드로 구성되며, 각 날짜 셀은 DayItem를 사용하여 표시됩니다.
 /// 일정이 있는 날짜는 MeshGradient 효과로 시각화됩니다.
 ///
 /// - Parameters:
@@ -11,7 +11,7 @@
 /// - Note: MyPageView와 SocialView의 메인 컨텐츠 영역에서 사용됩니다.
 import SwiftUI
 
-struct CalendarView: View {
+struct CalendarSection: View {
     let currentMonth: Date
     let dailyStats: [DailyStat]
     let selectDateForInsightData:(Date)->Void
@@ -26,7 +26,7 @@ struct CalendarView: View {
     }
 }
 
-extension CalendarView {
+extension CalendarSection {
     /// 요일 그리드 뷰
     private var dayListView: some View {
         HStack {
@@ -56,8 +56,8 @@ extension CalendarView {
                         let isToday = today.apiFormat == date.apiFormat
                         let dailyStat = dailyStats.first{ $0.date == date.apiFormat }
 
-                        DayView(dailyStat: dailyStat, date: date, isSelected: true, isToday: isToday, isDayVisible: false,size:64)
-                            .frame(height:48) // 64 사이즈의 DayView의 height를 48로 찌부시키기
+                        DayItem(dailyStat: dailyStat, date: date, isSelected: true, isToday: isToday, isDayVisible: false,size:64)
+                            .frame(height:48) // 64 사이즈의 DayItem의 height를 48로 찌부시키기
                             .onTapGesture {
                                 selectDateForInsightData(date)
                             }
@@ -78,7 +78,7 @@ extension CalendarView {
 
 // MARK: - CalendarGridView에서 필요로 하는 연산들
 
-private extension CalendarView {
+private extension CalendarSection {
     static let weekdaySymbols: [String] = Calendar.current.shortWeekdaySymbols
     
     private func getDate(for index: Int) -> Date {

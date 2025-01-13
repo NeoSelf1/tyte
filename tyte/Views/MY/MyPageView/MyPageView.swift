@@ -8,14 +8,14 @@ struct MyPageView: View {
         VStack (spacing: 0){
             header
             
-            CalendarDateSelector(currentMonth: $viewModel.currentDate)
+            MonthSelectSection(currentMonth: $viewModel.currentDate)
             
             ZStack {
                 if viewModel.isCalendarMode {
                     VStack(spacing:16){
                         guideBox
                         
-                        CalendarView(
+                        CalendarSection(
                             currentMonth: viewModel.currentDate,
                             dailyStats:viewModel.dailyStats,
                             selectDateForInsightData: viewModel.selectCalendarDate
@@ -31,7 +31,7 @@ struct MyPageView: View {
             Spacer()
         }
         .background(.gray00)
-        .sheet(isPresented: $viewModel.isDetailViewPresent) {
+        .sheet(isPresented: $viewModel.isDetailSectionPresent) {
             MultiLayerBottomSheet(viewModel: viewModel)
                 .presentationDetents([.height(720), .large])
                 .presentationDragIndicator(.hidden)
