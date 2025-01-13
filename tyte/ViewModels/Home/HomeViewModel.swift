@@ -73,7 +73,7 @@ class HomeViewModel: ObservableObject {
         refreshTodos(for:selectedDate.apiFormat)
     }
     
-    /// DayView에서 호출
+    /// DayItem에서 호출
     func selectDate(_ date: Date){
         guard date != selectedDate else { return }
         
@@ -207,7 +207,6 @@ private extension HomeViewModel {
             .sink { _ in
             } receiveValue: {  [weak self] _tags in
                 guard let self = self else { return }
-                print(_tags)
                 tags = _tags
                 
                 refreshTodos(for: selectedDate.apiFormat)
@@ -249,7 +248,6 @@ private extension HomeViewModel {
             .receive(on: DispatchQueue.main)
             .sink { _ in
             } receiveValue: {  [weak self] dailyStats in
-                print("refreshMonthlyStats done")
                 withAnimation { self?.weekCalendarData = dailyStats }
             }
             .store(in: &cancellables)

@@ -22,7 +22,6 @@ struct ColorPickerBottomSheet: View {
                 
                 Button(action: {
                     dismiss()
-                    print("closed")
                 }) {
                     Image(systemName: "xmark")
                         .foregroundStyle(.gray60)

@@ -599,10 +599,8 @@ private class SyncQueue {
     func process(_ command: SyncCommand) -> AnyPublisher<Any, Error> {
         
         if NetworkManager.shared.isConnected {
-            print("2.process online: \(command.operation.type)".prefix(56))
-            return executeCommand(command) // 온라인: 즉시 서버와 동기화
+            return executeCommand(command)
         } else {
-            print("2.process offline: \(command.operation.type)".prefix(56))
             return Future { promise in
                 do {
                     try self.saveCommand(command)
@@ -717,7 +715,6 @@ private class SyncQueue {
 
 private extension SyncQueue {
     func saveCommand(_ command: SyncCommand) throws {
-        print("3.(off)saveCommand: \(command.operation.type)".prefix(56))
         try coreDataStack.performInTransaction {
             let entity = SyncCommandEntity(context: coreDataStack.context)
             entity.id = command.id
@@ -753,7 +750,6 @@ private extension SyncQueue {
     }
     
     private func updateRetryCount(_ commandId: UUID, count: Int) throws {
-        print("\(commandId): updateRetryCount")
         try coreDataStack.performInTransaction {
             let request = SyncCommandEntity.fetchRequest()
             request.predicate = NSPredicate(format: "id == %@", commandId as CVarArg)
@@ -767,7 +763,6 @@ private extension SyncQueue {
     }
 
     private func markAsFailed(_ commandId: UUID, error: Error) throws {
-        print("\(commandId): markAsFailed")
         try coreDataStack.performInTransaction {
             let request = SyncCommandEntity.fetchRequest()
             request.predicate = NSPredicate(format: "id == %@", commandId as CVarArg)

@@ -70,7 +70,6 @@ final class NetworkManager {
         monitor.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
                 let isConnected = path.status == .satisfied
-                print("isConnected: \(isConnected)")
                 self?.isConnected = isConnected
                 if isConnected {
                     OfflineUIManager.shared.hide()

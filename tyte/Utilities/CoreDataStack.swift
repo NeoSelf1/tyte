@@ -54,7 +54,6 @@ final class CoreDataStack {
     }
     
     func clearUserData(for userId: String) throws {
-        print("clearUserData")
         let entities = ["TodoEntity", "TagEntity", "DailyStatEntity", "TagStatEntity", "SyncCommandEntity"]
         
         for entityName in entities {
