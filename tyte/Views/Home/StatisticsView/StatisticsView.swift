@@ -6,7 +6,7 @@ struct StatisticsView: View {
     
     var body: some View {
         VStack {
-            CustomHeaderWithBackBtn(title: "AI 분석리포트")
+            CustomHeaderWithBackBtn(title: "AI 분석리포트",isDoneHidden: true)
             
             DetailView(
                 todosForDate: todos,
@@ -14,5 +14,6 @@ struct StatisticsView: View {
                 isLoading: false
             )
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

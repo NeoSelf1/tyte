@@ -9,7 +9,7 @@ struct FriendSearchView: View {
     var body: some View {
         ZStack {
             VStack {
-                CustomHeaderWithBackBtn(title: "친구 검색")
+                CustomHeaderWithBackBtn(title: "친구 검색", isDoneHidden: true)
                 
                 SearchBar(text: $viewModel.searchText,isSearching: $isSearching)
                 
@@ -67,6 +67,7 @@ struct FriendSearchView: View {
             
             if viewModel.isLoading { ProgressView() }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

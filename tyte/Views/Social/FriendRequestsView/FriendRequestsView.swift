@@ -5,7 +5,7 @@ struct FriendRequestsView: View {
     
     var body: some View {
         VStack {
-            CustomHeaderWithBackBtn(title: "받은 친구 요청")
+            CustomHeaderWithBackBtn(title: "받은 친구 요청", isDoneHidden: true)
             
             if viewModel.isLoading {
                 ProgressView()
@@ -60,5 +60,6 @@ struct FriendRequestsView: View {
                 .refreshable { viewModel.fetchPendingRequests() }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

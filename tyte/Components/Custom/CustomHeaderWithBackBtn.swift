@@ -14,37 +14,41 @@
 import SwiftUI
 
 struct CustomHeaderWithBackBtn: View {
-    let title: String
     @Environment(\.dismiss) private var dismiss
     
+    let title: String
+    var isDoneHidden: Bool = false
+    
     var body: some View {
-        HStack {
-            Button(action: {
-                dismiss()
-            }) {
-                Image("arrow_left")
-                    .renderingMode(.template)
-                    .foregroundColor(.gray60)
-                    .padding()
-            }
-            
-            Spacer()
-            
+        ZStack {
             Text(title)
                 .font(._subhead1)
                 .foregroundColor(.gray90)
+                .frame(maxWidth: .infinity,alignment: .center)
             
-            Spacer()
-            
-            Button(action: {
-                dismiss()
-            }) {
-                Text("완료")
-                    .font(._subhead2)
-                    .foregroundColor(.blue30)
-                    .padding()
+            HStack {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image("arrow_left")
+                        .renderingMode(.template)
+                        .foregroundColor(.gray60)
+                        .padding()
+                }
+                
+                Spacer()
+                if !isDoneHidden {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Text("완료")
+                            .font(._subhead2)
+                            .foregroundColor(.blue30)
+                            .padding()
+                    }
+                    .padding(.horizontal)
+                }
             }
         }
-        .padding(.horizontal)
     }
 }

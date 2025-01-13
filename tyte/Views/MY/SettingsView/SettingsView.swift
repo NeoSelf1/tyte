@@ -4,8 +4,8 @@ struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     
     var body: some View {
-        VStack{
-            CustomHeaderWithBackBtn(title: "설정")
+        VStack {
+            CustomHeaderWithBackBtn(title: "설정", isDoneHidden: true)
             
             Toggle(isOn: Binding(
                 get: { UserDefaultsManager.shared.isDarkMode },
@@ -54,8 +54,9 @@ struct SettingsView: View {
                 }
             }
         }
-        .padding()
+        .padding(.horizontal)
         .background(.gray00)
+        .navigationBarBackButtonHidden(true)
     }
     
     private func setAppearance(isDarkMode: Bool) {
