@@ -1,3 +1,20 @@
+protocol AuthServiceProtocol {
+    /// 소셜 로그인 처리
+    func socialLogin(idToken: String, provider: String) async throws -> LoginResponse
+    /// 이메일/패스워드 로그인 처리
+    func login(email: String, password: String) async throws -> LoginResponse
+    /// 회원가입 처리
+    func signUp(email: String, username: String, password: String) async throws -> LoginResponse
+    /// 토큰 유효성 검증
+    func validateToken(_ token: String) async throws -> ValidateResponse
+    /// 계정 삭제
+    func deleteAccount() async throws -> EmptyResponse
+    /// 이메일 중복 확인
+    func checkEmail(_ email: String) async throws -> ValidateResponse
+    /// 앱 버전 체크
+    func checkVersion() async throws -> VersionResponse
+}
+
 /// AuthService는 사용자 인증과 관련된 모든 네트워크 요청을 처리하는 서비스입니다.
 /// 회원가입, 로그인, 토큰 검증, 계정 관리 등의 인증 관련 기능을 제공합니다.
 class AuthService: AuthServiceProtocol {

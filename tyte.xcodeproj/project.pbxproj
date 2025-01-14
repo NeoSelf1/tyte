@@ -106,12 +106,6 @@
 		E57374732D20DD9800D65312 /* TodoListWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57374722D20DD9800D65312 /* TodoListWidget.swift */; };
 		E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */; };
 		E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F1FD42CD0F401007940BB /* SettingsViewModel.swift */; };
-		E5A441052D32B9E800B20C87 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A441042D32B9E800B20C87 /* NetworkServiceProtocol.swift */; };
-		E5A441072D32B9F000B20C87 /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A441062D32B9F000B20C87 /* AuthServiceProtocol.swift */; };
-		E5A441092D32B9F700B20C87 /* TodoServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A441082D32B9F700B20C87 /* TodoServiceProtocol.swift */; };
-		E5A4410B2D32B9FD00B20C87 /* TagServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4410A2D32B9FD00B20C87 /* TagServiceProtocol.swift */; };
-		E5A441112D32BA1D00B20C87 /* DailyStatServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A441102D32BA1D00B20C87 /* DailyStatServiceProtocol.swift */; };
-		E5A441132D32BA2300B20C87 /* SocialServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A441122D32BA2300B20C87 /* SocialServiceProtocol.swift */; };
 		E5A4A83A2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */; };
@@ -120,7 +114,6 @@
 		E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
 		E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
 		E5BFE3322D1C714E00E558AD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */; };
-		E5BFE3342D1C716E00E558AD /* CoreDataSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE3332D1C716E00E558AD /* CoreDataSyncService.swift */; };
 		E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */; };
 		E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C612CE5D154004B3D87 /* CustomToast.swift */; };
 		E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C622CE5D154004B3D87 /* ToastData.swift */; };
@@ -282,19 +275,12 @@
 		E57374722D20DD9800D65312 /* TodoListWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListWidget.swift; sourceTree = "<group>"; };
 		E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestsView.swift; sourceTree = "<group>"; };
 		E58F1FD42CD0F401007940BB /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		E5A441042D32B9E800B20C87 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
-		E5A441062D32B9F000B20C87 /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
-		E5A441082D32B9F700B20C87 /* TodoServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoServiceProtocol.swift; sourceTree = "<group>"; };
-		E5A4410A2D32B9FD00B20C87 /* TagServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagServiceProtocol.swift; sourceTree = "<group>"; };
-		E5A441102D32BA1D00B20C87 /* DailyStatServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatServiceProtocol.swift; sourceTree = "<group>"; };
-		E5A441122D32BA2300B20C87 /* SocialServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialServiceProtocol.swift; sourceTree = "<group>"; };
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tyte.xcdatamodel; sourceTree = "<group>"; };
 		E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		E5BFE3332D1C716E00E558AD /* CoreDataSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSyncService.swift; sourceTree = "<group>"; };
 		E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E5CA1C612CE5D154004B3D87 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
 		E5CA1C622CE5D154004B3D87 /* ToastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastData.swift; sourceTree = "<group>"; };
@@ -405,7 +391,6 @@
 				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
 				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
-				E5DE68732CD354090055CADB /* Protocols */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				E526289C2CC35750004B290C /* Services */,
 				E52628D42CC392F8004B290C /* Utilities */,
@@ -533,7 +518,6 @@
 		E526289C2CC35750004B290C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E5BFE3332D1C716E00E558AD /* CoreDataSyncService.swift */,
 				E5DE68792CD35D040055CADB /* NetworkService.swift */,
 				E519BE412CC8CA4500DD21B7 /* SocialService.swift */,
 				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
@@ -886,19 +870,6 @@
 			path = widget;
 			sourceTree = "<group>";
 		};
-		E5DE68732CD354090055CADB /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				E5A441042D32B9E800B20C87 /* NetworkServiceProtocol.swift */,
-				E5A441062D32B9F000B20C87 /* AuthServiceProtocol.swift */,
-				E5A441082D32B9F700B20C87 /* TodoServiceProtocol.swift */,
-				E5A4410A2D32B9FD00B20C87 /* TagServiceProtocol.swift */,
-				E5A441102D32BA1D00B20C87 /* DailyStatServiceProtocol.swift */,
-				E5A441122D32BA2300B20C87 /* SocialServiceProtocol.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		E5E7EC862D3629A000527B91 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,7 +1216,6 @@
 				E5CA1C692CE5D156004B3D87 /* CustomPopup.swift in Sources */,
 				E5CA1C6A2CE5D156004B3D87 /* PopupData.swift in Sources */,
 				E52628CF2CC38D42004B290C /* AppState.swift in Sources */,
-				E5A441132D32BA2300B20C87 /* SocialServiceProtocol.swift in Sources */,
 				E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */,
 				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
 				E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */,
@@ -1253,13 +1223,9 @@
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
 				E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */,
-				E5A441072D32B9F000B20C87 /* AuthServiceProtocol.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
-				E5A4410B2D32B9FD00B20C87 /* TagServiceProtocol.swift in Sources */,
-				E5A441052D32B9E800B20C87 /* NetworkServiceProtocol.swift in Sources */,
 				AB1BE8DC2C9D480F00E18EF7 /* DetailSection.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
-				E5A441112D32BA1D00B20C87 /* DailyStatServiceProtocol.swift in Sources */,
 				E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */,
 				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
 				E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */,
@@ -1285,7 +1251,6 @@
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
 				E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */,
 				E519BE452CC8CA8E00DD21B7 /* FriendRequest.swift in Sources */,
-				E5BFE3342D1C716E00E558AD /* CoreDataSyncService.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,
 				E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */,
 				AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */,
@@ -1293,7 +1258,6 @@
 				AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */,
 				AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */,
 				E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */,
-				E5A441092D32B9F700B20C87 /* TodoServiceProtocol.swift in Sources */,
 				AB4498852C89930500B2B74A /* String+.swift in Sources */,
 				AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */,
 				ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */,

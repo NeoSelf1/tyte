@@ -1,3 +1,14 @@
+protocol TagServiceProtocol {
+    /// 모든 태그 조회
+    func fetchTags() async throws -> TagsResponse
+    /// 새로운 태그 생성
+    func createTag(name: String, color: String) async throws -> TagResponse
+    /// 태그 정보 업데이트
+    func updateTag(tag: Tag) async throws -> TagResponse
+    /// 태그 삭제
+    func deleteTag(id: String) async throws -> String
+}
+
 /// TagService는 할 일 태그(Tag) 관련 네트워크 요청을 처리하는 서비스입니다.
 /// 태그의 생성, 조회, 수정, 삭제 기능을 제공하며, 할 일 분류와 관리를 위한 태그 시스템을 지원합니다.
 class TagService: TagServiceProtocol {

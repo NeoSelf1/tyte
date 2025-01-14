@@ -1,5 +1,21 @@
+/// 인증이 필요한 요청과 불필요한 요청을 구분하여 처리합니다.
 import Foundation
 import Alamofire
+
+protocol NetworkServiceProtocol {
+    func request<T: Decodable>(
+        _ endpoint: APIEndpoint,
+        method: HTTPMethod,
+        parameters: Parameters?
+    ) async throws -> T
+    
+    func requestWithoutAuth<T: Decodable>(
+        _ endpoint: APIEndpoint,
+        method: HTTPMethod,
+        parameters: Parameters?
+    ) async throws -> T
+}
+
 /// 인증이 필요한 API 요청을 처리합니다.
 /// - Parameters:
 ///   - endpoint: API 엔드포인트

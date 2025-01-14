@@ -1,3 +1,12 @@
+protocol DailyStatServiceProtocol {
+    /// 특정 날짜의 통계 데이터 조회
+    func fetchDailyStat(for date: String) async throws -> DailyStatResponse?
+    /// 월간 통계 데이터 조회
+    func fetchMonthlyStats(in yearMonth: String) async throws -> MonthlyStatResponse
+    /// 특정 사용자의 월간 통계 데이터 조회
+    func fetchMonthlyStats(for id: String, in yearMonth: String) async throws -> MonthlyStatResponse
+}
+
 /// DailyStatService는 일일 통계 데이터 관련 네트워크 요청을 처리하는 서비스입니다.
 /// 특정 날짜 또는 월 단위의 통계 데이터를 조회하고, 사용자 및 친구의 생산성 통계를 관리합니다.
 class DailyStatService: DailyStatServiceProtocol {
