@@ -10,12 +10,11 @@ protocol SyncManagerProtocol {
 class SyncManager: SyncManagerProtocol {
     private let coreDataStack: CoreDataStack
     
-    private let todoService: TodoServiceProtocol
-    private let tagService: TagServiceProtocol
-    private let dailyStatService: DailyStatServiceProtocol
+    private let todoService: TodoRemoteDataSourceProtocol
+    private let tagService: TagRemoteDataSourceProtocol
     
     private var syncTimer: Timer?
-    private let syncInterval: TimeInterval = 30  // 30초마다 동기화 시도
+    private let syncInterval: TimeInterval = 30
     private let maxRetries = 3
     
     private var cancellables = Set<AnyCancellable>()
@@ -24,14 +23,12 @@ class SyncManager: SyncManagerProtocol {
     
     private init(
         coreDataStack: CoreDataStack = .shared,
-        todoService: TodoServiceProtocol = TodoService(),
-        tagService: TagServiceProtocol = TagService(),
-        dailyStatService: DailyStatServiceProtocol = DailyStatService()
+        todoService: TodoRemoteDataSourceProtocol = TodoRemoteDataSource(),
+        tagService: TagRemoteDataSourceProtocol = TagRemoteDataSource()
     ) {
         self.coreDataStack = coreDataStack
         self.todoService = todoService
         self.tagService = tagService
-        self.dailyStatService = dailyStatService
         
         setupNetworkMonitoring()
     }
@@ -49,16 +46,12 @@ class SyncManager: SyncManagerProtocol {
     }
     
     func startSync() {
-        stopSync()  // 기존 타이머 중지
-        processPendingOperations()
+        stopSync()
         
-        // 주기적으로 실행할 타이머 설정
-        syncTimer = Timer.scheduledTimer(
-            withTimeInterval: syncInterval,
-            repeats: true
-        ) { [weak self] _ in
+        syncTimer = Timer.scheduledTimer(withTimeInterval: syncInterval,repeats: true) { [weak self] _ in
             self?.processPendingOperations()
         }
+        processPendingOperations()
     }
     
     func stopSync() {
@@ -133,13 +126,13 @@ class SyncManager: SyncManagerProtocol {
     private func processOperation(_ operation: SyncOperation) async throws {
         switch operation.type {
         case .updateTodo(let todo):
-            _ = try await todoService.updateTodo(todo: todo)
+            _ = try await todoService.updateTodo(todo)
         case .deleteTodo(let id):
-            _ = try await todoService.deleteTodo(id: id)
+            _ = try await todoService.deleteTodo(id)
         case .updateTag(let tag):
-            _ = try await tagService.updateTag(tag: tag)
+            _ = try await tagService.updateTag(tag)
         case .deleteTag(let id):
-            _ = try await tagService.deleteTag(id: id)
+            _ = try await tagService.deleteTag(id)
         }
     
     }
