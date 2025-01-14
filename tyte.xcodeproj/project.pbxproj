@@ -400,10 +400,6 @@
 				E5424D2D2D35794F0094E1A5 /* Infrastructure */,
 				E5424D2C2D3579490094E1A5 /* Data */,
 				E5424D2B2D3579430094E1A5 /* Domain */,
-				AB6A0F812C8EB01300254299 /* Networking */,
-				E526289C2CC35750004B290C /* Services */,
-				E52628D42CC392F8004B290C /* Utilities */,
-				AB6A495D2C86069B00B782A1 /* Extensions */,
 				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
 				ABC9937C2CABC2A400D8414F /* tyte.entitlements */,
 				AB5394FD2C85981500A9D1FE /* Info.plist */,
@@ -533,22 +529,6 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		E52628D42CC392F8004B290C /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */,
-				E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */,
-				E573746C2D1ED7F000D65312 /* WidgetManager.swift */,
-				E57374692D1E5EED00D65312 /* NetworkManager.swift */,
-				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
-				E57374702D1F6A2A00D65312 /* OfflineUIManager.swift */,
-				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
-				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
-				AB84C5302C918EA9000164AC /* Utils.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 		E5424D282D3549B10094E1A5 /* Section */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,7 +579,12 @@
 		E5424D2D2D35794F0094E1A5 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */,
+				AB84C5302C918EA9000164AC /* Utils.swift */,
+				AB6A495D2C86069B00B782A1 /* Extensions */,
 				E5E7EC862D3629A000527B91 /* Managers */,
+				AB6A0F812C8EB01300254299 /* Networking */,
+				E526289C2CC35750004B290C /* Services */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -887,6 +872,13 @@
 		E5E7EC862D3629A000527B91 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */,
+				E573746C2D1ED7F000D65312 /* WidgetManager.swift */,
+				E57374692D1E5EED00D65312 /* NetworkManager.swift */,
+				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
+				E57374702D1F6A2A00D65312 /* OfflineUIManager.swift */,
+				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
+				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
 				E5E7EC842D36298D00527B91 /* SyncManager.swift */,
 			);
 			path = Managers;

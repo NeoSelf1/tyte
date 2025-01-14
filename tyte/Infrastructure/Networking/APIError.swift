@@ -26,6 +26,7 @@ enum APIError: Error, Equatable {
     case wrongPassword
     
     case networkError
+    case isGuestMode
     case serverError(String)
     case unknown
     
