@@ -60,6 +60,9 @@ typealias TodosResponse = [Todo]
 struct IdResponse: Codable {
     let id: String
 }
+
+typealias TagResponse = Tag
+
 // Tag 목록 조회
 typealias TagsResponse = [Tag]
 
@@ -69,7 +72,7 @@ typealias TagsResponse = [Tag]
 typealias DailyStatResponse = DailyStat
 
 // 월별 DailyStat 조회
-typealias MonthlyStatsResponse = [DailyStat]
+typealias MonthlyStatResponse = [DailyStat]
 
 
 // MARK: - Social 관련 api 함수 응답값 타입
@@ -80,4 +83,4 @@ typealias SearchUsersResponse = [SearchResult]
 typealias FriendsResponse = [User]
 
 // 받은 친구 요청 목록
-typealias PendingRequestsResponse = [FriendRequest]
+typealias FriendRequestsResponse = [FriendRequest]

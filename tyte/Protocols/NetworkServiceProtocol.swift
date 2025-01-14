@@ -1,4 +1,3 @@
-import Combine
 import Alamofire
 /// 네트워크 서비스 계층의 프로토콜 정의 모음입니다.
 /// 프로토콜 기반 설계를 통해 다음과 같은 이점을 제공합니다:
@@ -14,11 +13,11 @@ protocol NetworkServiceProtocol {
         _ endpoint: APIEndpoint,
         method: HTTPMethod,
         parameters: Parameters?
-    ) -> AnyPublisher<T, APIError>
+    ) async throws -> T
     
     func requestWithoutAuth<T: Decodable>(
         _ endpoint: APIEndpoint,
         method: HTTPMethod,
         parameters: Parameters?
-    ) -> AnyPublisher<T, APIError>
+    ) async throws -> T
 }

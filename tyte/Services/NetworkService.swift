@@ -1,6 +1,5 @@
 import Foundation
 import Alamofire
-import Combine
 /// 인증이 필요한 API 요청을 처리합니다.
 /// - Parameters:
 ///   - endpoint: API 엔드포인트
@@ -12,26 +11,22 @@ class NetworkService: NetworkServiceProtocol {
         _ endpoint: APIEndpoint,
         method: HTTPMethod = .get,
         parameters: Parameters? = nil
-    ) -> AnyPublisher<T, APIError> {
-        return Future { promise in
-            if AppState.shared.isGuestMode {
-                print("requesting API in guest Mode: returning...")
-                return
-            }
-            
-            guard NetworkManager.shared.isConnected else {
-                self.handleError(.networkError)
-                promise(.failure(.networkError))
-                return
-            }
-            
-            guard let token = KeychainManager.shared.getAccessToken() else {
-                self.handleError(.unauthorized)
-                return
-            }
-            
-            let headers: HTTPHeaders = ["Authorization": "Bearer \(token)"]
-            
+    ) async throws -> T {
+        guard !AppState.shared.isGuestMode else {
+            throw APIError.isGuestMode
+        }
+        
+        guard NetworkManager.shared.isConnected else {
+            throw APIError.networkError
+        }
+        
+        guard let token = KeychainManager.shared.getAccessToken() else {
+            throw APIError.unauthorized
+        }
+        
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(token)"]
+        
+        return try await withCheckedThrowingContinuation { continuation in
             AF.request(
                 APIConstants.baseUrl + endpoint.path,
                 method: method,
@@ -41,23 +36,14 @@ class NetworkService: NetworkServiceProtocol {
             )
             .validate()
             .responseDecodable(of: T.self) { response in
-                if let statusCode = response.response?.statusCode, statusCode == 401 {
-                    self.handleError(.unauthorized)
-                    promise(.failure(.unauthorized))
-                    return
-                }
-                
                 switch response.result {
                 case .success(let value):
-                    promise(.success(value)) // Future의 completion handler 호출
+                    continuation.resume(returning: value)
                 case .failure(let error):
-                    let apiError = APIError(afError: error)
-                    self.handleError(apiError)
-                    promise(.failure(apiError)) // Future의 completion handler 호출
+                    continuation.resume(throwing: APIError(afError: error))
                 }
             }
         }
-        .eraseToAnyPublisher()
     }
     
     /// 인증이 필요없는 API 요청을 처리합니다.
@@ -66,16 +52,15 @@ class NetworkService: NetworkServiceProtocol {
     ///   - method: HTTP 메서드
     ///   - parameters: 요청 파라미터
     /// - Returns: 디코딩된 응답 데이터를 포함하는 Publisher
-    func requestWithoutAuth<T: Decodable>(_ endpoint: APIEndpoint,
-                                          method: HTTPMethod = .get,
-                                          parameters: Parameters? = nil) -> AnyPublisher<T, APIError> {
-        return Future { promise in
-            guard NetworkManager.shared.isConnected else {
-                self.handleError(.networkError)
-                promise(.failure(.networkError))
-                return
-            }
-            
+    func requestWithoutAuth<T: Decodable>(
+        _ endpoint: APIEndpoint,
+        method: HTTPMethod = .get,
+        parameters: Parameters? = nil
+    ) async throws -> T {
+        guard NetworkManager.shared.isConnected else {
+            throw APIError.networkError
+        }
+        return try await withCheckedThrowingContinuation { continuation in
             AF.request(
                 APIConstants.baseUrl + endpoint.path,
                 method: method,
@@ -86,14 +71,14 @@ class NetworkService: NetworkServiceProtocol {
             .responseDecodable(of: T.self) { response in
                 switch response.result {
                 case .success(let value):
-                    promise(.success(value))
+                    continuation.resume(returning: value)
                 case .failure(let error):
-                    promise(.failure(APIError(afError: error)))
+                    continuation.resume(throwing: APIError(afError: error))
                 }
             }
         }
-        .eraseToAnyPublisher()
     }
+    
     
     private func handleError(_ error: APIError) {
         DispatchQueue.main.async {

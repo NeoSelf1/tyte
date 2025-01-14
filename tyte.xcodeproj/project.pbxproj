@@ -75,6 +75,12 @@
 		E52628D92CC3A97F004B290C /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
 		E52628DA2CC3AB45004B290C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B972C86FEE000F3CB68 /* Date+.swift */; };
 		E5374F782D0180DC0075427C /* MonthSelectSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5374F772D0180A20075427C /* MonthSelectSection.swift */; };
+		E5424D332D357A770094E1A5 /* TodoRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */; };
+		E5424D362D357A800094E1A5 /* TagRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */; };
+		E5424D392D357ADF0094E1A5 /* TodoLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */; };
+		E5424D3D2D357B130094E1A5 /* TodoRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */; };
+		E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */; };
+		E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D432D357CE10094E1A5 /* TodoRepository.swift */; };
 		E54DE8AB2D335FCF00947148 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AA2D335FCF00947148 /* SearchResult.swift */; };
 		E54DE8AC2D335FCF00947148 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AA2D335FCF00947148 /* SearchResult.swift */; };
 		E54DE8B02D3375BD00947148 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AF2D3375BD00947148 /* Todo.swift */; };
@@ -131,6 +137,8 @@
 		E5DE11AB2D1A95B100D460FE /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
 		E5DE11AC2D1A95B100D460FE /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
 		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
+		E5E7EC852D36298D00527B91 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC842D36298D00527B91 /* SyncManager.swift */; };
+		E5E7EC8B2D362A3E00527B91 /* SyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -247,6 +255,12 @@
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E5374F772D0180A20075427C /* MonthSelectSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSelectSection.swift; sourceTree = "<group>"; };
+		E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoLocalDataSource.swift; sourceTree = "<group>"; };
+		E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRemoteDataSource.swift; sourceTree = "<group>"; };
+		E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoUseCase.swift; sourceTree = "<group>"; };
+		E5424D432D357CE10094E1A5 /* TodoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepository.swift; sourceTree = "<group>"; };
 		E54DE8AA2D335FCF00947148 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		E54DE8AF2D3375BD00947148 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		E54DE8B12D337A3200947148 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -294,6 +308,8 @@
 		E5D660402CBFB1FB00A8279B /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		E5D660412CBFB1FB00A8279B /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
 		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		E5E7EC842D36298D00527B91 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncOperation.swift; sourceTree = "<group>"; };
 		E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -381,6 +397,10 @@
 		AB5BB2762C836C0400DC4D72 /* tyte */ = {
 			isa = PBXGroup;
 			children = (
+				E5424D2E2D3579580094E1A5 /* Presentation */,
+				E5424D2D2D35794F0094E1A5 /* Infrastructure */,
+				E5424D2C2D3579490094E1A5 /* Data */,
+				E5424D2B2D3579430094E1A5 /* Domain */,
 				E52628CE2CC38D40004B290C /* AppState.swift */,
 				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
 				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
@@ -388,10 +408,6 @@
 				E5DE68732CD354090055CADB /* Protocols */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				E526289C2CC35750004B290C /* Services */,
-				ABD666B22C83731F0005D3C1 /* Models */,
-				ABD666B42C83732E0005D3C1 /* Views */,
-				ABD666B32C8373270005D3C1 /* ViewModels */,
-				AB6A0F7C2C8EAF7400254299 /* Components */,
 				E52628D42CC392F8004B290C /* Utilities */,
 				AB6A495D2C86069B00B782A1 /* Extensions */,
 				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
@@ -481,14 +497,12 @@
 		ABD666B22C83731F0005D3C1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E5CA1C622CE5D154004B3D87 /* ToastData.swift */,
-				E5CA1C672CE5D156004B3D87 /* PopupData.swift */,
-				E54DE8AA2D335FCF00947148 /* SearchResult.swift */,
-				E519BE462CC8CCA400DD21B7 /* User.swift */,
-				E519BE432CC8CA8B00DD21B7 /* FriendRequest.swift */,
 				ABD666BF2C8373700005D3C1 /* Todo.swift */,
 				ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */,
 				AB6A0F782C8EAF5500254299 /* Tag.swift */,
+				E519BE462CC8CCA400DD21B7 /* User.swift */,
+				E519BE432CC8CA8B00DD21B7 /* FriendRequest.swift */,
+				E54DE8AA2D335FCF00947148 /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -571,6 +585,104 @@
 				AB7EA4AF2C901142000D2C4C /* MeshGradientCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		E5424D2B2D3579430094E1A5 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				E5E7EC872D3629B800527B91 /* SyncManager */,
+				E5424D3E2D357B930094E1A5 /* UseCases */,
+				E5424D302D357A6C0094E1A5 /* Repositories */,
+				ABD666B22C83731F0005D3C1 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		E5424D2C2D3579490094E1A5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D422D357CC50094E1A5 /* Repositories */,
+				E5424D372D357AB30094E1A5 /* DataSources */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		E5424D2D2D35794F0094E1A5 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				E5E7EC862D3629A000527B91 /* Managers */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		E5424D2E2D3579580094E1A5 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D2F2D3579C80094E1A5 /* Models */,
+				ABD666B42C83732E0005D3C1 /* Views */,
+				ABD666B32C8373270005D3C1 /* ViewModels */,
+				AB6A0F7C2C8EAF7400254299 /* Components */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		E5424D2F2D3579C80094E1A5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E5CA1C622CE5D154004B3D87 /* ToastData.swift */,
+				E5CA1C672CE5D156004B3D87 /* PopupData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E5424D302D357A6C0094E1A5 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
+				E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		E5424D372D357AB30094E1A5 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D3B2D357B0E0094E1A5 /* Remote */,
+				E5424D3A2D357B090094E1A5 /* Local */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		E5424D3A2D357B090094E1A5 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		E5424D3B2D357B0E0094E1A5 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		E5424D3E2D357B930094E1A5 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		E5424D422D357CC50094E1A5 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D432D357CE10094E1A5 /* TodoRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		E54DE8AE2D3375B000947148 /* Models */ = {
@@ -785,6 +897,22 @@
 				E5A441122D32BA2300B20C87 /* SocialServiceProtocol.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E5E7EC862D3629A000527B91 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				E5E7EC842D36298D00527B91 /* SyncManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		E5E7EC872D3629B800527B91 /* SyncManager */ = {
+			isa = PBXGroup;
+			children = (
+				E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */,
+			);
+			path = SyncManager;
 			sourceTree = "<group>";
 		};
 		F31225ED6139D10585A1FF21 /* Pods */ = {
@@ -1106,6 +1234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
+				E5424D332D357A770094E1A5 /* TodoRepositoryProtocol.swift in Sources */,
 				E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */,
 				E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
@@ -1119,6 +1248,7 @@
 				E5A441132D32BA2300B20C87 /* SocialServiceProtocol.swift in Sources */,
 				E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */,
 				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
+				E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */,
 				ABC6CFB32C94267700C7DF1D /* DayItem.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
@@ -1138,10 +1268,12 @@
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
 				E5BFE3322D1C714E00E558AD /* CoreDataStack.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
+				E5424D392D357ADF0094E1A5 /* TodoLocalDataSource.swift in Sources */,
 				ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */,
 				E517C2572CCF69960000805C /* SocialView.swift in Sources */,
 				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,
 				ABC5D0462C9C010000676222 /* CreateTodoBottomSheet.swift in Sources */,
+				E5424D362D357A800094E1A5 /* TagRepositoryProtocol.swift in Sources */,
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
 				E519BE472CC8CCA600DD21B7 /* User.swift in Sources */,
 				AB7EA4B02C901142000D2C4C /* MeshGradientCell.swift in Sources */,
@@ -1155,6 +1287,7 @@
 				E519BE452CC8CA8E00DD21B7 /* FriendRequest.swift in Sources */,
 				E5BFE3342D1C716E00E558AD /* CoreDataSyncService.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,
+				E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */,
 				AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */,
 				AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */,
 				AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */,
@@ -1165,7 +1298,9 @@
 				AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */,
 				ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */,
 				AB6A0F752C8AE5A000254299 /* CalendarSection.swift in Sources */,
+				E5E7EC8B2D362A3E00527B91 /* SyncOperation.swift in Sources */,
 				E54DE8B72D338EF900947148 /* StatusBoxView.swift in Sources */,
+				E5424D3D2D357B130094E1A5 /* TodoRemoteDataSource.swift in Sources */,
 				E54DE8AB2D335FCF00947148 /* SearchResult.swift in Sources */,
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
 				AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */,
@@ -1181,6 +1316,7 @@
 				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
 				ABEF7D212C99842C00A76680 /* TodoItem.swift in Sources */,
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
+				E5E7EC852D36298D00527B91 /* SyncManager.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
 				AB6A495F2C8606AF00B782A1 /* Int+.swift in Sources */,
