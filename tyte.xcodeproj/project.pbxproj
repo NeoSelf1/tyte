@@ -31,9 +31,8 @@
 		AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F852C8EB02E00254299 /* APIError.swift */; };
 		AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F872C8EB03600254299 /* APIEndpoint.swift */; };
 		AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8A2C8EB32900254299 /* AuthService.swift */; };
-		AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8C2C8EB43600254299 /* TodoService.swift */; };
-		AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8E2C8EB68700254299 /* TagService.swift */; };
-		AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatService.swift */; };
+		AB6A0F8F2C8EB68700254299 /* TagRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */; };
+		AB6A0F962C8EBBC400254299 /* DailyStatRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */; };
 		AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F972C8EC56700254299 /* OnboardingView.swift */; };
 		AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F9B2C8EE85100254299 /* TagEditView.swift */; };
 		AB6A495F2C8606AF00B782A1 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+.swift */; };
@@ -65,8 +64,8 @@
 		E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */; };
 		E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3F2CC8CA2200DD21B7 /* SocialViewModel.swift */; };
 		E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE412CC8CA4500DD21B7 /* SocialService.swift */; };
-		E519BE442CC8CA8E00DD21B7 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* FriendRequest.swift */; };
-		E519BE452CC8CA8E00DD21B7 /* FriendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* FriendRequest.swift */; };
+		E519BE442CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
+		E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
 		E519BE472CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E519BE482CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB62CE7576800E5657C /* APIResult.swift */; };
@@ -81,8 +80,6 @@
 		E5424D3D2D357B130094E1A5 /* TodoRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */; };
 		E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */; };
 		E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D432D357CE10094E1A5 /* TodoRepository.swift */; };
-		E54DE8AB2D335FCF00947148 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AA2D335FCF00947148 /* SearchResult.swift */; };
-		E54DE8AC2D335FCF00947148 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AA2D335FCF00947148 /* SearchResult.swift */; };
 		E54DE8B02D3375BD00947148 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AF2D3375BD00947148 /* Todo.swift */; };
 		E54DE8B22D337A3200947148 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8B12D337A3200947148 /* Tag.swift */; };
 		E54DE8B72D338EF900947148 /* StatusBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8B62D338EF900947148 /* StatusBoxView.swift */; };
@@ -132,6 +129,13 @@
 		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
 		E5E7EC852D36298D00527B91 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC842D36298D00527B91 /* SyncManager.swift */; };
 		E5E7EC8B2D362A3E00527B91 /* SyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */; };
+		E5E7EC8D2D364C8900527B91 /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8C2D364C8900527B91 /* TagRepository.swift */; };
+		E5E7EC8F2D364CB300527B91 /* TagLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8E2D364CB300527B91 /* TagLocalDataSource.swift */; };
+		E5E7EC912D364CE400527B91 /* DailyStatLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC902D364CE400527B91 /* DailyStatLocalDataSource.swift */; };
+		E5E7EC932D364D0800527B91 /* DailyStatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */; };
+		E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */; };
+		E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */; };
+		E5E7EC992D3656D100527B91 /* TagUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC982D3656D100527B91 /* TagUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -204,9 +208,8 @@
 		AB6A0F852C8EB02E00254299 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		AB6A0F872C8EB03600254299 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		AB6A0F8A2C8EB32900254299 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		AB6A0F8C2C8EB43600254299 /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
-		AB6A0F8E2C8EB68700254299 /* TagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagService.swift; sourceTree = "<group>"; };
-		AB6A0F952C8EBBC400254299 /* DailyStatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatService.swift; sourceTree = "<group>"; };
+		AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRemoteDataSource.swift; sourceTree = "<group>"; };
+		AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRemoteDataSource.swift; sourceTree = "<group>"; };
 		AB6A0F972C8EC56700254299 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AB6A0F9B2C8EE85100254299 /* TagEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditView.swift; sourceTree = "<group>"; };
 		AB6A495E2C8606AE00B782A1 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
@@ -242,7 +245,7 @@
 		E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSearchView.swift; sourceTree = "<group>"; };
 		E519BE3F2CC8CA2200DD21B7 /* SocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialViewModel.swift; sourceTree = "<group>"; };
 		E519BE412CC8CA4500DD21B7 /* SocialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialService.swift; sourceTree = "<group>"; };
-		E519BE432CC8CA8B00DD21B7 /* FriendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequest.swift; sourceTree = "<group>"; };
+		E519BE432CC8CA8B00DD21B7 /* Social.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Social.swift; sourceTree = "<group>"; };
 		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E5261BB62CE7576800E5657C /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
@@ -254,7 +257,6 @@
 		E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRemoteDataSource.swift; sourceTree = "<group>"; };
 		E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoUseCase.swift; sourceTree = "<group>"; };
 		E5424D432D357CE10094E1A5 /* TodoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepository.swift; sourceTree = "<group>"; };
-		E54DE8AA2D335FCF00947148 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		E54DE8AF2D3375BD00947148 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		E54DE8B12D337A3200947148 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		E54DE8B62D338EF900947148 /* StatusBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBoxView.swift; sourceTree = "<group>"; };
@@ -296,6 +298,13 @@
 		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E5E7EC842D36298D00527B91 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncOperation.swift; sourceTree = "<group>"; };
+		E5E7EC8C2D364C8900527B91 /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
+		E5E7EC8E2D364CB300527B91 /* TagLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLocalDataSource.swift; sourceTree = "<group>"; };
+		E5E7EC902D364CE400527B91 /* DailyStatLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatLocalDataSource.swift; sourceTree = "<group>"; };
+		E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRepository.swift; sourceTree = "<group>"; };
+		E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatUseCase.swift; sourceTree = "<group>"; };
+		E5E7EC982D3656D100527B91 /* TagUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUseCase.swift; sourceTree = "<group>"; };
 		E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -383,14 +392,14 @@
 		AB5BB2762C836C0400DC4D72 /* tyte */ = {
 			isa = PBXGroup;
 			children = (
-				E5424D2E2D3579580094E1A5 /* Presentation */,
-				E5424D2D2D35794F0094E1A5 /* Infrastructure */,
-				E5424D2C2D3579490094E1A5 /* Data */,
-				E5424D2B2D3579430094E1A5 /* Domain */,
 				E52628CE2CC38D40004B290C /* AppState.swift */,
 				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
 				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
+				E5424D2E2D3579580094E1A5 /* Presentation */,
+				E5424D2D2D35794F0094E1A5 /* Infrastructure */,
+				E5424D2C2D3579490094E1A5 /* Data */,
+				E5424D2B2D3579430094E1A5 /* Domain */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				E526289C2CC35750004B290C /* Services */,
 				E52628D42CC392F8004B290C /* Utilities */,
@@ -486,8 +495,7 @@
 				ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */,
 				AB6A0F782C8EAF5500254299 /* Tag.swift */,
 				E519BE462CC8CCA400DD21B7 /* User.swift */,
-				E519BE432CC8CA8B00DD21B7 /* FriendRequest.swift */,
-				E54DE8AA2D335FCF00947148 /* SearchResult.swift */,
+				E519BE432CC8CA8B00DD21B7 /* Social.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -521,9 +529,6 @@
 				E5DE68792CD35D040055CADB /* NetworkService.swift */,
 				E519BE412CC8CA4500DD21B7 /* SocialService.swift */,
 				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
-				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
-				AB6A0F8E2C8EB68700254299 /* TagService.swift */,
-				AB6A0F952C8EBBC400254299 /* DailyStatService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -622,6 +627,7 @@
 		E5424D302D357A6C0094E1A5 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */,
 				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
 				E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */,
 			);
@@ -641,6 +647,8 @@
 			isa = PBXGroup;
 			children = (
 				E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */,
+				E5E7EC8E2D364CB300527B91 /* TagLocalDataSource.swift */,
+				E5E7EC902D364CE400527B91 /* DailyStatLocalDataSource.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -649,6 +657,8 @@
 			isa = PBXGroup;
 			children = (
 				E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */,
+				AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */,
+				AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
@@ -656,6 +666,8 @@
 		E5424D3E2D357B930094E1A5 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				E5E7EC982D3656D100527B91 /* TagUseCase.swift */,
+				E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */,
 				E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */,
 			);
 			path = UseCases;
@@ -665,6 +677,8 @@
 			isa = PBXGroup;
 			children = (
 				E5424D432D357CE10094E1A5 /* TodoRepository.swift */,
+				E5E7EC8C2D364C8900527B91 /* TagRepository.swift */,
+				E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1208,8 +1222,10 @@
 				E5424D332D357A770094E1A5 /* TodoRepositoryProtocol.swift in Sources */,
 				E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */,
 				E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */,
+				E5E7EC8D2D364C8900527B91 /* TagRepository.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
 				E573746A2D1E5EF200D65312 /* NetworkManager.swift in Sources */,
+				E5E7EC992D3656D100527B91 /* TagUseCase.swift in Sources */,
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
 				AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */,
 				AB84C5312C918EA9000164AC /* Utils.swift in Sources */,
@@ -1227,8 +1243,8 @@
 				AB1BE8DC2C9D480F00E18EF7 /* DetailSection.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
 				E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */,
-				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
 				E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */,
+				E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */,
 				E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */,
 				E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */,
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
@@ -1250,22 +1266,24 @@
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
 				E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */,
-				E519BE452CC8CA8E00DD21B7 /* FriendRequest.swift in Sources */,
+				E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,
 				E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */,
 				AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */,
 				AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */,
-				AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */,
+				AB6A0F962C8EBBC400254299 /* DailyStatRemoteDataSource.swift in Sources */,
 				AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */,
 				E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */,
+				E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */,
 				AB4498852C89930500B2B74A /* String+.swift in Sources */,
-				AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */,
+				AB6A0F8F2C8EB68700254299 /* TagRemoteDataSource.swift in Sources */,
+				E5E7EC912D364CE400527B91 /* DailyStatLocalDataSource.swift in Sources */,
 				ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */,
 				AB6A0F752C8AE5A000254299 /* CalendarSection.swift in Sources */,
 				E5E7EC8B2D362A3E00527B91 /* SyncOperation.swift in Sources */,
+				E5E7EC8F2D364CB300527B91 /* TagLocalDataSource.swift in Sources */,
 				E54DE8B72D338EF900947148 /* StatusBoxView.swift in Sources */,
 				E5424D3D2D357B130094E1A5 /* TodoRemoteDataSource.swift in Sources */,
-				E54DE8AB2D335FCF00947148 /* SearchResult.swift in Sources */,
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
 				AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */,
 				E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
@@ -1280,6 +1298,7 @@
 				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
 				ABEF7D212C99842C00A76680 /* TodoItem.swift in Sources */,
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
+				E5E7EC932D364D0800527B91 /* DailyStatRepository.swift in Sources */,
 				E5E7EC852D36298D00527B91 /* SyncManager.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
@@ -1312,14 +1331,13 @@
 			files = (
 				E54FC8482D15576A007B359A /* Int+.swift in Sources */,
 				E54FC8432D15537E007B359A /* CalendarView.swift in Sources */,
-				E54DE8AC2D335FCF00947148 /* SearchResult.swift in Sources */,
 				E54DE8B22D337A3200947148 /* Tag.swift in Sources */,
 				E54FC8472D1553DA007B359A /* Color+.swift in Sources */,
 				E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
 				E54DE8B02D3375BD00947148 /* Todo.swift in Sources */,
 				E54DE8C72D33B94D00947148 /* DayView.swift in Sources */,
 				E54FC83F2D15532A007B359A /* DailyStat.swift in Sources */,
-				E519BE442CC8CA8E00DD21B7 /* FriendRequest.swift in Sources */,
+				E519BE442CC8CA8E00DD21B7 /* Social.swift in Sources */,
 				E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
 				E5D660462CBFB1FB00A8279B /* CalendarWidget.swift in Sources */,
 				E57374732D20DD9800D65312 /* TodoListWidget.swift in Sources */,
