@@ -4,7 +4,7 @@ protocol DailyStatUseCaseProtocol {
     func getTodayStats() async throws -> DailyStat?
     func getMonthStats(for date: Date) async throws -> [DailyStat]
     func getFriendMonthStats(friendId: String, date: Date) async throws -> [DailyStat]
-    func getProductivityTrend(startDate: Date, endDate: Date) async throws -> [DailyStat_Graph]
+    func getProductivityGraph(startDate: Date, endDate: Date) async throws -> [DailyStat_Graph]
 }
 
 class DailyStatUseCase: DailyStatUseCaseProtocol {
@@ -29,7 +29,7 @@ class DailyStatUseCase: DailyStatUseCaseProtocol {
         return try await repository.getFriends(for: friendId, in: yearMonth)
     }
     
-    func getProductivityTrend(startDate: Date, endDate: Date) async throws -> [DailyStat_Graph] {
+    func getProductivityGraph(startDate: Date, endDate: Date) async throws -> [DailyStat_Graph] {
         let yearMonth = String(startDate.apiFormat.prefix(7))
         let stats = try await repository.get(in: yearMonth)
         

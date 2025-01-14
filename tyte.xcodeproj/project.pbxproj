@@ -136,6 +136,7 @@
 		E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */; };
 		E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */; };
 		E5E7EC992D3656D100527B91 /* TagUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC982D3656D100527B91 /* TagUseCase.swift */; };
+		E5E7ED522D3691D400527B91 /* HomeViewModel 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7ED512D3691D400527B91 /* HomeViewModel 2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -305,6 +306,7 @@
 		E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRepositoryProtocol.swift; sourceTree = "<group>"; };
 		E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatUseCase.swift; sourceTree = "<group>"; };
 		E5E7EC982D3656D100527B91 /* TagUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUseCase.swift; sourceTree = "<group>"; };
+		E5E7ED512D3691D400527B91 /* HomeViewModel 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewModel 2.swift"; sourceTree = "<group>"; };
 		E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -833,6 +835,7 @@
 			children = (
 				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
 				ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */,
+				E5E7ED512D3691D400527B91 /* HomeViewModel 2.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1257,6 +1260,7 @@
 				E54DE8C42D33B5E900947148 /* Encodable+.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
+				E5E7ED522D3691D400527B91 /* HomeViewModel 2.swift in Sources */,
 				E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */,
 				E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,

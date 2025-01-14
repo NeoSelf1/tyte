@@ -22,7 +22,7 @@ class TodoRemoteDataSource: TodoRemoteDataSourceProtocol {
     
     /// TodoService 초기화
     /// - Parameter networkService: 네트워크 요청을 처리할 서비스 인스턴스
-    init(networkService: NetworkService) {
+    init(networkService: NetworkService = NetworkService()) {
         self.networkService = networkService
     }
     

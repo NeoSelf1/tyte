@@ -31,31 +31,36 @@ class TagRepository: TagRepositoryProtocol {
     
     func createSingle(name: String, color: String) async throws -> Tag {
         let tag = try await remoteDataSource.createTag(name: name, color: color)
-        try localDataSource.updateTag(tag)
+        try localDataSource.saveTag(tag)
+        
         return tag
     }
     
     func updateSingle(_ tag: Tag) async throws -> Tag {
-        if !NetworkManager.shared.isConnected {
-            try localDataSource.updateTag(tag)
+        if NetworkManager.shared.isConnected {
+            let updatedTag = try await remoteDataSource.updateTag(tag)
+            try localDataSource.saveTag(updatedTag)
+            
+            return updatedTag
+        } else {
+            try localDataSource.saveTag(tag)
             syncManager.enqueueOperation(.updateTag(tag))
+            
             return tag
         }
-        
-        let updatedTag = try await remoteDataSource.updateTag(tag: tag)
-        try localDataSource.updateTag(updatedTag)
-        return updatedTag
     }
     
     func deleteSingle(_ id: String) async throws -> String {
-        if !NetworkManager.shared.isConnected {
+        if NetworkManager.shared.isConnected {
+            let deletedTagId = try await remoteDataSource.deleteTag(id)
+            try localDataSource.deleteTag(id)
+            
+            return deletedTagId
+        } else {
             try localDataSource.deleteTag(id)
             syncManager.enqueueOperation(.deleteTag(id))
+            
             return id
         }
-        
-        let deletedTagId = try await remoteDataSource.deleteTag(id: id)
-        try localDataSource.deleteTag(id)
-        return deletedTagId
     }
 }

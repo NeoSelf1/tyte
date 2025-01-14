@@ -4,9 +4,9 @@ protocol TagRemoteDataSourceProtocol {
     /// 새로운 태그 생성
     func createTag(name: String, color: String) async throws -> TagResponse
     /// 태그 정보 업데이트
-    func updateTag(tag: Tag) async throws -> TagResponse
+    func updateTag(_ tag: Tag) async throws -> TagResponse
     /// 태그 삭제
-    func deleteTag(id: String) async throws -> String
+    func deleteTag(_ id: String) async throws -> String
 }
 
 /// TagService는 할 일 태그(Tag) 관련 네트워크 요청을 처리하는 서비스입니다.
@@ -17,7 +17,7 @@ class TagRemoteDataSource: TagRemoteDataSourceProtocol {
     
     /// TagService 초기화
     /// - Parameter networkService: 네트워크 요청을 처리할 서비스 인스턴스
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
     }
     
@@ -42,7 +42,7 @@ class TagRemoteDataSource: TagRemoteDataSourceProtocol {
     /// - Parameter tag: 수정할 내용이 반영된 Tag 객체
     /// - Returns: 수정된 태그 정보
     /// - Note: tag.dictionary를 통해 Tag 객체의 모든 필드가 서버로 전송됩니다.
-    func updateTag(tag: Tag) async throws -> TagResponse {
+    func updateTag(_ tag: Tag) async throws -> TagResponse {
         return try await networkService.request(
             .updateTag(tag.id),
             method: .put,
@@ -54,7 +54,7 @@ class TagRemoteDataSource: TagRemoteDataSourceProtocol {
     /// - Parameter id: 삭제할 태그의 ID
     /// - Returns: 삭제된 태그의 ID
     /// - Note: 태그 삭제 시 해당 태그를 사용하는 모든 할 일에서 태그 참조가 제거됩니다.
-    func deleteTag(id: String) async throws -> String {
+    func deleteTag(_ id: String) async throws -> String {
         return try await networkService.request(.deleteTag(id), method: .delete, parameters: nil)
     }
 }

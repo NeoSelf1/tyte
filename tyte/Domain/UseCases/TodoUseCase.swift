@@ -19,56 +19,59 @@
 /// 재사용성
 /// - Repository: 다양한 UseCase에서 재사용
 /// - UseCase: 특정 비즈니스 시나리오에 특화
-import Foundation
-
 protocol TodoUseCaseProtocol {
-    func getTodayTodos() async throws -> [Todo]
-    func getTodosByDateRange(start: String, end: String) async throws -> [Todo]
-    func createTodo(text: String, deadline: String) async throws -> [Todo]
-    func updateTodo(_ todo: Todo) async throws -> Todo
-    func deleteTodo(_ id: String) async throws
-    func toggleTodo(_ id: String) async throws -> Todo
+    func getTodosFor(date: String) async throws -> [Todo]
+    func createTodo(text: String, deadline: String) async throws -> ([Todo], DailyStat?)
+    func updateTodoWithStats(_ todo: Todo) async throws -> (Todo, DailyStat?)
+    func toggleTodo(_ todo: Todo) async throws -> DailyStat?
+    func deleteTodo(_ todo: Todo) async throws -> DailyStat?
 }
 
 class TodoUseCase: TodoUseCaseProtocol {
-    private let repository: TodoRepository
-    
-    init(repository: TodoRepository) {
-        self.repository = repository
-    }
-    
-    func getTodayTodos() async throws -> [Todo] {
-        let today = Date().apiFormat
-        return try await repository.get(for: today)
-    }
-    
-    func getTodosByDateRange(start: String, end: String) async throws -> [Todo] {
-        var allTodos: [Todo] = []
-        var currentDate = start.parsedDate
-        let endDate = end.parsedDate
+    private let todoRepository: TodoRepository
+    private let dailyStatRepository: DailyStatRepository
         
-        while currentDate <= endDate {
-            let todos = try await repository.get(for: currentDate.apiFormat)
-            allTodos.append(contentsOf: todos)
-            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
-        }
+    init(todoRepository: TodoRepository, dailyStatRepository: DailyStatRepository) {
+        self.todoRepository = todoRepository
+        self.dailyStatRepository = dailyStatRepository
+    }
+    
+    func getTodosFor(date: String) async throws -> [Todo] {
+        return try await todoRepository.get(for: date)
+    }
+    
+    /// 비즈니스 로직의 캡슐화
+    /// - Todo 수정이 DailyStat 갱신을 트리거하는 것은 앱의 핵심 비즈니스 규칙입니다
+    /// - 이는 UI 레이어(ViewModel)가 아닌 도메인 레이어(UseCase)에서 관리되어야 합니다
+    /// - 여러 ViewModel에서 Todo 수정이 필요할 경우 로직 중복을 방지할 수 있습니다
+    func createTodo(text: String, deadline: String) async throws -> ([Todo], DailyStat?) {
+        let createdTodos = try await todoRepository.create(text: text, in: deadline)
+        let updatedStat = try await dailyStatRepository.getSingle(for: deadline)
         
-        return allTodos
+        WidgetManager.shared.updateWidget(.all)
+        return (createdTodos, updatedStat)
     }
     
-    func createTodo(text: String, deadline: String) async throws -> [Todo] {
-        return try await repository.create(text: text, in: deadline)
+    func updateTodoWithStats(_ todo: Todo) async throws -> (Todo, DailyStat?) {
+        let updatedTodo = try await todoRepository.updateSingle(todo)
+        let updatedStat = try await dailyStatRepository.getSingle(for: todo.deadline)
+        
+        WidgetManager.shared.updateWidget(.all)
+        return (updatedTodo, updatedStat)
     }
     
-    func updateTodo(_ todo: Todo) async throws -> Todo {
-        return try await repository.updateSingle(todo)
+    func deleteTodo(_ todo: Todo) async throws -> DailyStat? {
+        _ = try await todoRepository.deleteSingle(todo.id)
+        let updatedStat = try await dailyStatRepository.getSingle(for: todo.deadline)
+        
+        WidgetManager.shared.updateWidget(.all)
+        return updatedStat
     }
     
-    func deleteTodo(_ id: String) async throws {
-        _ = try await repository.deleteSingle(id)
-    }
-    
-    func toggleTodo(_ id: String) async throws -> Todo {
-        return try await repository.toggleSingle(id)
+    func toggleTodo(_ todo: Todo) async throws -> DailyStat? {
+        _ = try await todoRepository.toggleSingle(todo.id)
+        let updatedStat = try await dailyStatRepository.getSingle(for: todo.deadline)
+        
+        return updatedStat
     }
 }
