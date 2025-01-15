@@ -51,7 +51,6 @@
 		ABC6CFB32C94267700C7DF1D /* DayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6CFB22C94267700C7DF1D /* DayItem.swift */; };
 		ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC86D312C9F861C0089DC61 /* MultiLayerBottomSheet.swift */; };
 		ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9937A2CABB7B100D8414F /* SettingsView.swift */; };
-		ABD666BC2C83735F0005D3C1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */; };
 		ABD666C02C8373700005D3C1 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
 		ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */; };
 		ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B932C86F2A900F3CB68 /* HomeView.swift */; };
@@ -136,7 +135,7 @@
 		E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */; };
 		E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */; };
 		E5E7EC992D3656D100527B91 /* TagUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC982D3656D100527B91 /* TagUseCase.swift */; };
-		E5E7ED522D3691D400527B91 /* HomeViewModel 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7ED512D3691D400527B91 /* HomeViewModel 2.swift */; };
+		E5E7ED522D3691D400527B91 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7ED512D3691D400527B91 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,7 +229,6 @@
 		ABC86D312C9F861C0089DC61 /* MultiLayerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLayerBottomSheet.swift; sourceTree = "<group>"; };
 		ABC9937A2CABB7B100D8414F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		ABC9937C2CABC2A400D8414F /* tyte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = tyte.entitlements; sourceTree = "<group>"; };
-		ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		ABD666BF2C8373700005D3C1 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		ABDE8B932C86F2A900F3CB68 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -306,7 +304,7 @@
 		E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRepositoryProtocol.swift; sourceTree = "<group>"; };
 		E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatUseCase.swift; sourceTree = "<group>"; };
 		E5E7EC982D3656D100527B91 /* TagUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUseCase.swift; sourceTree = "<group>"; };
-		E5E7ED512D3691D400527B91 /* HomeViewModel 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewModel 2.swift"; sourceTree = "<group>"; };
+		E5E7ED512D3691D400527B91 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -398,10 +396,10 @@
 				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
 				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
 				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
+				E5424D2B2D3579430094E1A5 /* Domain */,
 				E5424D2E2D3579580094E1A5 /* Presentation */,
 				E5424D2D2D35794F0094E1A5 /* Infrastructure */,
 				E5424D2C2D3579490094E1A5 /* Data */,
-				E5424D2B2D3579430094E1A5 /* Domain */,
 				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
 				ABC9937C2CABC2A400D8414F /* tyte.entitlements */,
 				AB5394FD2C85981500A9D1FE /* Info.plist */,
@@ -583,10 +581,10 @@
 			children = (
 				E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */,
 				AB84C5302C918EA9000164AC /* Utils.swift */,
-				AB6A495D2C86069B00B782A1 /* Extensions */,
 				E5E7EC862D3629A000527B91 /* Managers */,
 				AB6A0F812C8EB01300254299 /* Networking */,
 				E526289C2CC35750004B290C /* Services */,
+				AB6A495D2C86069B00B782A1 /* Extensions */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -614,9 +612,9 @@
 		E5424D302D357A6C0094E1A5 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */,
-				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
 				E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */,
+				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
+				E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -653,9 +651,9 @@
 		E5424D3E2D357B930094E1A5 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */,
 				E5E7EC982D3656D100527B91 /* TagUseCase.swift */,
 				E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */,
-				E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -834,8 +832,7 @@
 			isa = PBXGroup;
 			children = (
 				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
-				ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */,
-				E5E7ED512D3691D400527B91 /* HomeViewModel 2.swift */,
+				E5E7ED512D3691D400527B91 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1256,11 +1253,10 @@
 				AB7EA4B02C901142000D2C4C /* MeshGradientCell.swift in Sources */,
 				E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */,
 				E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */,
-				ABD666BC2C83735F0005D3C1 /* HomeViewModel.swift in Sources */,
 				E54DE8C42D33B5E900947148 /* Encodable+.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
-				E5E7ED522D3691D400527B91 /* HomeViewModel 2.swift in Sources */,
+				E5E7ED522D3691D400527B91 /* HomeViewModel.swift in Sources */,
 				E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */,
 				E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,

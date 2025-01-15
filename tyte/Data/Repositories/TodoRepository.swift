@@ -36,38 +36,29 @@ class TodoRepository: TodoRepositoryProtocol {
         return todos
     }
     
-    func updateSingle(_ todo: Todo) async throws -> Todo {
+    func updateSingle(_ todo: Todo) async throws {
         if NetworkManager.shared.isConnected {
-            let updatedTodo = try await remoteDataSource.updateTodo(todo)
-            try localDataSource.saveTodo(updatedTodo)
-            
-            return updatedTodo
+            _ = try await remoteDataSource.updateTodo(todo)
+            try localDataSource.saveTodo(todo)
         } else {
             try localDataSource.saveTodo(todo)
             syncManager.enqueueOperation(.updateTodo(todo))
-            
-            return todo
         }
     }
     
-    func deleteSingle(_ id: String) async throws -> String {
+    func deleteSingle(_ id: String) async throws {
         if NetworkManager.shared.isConnected {
             let deletedTodo = try await remoteDataSource.deleteTodo(id)
             try localDataSource.deleteTodo(id)
-            
-            return deletedTodo.id
         } else {
             try localDataSource.deleteTodo(id)
             syncManager.enqueueOperation(.deleteTodo(id))
-            
-            return id
         }
     }
     
-    func toggleSingle(_ id: String) async throws -> Todo {
+    func toggleSingle(_ id: String) async throws {
         let toggledTodo = try await remoteDataSource.toggleTodo(id)
         try localDataSource.saveTodo(toggledTodo)
-        return toggledTodo
     }
     
     /// ``TagUseCase``에서 Tag와 연결된 Todo배열 접근 위해 접근

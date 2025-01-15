@@ -20,9 +20,9 @@
 /// - Repository: 다양한 UseCase에서 재사용
 /// - UseCase: 특정 비즈니스 시나리오에 특화
 protocol TodoUseCaseProtocol {
-    func getTodosFor(date: String) async throws -> [Todo]
+    func getTodos(for dateString: String) async throws -> [Todo]
     func createTodo(text: String, deadline: String) async throws -> ([Todo], DailyStat?)
-    func updateTodoWithStats(_ todo: Todo) async throws -> (Todo, DailyStat?)
+    func updateTodoWithStats(_ todo: Todo, from originalDate: String) async throws -> ([DailyStat])
     func toggleTodo(_ todo: Todo) async throws -> DailyStat?
     func deleteTodo(_ todo: Todo) async throws -> DailyStat?
 }
@@ -31,13 +31,16 @@ class TodoUseCase: TodoUseCaseProtocol {
     private let todoRepository: TodoRepository
     private let dailyStatRepository: DailyStatRepository
         
-    init(todoRepository: TodoRepository, dailyStatRepository: DailyStatRepository) {
+    init(
+        todoRepository: TodoRepository,
+        dailyStatRepository: DailyStatRepository
+    ) {
         self.todoRepository = todoRepository
         self.dailyStatRepository = dailyStatRepository
     }
     
-    func getTodosFor(date: String) async throws -> [Todo] {
-        return try await todoRepository.get(for: date)
+    func getTodos(for dateString: String) async throws -> [Todo] {
+        return try await todoRepository.get(for: dateString)
     }
     
     /// 비즈니스 로직의 캡슐화
@@ -52,12 +55,15 @@ class TodoUseCase: TodoUseCaseProtocol {
         return (createdTodos, updatedStat)
     }
     
-    func updateTodoWithStats(_ todo: Todo) async throws -> (Todo, DailyStat?) {
-        let updatedTodo = try await todoRepository.updateSingle(todo)
-        let updatedStat = try await dailyStatRepository.getSingle(for: todo.deadline)
+    func updateTodoWithStats(_ todo: Todo, from originalDate: String) async throws -> ([DailyStat]) {
+        try await todoRepository.updateSingle(todo)
         
+        let updatedStat1 = try await dailyStatRepository.getSingle(for: originalDate)
+        let updatedStat2 = try await dailyStatRepository.getSingle(for: todo.deadline)
+
         WidgetManager.shared.updateWidget(.all)
-        return (updatedTodo, updatedStat)
+        
+        return [updatedStat1, updatedStat2].compactMap{$0}
     }
     
     func deleteTodo(_ todo: Todo) async throws -> DailyStat? {

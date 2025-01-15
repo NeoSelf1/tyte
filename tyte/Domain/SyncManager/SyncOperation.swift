@@ -30,7 +30,6 @@ struct SyncOperation: Codable {
     var retryCount: Int
     var status: SyncStatus
     
-    
     init(type: SyncOperationType) {
         self.id = UUID()
         self.type = type

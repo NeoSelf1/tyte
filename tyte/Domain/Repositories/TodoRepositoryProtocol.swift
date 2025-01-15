@@ -7,7 +7,7 @@ protocol TodoRepositoryProtocol {
     func get(for date: String) async throws -> [Todo]
     func getWithTag(id tagId: String) async throws -> [Todo]
     func create(text: String, in date: String) async throws -> [Todo]
-    func updateSingle(_ todo: Todo) async throws -> Todo
-    func deleteSingle(_ id: String) async throws -> String
-    func toggleSingle(_ id: String) async throws -> Todo
+    func updateSingle(_ todo: Todo) async throws
+    func deleteSingle(_ id: String) async throws
+    func toggleSingle(_ id: String) async throws
 }
