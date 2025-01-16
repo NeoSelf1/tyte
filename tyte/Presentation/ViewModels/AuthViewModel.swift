@@ -1,37 +1,30 @@
 import Foundation
-import Combine
 import AuthenticationServices
 import GoogleSignIn
+import SwiftUI
 
+enum Field: Hashable {
+    case email
+    case password
+    case username
+}
+
+@MainActor
 class AuthViewModel: ObservableObject {
-    @Published var email: String = "" { didSet {
-        if email != oldValue {
-                isPasswordInvalid = false
-                isPasswordWrong = false
-                isExistingUser = false
-                isEmailInvalid = false
-                errorText = ""
-        } } }
+    // MARK: - Form State
     
-    @Published var username: String = ""{ didSet {
-        if username != oldValue {
-                isUsernameInvalid = false
-        } } }
-    
-    @Published var password: String = "" { didSet {
-        if password != oldValue {
-                isPasswordInvalid = false
-                isPasswordWrong = false
-        } } }
-    
+    @Published var email: String = ""
+    @Published var username: String = ""
+    @Published var password: String = ""
     @Published var errorText: String = ""
+    
+    // MARK: - UI State
     
     @Published var isExistingUser: Bool = false
     @Published var isSignUp: Bool = false
     
     @Published var isPasswordWrong: Bool = false
     @Published var isEmailInvalid: Bool = false
-    
     @Published var isUsernameInvalid: Bool = false
     @Published var isPasswordInvalid: Bool = false
     
@@ -39,14 +32,17 @@ class AuthViewModel: ObservableObject {
     @Published var isGoogleLoading: Bool = false
     @Published var isAppleLoading: Bool = false
     
+    // MARK: - Computed Properties
+    
     var isButtonDisabled: Bool {
         email.isEmpty ||
         (isExistingUser && password.isEmpty) ||
         isEmailInvalid ||
         isPasswordWrong ||
-        isLoading }
+        isLoading
+    }
     
-    var isSignUpButtonDisabled:Bool {
+    var isSignUpButtonDisabled: Bool {
         username.isEmpty ||
         password.isEmpty ||
         !isUsernameValid ||
@@ -54,27 +50,26 @@ class AuthViewModel: ObservableObject {
         isLoading
     }
     
-     let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
-     let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^.{8,}$")
-     let usernamePredicate = NSPredicate(format: "SELF MATCHES %@", "^[a-zA-Z0-9_\u{AC00}-\u{D7A3}\u{3131}-\u{318E}]{3,20}$")
+    // MARK: - Validation Rules
     
-    private var isUsernameValid: Bool { return usernamePredicate.evaluate(with: username) }
-    private var isPasswordValid: Bool { return passwordPredicate.evaluate(with: password) }
+    private let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
+    private let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^.{8,}$")
+    private let usernamePredicate = NSPredicate(format: "SELF MATCHES %@", "^[a-zA-Z0-9_\u{AC00}-\u{D7A3}\u{3131}-\u{318E}]{3,20}$")
     
-    private let authService: AuthServiceProtocol
+    private var isUsernameValid: Bool { usernamePredicate.evaluate(with: username) }
+    private var isPasswordValid: Bool { passwordPredicate.evaluate(with: password) }
     
-    init(
-        authService: AuthServiceProtocol = AuthService()
-    ) {
-        self.authService = authService
-        // TODO: 유효기간 만료와 같은 이유로 토큰 유효하지 않을 경우 필요하나, 네트워크 핸들러에서 자동으로 컷 시키기 때문에 지금은 필요없을듯
-        //      checkLoginStatus()
+    // MARK: - Dependencies
+    
+    private let authUseCase: AuthenticationUseCaseProtocol
+    
+    init(authUseCase: AuthenticationUseCaseProtocol = AuthenticationUseCase()) {
+        self.authUseCase = authUseCase
     }
     
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: - Public Methods
     
-    //MARK: - Method
-    func submit(){
+    func submit() {
         if isExistingUser {
             login()
         } else {
@@ -82,52 +77,45 @@ class AuthViewModel: ObservableObject {
                 errorText = "이메일 주소가 올바르지 않아요. 오타는 없었는지 확인해 주세요."
                 isEmailInvalid = true
             } else {
-                checkEmail(email)
+                checkEmail()
             }
         }
     }
     
-    func checkEmail(_ email: String) {
-        isLoading = true
-        
-        authService.checkEmail(email)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] res in
-                guard let self = self else {return}
-                isExistingUser = res.isValid
-                if !res.isValid {
+    func checkEmail() {
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                isExistingUser = try await authUseCase.checkEmail(email)
+                if !isExistingUser {
                     isSignUp = true
                 }
+            } catch {
+                print("Check email error: \(error)")
+                ToastManager.shared.show(.error(error.localizedDescription))
             }
-            .store(in: &cancellables)
+        }
     }
     
     func login() {
-        isLoading = true
-        authService.login(email: email, password: password)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
-                    switch error {
-                    case .wrongPassword:
-                        errorText = "비밀번호가 맞지 않아요. 천천히 다시 입력해 보세요."
-                        isPasswordWrong = true
-                    default:
-                        ToastManager.shared.show(.error(error.localizedDescription))
-                    }
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                _ = try await authUseCase.login(email: email, password: password)
+            } catch {
+                print("Login error: \(error)")
+                if case APIError.wrongPassword = error {
+                    errorText = "비밀번호가 맞지 않아요. 천천히 다시 입력해 보세요."
+                    isPasswordWrong = true
+                } else {
+                    ToastManager.shared.show(.error(error.localizedDescription))
                 }
-            } receiveValue: { [weak self] loginResponse in
-                self?.handleSuccessfulLogin(loginResponse: loginResponse)
             }
-            .store(in: &cancellables)
+        }
     }
     
     func signUp() {
@@ -141,45 +129,62 @@ class AuthViewModel: ObservableObject {
             return
         }
         
-        isLoading = true
-        
-        authService.signUp(email: email, username: username, password: password)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else {return}
-                isLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] signUpResponse in
-                self?.handleSuccessfulLogin(loginResponse: signUpResponse)
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                _ = try await authUseCase.signUp(email: email, username: username, password: password)
+            } catch {
+                print("Sign up error: \(error)")
+                ToastManager.shared.show(.error(error.localizedDescription))
             }
-            .store(in: &cancellables)
+        }
     }
     
-    //MARK: - 소셜로그인 관련 메서드
     func startGoogleSignIn() {
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {
             ToastManager.shared.show(.error("구글 로그인이 잠시 안되고 있어요. 나중에 다시 시도해주세요."))
             return
         }
+        
         isGoogleLoading = true
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { [weak self] signInResult, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print(error.localizedDescription)
-                    self?.handleGoogleSignInError(error)
-                } else if let signInResult = signInResult {
-                    print(signInResult.description)
-                    self?.handleGoogleSignInSuccess(signInResult)
-                }
+            if let error = error {
+                self?.handleGoogleSignInError(error)
+            } else if let signInResult = signInResult {
+                self?.handleGoogleSignInSuccess(signInResult)
             }
         }
     }
     
+    func performAppleLogin(_ result: ASAuthorization) {
+        Task {
+            isAppleLoading = true
+            defer { isAppleLoading = false }
+            
+            guard let appleIDCredential = result.credential as? ASAuthorizationAppleIDCredential,
+                  let identityTokenData = appleIDCredential.identityToken,
+                  let idToken = String(data: identityTokenData, encoding: .utf8) else {
+                print("Apple login error: Invalid credentials")
+                return
+            }
+            
+            do {
+                _ = try await authUseCase.socialLogin(idToken: idToken, provider: "apple")
+            } catch {
+                print("Apple login error: \(error)")
+                ToastManager.shared.show(.error(error.localizedDescription))
+            }
+        }
+    }
+    
+    // MARK: - Private Methods
+    
     private func handleGoogleSignInError(_ error: Error) {
         isGoogleLoading = false
+        
         if let error = error as? GIDSignInError {
             switch error.code {
             case .canceled:
@@ -193,61 +198,21 @@ class AuthViewModel: ObservableObject {
     }
     
     private func handleGoogleSignInSuccess(_ signInResult: GIDSignInResult) {
-        if let idToken = signInResult.user.idToken?.tokenString {
-            performGoogleLogin(with: idToken)
-        } else {
+        guard let idToken = signInResult.user.idToken?.tokenString else {
             isGoogleLoading = false
             ToastManager.shared.show(.googleError)
-        }
-    }
-    
-    private func performGoogleLogin(with idToken: String) {
-        authService.socialLogin(idToken: idToken, provider: "google")
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else {return}
-                isGoogleLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] loginResponse in
-                self?.handleSuccessfulLogin(loginResponse: loginResponse)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func performAppleLogin(_ result: ASAuthorization) {
-        isAppleLoading = true
-        
-        guard let appleIDCredential = result.credential as? ASAuthorizationAppleIDCredential else {
-            print("Error: Unexpected credential type")
-            isAppleLoading = false
             return
         }
         
-        guard let identityTokenData = appleIDCredential.identityToken,
-              let idToken = String(data: identityTokenData, encoding: .utf8) else {
-            print("Error: Unable to fetch identity token or authorization code")
-            isAppleLoading = false
-            return
-        }
-        
-        authService.socialLogin(idToken: idToken, provider: "apple")
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else {return}
-                isAppleLoading = false
-                if case .failure(let error) = completion {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] loginResponse in
-                self?.handleSuccessfulLogin(loginResponse: loginResponse)
+        Task {
+            defer { isGoogleLoading = false }
+            
+            do {
+                _ = try await authUseCase.socialLogin(idToken: idToken, provider: "google")
+            } catch {
+                print("Google login error: \(error)")
+                ToastManager.shared.show(.error(error.localizedDescription))
             }
-            .store(in: &cancellables)
-    }
-    
-    private func handleSuccessfulLogin(loginResponse: LoginResponse) {
-        KeychainManager.shared.saveToken(loginResponse.token)
-        UserDefaultsManager.shared.login(loginResponse.user.id)
+        }
     }
 }

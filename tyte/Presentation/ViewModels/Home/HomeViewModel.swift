@@ -2,10 +2,11 @@
 /// - Note:MainActor.run 또한 async 메서드로 내부적으로 선언되어있음.
 /// - 동기 메서드일 경우, 메인스레드가 다른 작업 수행으로 인해 전환이 지연될때, 스레드 전환 간 현재 스레드를 블록해야하는데, 이는 프로세스가 자원을 얻지 못해 다음 처리를 하지 못하는 상태인 데드락으로 이어질 수 있음.
 /// - 하지만 비동기로 설계하면 필요한 경우 실행을 일시 중단하고 나중에 재개 가능.
-/// - Note:Task 블록은 백그라운드 스레드에서 실행될 수 있습니다.
-///  따라서, Task 내부에서의 네트워크 호출 후 UI 업데이트를 위해서는 명시적으로 메인스레드로의 전환이 필요합니다.
+/// - Note:``Task`` 블록은 백그라운드 스레드에서 실행될 수 있습니다.
+///  따라서,``Task`` 내부에서의 네트워크 호출 후 UI 업데이트를 위해서는 명시적으로 메인스레드로의 전환이 필요합니다.
 ///
 /// - ``@MainActor``를 통해 선언된 클래스 내부 모든 UI 관련 작업이 메인 스레드에서 실행되도록 명시할 수 있음 =  UI 관련 작업의 직렬화된 실행을 보장하는 메커니즘
+
 import Foundation
 import SwiftUI
 
@@ -24,10 +25,10 @@ class HomeViewModel: ObservableObject {
     @Published var weekCalendarData: [DailyStat] = []
     @Published var todosForDate: [Todo] = []
     @Published var tags: [Tag] = []
-    
+
     @Published var selectedDate: Date = Date().koreanDate
     @Published var selectedTodo: Todo?
-    
+
     @Published var isLoading: Bool = false
     @Published var isMonthPickerPresented: Bool = false
     @Published var isCreateTodoPresented: Bool = false
@@ -80,11 +81,15 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func handleRefresh() async {
+    func handleRefresh() {
         Task {
             await fetchData(.todo(selectedDate.apiFormat))
         }
     }
+    
+//    func handleRefresh() async {
+//        await fetchData(.todo(selectedDate.apiFormat))
+//    }
     
     func selectDate(_ date: Date) {
         guard date != selectedDate else { return }
@@ -110,7 +115,9 @@ class HomeViewModel: ObservableObject {
                 /// await와 함께 사용되는 try를 통해 비동기 작업에서 발생할 수 있는 에러 처리 지점도 명확하게 표시됩니다
                 let (newTodos,updatedStat) = try await todoUseCase.createTodo(text: text, deadline: dateToUse)
                 
-                todosForDate.insert(contentsOf: newTodos, at: 0)
+                if selectedDate >= today {
+                    todosForDate.insert(contentsOf: newTodos, at: 0)
+                }
                 
                 if let stat = updatedStat {
                     if let index = self.weekCalendarData.firstIndex(where: { $0.date == dateToUse }) {
@@ -131,20 +138,26 @@ class HomeViewModel: ObservableObject {
     }
     
     func toggleTodo(_ todo: Todo) {
+        let originalState = todo.isCompleted
         Task {
             do {
+                /// 낙관적 렌더링
+                if let index = todosForDate.firstIndex(where: { $0.id == todo.id }) {
+                    todosForDate[index].isCompleted.toggle()
+                }
+                
                 let updatedStat = try await todoUseCase.toggleTodo(todo)
                 
                 guard let stat = updatedStat else { return }
                 if let index = weekCalendarData.firstIndex(where: {stat.date == $0.date}) {
-                    weekCalendarData[index] = stat
+                    withAnimation { weekCalendarData[index] = stat }
                 } else {
-                    weekCalendarData.append(stat)
+                    withAnimation { weekCalendarData.append(stat) }
                 }
             } catch {
                 print("Toggle Todo error: \(error)")
                 if let index = todosForDate.firstIndex(where: { $0.id == todo.id }) {
-                    todosForDate[index].isCompleted.toggle()
+                    todosForDate[index].isCompleted = originalState
                 }
             }
             
@@ -209,6 +222,7 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
+    
     /// MonthPicker에서 호출
     func changeMonth(_ currentYear: Int, _ currentMonth: Int) {
         let components = DateComponents(year: currentYear, month: currentMonth + 1, day: 1)
@@ -218,20 +232,21 @@ class HomeViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
+    
     private func fetchData(_ dataType: DataType) async {
         do {
             switch dataType {
             case .all(let date):
-                async let todosTask = todoUseCase.getTodos(for: date)
-                async let statsTask = dailyStatUseCase.getMonthStats(for: date)
+                async let todosTask = todoUseCase.getTodos(in: date)
+                async let statsTask = dailyStatUseCase.getMonthStats(in: date)
                 async let tagsTask = tagUseCase.getAllTags()
                 
                 // await를 한 번에 처리하여 병렬 실행
                 (todosForDate, weekCalendarData, tags) = try await (todosTask, statsTask, tagsTask)
             case .todo(let date):
-                todosForDate = try await todoUseCase.getTodos(for: date)
+                todosForDate = try await todoUseCase.getTodos(in: date)
             case .monthlyStat(let date):
-                weekCalendarData = try await dailyStatUseCase.getMonthStats(for: date)
+                weekCalendarData = try await dailyStatUseCase.getMonthStats(in: date)
             case .tag:
                 tags = try await tagUseCase.getAllTags()
             }

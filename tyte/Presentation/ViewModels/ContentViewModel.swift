@@ -1,58 +1,68 @@
-//
-//  ContentViewModel.swift
-//  tyte
-//
-//  Created by Neoself on 12/6/24.
-//
 import Foundation
-import Combine
 import SwiftUI
 
+@MainActor
 class ContentViewModel: ObservableObject {
+    // MARK: - UI State
+    
     @Published var isLoading: Bool = true
+    
+    // MARK: - Dependencies
+    
+    private let authUseCase: AuthenticationUseCaseProtocol
+    
+    // MARK: - Private Properties
     
     private var currentAppVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.5"
     }
     
-    private let authService: AuthServiceProtocol
+    // MARK: - Initialization
     
-    init(authService: AuthServiceProtocol = AuthService()) {
-        self.authService = authService
+    init(authUseCase: AuthenticationUseCaseProtocol = AuthenticationUseCase()) {
+        self.authUseCase = authUseCase
+        
         checkAppVersion()
     }
     
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: - Public Methods
     
     func checkAppVersion() {
-        authService.checkVersion()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-            } receiveValue: { [weak self] versionResponse in
-                guard let self = self else { return }
-                // 강제 업데이트 필요한 경우
-                if self.currentAppVersion < versionResponse.minVersion {
-                    PopupManager.shared.show(
-                        type: .updateMandatory,
-                        action: {
-                            if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
-                                UIApplication.shared.open(url)
-                            }
-                        }
-                    )
-                // 최신 버전이 아닌 경우
-                } else if self.currentAppVersion < versionResponse.newVersion {
-                    PopupManager.shared.show(
-                        type: .updateOptional,
-                        action: {
-                            if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
-                                UIApplication.shared.open(url)
-                            }
-                        }
-                    )
-                }
+        Task {
+            defer { isLoading = false }
+            
+            do {
+                let (newVersion, minVersion) = try await authUseCase.checkVersion()
+                handleVersionCheck(newVersion: newVersion, minVersion: minVersion)
+            } catch {
+                print("Version check error: \(error)")
             }
-            .store(in: &cancellables)
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func handleVersionCheck(newVersion: String, minVersion: String) {
+        // 앱스토어로 이동하는 action 클로저
+        let moveToAppStore = {
+            if let url = URL(string: "https://apps.apple.com/kr/app/tyte/id6723872988") {
+                UIApplication.shared.open(url)
+            }
+        }
+        
+        // 강제 업데이트 필요한 경우
+        if currentAppVersion < minVersion {
+            PopupManager.shared.show(
+                type: .updateMandatory,
+                action: moveToAppStore
+            )
+        }
+        // 최신 버전이 아닌 경우
+        else if currentAppVersion < newVersion {
+            PopupManager.shared.show(
+                type: .updateOptional,
+                action: moveToAppStore
+            )
+        }
     }
 }

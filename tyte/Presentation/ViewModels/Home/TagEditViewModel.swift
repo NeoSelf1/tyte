@@ -6,37 +6,45 @@
 //
 
 import Foundation
-import Combine
-import Alamofire
 import SwiftUI
 
+@MainActor
 class TagEditViewModel: ObservableObject {
+    
+    // MARK: - UI State
+    
     @Published var selectedColor: String = "FF0000"
     @Published var tags: [Tag] = []
     @Published var selectedTag: Tag?
     @Published var tagInput = ""
     
+    @Published var isLoading = false
     @Published var isDuplicateWarningPresent = false
     @Published var isEditBottomPresent = false
     @Published var isColorPickerPresent = false
-    @Published var isLoading = false
     
-    private let syncService = CoreDataSyncService.shared
+    // MARK: - UseCases
     
-    init() {
+    private let tagUseCase: TagUseCaseProtocol
+    
+    init(tagUseCase: TagUseCaseProtocol = TagUseCase()) {
+        self.tagUseCase = tagUseCase
+        
         initialize()
     }
     
-    private var cancellables = Set<AnyCancellable>()
-    
-    
     // MARK: - Methods
+    
     func initialize(){
-        refreshTags()
+        Task {
+            await fetchTags()
+        }
     }
     
     func handleRefresh(){
-        refreshTags()
+        Task {
+            await fetchTags()
+        }
     }
     
     func selectTag(_ tag :Tag){
@@ -52,69 +60,71 @@ class TagEditViewModel: ObservableObject {
             return
         }
         
-        isLoading = true
-        syncService.createTag(name: tagInput,color:selectedColor)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion, case .networkError = error as? APIError {
-                    ToastManager.shared.show(.error(error.localizedDescription))
-                }
-            } receiveValue: { [weak self] newTag in
-                guard let self = self else { return }
-                ToastManager.shared.show(.tagAdded)
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                let newTag = try await tagUseCase.createTag(name: tagInput, color: selectedColor)
+                tags.insert(newTag, at: 0)
+                
                 tagInput = ""
                 selectedColor = "FF0000"
-                refreshTags()
+                
+                ToastManager.shared.show(.tagAdded)
+            } catch {
+                print("Add Tag error: \(error)")
             }
-            .store(in: &cancellables)
-    }
-
-    
-    /// Tag 삭제
-    func deleteTag(id: String) {
-        isLoading = true
-        
-        syncService.deleteTag(id)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-            } receiveValue: { [weak self] deletedTagId in
-                guard let self = self else { return }
-                ToastManager.shared.show(.tagDeleted)
-                tags = tags.filter{$0.id != deletedTagId}
-            }
-            .store(in: &cancellables)
+        }
     }
     
     /// Tag 수정
     func editTag(_ tag: Tag) {
-        isLoading = true
-        
-        syncService.updateTag(tag)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-            } receiveValue: { [weak self] updatedTag in
-                guard let self = self else { return }
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                try await tagUseCase.updateTag(tag)
+                
+                /// 변경된 Todo가 선택된 날짜에 있을 경우, 상태변수를 직접 조작해 당장 보이는 UI를 업데이트합니다.
+                /// - Note: 선택된 날짜 외의 날짜로 Todo 위치가 변경되었을 경우, 날짜 변경 시점에 Todo들을 로컬 및 리모트로부터 새로 불러오기 때문에 추가 구현이 불요합니다.
+                if let index = tags.firstIndex(where: {$0.id == tag.id}) {
+                    tags[index] = tag
+                }
+                
                 ToastManager.shared.show(.tagEdited)
-                refreshTags()
+            } catch {
+                print("Edit Todo error: \(error)")
             }
-            .store(in: &cancellables)
+        }
     }
     
+    /// Tag 삭제
+    func deleteTag(id: String) {
+        Task {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                try await tagUseCase.deleteTag(id)
+                
+                tags = tags.filter{$0.id != id}
+                
+                ToastManager.shared.show(.tagDeleted)
+            } catch {
+                print("Delete Todo error: \(error)")
+            }
+        }
+    }
     
     // MARK: - Private Method
     
-    private func refreshTags() {
-        isLoading = true
-        syncService.refreshTags()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.isLoading = false
-            } receiveValue: { [weak self] tags in
-                self?.tags = tags
-            }
-            .store(in: &cancellables)
+    private func fetchTags() async {
+        do {
+            tags = try await tagUseCase.getAllTags()
+        } catch {
+            print("error refreshing: \(error)")
+        }
     }
 }

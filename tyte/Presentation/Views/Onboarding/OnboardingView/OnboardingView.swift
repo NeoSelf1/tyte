@@ -1,12 +1,6 @@
 import SwiftUI
 import AuthenticationServices
 
-enum Field: Hashable {
-    case email
-    case password
-    case username
-}
-
 struct OnboardingView: View {
     @StateObject private var viewModel = AuthViewModel()
     

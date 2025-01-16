@@ -11,7 +11,7 @@ struct SettingsView: View {
                 get: { UserDefaultsManager.shared.isDarkMode },
                 set: {
                     UserDefaultsManager.shared.setDarkMode($0)
-                    setAppearance(isDarkMode: $0)
+                    viewModel.setAppearance(isDarkMode: $0)
                 }
             )){
                 Text("다크모드")
@@ -57,16 +57,6 @@ struct SettingsView: View {
         .padding(.horizontal)
         .background(.gray00)
         .navigationBarBackButtonHidden(true)
-    }
-    
-    private func setAppearance(isDarkMode: Bool) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
-        withAnimation(.mediumEaseInOut){
-            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-                window.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
-            }
-        }
     }
 }
 

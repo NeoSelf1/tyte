@@ -5,89 +5,116 @@
 //  Created by 김 형석 on 9/15/24.
 //
 
+/// ## 잘못된 예시
+/// ```swift
+/// @Published var currentDate: Date = Date().koreanDate {
+///     didSet { await fetchData(.monthlyStats(currentDate.apiFormat)) }
+/// }
+/// ```
+/// didSet 옵저버는 동기적 컨텍스트이기 때문에 직접 await 사용이 불가합니다.
+/// 동기적으로 즉시 반환되고, 비동기 작업은 백그라운드에서 실행됩니다.
+/// 따라서, Task 블록을 감싸 동기 컨텍스트로 변경해주어야합니다.
+
 import Foundation
-import Combine
 import SwiftUI
 
+enum MyPageDataType {
+    case monthlyStats(String)  // yearMonth
+    case todayStats
+    case todos(String)  // date
+    case tags
+}
+
+@MainActor
 class MyPageViewModel: ObservableObject {
+    
+    // MARK: - UI State
+    
+    // 메인 데이터 상태
     @Published var dailyStats: [DailyStat] = []
     @Published var graphData: [DailyStat_Graph] = []
     @Published var tags: [Tag] = []
     
-    /// 날짜수정 메서드가 하위 메서드가 많이 연결되어있는 별도 구조체 내부에 정의되어있어서, 분리하고자 didSet 클로저에 호출
-    @Published var currentDate: Date = Date().koreanDate { didSet { getData() } }
+    // 날짜 상태
+    @Published var currentDate: Date = Date().koreanDate {
+        didSet { Task { await fetchData(.monthlyStats(currentDate.apiFormat)) } }
+    }
     
+    // UI 컨트롤 상태
     @Published var isDetailSectionPresent: Bool = false
     @Published var isLoading: Bool = true
-    
     @Published var isCalendarMode: Bool = true
     @Published var isGraphPresent: Bool = false
     
-    /// calendarView 내부 dayView 클릭시 바텀시트에서 필요 -> 실시간으로 값이 변경되면서 업데이트 필요없기에 @published 제거
+    // 세부 정보 상태
     var dailyStatForDate: DailyStat = .empty
     var todosForDate: [Todo] = []
     
-    private let syncService = CoreDataSyncService.shared
+    // MARK: - UseCases
     
-    init() {
+    private let dailyStatUseCase: DailyStatUseCaseProtocol
+    private let todoUseCase: TodoUseCaseProtocol
+    private let tagUseCase: TagUseCaseProtocol
+    
+    init(
+        dailyStatUseCase: DailyStatUseCaseProtocol = DailyStatUseCase(),
+        todoUseCase: TodoUseCaseProtocol = TodoUseCase(),
+        tagUseCase: TagUseCaseProtocol = TagUseCase()
+    ) {
+        self.dailyStatUseCase = dailyStatUseCase
+        self.todoUseCase = todoUseCase
+        self.tagUseCase = tagUseCase
+        
         initialize()
     }
     
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: - Public Methods
     
-    
-    //MARK: - Method
-    // 친구 요청 조회 및 친구 조회
-    func initialize(){
-        getData()
-        readLocalData(type: .tag, in: currentDate)
+    func initialize() {
+        Task {
+            await fetchData(.monthlyStats(currentDate.apiFormat))
+            await fetchData(.tags)
+        }
     }
     
-    func toggleMode(){
-        isCalendarMode = !isCalendarMode
-        getData()
-    }
-    
-    func selectCalendarDate(date: Date){
-        guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date}) else { return }
-        dailyStatForDate = dailyStats[index]
-        readLocalData(type: .todo, in: date)
-        isDetailSectionPresent = true
-    }
-    
-    
-    // MARK: - Private Method
-    private func getData(){
-        isLoading = true
-        
-        readLocalData(type: .dailyStat, in: currentDate)
-        
-        syncService.refreshDailyStats(for: String(currentDate.apiFormat.prefix(7)))
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self]_ in
-                self?.isLoading = false
-            } receiveValue: {  [weak self] stats in
-                self?.dailyStats = stats
-                self?.createGraphData(stats: stats)
-            }
-            .store(in: &cancellables)
+    func toggleMode() {
+        isCalendarMode.toggle()
         
         if !isCalendarMode {
             isGraphPresent = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                withAnimation { self.isGraphPresent = true }
+            
+            Task {
+                try? await Task.sleep(nanoseconds: 200_000_000)  // 0.2초 대기
+                withAnimation {
+                    isGraphPresent = true
+                }
             }
         }
     }
     
-    private func createGraphData(stats:[DailyStat]){
+    func selectCalendarDate(date: Date) {
+        guard let index = dailyStats.firstIndex(where: { date.apiFormat == $0.date }) else { return }
+        
+        dailyStatForDate = dailyStats[index]
+        
+        Task {
+            await fetchData(.todos(date.apiFormat))
+            isDetailSectionPresent = true
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func createGraphData(from stats: [DailyStat]) {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month], from: currentDate)
         let startDate = calendar.date(from: components)!
         let range = calendar.range(of: .day, in: .month, for: currentDate)!
         
         graphData = (0..<range.count).compactMap { dayOffset -> DailyStat_Graph? in
-            guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else { return nil }
+            guard let date = calendar.date(byAdding: .day, value: dayOffset, to: startDate) else {
+                return nil
+            }
             
             if let existingStat = stats.first(where: { $0.date == date.apiFormat }) {
                 return DailyStat_Graph(
@@ -103,24 +130,30 @@ class MyPageViewModel: ObservableObject {
         }
     }
     
-    private func readLocalData(type: LocalDataType, in date: Date) {
-        switch type {
-        case .todo:
-            if let localTodos = try? syncService.readTodosFromStore(for: date.apiFormat) {
-                todosForDate = localTodos
+    private func fetchData(_ dataType: MyPageDataType) async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            switch dataType {
+            case .monthlyStats(let date):
+                let yearMonth = String(date.prefix(7))
+                dailyStats = try await dailyStatUseCase.getMonthStats(in: yearMonth)
+                createGraphData(from: dailyStats)
+                
+            case .todayStats:
+                if let todayStat = try await dailyStatUseCase.getTodayStats() {
+                    dailyStatForDate = todayStat
+                }
+                
+            case .todos(let date):
+                todosForDate = try await todoUseCase.getTodos(in: date)
+                
+            case .tags:
+                tags = try await tagUseCase.getAllTags()
             }
-        case .tag:
-            if let localTags = try? syncService.readTagsFromStore() {
-                tags = localTags
-            }
-        case .dailyStat:
-            if let localDailyStats = try? syncService.readDailyStatsFromStore(for: String(date.apiFormat.prefix(7))) {
-                dailyStats = localDailyStats
-                createGraphData(stats: localDailyStats)
-            }
-        default:
-            print("edge case")
+        } catch {
+            print("Error fetching \(dataType): \(error)")
         }
     }
 }
- 
