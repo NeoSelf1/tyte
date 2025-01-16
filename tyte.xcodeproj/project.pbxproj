@@ -30,7 +30,6 @@
 		AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */; };
 		AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F852C8EB02E00254299 /* APIError.swift */; };
 		AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F872C8EB03600254299 /* APIEndpoint.swift */; };
-		AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8A2C8EB32900254299 /* AuthService.swift */; };
 		AB6A0F8F2C8EB68700254299 /* TagRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */; };
 		AB6A0F962C8EBBC400254299 /* DailyStatRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */; };
 		AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F972C8EC56700254299 /* OnboardingView.swift */; };
@@ -62,7 +61,7 @@
 		E517C2572CCF69960000805C /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E517C2562CCF69960000805C /* SocialView.swift */; };
 		E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */; };
 		E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3F2CC8CA2200DD21B7 /* SocialViewModel.swift */; };
-		E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE412CC8CA4500DD21B7 /* SocialService.swift */; };
+		E519BE422CC8CA4800DD21B7 /* UserRemoteDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */; };
 		E519BE442CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
 		E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
 		E519BE472CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
@@ -106,6 +105,13 @@
 		E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */; };
 		E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */; };
+		E5B00AA52D39085B008325A6 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AA42D39083E008325A6 /* UserRepository.swift */; };
+		E5B00AA72D390B5C008325A6 /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */; };
+		E5B00AA92D390B9F008325A6 /* UserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AA82D390B9F008325A6 /* UserUseCase.swift */; };
+		E5B00AAB2D3932CE008325A6 /* AuthenticationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AAA2D3932CE008325A6 /* AuthenticationUseCase.swift */; };
+		E5B00AAD2D3932F8008325A6 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */; };
+		E5B00AAF2D39330E008325A6 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AAE2D39330E008325A6 /* AuthRepository.swift */; };
+		E5B00AB12D39332B008325A6 /* AuthRemoteDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AB02D39332B008325A6 /* AuthRemoteDataSourceProtocol.swift */; };
 		E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */; };
 		E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
 		E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
@@ -207,7 +213,6 @@
 		AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		AB6A0F852C8EB02E00254299 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		AB6A0F872C8EB03600254299 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
-		AB6A0F8A2C8EB32900254299 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRemoteDataSource.swift; sourceTree = "<group>"; };
 		AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRemoteDataSource.swift; sourceTree = "<group>"; };
 		AB6A0F972C8EC56700254299 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -243,7 +248,7 @@
 		E517C2562CCF69960000805C /* SocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
 		E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSearchView.swift; sourceTree = "<group>"; };
 		E519BE3F2CC8CA2200DD21B7 /* SocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialViewModel.swift; sourceTree = "<group>"; };
-		E519BE412CC8CA4500DD21B7 /* SocialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialService.swift; sourceTree = "<group>"; };
+		E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRemoteDatasource.swift; sourceTree = "<group>"; };
 		E519BE432CC8CA8B00DD21B7 /* Social.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Social.swift; sourceTree = "<group>"; };
 		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E5261BB62CE7576800E5657C /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
@@ -279,6 +284,13 @@
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		E5B00AA42D39083E008325A6 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5B00AA82D390B9F008325A6 /* UserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUseCase.swift; sourceTree = "<group>"; };
+		E5B00AAA2D3932CE008325A6 /* AuthenticationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationUseCase.swift; sourceTree = "<group>"; };
+		E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5B00AAE2D39330E008325A6 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		E5B00AB02D39332B008325A6 /* AuthRemoteDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRemoteDataSourceProtocol.swift; sourceTree = "<group>"; };
 		E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tyte.xcdatamodel; sourceTree = "<group>"; };
 		E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -523,8 +535,6 @@
 			isa = PBXGroup;
 			children = (
 				E5DE68792CD35D040055CADB /* NetworkService.swift */,
-				E519BE412CC8CA4500DD21B7 /* SocialService.swift */,
-				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -612,7 +622,9 @@
 		E5424D302D357A6C0094E1A5 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */,
 				E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */,
+				E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */,
 				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
 				E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */,
 			);
@@ -641,8 +653,10 @@
 		E5424D3B2D357B0E0094E1A5 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
+				E5B00AB02D39332B008325A6 /* AuthRemoteDataSourceProtocol.swift */,
 				E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */,
 				AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */,
+				E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */,
 				AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */,
 			);
 			path = Remote;
@@ -651,7 +665,9 @@
 		E5424D3E2D357B930094E1A5 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				E5B00AAA2D3932CE008325A6 /* AuthenticationUseCase.swift */,
 				E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */,
+				E5B00AA82D390B9F008325A6 /* UserUseCase.swift */,
 				E5E7EC982D3656D100527B91 /* TagUseCase.swift */,
 				E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */,
 			);
@@ -661,6 +677,8 @@
 		E5424D422D357CC50094E1A5 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E5B00AAE2D39330E008325A6 /* AuthRepository.swift */,
+				E5B00AA42D39083E008325A6 /* UserRepository.swift */,
 				E5424D432D357CE10094E1A5 /* TodoRepository.swift */,
 				E5E7EC8C2D364C8900527B91 /* TagRepository.swift */,
 				E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */,
@@ -831,8 +849,8 @@
 		E5CA1C6F2CE5DCD9004B3D87 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
 				E5E7ED512D3691D400527B91 /* HomeViewModel.swift */,
+				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1227,14 +1245,17 @@
 				E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */,
 				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
 				E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */,
+				E5B00AA92D390B9F008325A6 /* UserUseCase.swift in Sources */,
 				ABC6CFB32C94267700C7DF1D /* DayItem.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
 				E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
+				E5B00AA52D39085B008325A6 /* UserRepository.swift in Sources */,
+				E5B00AAF2D39330E008325A6 /* AuthRepository.swift in Sources */,
 				AB1BE8DC2C9D480F00E18EF7 /* DetailSection.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
-				E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */,
+				E519BE422CC8CA4800DD21B7 /* UserRemoteDatasource.swift in Sources */,
 				E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */,
 				E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */,
 				E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */,
@@ -1255,6 +1276,7 @@
 				E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */,
 				E54DE8C42D33B5E900947148 /* Encodable+.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
+				E5B00AAD2D3932F8008325A6 /* AuthRepositoryProtocol.swift in Sources */,
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
 				E5E7ED522D3691D400527B91 /* HomeViewModel.swift in Sources */,
 				E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */,
@@ -1267,6 +1289,7 @@
 				AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */,
 				E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */,
 				E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */,
+				E5B00AAB2D3932CE008325A6 /* AuthenticationUseCase.swift in Sources */,
 				AB4498852C89930500B2B74A /* String+.swift in Sources */,
 				AB6A0F8F2C8EB68700254299 /* TagRemoteDataSource.swift in Sources */,
 				E5E7EC912D364CE400527B91 /* DailyStatLocalDataSource.swift in Sources */,
@@ -1282,12 +1305,13 @@
 				ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */,
 				E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */,
 				E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */,
+				E5B00AA72D390B5C008325A6 /* UserRepositoryProtocol.swift in Sources */,
+				E5B00AB12D39332B008325A6 /* AuthRemoteDataSourceProtocol.swift in Sources */,
 				E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */,
 				E573746D2D1ED7F500D65312 /* WidgetManager.swift in Sources */,
 				ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */,
 				E5A4A83A2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
 				AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */,
-				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
 				ABEF7D212C99842C00A76680 /* TodoItem.swift in Sources */,
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
 				E5E7EC932D364D0800527B91 /* DailyStatRepository.swift in Sources */,

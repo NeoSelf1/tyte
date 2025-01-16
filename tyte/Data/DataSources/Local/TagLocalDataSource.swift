@@ -10,7 +10,7 @@ protocol TagLocalDataSourceProtocol {
 class TagLocalDataSource: TagLocalDataSourceProtocol {
     private let coreDataStack: CoreDataStack
     
-    init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: CoreDataStack = .shared) {
         self.coreDataStack = coreDataStack
     }
     

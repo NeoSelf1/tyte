@@ -11,7 +11,7 @@ protocol TodoLocalDataSourceProtocol {
 class TodoLocalDataSource: TodoLocalDataSourceProtocol {
     private let coreDataStack: CoreDataStack
     
-    init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: CoreDataStack = .shared) {
         self.coreDataStack = coreDataStack
     }
     
