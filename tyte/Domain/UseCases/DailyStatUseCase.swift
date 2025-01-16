@@ -2,15 +2,15 @@ import Foundation
 
 protocol DailyStatUseCaseProtocol {
     func getTodayStats() async throws -> DailyStat?
-    func getMonthStats(for dateString: String) async throws -> [DailyStat]
-    func getFriendMonthStats(friendId: String, date: Date) async throws -> [DailyStat]
+    func getMonthStats(in dateString: String) async throws -> [DailyStat]
+    func getMonthStats(in dateString: String, for friendId: String) async throws -> [DailyStat]
     func getProductivityGraph(startDate: Date, endDate: Date) async throws -> [DailyStat_Graph]
 }
 
 class DailyStatUseCase: DailyStatUseCaseProtocol {
     private let repository: DailyStatRepository
     
-    init(repository: DailyStatRepository) {
+    init(repository: DailyStatRepository = DailyStatRepository()) {
         self.repository = repository
     }
     
@@ -19,13 +19,14 @@ class DailyStatUseCase: DailyStatUseCaseProtocol {
         return try await repository.getSingle(for: today)
     }
     
-    func getMonthStats(for dateString: String) async throws -> [DailyStat] {
-        return try await repository.get(in: dateString.prefix(7))
+    func getMonthStats(in dateString: String) async throws -> [DailyStat] {
+        return try await repository.get(in: String(dateString.prefix(7)))
     }
     
-    func getFriendMonthStats(friendId: String, date: Date) async throws -> [DailyStat] {
-        let yearMonth = String(date.apiFormat.prefix(7))
-        return try await repository.getFriends(for: friendId, in: yearMonth)
+    /// - NOTE: 값을 명시하는 메서드에는 return 문이 붎요하더라도 명시하여 가독성을 높힙니다.
+    func getMonthStats(in dateString: String, for friendId: String) async throws -> [DailyStat] {
+        let yearMonth = String(dateString.prefix(7))
+        return try await repository.get(in: yearMonth, for: friendId)
     }
     
     func getProductivityGraph(startDate: Date, endDate: Date) async throws -> [DailyStat_Graph] {
