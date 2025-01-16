@@ -59,7 +59,7 @@ struct StatusBoxView: View {
                                 todos: viewModel.todosForDate
                             )
                         ) {
-                            HStack(spacing: 6) {
+                            HStack(spacing: 4) {
                                 Text("AI분석 보기")
                                     .font(._body3)
                                     .foregroundStyle(.gray60)
@@ -73,6 +73,8 @@ struct StatusBoxView: View {
                     }
                 }
                 .padding(.bottom, 4)
+                .padding(.trailing, 16)
+
                 
                 Text(balanceData.title)
                     .font(._title)

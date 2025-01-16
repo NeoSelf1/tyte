@@ -10,14 +10,17 @@ struct FriendRequestsView: View {
             if viewModel.isLoading {
                 ProgressView()
             } else if viewModel.pendingRequests.isEmpty {
-                Text("받은 친구 요청이 없습니다")
-                    .font(._body1)
-                    .foregroundStyle(.gray50)
-                
-                Text("새로고침하기")
-                    .font(._body2)
-                    .foregroundStyle(.blue30)
-                    .onTapGesture { viewModel.fetchPendingRequests() }
+                VStack {
+                    Text("받은 친구 요청이 없습니다")
+                        .font(._body1)
+                        .foregroundStyle(.gray50)
+                    
+                    Text("새로고침하기")
+                        .font(._body2)
+                        .foregroundStyle(.blue30)
+                        .onTapGesture { viewModel.fetchPendingRequests() }
+                }
+                .frame(maxHeight: .infinity, alignment: .center)
             } else {
                 ScrollView {
                     LazyVStack(spacing: 16) {
