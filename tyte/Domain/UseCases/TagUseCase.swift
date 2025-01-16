@@ -12,7 +12,7 @@ enum TagError: Error {
 protocol TagUseCaseProtocol {
     func getAllTags() async throws -> [Tag]
     func createTag(name: String, color: String) async throws -> Tag
-    func updateTag(_ tag: Tag) async throws -> Tag
+    func updateTag(_ tag: Tag) async throws
     func deleteTag(_ id: String) async throws
 }
 
@@ -21,8 +21,8 @@ class TagUseCase: TagUseCaseProtocol {
     private let todoRepository: TodoRepositoryProtocol
     
     init(
-        tagRepository: TagRepositoryProtocol,
-        todoRepository: TodoRepositoryProtocol
+        tagRepository: TagRepositoryProtocol = TagRepository(),
+        todoRepository: TodoRepositoryProtocol = TodoRepository()
     ) {
         self.tagRepository = tagRepository
         self.todoRepository = todoRepository
@@ -42,24 +42,18 @@ class TagUseCase: TagUseCaseProtocol {
         return try await tagRepository.createSingle(name: name, color: color)
     }
     
-    func updateTag(_ tag: Tag) async throws -> Tag {
-        let existingTags = try await tagRepository.get()
-        if let existingTag = existingTags.first(where: {
-            $0.name.lowercased() == tag.name.lowercased() && $0.id != tag.id
-        }) {
-            throw TagError.duplicateName
-        }
+    /// - Note: 중복 명칭 태그 추출 로직은 경고 모달 표시를 담당하는 ViewModel에서 검증합니다.
+    func updateTag(_ tag: Tag) async throws {
+        try await tagRepository.updateSingle(tag)
         
-        let updatedTag = try await tagRepository.updateSingle(tag)
-        try await updateRelatedLocalTodos(to: updatedTag)
-        
-        return updatedTag
+        try await updateRelatedLocalTodos(to: tag)
     }
     
+    /// 먼저 태그와 연결되어있는 로컬 저장소 내부 ``Todo`` 객체들을 삭제한 후,
     func deleteTag(_ id: String) async throws {
         try await removeTagFromLocalTodos(tagId: id)
         
-        let _ = try await tagRepository.deleteSingle(id)
+        _ = try await tagRepository.deleteSingle(id)
     }
 }
 

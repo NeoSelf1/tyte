@@ -1,13 +1,13 @@
 class TagRepository: TagRepositoryProtocol {
-    private let remoteDataSource: TagRemoteDataSource
-    private let localDataSource: TagLocalDataSource
+    private let remoteDataSource: TagRemoteDataSourceProtocol
+    private let localDataSource: TagLocalDataSourceProtocol
     private let syncManager: SyncManager
     
     init(
-        remoteDataSource: TagRemoteDataSource,
-        localDataSource: TagLocalDataSource,
-        syncManager: SyncManager
-    ) {
+        remoteDataSource: TagRemoteDataSourceProtocol = TagRemoteDataSource(),
+        localDataSource: TagLocalDataSourceProtocol = TagLocalDataSource(),
+        syncManager: SyncManager = .shared
+    ){
         self.remoteDataSource = remoteDataSource
         self.localDataSource = localDataSource
         self.syncManager = syncManager
@@ -36,31 +36,23 @@ class TagRepository: TagRepositoryProtocol {
         return tag
     }
     
-    func updateSingle(_ tag: Tag) async throws -> Tag {
+    func updateSingle(_ tag: Tag) async throws {
         if NetworkManager.shared.isConnected {
             let updatedTag = try await remoteDataSource.updateTag(tag)
             try localDataSource.saveTag(updatedTag)
-            
-            return updatedTag
         } else {
             try localDataSource.saveTag(tag)
             syncManager.enqueueOperation(.updateTag(tag))
-            
-            return tag
         }
     }
     
-    func deleteSingle(_ id: String) async throws -> String {
+    func deleteSingle(_ id: String) async throws {
         if NetworkManager.shared.isConnected {
-            let deletedTagId = try await remoteDataSource.deleteTag(id)
+            _ = try await remoteDataSource.deleteTag(id)
             try localDataSource.deleteTag(id)
-            
-            return deletedTagId
         } else {
             try localDataSource.deleteTag(id)
             syncManager.enqueueOperation(.deleteTag(id))
-            
-            return id
         }
     }
 }
