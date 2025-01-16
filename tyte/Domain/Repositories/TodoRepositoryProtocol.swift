@@ -4,7 +4,8 @@
 ///순수한 CRUD 작업 수행
 
 protocol TodoRepositoryProtocol {
-    func get(for date: String) async throws -> [Todo]
+    func get(in date: String) async throws -> [Todo]
+    func get(in date: String, for id: String) async throws -> [Todo]
     func getWithTag(id tagId: String) async throws -> [Todo]
     func create(text: String, in date: String) async throws -> [Todo]
     func updateSingle(_ todo: Todo) async throws

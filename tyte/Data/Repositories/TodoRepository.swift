@@ -4,21 +4,22 @@ class TodoRepository: TodoRepositoryProtocol {
     private let syncManager: SyncManager
     
     init(
-        remoteDataSource: TodoRemoteDataSource,
-        localDataSource: TodoLocalDataSource,
-        syncManager: SyncManager
+        remoteDataSource: TodoRemoteDataSource = TodoRemoteDataSource(),
+        localDataSource: TodoLocalDataSource = TodoLocalDataSource(),
+        syncManager: SyncManager = .shared
     ) {
         self.remoteDataSource = remoteDataSource
         self.localDataSource = localDataSource
         self.syncManager = syncManager
     }
     
-    func get(for date: String) async throws -> [Todo] {
+    func get(in date: String) async throws -> [Todo] {
+        
         let localTodos = try localDataSource.getTodos(for: date)
         
         if NetworkManager.shared.isConnected {
             do {
-                let remoteTodos = try await remoteDataSource.fetchTodos(for: date)
+                let remoteTodos = try await remoteDataSource.fetchTodos(in: date)
                 try localDataSource.saveTodos(remoteTodos)
                 return remoteTodos
             } catch {
@@ -27,6 +28,10 @@ class TodoRepository: TodoRepositoryProtocol {
         }
         
         return localTodos
+    }
+    
+    func get(in date: String, for id: String) async throws -> [Todo] {
+        return try await remoteDataSource.fetchTodos(in: date, for: id)
     }
     
     func create(text: String, in date: String) async throws -> [Todo] {
@@ -48,7 +53,7 @@ class TodoRepository: TodoRepositoryProtocol {
     
     func deleteSingle(_ id: String) async throws {
         if NetworkManager.shared.isConnected {
-            let deletedTodo = try await remoteDataSource.deleteTodo(id)
+            _ = try await remoteDataSource.deleteTodo(id)
             try localDataSource.deleteTodo(id)
         } else {
             try localDataSource.deleteTodo(id)

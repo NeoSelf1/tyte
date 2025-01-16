@@ -1,8 +1,8 @@
 protocol TodoRemoteDataSourceProtocol {
     /// 특정 날짜의 Todo 목록 조회
-    func fetchTodos(for date: String) async throws -> TodosResponse
+    func fetchTodos(in date: String) async throws -> TodosResponse
     /// 특정 사용자의 특정 날짜 Todo 목록 조회
-    func fetchTodos(for id: String, in deadline: String) async throws -> TodosResponse
+    func fetchTodos(in date: String, for id: String) async throws -> TodosResponse
     /// 새로운 Todo 생성
     func createTodo(text: String, in date: String) async throws -> TodosResponse
     /// Todo 업데이트
@@ -29,7 +29,7 @@ class TodoRemoteDataSource: TodoRemoteDataSourceProtocol {
     /// 특정 날짜의 할 일 목록을 조회합니다.
     /// - Parameter date: 조회할 날짜 (형식: "YYYY-MM-DD")
     /// - Returns: 선택된 날짜에 대한 Todo 객체 배열
-    func fetchTodos(for date: String) async throws ->TodosResponse {
+    func fetchTodos(in date: String) async throws ->TodosResponse {
         return try await networkService.request(.fetchTodosForDate(date), method: .get, parameters: nil)
     }
     
@@ -38,8 +38,8 @@ class TodoRemoteDataSource: TodoRemoteDataSourceProtocol {
     ///   - id: 조회할 친구의 ID
     ///   - Returns: 친구가 추가한 선택된 날짜에 대한 Todo 객체 배열
     ///   - deadline: 조회할 날짜 (형식: "YYYY-MM-DD")
-    func fetchTodos(for id: String, in deadline: String) async throws -> TodosResponse {
-        return try await networkService.request(.fetchFriendTodosForDate(friendId: id, deadline: deadline), method: .get, parameters: nil)
+    func fetchTodos(in date: String, for id: String) async throws -> TodosResponse {
+        return try await networkService.request(.fetchFriendTodosForDate(friendId: id, deadline: date), method: .get, parameters: nil)
     }
     
     /// 새로운 할 일을 생성합니다.

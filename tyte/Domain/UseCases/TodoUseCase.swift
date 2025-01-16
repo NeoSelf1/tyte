@@ -20,7 +20,8 @@
 /// - Repository: 다양한 UseCase에서 재사용
 /// - UseCase: 특정 비즈니스 시나리오에 특화
 protocol TodoUseCaseProtocol {
-    func getTodos(for dateString: String) async throws -> [Todo]
+    func getTodos(in dateString: String) async throws -> [Todo]
+    func getTodos(in dateString: String, for friendId: String) async throws -> [Todo]
     func createTodo(text: String, deadline: String) async throws -> ([Todo], DailyStat?)
     func updateTodoWithStats(_ todo: Todo, from originalDate: String) async throws -> ([DailyStat])
     func toggleTodo(_ todo: Todo) async throws -> DailyStat?
@@ -32,17 +33,21 @@ class TodoUseCase: TodoUseCaseProtocol {
     private let dailyStatRepository: DailyStatRepository
         
     init(
-        todoRepository: TodoRepository,
-        dailyStatRepository: DailyStatRepository
+        todoRepository: TodoRepository = TodoRepository(),
+        dailyStatRepository: DailyStatRepository = DailyStatRepository()
     ) {
         self.todoRepository = todoRepository
         self.dailyStatRepository = dailyStatRepository
     }
     
-    func getTodos(for dateString: String) async throws -> [Todo] {
-        return try await todoRepository.get(for: dateString)
+    func getTodos(in dateString: String) async throws -> [Todo] {
+        return try await todoRepository.get(in: dateString)
     }
     
+    func getTodos(in dateString: String, for friendId: String) async throws -> [Todo] {
+        return try await todoRepository.get(in: dateString, for: friendId)
+    }
+
     /// 비즈니스 로직의 캡슐화
     /// - Todo 수정이 DailyStat 갱신을 트리거하는 것은 앱의 핵심 비즈니스 규칙입니다
     /// - 이는 UI 레이어(ViewModel)가 아닌 도메인 레이어(UseCase)에서 관리되어야 합니다
