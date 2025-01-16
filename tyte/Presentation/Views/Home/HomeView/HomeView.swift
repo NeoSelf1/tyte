@@ -35,7 +35,7 @@ struct HomeView: View {
                         viewModel.isDetailPresented = false
                     },
                     onDelete: { id in
-                        viewModel.deleteTodo(id: id)
+                        viewModel.deleteTodo(todo)
                         viewModel.isDetailPresented = false
                     }
                 )
