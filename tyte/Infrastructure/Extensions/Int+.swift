@@ -1,0 +1,27 @@
+import Foundation
+import SwiftUI
+
+extension Int {
+    var colorByBalanceData: Color {
+        switch self {
+        case 81...: return .red
+        case 61...80: return .orange
+        case 20...60: return .green
+        default: return .gray50
+        }
+    }
+    
+    var formattedDuration: String {
+        if self < 60 {
+            return "\(self)분"
+        } else {
+            let hours = self / 60
+            let remainingMinutes = self % 60
+            if remainingMinutes == 0 {
+                return "\(hours)시간"
+            } else {
+                return "\(hours)시간 \(remainingMinutes)분"
+            }
+        }
+    }
+}

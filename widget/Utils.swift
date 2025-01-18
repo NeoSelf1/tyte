@@ -1,9 +1,3 @@
-//
-//  Utils.swift
-//  tyte
-//
-//  Created by Neoself on 12/20/24.
-//
 import SwiftUI
 
 func getColors(_ dailyStat: DailyStat) -> [Color] {

@@ -1,18 +1,16 @@
-//
-//  widgetBundle.swift
-//  widget
-//
-//  Created by Neoself on 10/16/24.
-//
-
+/// 앱의 모든 위젯을 관리하는 번들
+///
+/// CalendarWidget과 TodoListWidget을 하나의 번들로 그룹화하여 관리합니다.
+/// @main 속성을 통해 위젯의 진입점 역할을 합니다.
 import WidgetKit
 import SwiftUI
 
-
-// 앱에 포함된 모든 위젯 그룹화.
 @main
 struct widgetBundle: WidgetBundle {
+    
+    @WidgetBundleBuilder
     var body: some Widget {
         CalendarWidget()
+        TodoListWidget()
     }
 }

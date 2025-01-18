@@ -20,23 +20,19 @@
 
 #import <Foundation/Foundation.h>
 
-@import GTMAppAuth;
-
 NS_ASSUME_NONNULL_BEGIN
 
-/// A class to support EMM (Enterprise Mobility Management).
-@interface GIDEMMSupport : NSObject<GTMAuthSessionDelegate>
+// A class to support EMM (Enterprise Mobility Management).
+@interface GIDEMMSupport : NSObject
 
-- (instancetype)init NS_DESIGNATED_INITIALIZER;
-
-/// Handles potential EMM error from token fetch response.
+// Handles potential EMM error from token fetch response.
 + (void)handleTokenFetchEMMError:(nullable NSError *)error
                       completion:(void (^)(NSError *_Nullable))completion;
 
-/// Gets a new set of URL parameters that contains updated EMM-related URL parameters if needed.
+// Gets a new set of URL parameters that contains updated EMM-related URL parameters if needed.
 + (NSDictionary *)updatedEMMParametersWithParameters:(NSDictionary *)parameters;
 
-/// Gets a new set of URL parameters that also contains EMM-related URL parameters if needed.
+// Gets a new set of URL parameters that also contains EMM-related URL parameters if needed.
 + (NSDictionary *)parametersWithParameters:(NSDictionary *)parameters
                                 emmSupport:(nullable NSString *)emmSupport
                     isPasscodeInfoRequired:(BOOL)isPasscodeInfoRequired;

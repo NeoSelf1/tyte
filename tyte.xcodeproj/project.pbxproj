@@ -7,45 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */; };
-		997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */; };
-		9E17E61CBAC0141746961C94 /* Pods_tyte_widgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BCFC825957DFAB07ACC653 /* Pods_tyte_widgetExtension.framework */; };
+		04DB989028DD54330BAF16FA /* Pods_tyte_tyteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A648788A155D3506351DDD77 /* Pods_tyte_tyteUITests.framework */; };
+		666C38B1BBAFBAB79D80B098 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C5C4FA017076B7976F12B7 /* Pods_tyteTests.framework */; };
+		66C944250E81D616299061D4 /* Pods_tyte_widgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDEAA4BEB34CEAA9A6D5983 /* Pods_tyte_widgetExtension.framework */; };
 		AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10144B2C980F7F00F9A9BC /* Animation+.swift */; };
-		AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */; };
+		AB1BE8DC2C9D480F00E18EF7 /* DetailSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BE8DB2C9D480F00E18EF7 /* DetailSection.swift */; };
 		AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */; };
 		AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EA2C986C6400906446 /* KeychainManager.swift */; };
 		AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4498822C8992B000B2B74A /* TodoEditBottomSheet.swift */; };
 		AB4498852C89930500B2B74A /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4498842C89930500B2B74A /* String+.swift */; };
-		AB44988B2C8ACCFE00B2B74A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */; };
 		AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2772C836C0400DC4D72 /* tyteApp.swift */; };
 		AB5BB27C2C836C0500DC4D72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */; };
-		AB5BB27F2C836C0500DC4D72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */; };
 		AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2882C836C0600DC4D72 /* tyteTests.swift */; };
 		AB5BB2932C836C0600DC4D72 /* tyteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2922C836C0600DC4D72 /* tyteUITests.swift */; };
 		AB5BB2952C836C0600DC4D72 /* tyteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */; };
 		AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */; };
 		AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */; };
-		AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */; };
-		AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F742C8AE5A000254299 /* CalendarView.swift */; };
+		AB6A0F752C8AE5A000254299 /* CalendarSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F742C8AE5A000254299 /* CalendarSection.swift */; };
 		AB6A0F772C8E45F100254299 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
 		AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F782C8EAF5500254299 /* Tag.swift */; };
 		AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */; };
 		AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F852C8EB02E00254299 /* APIError.swift */; };
 		AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F872C8EB03600254299 /* APIEndpoint.swift */; };
-		AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8A2C8EB32900254299 /* AuthService.swift */; };
-		AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8C2C8EB43600254299 /* TodoService.swift */; };
-		AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8E2C8EB68700254299 /* TagService.swift */; };
-		AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatService.swift */; };
+		AB6A0F8F2C8EB68700254299 /* TagRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */; };
+		AB6A0F962C8EBBC400254299 /* DailyStatRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */; };
 		AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F972C8EC56700254299 /* OnboardingView.swift */; };
 		AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F9B2C8EE85100254299 /* TagEditView.swift */; };
 		AB6A495F2C8606AF00B782A1 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+.swift */; };
 		AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7846682C95E0A700349246 /* MyPageViewModel.swift */; };
-		AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */; };
+		AB7EA4B02C901142000D2C4C /* MeshGradientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7EA4AF2C901142000D2C4C /* MeshGradientCell.swift */; };
 		AB84C5312C918EA9000164AC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB84C5302C918EA9000164AC /* Utils.swift */; };
 		AB87355B2CA916E60089844D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */; };
-		AB9037262C9EB7D000F7BB73 /* WorkLifeBalancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9037252C9EB7D000F7BB73 /* WorkLifeBalancer.swift */; };
 		ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */; };
-		ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */; };
 		ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
 		ABA9207C2C8988E200B9F8F1 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
 		ABA9207D2C8988E200B9F8F1 /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */; };
@@ -53,64 +46,75 @@
 		ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
 		ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC3A4D22C95A53300F43796 /* MyPageView.swift */; };
 		ABC5D0462C9C010000676222 /* CreateTodoBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5D0452C9C010000676222 /* CreateTodoBottomSheet.swift */; };
-		ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6CFB22C94267700C7DF1D /* DayView.swift */; };
+		ABC6CFB32C94267700C7DF1D /* DayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6CFB22C94267700C7DF1D /* DayItem.swift */; };
 		ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC86D312C9F861C0089DC61 /* MultiLayerBottomSheet.swift */; };
 		ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9937A2CABB7B100D8414F /* SettingsView.swift */; };
-		ABD666BC2C83735F0005D3C1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */; };
 		ABD666C02C8373700005D3C1 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
 		ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */; };
 		ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B932C86F2A900F3CB68 /* HomeView.swift */; };
-		ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */; };
 		ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B972C86FEE000F3CB68 /* Date+.swift */; };
-		ABEA72332C98065B00D80633 /* ViewSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA72322C98065B00D80633 /* ViewSelector.swift */; };
-		ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D202C99842C00A76680 /* TodoItemView.swift */; };
+		ABEF7D212C99842C00A76680 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEF7D202C99842C00A76680 /* TodoItem.swift */; };
 		ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B062C9A39C900947DA4 /* MonthPicker.swift */; };
 		ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */; };
-		ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF93D292C95835E00C7D2BC /* GraphView.swift */; };
-		C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */; };
-		E517B8592D1AEFCF000B1B94 /* TimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E517B8582D1AEFCF000B1B94 /* TimePickerView.swift */; };
-		E517B85B2D1AEFD7000B1B94 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E517B85A2D1AEFD7000B1B94 /* DatePickerView.swift */; };
+		C233F2CA66465964A7EFB095 /* Pods_tyte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C524D2D8917B5F42561B2BEB /* Pods_tyte.framework */; };
 		E517C2572CCF69960000805C /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E517C2562CCF69960000805C /* SocialView.swift */; };
 		E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */; };
 		E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE3F2CC8CA2200DD21B7 /* SocialViewModel.swift */; };
-		E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE412CC8CA4500DD21B7 /* SocialService.swift */; };
-		E519BE442CC8CA8E00DD21B7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Friend.swift */; };
-		E519BE452CC8CA8E00DD21B7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Friend.swift */; };
+		E519BE422CC8CA4800DD21B7 /* UserRemoteDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */; };
+		E519BE442CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
+		E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
 		E519BE472CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E519BE482CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB62CE7576800E5657C /* APIResult.swift */; };
 		E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB82CE7578000E5657C /* APIResponse.swift */; };
-		E52628832CC3563B004B290C /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD666BF2C8373700005D3C1 /* Todo.swift */; };
-		E52628992CC356E3004B290C /* TodoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628982CC356E3004B290C /* TodoDataModel.swift */; };
 		E52628CF2CC38D42004B290C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
-		E52628D32CC392C7004B290C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F782C8EAF5500254299 /* Tag.swift */; };
 		E52628D92CC3A97F004B290C /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
 		E52628DA2CC3AB45004B290C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE8B972C86FEE000F3CB68 /* Date+.swift */; };
-		E5374F782D0180DC0075427C /* CalendarDateSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5374F772D0180A20075427C /* CalendarDateSelector.swift */; };
+		E5374F782D0180DC0075427C /* MonthSelectSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5374F772D0180A20075427C /* MonthSelectSection.swift */; };
+		E5424D332D357A770094E1A5 /* TodoRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */; };
+		E5424D362D357A800094E1A5 /* TagRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */; };
+		E5424D392D357ADF0094E1A5 /* TodoLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */; };
+		E5424D3D2D357B130094E1A5 /* TodoRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */; };
+		E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */; };
+		E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5424D432D357CE10094E1A5 /* TodoRepository.swift */; };
+		E54DE8B02D3375BD00947148 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8AF2D3375BD00947148 /* Todo.swift */; };
+		E54DE8B22D337A3200947148 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8B12D337A3200947148 /* Tag.swift */; };
+		E54DE8B72D338EF900947148 /* StatusBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8B62D338EF900947148 /* StatusBoxView.swift */; };
+		E54DE8C42D33B5E900947148 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8C32D33B5E900947148 /* Encodable+.swift */; };
+		E54DE8C52D33B5E900947148 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8C32D33B5E900947148 /* Encodable+.swift */; };
+		E54DE8C72D33B94D00947148 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54DE8C62D33B94D00947148 /* DayView.swift */; };
 		E54FC83F2D15532A007B359A /* DailyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC83E2D15532A007B359A /* DailyStat.swift */; };
 		E54FC8432D15537E007B359A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8412D15537E007B359A /* CalendarView.swift */; };
-		E54FC8442D15537E007B359A /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8422D15537E007B359A /* DayView.swift */; };
 		E54FC8462D1553B2007B359A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8452D1553B2007B359A /* Utils.swift */; };
 		E54FC8472D1553DA007B359A /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A0F762C8E45F100254299 /* Color+.swift */; };
 		E54FC8482D15576A007B359A /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6A495E2C8606AE00B782A1 /* Int+.swift */; };
-		E54FC84A2D15587C007B359A /* MeshGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54FC8492D15587C007B359A /* MeshGradientView.swift */; };
 		E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4222CFDD7BD00B61A4F /* View+.swift */; };
 		E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */; };
 		E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */; };
 		E55D8A7C2CBF7D6000849DF1 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E55D8A7B2CBF7D6000849DF1 /* .gitignore */; };
-		E566F9002D1AF8B800A96400 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E566F8FF2D1AF8B800A96400 /* NavigationBar.swift */; };
-		E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */; };
-		E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */; };
+		E566F9002D1AF8B800A96400 /* CustomHeaderWithBackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = E566F8FF2D1AF8B800A96400 /* CustomHeaderWithBackBtn.swift */; };
+		E573746A2D1E5EF200D65312 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57374692D1E5EED00D65312 /* NetworkManager.swift */; };
+		E573746D2D1ED7F500D65312 /* WidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E573746C2D1ED7F000D65312 /* WidgetManager.swift */; };
+		E573746F2D1ED9C400D65312 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */; };
+		E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57374702D1F6A2A00D65312 /* OfflineUIManager.swift */; };
+		E57374732D20DD9800D65312 /* TodoListWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57374722D20DD9800D65312 /* TodoListWidget.swift */; };
 		E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */; };
 		E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58F1FD42CD0F401007940BB /* SettingsViewModel.swift */; };
 		E5A4A83A2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8392CC655D000BD43F4 /* APIConstants.swift */; };
 		E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */; };
 		E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */; };
-		E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B573AD2CEF56BE000BDE11 /* MockServices.swift */; };
+		E5B00AA52D39085B008325A6 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AA42D39083E008325A6 /* UserRepository.swift */; };
+		E5B00AA72D390B5C008325A6 /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */; };
+		E5B00AA92D390B9F008325A6 /* UserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AA82D390B9F008325A6 /* UserUseCase.swift */; };
+		E5B00AAB2D3932CE008325A6 /* AuthenticationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AAA2D3932CE008325A6 /* AuthenticationUseCase.swift */; };
+		E5B00AAD2D3932F8008325A6 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */; };
+		E5B00AAF2D39330E008325A6 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AAE2D39330E008325A6 /* AuthRepository.swift */; };
+		E5B00AB12D39332B008325A6 /* AuthRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B00AB02D39332B008325A6 /* AuthRemoteDataSource.swift */; };
 		E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */; };
-		E5C35BA72D1A8BBC002DCEBD /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
-		E5C35BA82D1A8BC7002DCEBD /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */; };
+		E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
+		E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */; };
+		E5BFE3322D1C714E00E558AD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */; };
 		E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */; };
 		E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C612CE5D154004B3D87 /* CustomToast.swift */; };
 		E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CA1C622CE5D154004B3D87 /* ToastData.swift */; };
@@ -119,16 +123,24 @@
 		E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660232CBFB10300A8279B /* WidgetKit.framework */; };
 		E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D660252CBFB10300A8279B /* SwiftUI.framework */; };
 		E5D660372CBFB10400A8279B /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E5D660222CBFB10200A8279B /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E5D660462CBFB1FB00A8279B /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660402CBFB1FB00A8279B /* widget.swift */; };
+		E5D660462CBFB1FB00A8279B /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660402CBFB1FB00A8279B /* CalendarWidget.swift */; };
 		E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D660412CBFB1FB00A8279B /* widgetBundle.swift */; };
 		E5D6604A2CBFB1FB00A8279B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */; };
 		E5DE11A92D1A95B100D460FE /* Pretendard-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */; };
 		E5DE11AA2D1A95B100D460FE /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207A2C8988E200B9F8F1 /* Pretendard-Bold.ttf */; };
 		E5DE11AB2D1A95B100D460FE /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */; };
 		E5DE11AC2D1A95B100D460FE /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */; };
-		E5DE11AD2D1A993300D460FE /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E88EA2C986C6400906446 /* KeychainManager.swift */; };
-		E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkService.swift */; };
-		E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */; };
+		E5DE687A2CD35D110055CADB /* NetworkAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DE68792CD35D040055CADB /* NetworkAPI.swift */; };
+		E5E7EC852D36298D00527B91 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC842D36298D00527B91 /* SyncManager.swift */; };
+		E5E7EC8B2D362A3E00527B91 /* SyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */; };
+		E5E7EC8D2D364C8900527B91 /* TagRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8C2D364C8900527B91 /* TagRepository.swift */; };
+		E5E7EC8F2D364CB300527B91 /* TagLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC8E2D364CB300527B91 /* TagLocalDataSource.swift */; };
+		E5E7EC912D364CE400527B91 /* DailyStatLocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC902D364CE400527B91 /* DailyStatLocalDataSource.swift */; };
+		E5E7EC932D364D0800527B91 /* DailyStatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */; };
+		E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */; };
+		E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */; };
+		E5E7EC992D3656D100527B91 /* TagUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7EC982D3656D100527B91 /* TagUseCase.swift */; };
+		E5E7ED522D3691D400527B91 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E7ED512D3691D400527B91 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,26 +182,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.debug.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_tyteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		25BCFC825957DFAB07ACC653 /* Pods_tyte_widgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_widgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.debug.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.debug.xcconfig"; sourceTree = "<group>"; };
-		435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.release.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.release.xcconfig"; sourceTree = "<group>"; };
-		48E7EB47C217A237236FF6A8 /* Pods-tyte-widgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.release.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.release.xcconfig"; sourceTree = "<group>"; };
-		4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
-		51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60D909C2852D0E9FF4712DB7 /* Pods-tyte-tyteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.debug.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		615BD58F76D7CEB6C8245A5F /* Pods-tyte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.debug.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.debug.xcconfig"; sourceTree = "<group>"; };
+		8935B255B470240578D1DED4 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
+		89C5C4FA017076B7976F12B7 /* Pods_tyteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		933E03A8CF0E414BD3004761 /* Pods-tyteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.debug.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A648788A155D3506351DDD77 /* Pods_tyte_tyteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_tyteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10144B2C980F7F00F9A9BC /* Animation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animation+.swift"; sourceTree = "<group>"; };
-		AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		AB1BE8DB2C9D480F00E18EF7 /* DetailSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSection.swift; sourceTree = "<group>"; };
 		AB21F09A2C9047D200AAADAB /* ColorPickerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerBottomSheet.swift; sourceTree = "<group>"; };
 		AB2E88EA2C986C6400906446 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		AB4498822C8992B000B2B74A /* TodoEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditBottomSheet.swift; sourceTree = "<group>"; };
 		AB4498842C89930500B2B74A /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
-		AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB5394FD2C85981500A9D1FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5BB2742C836C0400DC4D72 /* tyte.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tyte.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5BB2772C836C0400DC4D72 /* tyteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteApp.swift; sourceTree = "<group>"; };
 		AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AB5BB2842C836C0600DC4D72 /* tyteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tyteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5BB2882C836C0600DC4D72 /* tyteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteTests.swift; sourceTree = "<group>"; };
 		AB5BB28E2C836C0600DC4D72 /* tyteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tyteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,27 +205,22 @@
 		AB5BB2942C836C0600DC4D72 /* tyteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tyteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
-		AB6A0F742C8AE5A000254299 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		AB6A0F742C8AE5A000254299 /* CalendarSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSection.swift; sourceTree = "<group>"; };
 		AB6A0F762C8E45F100254299 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		AB6A0F782C8EAF5500254299 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		AB6A0F7F2C8EAFF700254299 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		AB6A0F852C8EB02E00254299 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		AB6A0F872C8EB03600254299 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
-		AB6A0F8A2C8EB32900254299 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		AB6A0F8C2C8EB43600254299 /* TodoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoService.swift; sourceTree = "<group>"; };
-		AB6A0F8E2C8EB68700254299 /* TagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagService.swift; sourceTree = "<group>"; };
-		AB6A0F952C8EBBC400254299 /* DailyStatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatService.swift; sourceTree = "<group>"; };
+		AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRemoteDataSource.swift; sourceTree = "<group>"; };
+		AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRemoteDataSource.swift; sourceTree = "<group>"; };
 		AB6A0F972C8EC56700254299 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AB6A0F9B2C8EE85100254299 /* TagEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditView.swift; sourceTree = "<group>"; };
 		AB6A495E2C8606AE00B782A1 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		AB7846682C95E0A700349246 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
-		AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
+		AB7EA4AF2C901142000D2C4C /* MeshGradientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientCell.swift; sourceTree = "<group>"; };
 		AB84C5302C918EA9000164AC /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		AB9037252C9EB7D000F7BB73 /* WorkLifeBalancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkLifeBalancer.swift; sourceTree = "<group>"; };
 		ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStat.swift; sourceTree = "<group>"; };
-		ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBox.swift; sourceTree = "<group>"; };
 		ABA920762C897FC000B9F8F1 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		ABA920782C8988E200B9F8F1 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
 		ABA920792C8988E200B9F8F1 /* Pretendard-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.ttf"; sourceTree = "<group>"; };
@@ -225,57 +228,70 @@
 		ABA9207B2C8988E200B9F8F1 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		ABC3A4D22C95A53300F43796 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		ABC5D0452C9C010000676222 /* CreateTodoBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTodoBottomSheet.swift; sourceTree = "<group>"; };
-		ABC6CFB22C94267700C7DF1D /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		ABC6CFB22C94267700C7DF1D /* DayItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayItem.swift; sourceTree = "<group>"; };
 		ABC86D312C9F861C0089DC61 /* MultiLayerBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLayerBottomSheet.swift; sourceTree = "<group>"; };
 		ABC9937A2CABB7B100D8414F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		ABC9937C2CABC2A400D8414F /* tyte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = tyte.entitlements; sourceTree = "<group>"; };
-		ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		ABD666BF2C8373700005D3C1 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		ABDE8B932C86F2A900F3CB68 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyCalender.swift; sourceTree = "<group>"; };
 		ABDE8B972C86FEE000F3CB68 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
-		ABEA72322C98065B00D80633 /* ViewSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSelector.swift; sourceTree = "<group>"; };
-		ABEF7D202C99842C00A76680 /* TodoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemView.swift; sourceTree = "<group>"; };
+		ABEF7D202C99842C00A76680 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		ABF02B062C9A39C900947DA4 /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		ABF02B0A2C9A5AB900947DA4 /* TagEditBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditBottomSheet.swift; sourceTree = "<group>"; };
-		ABF93D292C95835E00C7D2BC /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
-		B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte.release.xcconfig"; path = "Target Support Files/Pods-tyte/Pods-tyte.release.xcconfig"; sourceTree = "<group>"; };
-		D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
-		DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E517B8582D1AEFCF000B1B94 /* TimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerView.swift; sourceTree = "<group>"; };
-		E517B85A2D1AEFD7000B1B94 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		C524D2D8917B5F42561B2BEB /* Pods_tyte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5956D6EF48A3EA8ADADC5FF /* Pods-tyteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyteTests.release.xcconfig"; path = "Target Support Files/Pods-tyteTests/Pods-tyteTests.release.xcconfig"; sourceTree = "<group>"; };
+		D8C2AF31B94064EC1783D79D /* Pods-tyte-widgetExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.release.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.release.xcconfig"; sourceTree = "<group>"; };
+		DCDEAA4BEB34CEAA9A6D5983 /* Pods_tyte_widgetExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tyte_widgetExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E517C2562CCF69960000805C /* SocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
 		E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSearchView.swift; sourceTree = "<group>"; };
 		E519BE3F2CC8CA2200DD21B7 /* SocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialViewModel.swift; sourceTree = "<group>"; };
-		E519BE412CC8CA4500DD21B7 /* SocialService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialService.swift; sourceTree = "<group>"; };
-		E519BE432CC8CA8B00DD21B7 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRemoteDatasource.swift; sourceTree = "<group>"; };
+		E519BE432CC8CA8B00DD21B7 /* Social.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Social.swift; sourceTree = "<group>"; };
 		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E5261BB62CE7576800E5657C /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
-		E52628982CC356E3004B290C /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		E5374F772D0180A20075427C /* CalendarDateSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateSelector.swift; sourceTree = "<group>"; };
+		E5374F772D0180A20075427C /* MonthSelectSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSelectSection.swift; sourceTree = "<group>"; };
+		E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoLocalDataSource.swift; sourceTree = "<group>"; };
+		E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRemoteDataSource.swift; sourceTree = "<group>"; };
+		E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoUseCase.swift; sourceTree = "<group>"; };
+		E5424D432D357CE10094E1A5 /* TodoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepository.swift; sourceTree = "<group>"; };
+		E54DE8AF2D3375BD00947148 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		E54DE8B12D337A3200947148 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		E54DE8B62D338EF900947148 /* StatusBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBoxView.swift; sourceTree = "<group>"; };
+		E54DE8C32D33B5E900947148 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
+		E54DE8C62D33B94D00947148 /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		E54FC83E2D15532A007B359A /* DailyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStat.swift; sourceTree = "<group>"; };
 		E54FC8412D15537E007B359A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		E54FC8422D15537E007B359A /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		E54FC8452D1553B2007B359A /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		E54FC8492D15587C007B359A /* MeshGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshGradientView.swift; sourceTree = "<group>"; };
 		E54FC84B2D157451007B359A /* widgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widgetExtension.entitlements; sourceTree = "<group>"; };
 		E55CE4222CFDD7BD00B61A4F /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupManager.swift; sourceTree = "<group>"; };
 		E55D8A7B2CBF7D6000849DF1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		E566F8FF2D1AF8B800A96400 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
-		E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewTests.swift; sourceTree = "<group>"; };
-		E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountValidationTests.swift; sourceTree = "<group>"; };
+		E566F8FF2D1AF8B800A96400 /* CustomHeaderWithBackBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHeaderWithBackBtn.swift; sourceTree = "<group>"; };
+		E57374692D1E5EED00D65312 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		E573746C2D1ED7F000D65312 /* WidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetManager.swift; sourceTree = "<group>"; };
+		E57374702D1F6A2A00D65312 /* OfflineUIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineUIManager.swift; sourceTree = "<group>"; };
+		E57374722D20DD9800D65312 /* TodoListWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListWidget.swift; sourceTree = "<group>"; };
 		E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestsView.swift; sourceTree = "<group>"; };
 		E58F1FD42CD0F401007940BB /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8392CC655D000BD43F4 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditViewModel.swift; sourceTree = "<group>"; };
 		E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
-		E5B573AD2CEF56BE000BDE11 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
+		E5B00AA42D39083E008325A6 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5B00AA82D390B9F008325A6 /* UserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUseCase.swift; sourceTree = "<group>"; };
+		E5B00AAA2D3932CE008325A6 /* AuthenticationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationUseCase.swift; sourceTree = "<group>"; };
+		E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5B00AAE2D39330E008325A6 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		E5B00AB02D39332B008325A6 /* AuthRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRemoteDataSource.swift; sourceTree = "<group>"; };
 		E5B9F3BA2D02D4F5003D58EC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tyte.xcdatamodel; sourceTree = "<group>"; };
+		E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		E5CA1C612CE5D154004B3D87 /* CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToast.swift; sourceTree = "<group>"; };
 		E5CA1C622CE5D154004B3D87 /* ToastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastData.swift; sourceTree = "<group>"; };
@@ -286,11 +302,21 @@
 		E5D660252CBFB10300A8279B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E5D6603F2CBFB1FB00A8279B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E5D660402CBFB1FB00A8279B /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		E5D660402CBFB1FB00A8279B /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		E5D660412CBFB1FB00A8279B /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
-		E5DE68792CD35D040055CADB /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
-		EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E5DE68792CD35D040055CADB /* NetworkAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPI.swift; sourceTree = "<group>"; };
+		E5E7EC842D36298D00527B91 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncOperation.swift; sourceTree = "<group>"; };
+		E5E7EC8C2D364C8900527B91 /* TagRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRepository.swift; sourceTree = "<group>"; };
+		E5E7EC8E2D364CB300527B91 /* TagLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLocalDataSource.swift; sourceTree = "<group>"; };
+		E5E7EC902D364CE400527B91 /* DailyStatLocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatLocalDataSource.swift; sourceTree = "<group>"; };
+		E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRepository.swift; sourceTree = "<group>"; };
+		E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatRepositoryProtocol.swift; sourceTree = "<group>"; };
+		E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyStatUseCase.swift; sourceTree = "<group>"; };
+		E5E7EC982D3656D100527B91 /* TagUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUseCase.swift; sourceTree = "<group>"; };
+		E5E7ED512D3691D400527B91 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-widgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-tyte-widgetExtension/Pods-tyte-widgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tyte-tyteUITests.release.xcconfig"; path = "Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,7 +324,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				997473CDBAA79F44ECC0AB2A /* Pods_tyte.framework in Frameworks */,
+				C233F2CA66465964A7EFB095 /* Pods_tyte.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +332,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C16917DAB5D43DEC6C190F67 /* Pods_tyteTests.framework in Frameworks */,
+				666C38B1BBAFBAB79D80B098 /* Pods_tyteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,7 +340,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28AA160586CB690437FC981A /* Pods_tyte_tyteUITests.framework in Frameworks */,
+				04DB989028DD54330BAF16FA /* Pods_tyte_tyteUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +350,7 @@
 			files = (
 				E5D660262CBFB10300A8279B /* SwiftUI.framework in Frameworks */,
 				E5D660242CBFB10300A8279B /* WidgetKit.framework in Frameworks */,
-				9E17E61CBAC0141746961C94 /* Pods_tyte_widgetExtension.framework in Frameworks */,
+				66C944250E81D616299061D4 /* Pods_tyte_widgetExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,12 +360,12 @@
 		58595DA58C486F0F79F4315A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DB38DA8C65F34015A1A4AE0C /* Pods_tyte.framework */,
-				06F92F24E21CA0F7B5E8435C /* Pods_tyte_tyteUITests.framework */,
-				51CCAE5E991E1DAABAB97D3E /* Pods_tyteTests.framework */,
 				E5D660232CBFB10300A8279B /* WidgetKit.framework */,
 				E5D660252CBFB10300A8279B /* SwiftUI.framework */,
-				25BCFC825957DFAB07ACC653 /* Pods_tyte_widgetExtension.framework */,
+				C524D2D8917B5F42561B2BEB /* Pods_tyte.framework */,
+				A648788A155D3506351DDD77 /* Pods_tyte_tyteUITests.framework */,
+				DCDEAA4BEB34CEAA9A6D5983 /* Pods_tyte_widgetExtension.framework */,
+				89C5C4FA017076B7976F12B7 /* Pods_tyteTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -347,10 +373,11 @@
 		AB5BB26B2C836C0400DC4D72 = {
 			isa = PBXGroup;
 			children = (
+				E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */,
 				E54FC84B2D157451007B359A /* widgetExtension.entitlements */,
-				E55D8A7B2CBF7D6000849DF1 /* .gitignore */,
 				AB87355A2CA916E60089844D /* PrivacyInfo.xcprivacy */,
-				E52628852CC35661004B290C /* Shared */,
+				E55D8A7B2CBF7D6000849DF1 /* .gitignore */,
+				ABA920732C897E9A00B9F8F1 /* Font */,
 				AB5BB2762C836C0400DC4D72 /* tyte */,
 				AB5BB2872C836C0600DC4D72 /* tyteTests */,
 				AB5BB2912C836C0600DC4D72 /* tyteUITests */,
@@ -375,41 +402,20 @@
 		AB5BB2762C836C0400DC4D72 /* tyte */ = {
 			isa = PBXGroup;
 			children = (
-				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
-				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
-				AB5BB27D2C836C0500DC4D72 /* Preview Content */,
-				E5DE68732CD354090055CADB /* Protocols */,
-				AB6A0F812C8EB01300254299 /* Networking */,
-				ABD666B22C83731F0005D3C1 /* Models */,
-				ABD666B42C83732E0005D3C1 /* Views */,
-				ABD666B32C8373270005D3C1 /* ViewModels */,
-				AB6A0F7C2C8EAF7400254299 /* Components */,
-				E526289C2CC35750004B290C /* Services */,
-				E52628D42CC392F8004B290C /* Utilities */,
-				AB6A495D2C86069B00B782A1 /* Extensions */,
-				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
 				ABC9937C2CABC2A400D8414F /* tyte.entitlements */,
 				AB5394FD2C85981500A9D1FE /* Info.plist */,
-				AB44988A2C8ACCFE00B2B74A /* LaunchScreen.storyboard */,
+				E51D50602D3BDE3C00408F3C /* Application */,
+				E5424D2B2D3579430094E1A5 /* Domain */,
+				E5424D2E2D3579580094E1A5 /* Presentation */,
+				E5424D2D2D35794F0094E1A5 /* Infrastructure */,
+				E5424D2C2D3579490094E1A5 /* Data */,
 			);
 			path = tyte;
-			sourceTree = "<group>";
-		};
-		AB5BB27D2C836C0500DC4D72 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				E5261BAB2CE7355D00E5657C /* MockServices */,
-				AB5BB27E2C836C0500DC4D72 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		AB5BB2872C836C0600DC4D72 /* tyteTests */ = {
 			isa = PBXGroup;
 			children = (
-				E576460D2CF6B33A007C99AC /* AccountValidationTests.swift */,
-				E576460B2CF6AE87007C99AC /* OnboardingViewTests.swift */,
-				E5B573AD2CEF56BE000BDE11 /* MockServices.swift */,
 				AB5BB2882C836C0600DC4D72 /* tyteTests.swift */,
 			);
 			path = tyteTests;
@@ -427,14 +433,9 @@
 		AB6A0F7C2C8EAF7400254299 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				AB87355C2CAA5A490089844D /* Common */,
+				E54DE8C22D33AE0700947148 /* Shared */,
+				AB87355C2CAA5A490089844D /* Custom */,
 				E5CA1C6B2CE5D953004B3D87 /* BottomSheet */,
-				ABE79CD02C9412A400D59871 /* Home */,
-				ABF93D272C95834900C7D2BC /* MY */,
-				AB1BE8DB2C9D480F00E18EF7 /* DetailView.swift */,
-				ABEF7D202C99842C00A76680 /* TodoItemView.swift */,
-				ABC6CFB22C94267700C7DF1D /* DayView.swift */,
-				AB7EA4AF2C901142000D2C4C /* MeshGradientView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -442,41 +443,40 @@
 		AB6A0F812C8EB01300254299 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				AB6A0F822C8EB01900254299 /* Base */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
-		AB6A0F822C8EB01900254299 /* Base */ = {
-			isa = PBXGroup;
-			children = (
+				E5DE68792CD35D040055CADB /* NetworkAPI.swift */,
 				E5261BB82CE7578000E5657C /* APIResponse.swift */,
 				E5261BB62CE7576800E5657C /* APIResult.swift */,
 				AB6A0F852C8EB02E00254299 /* APIError.swift */,
 				AB6A0F872C8EB03600254299 /* APIEndpoint.swift */,
 			);
-			path = Base;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		AB6A495D2C86069B00B782A1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				AB6A495E2C8606AE00B782A1 /* Int+.swift */,
+				ABDE8B972C86FEE000F3CB68 /* Date+.swift */,
+				AB6A0F762C8E45F100254299 /* Color+.swift */,
+				ABA920762C897FC000B9F8F1 /* Font+.swift */,
 				E55CE4222CFDD7BD00B61A4F /* View+.swift */,
 				AB10144B2C980F7F00F9A9BC /* Animation+.swift */,
 				AB4498842C89930500B2B74A /* String+.swift */,
+				E54DE8C32D33B5E900947148 /* Encodable+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		AB87355C2CAA5A490089844D /* Common */ = {
+		AB87355C2CAA5A490089844D /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				E5CA1C632CE5D154004B3D87 /* Toast */,
-				E5CA1C682CE5D156004B3D87 /* Popup */,
+				E5CA1C612CE5D154004B3D87 /* CustomToast.swift */,
+				E5CA1C662CE5D156004B3D87 /* CustomPopup.swift */,
 				AB688DC72CA3A71D00F6E699 /* CustomTextField.swift */,
 				AB688DC92CA3AB7F00F6E699 /* CustomButton.swift */,
+				E566F8FF2D1AF8B800A96400 /* CustomHeaderWithBackBtn.swift */,
 			);
-			path = Common;
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		ABA920732C897E9A00B9F8F1 /* Font */ = {
@@ -490,16 +490,16 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		ABD666B22C83731F0005D3C1 /* Models */ = {
+		ABD666B22C83731F0005D3C1 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				E519BE462CC8CCA400DD21B7 /* User.swift */,
-				E519BE432CC8CA8B00DD21B7 /* Friend.swift */,
 				ABD666BF2C8373700005D3C1 /* Todo.swift */,
 				ABA9206C2C889F3000B9F8F1 /* DailyStat.swift */,
 				AB6A0F782C8EAF5500254299 /* Tag.swift */,
+				E519BE462CC8CCA400DD21B7 /* User.swift */,
+				E519BE432CC8CA8B00DD21B7 /* Social.swift */,
 			);
-			path = Models;
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		ABD666B32C8373270005D3C1 /* ViewModels */ = {
@@ -517,120 +517,298 @@
 		ABD666B42C83732E0005D3C1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AB6A0F972C8EC56700254299 /* OnboardingView.swift */,
-				E5CA1C6C2CE5DC79004B3D87 /* Home */,
+				ABDE8B8D2C86D8AC00F3CB68 /* MainTabView.swift */,
+				E54DE8C02D33ADE700947148 /* Onboarding */,
+				E54DE8B82D33ACDB00947148 /* Home */,
 				E5CA1C6D2CE5DC85004B3D87 /* Social */,
 				E5CA1C6E2CE5DC98004B3D87 /* MY */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		ABE79CD02C9412A400D59871 /* Home */ = {
+		E51D50602D3BDE3C00408F3C /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				E566F8FF2D1AF8B800A96400 /* NavigationBar.swift */,
-				E517B85A2D1AEFD7000B1B94 /* DatePickerView.swift */,
-				E517B8582D1AEFCF000B1B94 /* TimePickerView.swift */,
-				ABDE8B952C86F70000F3CB68 /* WeeklyCalender.swift */,
-				ABF02B062C9A39C900947DA4 /* MonthPicker.swift */,
-				AB6A0F722C8ADF6000254299 /* CircularProgressView.swift */,
-				ABA9206E2C88AAEB00B9F8F1 /* StatusBox.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		ABF93D272C95834900C7D2BC /* MY */ = {
-			isa = PBXGroup;
-			children = (
-				E5374F772D0180A20075427C /* CalendarDateSelector.swift */,
-				ABF93D292C95835E00C7D2BC /* GraphView.swift */,
-				AB6A0F742C8AE5A000254299 /* CalendarView.swift */,
-				ABEA72322C98065B00D80633 /* ViewSelector.swift */,
-				AB9037252C9EB7D000F7BB73 /* WorkLifeBalancer.swift */,
-			);
-			path = MY;
-			sourceTree = "<group>";
-		};
-		E5261BAB2CE7355D00E5657C /* MockServices */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MockServices;
-			sourceTree = "<group>";
-		};
-		E52628852CC35661004B290C /* Shared */ = {
-			isa = PBXGroup;
-			children = (
+				AB5BB2772C836C0400DC4D72 /* tyteApp.swift */,
 				E52628CE2CC38D40004B290C /* AppState.swift */,
-				E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */,
-				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
 				E5A4A8392CC655D000BD43F4 /* APIConstants.swift */,
-				ABA920732C897E9A00B9F8F1 /* Font */,
-				E52628D12CC38E33004B290C /* Extensions */,
+				AB5BB27B2C836C0500DC4D72 /* Assets.xcassets */,
 			);
-			path = Shared;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		E526289C2CC35750004B290C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E5DE68792CD35D040055CADB /* NetworkService.swift */,
-				E519BE412CC8CA4500DD21B7 /* SocialService.swift */,
-				AB6A0F8A2C8EB32900254299 /* AuthService.swift */,
-				AB6A0F8C2C8EB43600254299 /* TodoService.swift */,
-				AB6A0F8E2C8EB68700254299 /* TagService.swift */,
-				AB6A0F952C8EBBC400254299 /* DailyStatService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		E52628D12CC38E33004B290C /* Extensions */ = {
+		E5424D282D3549B10094E1A5 /* Section */ = {
 			isa = PBXGroup;
 			children = (
-				AB6A495E2C8606AE00B782A1 /* Int+.swift */,
-				ABDE8B972C86FEE000F3CB68 /* Date+.swift */,
-				AB6A0F762C8E45F100254299 /* Color+.swift */,
-				ABA920762C897FC000B9F8F1 /* Font+.swift */,
+				E5374F772D0180A20075427C /* MonthSelectSection.swift */,
+				AB6A0F742C8AE5A000254299 /* CalendarSection.swift */,
+				AB1BE8DB2C9D480F00E18EF7 /* DetailSection.swift */,
 			);
-			path = Extensions;
+			path = Section;
 			sourceTree = "<group>";
 		};
-		E52628D42CC392F8004B290C /* Utilities */ = {
+		E5424D292D3549BA0094E1A5 /* Item */ = {
 			isa = PBXGroup;
 			children = (
-				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
-				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
-				AB84C5302C918EA9000164AC /* Utils.swift */,
+				ABEF7D202C99842C00A76680 /* TodoItem.swift */,
+				ABC6CFB22C94267700C7DF1D /* DayItem.swift */,
 			);
-			path = Utilities;
+			path = Item;
+			sourceTree = "<group>";
+		};
+		E5424D2A2D3549C20094E1A5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				AB7EA4AF2C901142000D2C4C /* MeshGradientCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		E5424D2B2D3579430094E1A5 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				E5E7EC872D3629B800527B91 /* SyncManager */,
+				ABD666B22C83731F0005D3C1 /* Entities */,
+				E5424D3E2D357B930094E1A5 /* UseCases */,
+				E5424D302D357A6C0094E1A5 /* RepositoryInterfaces */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		E5424D2C2D3579490094E1A5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D422D357CC50094E1A5 /* Repositories */,
+				E5424D372D357AB30094E1A5 /* DataSources */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		E5424D2D2D35794F0094E1A5 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				E5BFE3312D1C714E00E558AD /* CoreDataStack.swift */,
+				AB84C5302C918EA9000164AC /* Utils.swift */,
+				E5E7EC862D3629A000527B91 /* Managers */,
+				AB6A0F812C8EB01300254299 /* Networking */,
+				E526289C2CC35750004B290C /* Services */,
+				AB6A495D2C86069B00B782A1 /* Extensions */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		E5424D2E2D3579580094E1A5 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D2F2D3579C80094E1A5 /* PresentationModels */,
+				ABD666B42C83732E0005D3C1 /* Views */,
+				ABD666B32C8373270005D3C1 /* ViewModels */,
+				AB6A0F7C2C8EAF7400254299 /* Components */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		E5424D2F2D3579C80094E1A5 /* PresentationModels */ = {
+			isa = PBXGroup;
+			children = (
+				E5CA1C622CE5D154004B3D87 /* ToastData.swift */,
+				E5CA1C672CE5D156004B3D87 /* PopupData.swift */,
+			);
+			path = PresentationModels;
+			sourceTree = "<group>";
+		};
+		E5424D302D357A6C0094E1A5 /* RepositoryInterfaces */ = {
+			isa = PBXGroup;
+			children = (
+				E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */,
+				E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */,
+				E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */,
+				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
+				E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */,
+			);
+			path = RepositoryInterfaces;
+			sourceTree = "<group>";
+		};
+		E5424D372D357AB30094E1A5 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D3B2D357B0E0094E1A5 /* Remote */,
+				E5424D3A2D357B090094E1A5 /* Local */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		E5424D3A2D357B090094E1A5 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D382D357ADF0094E1A5 /* TodoLocalDataSource.swift */,
+				E5E7EC8E2D364CB300527B91 /* TagLocalDataSource.swift */,
+				E5E7EC902D364CE400527B91 /* DailyStatLocalDataSource.swift */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
+		E5424D3B2D357B0E0094E1A5 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				E5B00AB02D39332B008325A6 /* AuthRemoteDataSource.swift */,
+				E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */,
+				AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */,
+				E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */,
+				AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		E5424D3E2D357B930094E1A5 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				E5B00AAA2D3932CE008325A6 /* AuthenticationUseCase.swift */,
+				E5424D3F2D357B9B0094E1A5 /* TodoUseCase.swift */,
+				E5B00AA82D390B9F008325A6 /* UserUseCase.swift */,
+				E5E7EC982D3656D100527B91 /* TagUseCase.swift */,
+				E5E7EC962D36568400527B91 /* DailyStatUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		E5424D422D357CC50094E1A5 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				E5B00AAE2D39330E008325A6 /* AuthRepository.swift */,
+				E5B00AA42D39083E008325A6 /* UserRepository.swift */,
+				E5424D432D357CE10094E1A5 /* TodoRepository.swift */,
+				E5E7EC8C2D364C8900527B91 /* TagRepository.swift */,
+				E5E7EC922D364D0800527B91 /* DailyStatRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		E54DE8AE2D3375B000947148 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E54DE8B12D337A3200947148 /* Tag.swift */,
+				E54DE8AF2D3375BD00947148 /* Todo.swift */,
+				E54FC83E2D15532A007B359A /* DailyStat.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E54DE8B52D338D7600947148 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				ABF02B062C9A39C900947DA4 /* MonthPicker.swift */,
+				E54DE8B62D338EF900947148 /* StatusBoxView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E54DE8B82D33ACDB00947148 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E54DE8BA2D33ACFD00947148 /* StatisticsView */,
+				E54DE8B92D33ACF400947148 /* TagEditView */,
+				E5CA1C6C2CE5DC79004B3D87 /* HomeView */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E54DE8B92D33ACF400947148 /* TagEditView */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F9B2C8EE85100254299 /* TagEditView.swift */,
+			);
+			path = TagEditView;
+			sourceTree = "<group>";
+		};
+		E54DE8BA2D33ACFD00947148 /* StatisticsView */ = {
+			isa = PBXGroup;
+			children = (
+				E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */,
+			);
+			path = StatisticsView;
+			sourceTree = "<group>";
+		};
+		E54DE8BB2D33AD1200947148 /* SocialView */ = {
+			isa = PBXGroup;
+			children = (
+				E517C2562CCF69960000805C /* SocialView.swift */,
+			);
+			path = SocialView;
+			sourceTree = "<group>";
+		};
+		E54DE8BC2D33ADC000947148 /* FriendRequestsView */ = {
+			isa = PBXGroup;
+			children = (
+				E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */,
+			);
+			path = FriendRequestsView;
+			sourceTree = "<group>";
+		};
+		E54DE8BD2D33ADC800947148 /* FriendSearchView */ = {
+			isa = PBXGroup;
+			children = (
+				E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */,
+			);
+			path = FriendSearchView;
+			sourceTree = "<group>";
+		};
+		E54DE8BE2D33ADD600947148 /* MyPageView */ = {
+			isa = PBXGroup;
+			children = (
+				ABC3A4D22C95A53300F43796 /* MyPageView.swift */,
+			);
+			path = MyPageView;
+			sourceTree = "<group>";
+		};
+		E54DE8BF2D33ADDC00947148 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				ABC9937A2CABB7B100D8414F /* SettingsView.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		E54DE8C02D33ADE700947148 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E54DE8C12D33ADEC00947148 /* OnboardingView */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E54DE8C12D33ADEC00947148 /* OnboardingView */ = {
+			isa = PBXGroup;
+			children = (
+				AB6A0F972C8EC56700254299 /* OnboardingView.swift */,
+			);
+			path = OnboardingView;
+			sourceTree = "<group>";
+		};
+		E54DE8C22D33AE0700947148 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				E5424D2A2D3549C20094E1A5 /* Cell */,
+				E5424D292D3549BA0094E1A5 /* Item */,
+				E5424D282D3549B10094E1A5 /* Section */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		E54FC8402D155374007B359A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E54FC8492D15587C007B359A /* MeshGradientView.swift */,
+				E54DE8C62D33B94D00947148 /* DayView.swift */,
 				E54FC8412D15537E007B359A /* CalendarView.swift */,
-				E54FC8422D15537E007B359A /* DayView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		E5CA1C632CE5D154004B3D87 /* Toast */ = {
-			isa = PBXGroup;
-			children = (
-				E5CA1C612CE5D154004B3D87 /* CustomToast.swift */,
-				E5CA1C622CE5D154004B3D87 /* ToastData.swift */,
-			);
-			path = Toast;
-			sourceTree = "<group>";
-		};
-		E5CA1C682CE5D156004B3D87 /* Popup */ = {
-			isa = PBXGroup;
-			children = (
-				E5CA1C662CE5D156004B3D87 /* CustomPopup.swift */,
-				E5CA1C672CE5D156004B3D87 /* PopupData.swift */,
-			);
-			path = Popup;
 			sourceTree = "<group>";
 		};
 		E5CA1C6B2CE5D953004B3D87 /* BottomSheet */ = {
@@ -645,22 +823,21 @@
 			path = BottomSheet;
 			sourceTree = "<group>";
 		};
-		E5CA1C6C2CE5DC79004B3D87 /* Home */ = {
+		E5CA1C6C2CE5DC79004B3D87 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
 				ABDE8B932C86F2A900F3CB68 /* HomeView.swift */,
-				AB6A0F9B2C8EE85100254299 /* TagEditView.swift */,
-				E5A4A8432CC67FF700BD43F4 /* StatisticsView.swift */,
+				E54DE8B52D338D7600947148 /* Components */,
 			);
-			path = Home;
+			path = HomeView;
 			sourceTree = "<group>";
 		};
 		E5CA1C6D2CE5DC85004B3D87 /* Social */ = {
 			isa = PBXGroup;
 			children = (
-				E517C2562CCF69960000805C /* SocialView.swift */,
-				E58F1FD22CD0E509007940BB /* FriendRequestsView.swift */,
-				E519BE3D2CC8C9F400DD21B7 /* FriendSearchView.swift */,
+				E54DE8BD2D33ADC800947148 /* FriendSearchView */,
+				E54DE8BC2D33ADC000947148 /* FriendRequestsView */,
+				E54DE8BB2D33AD1200947148 /* SocialView */,
 			);
 			path = Social;
 			sourceTree = "<group>";
@@ -668,8 +845,8 @@
 		E5CA1C6E2CE5DC98004B3D87 /* MY */ = {
 			isa = PBXGroup;
 			children = (
-				ABC3A4D22C95A53300F43796 /* MyPageView.swift */,
-				ABC9937A2CABB7B100D8414F /* SettingsView.swift */,
+				E54DE8BF2D33ADDC00947148 /* SettingsView */,
+				E54DE8BE2D33ADD600947148 /* MyPageView */,
 			);
 			path = MY;
 			sourceTree = "<group>";
@@ -677,8 +854,8 @@
 		E5CA1C6F2CE5DCD9004B3D87 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				E5E7ED512D3691D400527B91 /* HomeViewModel.swift */,
 				E5A4A8412CC6733400BD43F4 /* TagEditViewModel.swift */,
-				ABD666BB2C83735F0005D3C1 /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -703,37 +880,52 @@
 		E5D660442CBFB1FB00A8279B /* widget */ = {
 			isa = PBXGroup;
 			children = (
+				E5D660412CBFB1FB00A8279B /* widgetBundle.swift */,
+				E57374722D20DD9800D65312 /* TodoListWidget.swift */,
+				E5D660402CBFB1FB00A8279B /* CalendarWidget.swift */,
 				E54FC8452D1553B2007B359A /* Utils.swift */,
+				E54DE8AE2D3375B000947148 /* Models */,
 				E54FC8402D155374007B359A /* Views */,
-				E54FC83E2D15532A007B359A /* DailyStat.swift */,
-				E52628982CC356E3004B290C /* TodoDataModel.swift */,
 				E5D6603E2CBFB1FB00A8279B /* Assets.xcassets */,
 				E5D6603F2CBFB1FB00A8279B /* Info.plist */,
-				E5D660402CBFB1FB00A8279B /* widget.swift */,
-				E5D660412CBFB1FB00A8279B /* widgetBundle.swift */,
 			);
 			path = widget;
 			sourceTree = "<group>";
 		};
-		E5DE68732CD354090055CADB /* Protocols */ = {
+		E5E7EC862D3629A000527B91 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				E5DE687D2CD35F9F0055CADB /* ServiceProtocols.swift */,
+				E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */,
+				E573746C2D1ED7F000D65312 /* WidgetManager.swift */,
+				E57374692D1E5EED00D65312 /* NetworkManager.swift */,
+				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
+				E57374702D1F6A2A00D65312 /* OfflineUIManager.swift */,
+				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
+				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
+				E5E7EC842D36298D00527B91 /* SyncManager.swift */,
 			);
-			path = Protocols;
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		E5E7EC872D3629B800527B91 /* SyncManager */ = {
+			isa = PBXGroup;
+			children = (
+				E5E7EC8A2D362A3E00527B91 /* SyncOperation.swift */,
+			);
+			path = SyncManager;
 			sourceTree = "<group>";
 		};
 		F31225ED6139D10585A1FF21 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */,
-				B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */,
-				01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */,
-				EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */,
-				4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */,
-				435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */,
-				D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */,
-				48E7EB47C217A237236FF6A8 /* Pods-tyte-widgetExtension.release.xcconfig */,
+				615BD58F76D7CEB6C8245A5F /* Pods-tyte.debug.xcconfig */,
+				8935B255B470240578D1DED4 /* Pods-tyte.release.xcconfig */,
+				60D909C2852D0E9FF4712DB7 /* Pods-tyte-tyteUITests.debug.xcconfig */,
+				FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */,
+				E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */,
+				D8C2AF31B94064EC1783D79D /* Pods-tyte-widgetExtension.release.xcconfig */,
+				933E03A8CF0E414BD3004761 /* Pods-tyteTests.debug.xcconfig */,
+				D5956D6EF48A3EA8ADADC5FF /* Pods-tyteTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -745,12 +937,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB5BB2982C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyte" */;
 			buildPhases = (
-				388C035316B68ACB7116F318 /* [CP] Check Pods Manifest.lock */,
+				80D3E90D5D87089ADBD9BD8F /* [CP] Check Pods Manifest.lock */,
 				AB5BB2702C836C0400DC4D72 /* Sources */,
 				AB5BB2712C836C0400DC4D72 /* Frameworks */,
 				AB5BB2722C836C0400DC4D72 /* Resources */,
-				8AD7FF0506FA52C8C984962E /* [CP] Embed Pods Frameworks */,
 				E5D6603C2CBFB10400A8279B /* Embed Foundation Extensions */,
+				5CE6782AB7F90A1A394E4CA1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -766,7 +958,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB5BB29B2C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyteTests" */;
 			buildPhases = (
-				14ECBA80144931856E8312B7 /* [CP] Check Pods Manifest.lock */,
+				9812D121A9D36B82B2E83618 /* [CP] Check Pods Manifest.lock */,
 				AB5BB2802C836C0600DC4D72 /* Sources */,
 				AB5BB2812C836C0600DC4D72 /* Frameworks */,
 				AB5BB2822C836C0600DC4D72 /* Resources */,
@@ -785,11 +977,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB5BB29E2C836C0600DC4D72 /* Build configuration list for PBXNativeTarget "tyteUITests" */;
 			buildPhases = (
-				E91B375946D51BF527D8D933 /* [CP] Check Pods Manifest.lock */,
+				1F0C5A45248F724C148DFE08 /* [CP] Check Pods Manifest.lock */,
 				AB5BB28A2C836C0600DC4D72 /* Sources */,
 				AB5BB28B2C836C0600DC4D72 /* Frameworks */,
 				AB5BB28C2C836C0600DC4D72 /* Resources */,
-				D25D42FDEDFB38E2624CDE8B /* [CP] Embed Pods Frameworks */,
+				C139D232F0D4B9E005D75135 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -805,7 +997,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E5D660392CBFB10400A8279B /* Build configuration list for PBXNativeTarget "widgetExtension" */;
 			buildPhases = (
-				261D0A22A3E83845E47D9A1C /* [CP] Check Pods Manifest.lock */,
+				D6E804961F8511D5D466FFA3 /* [CP] Check Pods Manifest.lock */,
 				E5D6601E2CBFB10200A8279B /* Sources */,
 				E5D6601F2CBFB10200A8279B /* Frameworks */,
 				E5D660202CBFB10200A8279B /* Resources */,
@@ -877,9 +1069,7 @@
 				ABA9207F2C8988E200B9F8F1 /* Pretendard-Regular.ttf in Resources */,
 				ABA9207E2C8988E200B9F8F1 /* Pretendard-Bold.ttf in Resources */,
 				ABA9207D2C8988E200B9F8F1 /* Pretendard-Black.ttf in Resources */,
-				AB44988B2C8ACCFE00B2B74A /* LaunchScreen.storyboard in Resources */,
 				AB87355B2CA916E60089844D /* PrivacyInfo.xcprivacy in Resources */,
-				AB5BB27F2C836C0500DC4D72 /* Preview Assets.xcassets in Resources */,
 				AB5BB27C2C836C0500DC4D72 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -913,107 +1103,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		14ECBA80144931856E8312B7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-tyteTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		261D0A22A3E83845E47D9A1C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-tyte-widgetExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		388C035316B68ACB7116F318 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-tyte-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8AD7FF0506FA52C8C984962E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D25D42FDEDFB38E2624CDE8B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E91B375946D51BF527D8D933 /* [CP] Check Pods Manifest.lock */ = {
+		1F0C5A45248F724C148DFE08 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1035,6 +1125,106 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5CE6782AB7F90A1A394E4CA1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tyte/Pods-tyte-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80D3E90D5D87089ADBD9BD8F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyte-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9812D121A9D36B82B2E83618 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyteTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C139D232F0D4B9E005D75135 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-tyte-tyteUITests/Pods-tyte-tyteUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D6E804961F8511D5D466FFA3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-tyte-widgetExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1042,12 +1232,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5DE687E2CD35FA30055CADB /* ServiceProtocols.swift in Sources */,
 				E5A4A8442CC67FF800BD43F4 /* StatisticsView.swift in Sources */,
+				E5424D332D357A770094E1A5 /* TodoRepositoryProtocol.swift in Sources */,
 				E519BE402CC8CA2700DD21B7 /* SocialViewModel.swift in Sources */,
 				E55CE4232CFDD7BF00B61A4F /* View+.swift in Sources */,
+				E5E7EC8D2D364C8900527B91 /* TagRepository.swift in Sources */,
 				AB7846692C95E0A700349246 /* MyPageViewModel.swift in Sources */,
-				ABF93D2A2C95835E00C7D2BC /* GraphView.swift in Sources */,
+				E573746A2D1E5EF200D65312 /* NetworkManager.swift in Sources */,
+				E5E7EC992D3656D100527B91 /* TagUseCase.swift in Sources */,
 				ABDE8B8E2C86D8AC00F3CB68 /* MainTabView.swift in Sources */,
 				AB2E88EB2C986C6400906446 /* KeychainManager.swift in Sources */,
 				AB84C5312C918EA9000164AC /* Utils.swift in Sources */,
@@ -1056,67 +1248,83 @@
 				E52628CF2CC38D42004B290C /* AppState.swift in Sources */,
 				E5CA1C602CE4A14F004B3D87 /* UserDefaultsManager.swift in Sources */,
 				ABDE8B982C86FEE000F3CB68 /* Date+.swift in Sources */,
-				ABC6CFB32C94267700C7DF1D /* DayView.swift in Sources */,
+				E5424D402D357B9B0094E1A5 /* TodoUseCase.swift in Sources */,
+				E5B00AA92D390B9F008325A6 /* UserUseCase.swift in Sources */,
+				ABC6CFB32C94267700C7DF1D /* DayItem.swift in Sources */,
 				AB6A0F882C8EB03600254299 /* APIEndpoint.swift in Sources */,
 				AB6A0F792C8EAF5500254299 /* Tag.swift in Sources */,
 				E519BE3E2CC8C9FD00DD21B7 /* FriendSearchView.swift in Sources */,
 				AB5BB2782C836C0400DC4D72 /* tyteApp.swift in Sources */,
-				AB1BE8DC2C9D480F00E18EF7 /* DetailView.swift in Sources */,
+				E5B00AA52D39085B008325A6 /* UserRepository.swift in Sources */,
+				E5B00AAF2D39330E008325A6 /* AuthRepository.swift in Sources */,
+				AB1BE8DC2C9D480F00E18EF7 /* DetailSection.swift in Sources */,
 				ABD666C02C8373700005D3C1 /* Todo.swift in Sources */,
-				ABDE8B962C86F70000F3CB68 /* WeeklyCalender.swift in Sources */,
-				E519BE422CC8CA4800DD21B7 /* SocialService.swift in Sources */,
-				AB6A0F8D2C8EB43600254299 /* TodoService.swift in Sources */,
+				E519BE422CC8CA4800DD21B7 /* UserRemoteDatasource.swift in Sources */,
 				E55CE4252CFDD7EF00B61A4F /* ToastManager.swift in Sources */,
+				E5E7EC972D36568400527B91 /* DailyStatUseCase.swift in Sources */,
 				E5CA1C642CE5D154004B3D87 /* CustomToast.swift in Sources */,
 				E5CA1C652CE5D154004B3D87 /* ToastData.swift in Sources */,
 				ABC9937B2CABB7B100D8414F /* SettingsView.swift in Sources */,
+				E5BFE3322D1C714E00E558AD /* CoreDataStack.swift in Sources */,
 				ABF02B072C9A39C900947DA4 /* MonthPicker.swift in Sources */,
+				E5424D392D357ADF0094E1A5 /* TodoLocalDataSource.swift in Sources */,
 				ABC86D322C9F861C0089DC61 /* MultiLayerBottomSheet.swift in Sources */,
 				E517C2572CCF69960000805C /* SocialView.swift in Sources */,
 				AB6A0F9C2C8EE85100254299 /* TagEditView.swift in Sources */,
 				ABC5D0462C9C010000676222 /* CreateTodoBottomSheet.swift in Sources */,
+				E5424D362D357A800094E1A5 /* TagRepositoryProtocol.swift in Sources */,
 				AB4498832C8992B000B2B74A /* TodoEditBottomSheet.swift in Sources */,
 				E519BE472CC8CCA600DD21B7 /* User.swift in Sources */,
-				AB7EA4B02C901142000D2C4C /* MeshGradientView.swift in Sources */,
-				E517B8592D1AEFCF000B1B94 /* TimePickerView.swift in Sources */,
+				AB7EA4B02C901142000D2C4C /* MeshGradientCell.swift in Sources */,
 				E5A4A8422CC6733500BD43F4 /* TagEditViewModel.swift in Sources */,
 				E55CE4272CFDE1B000B61A4F /* PopupManager.swift in Sources */,
-				ABD666BC2C83735F0005D3C1 /* HomeViewModel.swift in Sources */,
+				E54DE8C42D33B5E900947148 /* Encodable+.swift in Sources */,
 				ABA920772C897FC000B9F8F1 /* Font+.swift in Sources */,
-				AB6A0F732C8ADF6000254299 /* CircularProgressView.swift in Sources */,
+				E5B00AAD2D3932F8008325A6 /* AuthRepositoryProtocol.swift in Sources */,
 				E58F1FD32CD0E50B007940BB /* FriendRequestsView.swift in Sources */,
-				E519BE452CC8CA8E00DD21B7 /* Friend.swift in Sources */,
+				E5E7ED522D3691D400527B91 /* HomeViewModel.swift in Sources */,
+				E57374712D1F6A2A00D65312 /* OfflineUIManager.swift in Sources */,
+				E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */,
 				E5B9F3BB2D02D4F8003D58EC /* ContentViewModel.swift in Sources */,
+				E5424D442D357CE10094E1A5 /* TodoRepository.swift in Sources */,
 				AB10144C2C980F7F00F9A9BC /* Animation+.swift in Sources */,
 				AB21F09B2C9047D200AAADAB /* ColorPickerBottomSheet.swift in Sources */,
-				AB6A0F962C8EBBC400254299 /* DailyStatService.swift in Sources */,
+				AB6A0F962C8EBBC400254299 /* DailyStatRemoteDataSource.swift in Sources */,
 				AB6A0F802C8EAFF700254299 /* AuthViewModel.swift in Sources */,
 				E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */,
-				E517B85B2D1AEFD7000B1B94 /* DatePickerView.swift in Sources */,
+				E5E7EC952D36509400527B91 /* DailyStatRepositoryProtocol.swift in Sources */,
+				E5B00AAB2D3932CE008325A6 /* AuthenticationUseCase.swift in Sources */,
 				AB4498852C89930500B2B74A /* String+.swift in Sources */,
-				AB6A0F8F2C8EB68700254299 /* TagService.swift in Sources */,
+				AB6A0F8F2C8EB68700254299 /* TagRemoteDataSource.swift in Sources */,
+				E5E7EC912D364CE400527B91 /* DailyStatLocalDataSource.swift in Sources */,
 				ABC3A4D32C95A53300F43796 /* MyPageView.swift in Sources */,
-				ABEA72332C98065B00D80633 /* ViewSelector.swift in Sources */,
-				AB6A0F752C8AE5A000254299 /* CalendarView.swift in Sources */,
+				AB6A0F752C8AE5A000254299 /* CalendarSection.swift in Sources */,
+				E5E7EC8B2D362A3E00527B91 /* SyncOperation.swift in Sources */,
+				E5E7EC8F2D364CB300527B91 /* TagLocalDataSource.swift in Sources */,
+				E54DE8B72D338EF900947148 /* StatusBoxView.swift in Sources */,
+				E5424D3D2D357B130094E1A5 /* TodoRemoteDataSource.swift in Sources */,
 				AB6A0F772C8E45F100254299 /* Color+.swift in Sources */,
-				AB9037262C9EB7D000F7BB73 /* WorkLifeBalancer.swift in Sources */,
 				AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */,
+				E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
 				ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */,
 				E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */,
 				E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */,
-				E5DE687A2CD35D110055CADB /* NetworkService.swift in Sources */,
+				E5B00AA72D390B5C008325A6 /* UserRepositoryProtocol.swift in Sources */,
+				E5B00AB12D39332B008325A6 /* AuthRemoteDataSource.swift in Sources */,
+				E5DE687A2CD35D110055CADB /* NetworkAPI.swift in Sources */,
+				E573746D2D1ED7F500D65312 /* WidgetManager.swift in Sources */,
 				ABA9206D2C889F3000B9F8F1 /* DailyStat.swift in Sources */,
 				E5A4A83A2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
 				AB688DCA2CA3AB7F00F6E699 /* CustomButton.swift in Sources */,
-				AB6A0F8B2C8EB32900254299 /* AuthService.swift in Sources */,
-				ABA9206F2C88AAEB00B9F8F1 /* StatusBox.swift in Sources */,
-				ABEF7D212C99842C00A76680 /* TodoItemView.swift in Sources */,
+				ABEF7D212C99842C00A76680 /* TodoItem.swift in Sources */,
 				ABF02B0B2C9A5AB900947DA4 /* TagEditBottomSheet.swift in Sources */,
+				E5E7EC932D364D0800527B91 /* DailyStatRepository.swift in Sources */,
+				E5E7EC852D36298D00527B91 /* SyncManager.swift in Sources */,
 				AB6A0F982C8EC56700254299 /* OnboardingView.swift in Sources */,
 				AB6A0F862C8EB02E00254299 /* APIError.swift in Sources */,
 				AB6A495F2C8606AF00B782A1 /* Int+.swift in Sources */,
-				E5374F782D0180DC0075427C /* CalendarDateSelector.swift in Sources */,
-				E566F9002D1AF8B800A96400 /* NavigationBar.swift in Sources */,
+				E5374F782D0180DC0075427C /* MonthSelectSection.swift in Sources */,
+				E566F9002D1AF8B800A96400 /* CustomHeaderWithBackBtn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,10 +1332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E576460E2CF6B343007C99AC /* AccountValidationTests.swift in Sources */,
-				E576460C2CF6AE8D007C99AC /* OnboardingViewTests.swift in Sources */,
 				AB5BB2892C836C0600DC4D72 /* tyteTests.swift in Sources */,
-				E5B573AE2CEF56C2000BDE11 /* MockServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1146,24 +1351,23 @@
 			files = (
 				E54FC8482D15576A007B359A /* Int+.swift in Sources */,
 				E54FC8432D15537E007B359A /* CalendarView.swift in Sources */,
-				E5C35BA72D1A8BBC002DCEBD /* AppState.swift in Sources */,
+				E54DE8B22D337A3200947148 /* Tag.swift in Sources */,
 				E54FC8472D1553DA007B359A /* Color+.swift in Sources */,
-				E54FC8442D15537E007B359A /* DayView.swift in Sources */,
-				E52628D32CC392C7004B290C /* Tag.swift in Sources */,
-				E5C35BA82D1A8BC7002DCEBD /* UserDefaultsManager.swift in Sources */,
+				E5BFE3302D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
+				E54DE8B02D3375BD00947148 /* Todo.swift in Sources */,
+				E54DE8C72D33B94D00947148 /* DayView.swift in Sources */,
 				E54FC83F2D15532A007B359A /* DailyStat.swift in Sources */,
-				E519BE442CC8CA8E00DD21B7 /* Friend.swift in Sources */,
+				E519BE442CC8CA8E00DD21B7 /* Social.swift in Sources */,
 				E5A4A83B2CC655DC00BD43F4 /* APIConstants.swift in Sources */,
-				E5D660462CBFB1FB00A8279B /* widget.swift in Sources */,
+				E5D660462CBFB1FB00A8279B /* CalendarWidget.swift in Sources */,
+				E57374732D20DD9800D65312 /* TodoListWidget.swift in Sources */,
 				E5D660472CBFB1FB00A8279B /* widgetBundle.swift in Sources */,
 				E519BE482CC8CCA600DD21B7 /* User.swift in Sources */,
 				E54FC8462D1553B2007B359A /* Utils.swift in Sources */,
+				E54DE8C52D33B5E900947148 /* Encodable+.swift in Sources */,
 				E52628DA2CC3AB45004B290C /* Date+.swift in Sources */,
+				E573746F2D1ED9C400D65312 /* CoreDataStack.swift in Sources */,
 				E52628D92CC3A97F004B290C /* Font+.swift in Sources */,
-				E54FC84A2D15587C007B359A /* MeshGradientView.swift in Sources */,
-				E52628832CC3563B004B290C /* Todo.swift in Sources */,
-				E52628992CC356E3004B290C /* TodoDataModel.swift in Sources */,
-				E5DE11AD2D1A993300D460FE /* KeychainManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1243,7 +1447,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "타이트";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1302,7 +1506,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "타이트";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1313,14 +1517,13 @@
 		};
 		AB5BB2992C836C0600DC4D72 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 330F032AADB57A56731B0F7A /* Pods-tyte.debug.xcconfig */;
+			baseConfigurationReference = 615BD58F76D7CEB6C8245A5F /* Pods-tyte.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = tyte/tyte.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"tyte/Preview Content\"";
 				DEVELOPMENT_TEAM = H856SYKNM8;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1345,14 +1548,13 @@
 		};
 		AB5BB29A2C836C0600DC4D72 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8002143379635213EF12930 /* Pods-tyte.release.xcconfig */;
+			baseConfigurationReference = 8935B255B470240578D1DED4 /* Pods-tyte.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = tyte/tyte.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_ASSET_PATHS = "\"tyte/Preview Content\"";
 				DEVELOPMENT_TEAM = H856SYKNM8;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1377,7 +1579,7 @@
 		};
 		AB5BB29C2C836C0600DC4D72 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E3CCC4D9EB4B6AB116DD3E0 /* Pods-tyteTests.debug.xcconfig */;
+			baseConfigurationReference = 933E03A8CF0E414BD3004761 /* Pods-tyteTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1397,7 +1599,7 @@
 		};
 		AB5BB29D2C836C0600DC4D72 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 435E072F140776351B4B6E7A /* Pods-tyteTests.release.xcconfig */;
+			baseConfigurationReference = D5956D6EF48A3EA8ADADC5FF /* Pods-tyteTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -1417,7 +1619,7 @@
 		};
 		AB5BB29F2C836C0600DC4D72 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 01A1E39CC23F81D64A537AFE /* Pods-tyte-tyteUITests.debug.xcconfig */;
+			baseConfigurationReference = 60D909C2852D0E9FF4712DB7 /* Pods-tyte-tyteUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1436,7 +1638,7 @@
 		};
 		AB5BB2A02C836C0600DC4D72 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB1610222261F531DA901523 /* Pods-tyte-tyteUITests.release.xcconfig */;
+			baseConfigurationReference = FE68262E1F65ABD853724D02 /* Pods-tyte-tyteUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1455,7 +1657,7 @@
 		};
 		E5D6603A2CBFB10400A8279B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D849E1AE2E0FE624731DF68D /* Pods-tyte-widgetExtension.debug.xcconfig */;
+			baseConfigurationReference = E7A6FD03C2CFC4D2DFB3FDE8 /* Pods-tyte-widgetExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -1483,7 +1685,7 @@
 		};
 		E5D6603B2CBFB10400A8279B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48E7EB47C217A237236FF6A8 /* Pods-tyte-widgetExtension.release.xcconfig */;
+			baseConfigurationReference = D8C2AF31B94064EC1783D79D /* Pods-tyte-widgetExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -1558,6 +1760,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E5BFE32D2D1C311300E558AD /* tyte.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */,
+			);
+			currentVersion = E5BFE32E2D1C311300E558AD /* tyte.xcdatamodel */;
+			path = tyte.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AB5BB26C2C836C0400DC4D72 /* Project object */;
 }

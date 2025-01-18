@@ -6,60 +6,44 @@ PODS:
   - AppAuth/Core (1.7.5)
   - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
-  - AppCheckCore (11.0.0):
-    - GoogleUtilities/Environment (~> 8.0)
-    - GoogleUtilities/UserDefaults (~> 8.0)
-    - PromisesObjC (~> 2.4)
-  - GoogleSignIn (8.0.0):
-    - AppAuth (< 2.0, >= 1.7.3)
-    - AppCheckCore (~> 11.0)
-    - GTMAppAuth (< 5.0, >= 4.1.1)
-    - GTMSessionFetcher/Core (~> 3.3)
-  - GoogleSignInSwiftSupport (8.0.0):
-    - GoogleSignIn (~> 8.0)
-  - GoogleUtilities/Environment (8.0.2):
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Logger (8.0.2):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Privacy (8.0.2)
-  - GoogleUtilities/UserDefaults (8.0.2):
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
-  - GTMAppAuth (4.1.1):
-    - AppAuth/Core (~> 1.7)
-    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
-  - GTMSessionFetcher/Core (3.5.0)
-  - PromisesObjC (2.4.0)
+  - GoogleSignIn (7.0.0):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (< 3.0, >= 1.3)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
+  - GoogleSignInSwiftSupport (7.0.0):
+    - GoogleSignIn (~> 7.0)
+  - GTMAppAuth (2.0.0):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
+  - GTMSessionFetcher (3.1.1):
+    - GTMSessionFetcher/Full (= 3.1.1)
+  - GTMSessionFetcher/Core (3.1.1)
+  - GTMSessionFetcher/Full (3.1.1):
+    - GTMSessionFetcher/Core
 
 DEPENDENCIES:
   - Alamofire
-  - GoogleSignIn
-  - GoogleSignInSwiftSupport
+  - GoogleSignIn (~> 7.0)
+  - GoogleSignInSwiftSupport (~> 7.0)
+  - GTMSessionFetcher (~> 3.1.1)
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - AppAuth
-    - AppCheckCore
     - GoogleSignIn
     - GoogleSignInSwiftSupport
-    - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
-    - PromisesObjC
 
 SPEC CHECKSUMS:
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
-  AppCheckCore: e25aaaac234b333320b0bebb8fc21ed3576819ba
-  GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
-  GoogleSignInSwiftSupport: de6a0f0c2f0f7420d77a58275fbef7c7f4fcf3c2
-  GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
-  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
-  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
-  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
+  GoogleSignInSwiftSupport: 6ca6e5a978faa4cd43451b6b9b38b96ab5db1734
+  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
+  GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
 
-PODFILE CHECKSUM: 839e682b8c41d695228fda8ae33f1d064acdc3cc
+PODFILE CHECKSUM: 4efeb4fc6fc05a2e20eb901d1626dba6e3d25793
 
 COCOAPODS: 1.15.2
