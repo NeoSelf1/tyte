@@ -10,7 +10,7 @@ enum Field: Hashable {
 }
 
 @MainActor
-class AuthViewModel: ObservableObject {
+class OnboardingViewModel: ObservableObject {
     // MARK: - Form State
     
     @Published var email: String = ""

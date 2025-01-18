@@ -2,7 +2,7 @@ import SwiftUI
 import AuthenticationServices
 
 struct OnboardingView: View {
-    @StateObject private var viewModel = AuthViewModel()
+    @StateObject private var viewModel = OnboardingViewModel()
     
     @EnvironmentObject var appState: AppState
     
