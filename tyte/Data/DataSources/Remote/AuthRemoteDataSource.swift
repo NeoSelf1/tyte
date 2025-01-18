@@ -22,12 +22,12 @@ protocol AuthRemoteDataSourceProtocol {
 class AuthRemoteDataSource: AuthRemoteDataSourceProtocol {
     // MARK: - Dependencies
     
-    private let networkService: NetworkServiceProtocol
+    private let networkAPI: NetworkAPI
     
     /// AuthService 초기화
-    /// - Parameter networkService: 네트워크 요청을 처리할 서비스 인스턴스
-    init(networkService: NetworkServiceProtocol = NetworkService()) {
-        self.networkService = networkService
+    /// - Parameter NetworkAPI: 네트워크 요청을 처리할 서비스 인스턴스
+    init(networkAPI: NetworkAPI = NetworkAPI()) {
+        self.networkAPI = networkAPI
     }
     
     /// 이메일과 비밀번호로 로그인합니다.
@@ -37,7 +37,7 @@ class AuthRemoteDataSource: AuthRemoteDataSourceProtocol {
     /// - Returns: 로그인 정보를 포함한 Publisher
     func login(email: String, password: String) async throws -> LoginResponse {
         let parameters: [String: Any] = ["email": email, "password": password]
-        return try await networkService.requestWithoutAuth(.login, method: .post, parameters: parameters)
+        return try await networkAPI.requestWithoutAuth(.login, method: .post, parameters: parameters)
     }
     
     /// 소셜 계정을 통해 로그인합니다.
@@ -47,7 +47,7 @@ class AuthRemoteDataSource: AuthRemoteDataSourceProtocol {
     /// - Returns: 로그인 정보를 포함한 Publisher
     func socialLogin(idToken: String, provider: String) async throws -> LoginResponse {
         let parameters: [String: Any] = ["token": idToken]
-        return try await networkService.requestWithoutAuth(.socialLogin(provider), method: .post, parameters: parameters)
+        return try await networkAPI.requestWithoutAuth(.socialLogin(provider), method: .post, parameters: parameters)
     }
     
     /// 새로운 사용자 계정을 생성합니다.
@@ -62,7 +62,7 @@ class AuthRemoteDataSource: AuthRemoteDataSourceProtocol {
             "username": username,
             "password": password
         ]
-        return try await networkService.requestWithoutAuth(.signUp, method: .post, parameters: parameters)
+        return try await networkAPI.requestWithoutAuth(.signUp, method: .post, parameters: parameters)
     }
     
     /// 인증 토큰의 유효성을 검증합니다.
@@ -70,7 +70,7 @@ class AuthRemoteDataSource: AuthRemoteDataSourceProtocol {
     /// - Returns: 토큰 유효성 검증 결과를 포함한 Publisher
     func validateToken(_ token: String) async throws -> ValidateResponse {
         let parameters: [String: Any] = ["token": token]
-        return try await networkService.requestWithoutAuth(.validateToken, method: .post, parameters: parameters)
+        return try await networkAPI.requestWithoutAuth(.validateToken, method: .post, parameters: parameters)
     }
     
     /// 이메일 주소의 사용 가능 여부를 확인합니다.
@@ -78,19 +78,19 @@ class AuthRemoteDataSource: AuthRemoteDataSourceProtocol {
     /// - Returns: 이메일 사용 가능 여부를 포함한 Publisher
     func checkEmail(_ email: String) async throws -> ValidateResponse {
         let parameters: [String: Any] = ["email": email]
-        return try await networkService.requestWithoutAuth(.checkEmail, method: .post, parameters: parameters)
+        return try await networkAPI.requestWithoutAuth(.checkEmail, method: .post, parameters: parameters)
     }
     
     /// 사용자 계정을 삭제합니다.
     /// - Returns: 빈 응답을 포함한 Publisher
     /// - Note: 이 작업은 되돌릴 수 없으며, 모든 사용자 데이터가 영구적으로 삭제됩니다.
     func deleteAccount() async throws -> EmptyResponse {
-        return try await networkService.request(.deleteAccount, method: .delete, parameters: nil)
+        return try await networkAPI.request(.deleteAccount, method: .delete, parameters: nil)
     }
     
     /// 앱 버전 정보를 확인합니다.
     /// - Returns: 현재 서버에서 지원하는 앱 버전 정보를 포함한 Publisher
     func checkVersion() async throws -> VersionResponse {
-        return try await networkService.requestWithoutAuth(.checkVersion, method: .get, parameters: nil)
+        return try await networkAPI.requestWithoutAuth(.checkVersion, method: .get, parameters: nil)
     }
 }
