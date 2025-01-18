@@ -226,6 +226,7 @@ class HomeViewModel: ObservableObject {
     
     // MARK: - Tag 관련 메서드
     func getTags() {
+        print("getTags from HomeViewModel")
         isLoading = true
         tagService.fetchTags()
             .receive(on: DispatchQueue.main)

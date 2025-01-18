@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var appState: AppState // 구독만 해도 재렌더
     
     var body: some View {
         ZStack {
@@ -44,6 +44,7 @@ struct HomeView: View {
             }
             
             floatingActionButton
+            
             monthPicker
         }
         .sheet(isPresented: $viewModel.isCreateTodoPresented) {
@@ -178,11 +179,13 @@ struct HomeView: View {
                 .padding(.top, -16)
             }
             .padding(.bottom,16)
-            
             .onAppear {
+                print("header onAppear")
                 viewModel.getTags()
                 viewModel.setDateToTodayAndScrollCalendar(proxy)
             }
+            
+            .id("homeHeadergetTag")
         }
     }
 }
