@@ -2,19 +2,6 @@
 import Foundation
 import Alamofire
 
-protocol NetworkServiceProtocol {
-    func request<T: Decodable>(
-        _ endpoint: APIEndpoint,
-        method: HTTPMethod,
-        parameters: Parameters?
-    ) async throws -> T
-    
-    func requestWithoutAuth<T: Decodable>(
-        _ endpoint: APIEndpoint,
-        method: HTTPMethod,
-        parameters: Parameters?
-    ) async throws -> T
-}
 
 /// 인증이 필요한 API 요청을 처리합니다.
 /// - Parameters:
@@ -22,7 +9,7 @@ protocol NetworkServiceProtocol {
 ///   - method: HTTP 메서드
 ///   - parameters: 요청 파라미터
 /// - Returns: 디코딩된 응답 데이터를 포함하는 Publisher
-class NetworkService: NetworkServiceProtocol {
+class NetworkAPI {
     func request<T: Decodable>(
         _ endpoint: APIEndpoint,
         method: HTTPMethod = .get,

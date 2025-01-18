@@ -8,9 +8,9 @@ protocol DailyStatUseCaseProtocol {
 }
 
 class DailyStatUseCase: DailyStatUseCaseProtocol {
-    private let repository: DailyStatRepository
+    private let repository: DailyStatRepositoryProtocol
     
-    init(repository: DailyStatRepository = DailyStatRepository()) {
+    init(repository: DailyStatRepositoryProtocol = DailyStatRepository()) {
         self.repository = repository
     }
     

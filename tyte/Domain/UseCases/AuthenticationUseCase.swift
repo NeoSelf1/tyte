@@ -1,5 +1,3 @@
-//AuthenticationUseCase → AuthRepository → AuthRemoteDataSource → NetworkService
-
 protocol AuthenticationUseCaseProtocol {
     func login(email: String, password: String) async throws -> User
     func socialLogin(idToken: String, provider: String) async throws -> User

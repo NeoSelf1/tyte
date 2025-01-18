@@ -29,8 +29,8 @@ protocol TodoUseCaseProtocol {
 }
 
 class TodoUseCase: TodoUseCaseProtocol {
-    private let todoRepository: TodoRepository
-    private let dailyStatRepository: DailyStatRepository
+    private let todoRepository: TodoRepositoryProtocol
+    private let dailyStatRepository: DailyStatRepositoryProtocol
         
     init(
         todoRepository: TodoRepository = TodoRepository(),

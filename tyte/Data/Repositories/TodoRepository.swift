@@ -1,12 +1,12 @@
 class TodoRepository: TodoRepositoryProtocol {
     private let remoteDataSource: TodoRemoteDataSource
     private let localDataSource: TodoLocalDataSource
-    private let syncManager: SyncManager
+    private let syncManager: SyncManagerProtocol
     
     init(
         remoteDataSource: TodoRemoteDataSource = TodoRemoteDataSource(),
         localDataSource: TodoLocalDataSource = TodoLocalDataSource(),
-        syncManager: SyncManager = .shared
+        syncManager: SyncManagerProtocol = SyncManager.shared
     ) {
         self.remoteDataSource = remoteDataSource
         self.localDataSource = localDataSource
@@ -14,20 +14,17 @@ class TodoRepository: TodoRepositoryProtocol {
     }
     
     func get(in date: String) async throws -> [Todo] {
-        
-        let localTodos = try localDataSource.getTodos(for: date)
-        
         if NetworkManager.shared.isConnected {
             do {
                 let remoteTodos = try await remoteDataSource.fetchTodos(in: date)
                 try localDataSource.saveTodos(remoteTodos)
                 return remoteTodos
             } catch {
-                return localTodos
+                return try localDataSource.getTodos(for: date)
             }
+        } else {
+            return try localDataSource.getTodos(for: date)
         }
-        
-        return localTodos
     }
     
     func get(in date: String, for id: String) async throws -> [Todo] {
