@@ -59,7 +59,7 @@ final class CoreDataStack {
     /// - Parameter userId: 삭제할 데이터의 사용자 ID
     /// - Throws: 데이터 삭제 중 발생한 오류
     func clearUserData(for userId: String) throws {
-        let entities = ["TodoEntity", "TagEntity", "DailyStatEntity", "TagStatEntity", "SyncCommandEntity"]
+        let entities = ["TodoEntity", "TagEntity", "DailyStatEntity", "TagStatEntity", "SyncOperationEntity"]
         
         for entityName in entities {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
