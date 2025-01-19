@@ -1,8 +1,7 @@
 import Foundation
-import Alamofire
 
 /// API 호출 시 발생할 수 있는 에러 타입들을 정의하는 파일입니다.
-/// Alamofire의 에러를 앱 내부에서 사용하는 에러 타입으로 매핑합니다.
+/// URLSession의 에러를 앱 내부에서 사용하는 에러 타입으로 매핑합니다.
 ///
 /// ## 주요 에러 타입
 /// - 네트워크 관련: ``invalidURL``, ``networkError``
@@ -12,7 +11,7 @@ import Alamofire
 /// - 서버에 대한 에러: ``serverError(_:)``
 ///
 /// - Important: 모든 에러는 사용자 친화적인 메시지를 포함합니다.
-/// - Note: Alamofire의 AFError를 이 타입으로 변환하는 이니셜라이저를 제공합니다.
+/// - Note: URLSession의 Error를 이 타입으로 변환하는 이니셜라이저를 제공합니다.
 enum APIError: Error, Equatable {
     case invalidURL
     case decodingError
@@ -22,7 +21,7 @@ enum APIError: Error, Equatable {
     case serverDataInvalid
     case notFound
     case alreadyRequested
-
+    
     case wrongPassword
     
     case networkError
@@ -30,36 +29,48 @@ enum APIError: Error, Equatable {
     case serverError(String)
     case unknown
     
-    init(afError: AFError) {
-        switch afError {
-        case .invalidURL(let url):
-            self = .invalidURL
-            
-        case .responseSerializationFailed(reason: .decodingFailed(_)):
-            self = .decodingError
-            
-        case .responseValidationFailed(reason: .unacceptableStatusCode(let code)):
-            switch code {
-            case 401:
-                self = .unauthorized
-            case 402:
-                self = .invalidTodo
-            case 403:
-                self = .serverDataInvalid
-            case 404:
-                self = .notFound
-            case 405:
-                self = .alreadyRequested
-            case 406:
-                self = .wrongPassword
-            case 500...599:
-                self = .serverError("Server error: \(code)")
-            default:
+    init(error: Error) {
+        switch error {
+        case let urlError as URLError:
+            switch urlError.code {
+            case .notConnectedToInternet, .networkConnectionLost:
                 self = .networkError
+            case .badURL, .unsupportedURL:
+                self = .invalidURL
+            default:
+                self = .unknown
             }
+            
+        case let apiError as APIError:
+            self = apiError
+            
+        case is DecodingError:
+            self = .decodingError
             
         default:
             self = .unknown
+        }
+    }
+    
+    /// HTTP 상태 코드를 기반으로 적절한 APIError를 생성하는 이니셜라이저
+    init(statusCode: Int) {
+        switch statusCode {
+        case 401:
+            self = .unauthorized
+        case 402:
+            self = .invalidTodo
+        case 403:
+            self = .serverDataInvalid
+        case 404:
+            self = .notFound
+        case 405:
+            self = .alreadyRequested
+        case 406:
+            self = .wrongPassword
+        case 500...599:
+            self = .serverError("Server error: \(statusCode)")
+        default:
+            self = .networkError
         }
     }
     
