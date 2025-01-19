@@ -16,9 +16,34 @@ enum SyncOperationType: Codable {
     case deleteTag(String)
 }
 
-/// SyncOperation은 동기화해야 할 작업을 정의하는 구조체입니다.
-/// - 작업 타입과 타임스탬프를 포함합니다.
+/// Todo 동기화 작업을 정의하는 데이터 모델입니다.
+///
+/// 다음과 같은 동기화 정보를 포함합니다:
+/// - 작업 유형 (Todo/Tag 수정/삭제)
+/// - 작업 상태 및 타임스탬프
+/// - 재시도 정보
+///
+/// ## 사용 예시
+/// ```swift
+/// // Todo 수정 작업 생성
+/// let operation = SyncOperation(
+///     type: .updateTodo(modifiedTodo)
+/// )
+///
+/// // Tag 삭제 작업 생성
+/// let operation = SyncOperation(
+///     type: .deleteTag(tagId)
+/// )
+/// ```
+///
+/// ## 관련 타입
+/// - ``SyncStatus``
+/// - ``SyncOperationType``
+/// - ``SyncManager``
+///
+/// - Note: 최대 재시도 횟수는 3회입니다.
 /// - Note:CoreDataSyncService에서는 SyncCommand의 하위속성으로 사용되었으나, 재사용되는 경우가 없어, 기존 SyncCommand 구조체와 통합해 모델을 재구성하였습니다.
+/// - SeeAlso: ``SyncManager``, 실제 동기화 처리에 사용
 struct SyncOperation: Codable {
     let type: SyncOperationType
     
@@ -26,7 +51,6 @@ struct SyncOperation: Codable {
     var errorMessage: String?
     let id: UUID
     var lastAttempted: Date?
-    // entity의 경우 payload 속성이 있으며, encode한 SyncOperation를 담음
     var retryCount: Int
     var status: SyncStatus
     

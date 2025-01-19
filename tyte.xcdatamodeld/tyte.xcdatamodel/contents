@@ -19,6 +19,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
     <entity name="SyncOperationEntity" representedClassName="SyncOperationEntity" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="errorMessage" optional="YES" attributeType="String"/>

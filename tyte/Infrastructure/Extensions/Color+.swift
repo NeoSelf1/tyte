@@ -1,13 +1,27 @@
-//
-//  Color.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/9/24.
-//
-
 import Foundation
 import SwiftUI
 
+/// 색상 처리를 위한 SwiftUI.Color 확장입니다.
+///
+/// 다음과 같은 색상 관련 기능을 제공합니다:
+/// - HEX 코드로부터 색상 생성
+/// - 색상 컴포넌트 추출
+/// - 색상 혼합 및 변환
+///
+/// ## 사용 예시
+/// ```swift
+/// // HEX 코드로 색상 생성
+/// let color = Color(hex: "#FF0000")
+///
+/// // 색상 혼합
+/// let blendedColor = color.mix(with: .blue, amount: 0.5)
+///
+/// // HEX 코드로 변환
+/// let hexString = color.toHex()
+/// ```
+///
+/// - Note: 지원하는 HEX 형식: RGB, RGBA, RRGGBB, RRGGBBAA
+/// - SeeAlso: ``UIColor``, UIKit 색상 처리에 사용
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

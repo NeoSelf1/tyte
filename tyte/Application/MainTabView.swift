@@ -40,7 +40,6 @@ import SwiftUI
 /// - Note: 로그인/게스트 모드 상태는 `AppState`를 통해 관리됩니다.
 /// - Important: 탭 간 전환 시 이전 탭의 상태는 유지됩니다.
 /// - Warning: 게스트 모드에서는 일부 기능이 제한됩니다.
-
 struct MainTabView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedTab = 0

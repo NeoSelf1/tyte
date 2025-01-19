@@ -1,20 +1,3 @@
-//
-//  MyPageViewModel.swift
-//  tyte
-//
-//  Created by 김 형석 on 9/15/24.
-//
-
-/// ## 잘못된 예시
-/// ```swift
-/// @Published var currentDate: Date = Date().koreanDate {
-///     didSet { await fetchData(.monthlyStats(currentDate.apiFormat)) }
-/// }
-/// ```
-/// didSet 옵저버는 동기적 컨텍스트이기 때문에 직접 await 사용이 불가합니다.
-/// 동기적으로 즉시 반환되고, 비동기 작업은 백그라운드에서 실행됩니다.
-/// 따라서, Task 블록을 감싸 동기 컨텍스트로 변경해주어야합니다.
-
 import Foundation
 import SwiftUI
 
@@ -25,6 +8,21 @@ enum MyPageDataType {
     case tags
 }
 
+/// 마이페이지 화면의 상태와 로직을 관리하는 ViewModel
+///
+/// 개인화된 통계 데이터를 관리하며 시각화에 필요한 상태를 제공합니다.
+///
+/// ## 주요 기능
+/// - 월별 통계 데이터 관리
+/// - 그래프/캘린더 모드 전환
+/// - 상세 통계 데이터 처리
+///
+/// ## 상태 프로퍼티
+/// ```swift
+/// @Published var dailyStats: [DailyStat]      // 일간 통계
+/// @Published var isCalendarMode: Bool         // 캘린더 모드 여부
+/// @Published var currentDate: Date            // 현재 선택 날짜
+/// ```
 @MainActor
 class MyPageViewModel: ObservableObject {
     

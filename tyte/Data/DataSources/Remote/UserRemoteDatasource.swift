@@ -1,59 +1,71 @@
-/// 소셜 기능 관련 API 요청을 처리하는 프로토콜입니다.
-/// 친구 관리 및 사용자 검색 기능을 담당합니다.
 protocol UserRemoteDataSourceProtocol {
-    /// 친구 목록 조회
     func getFriendUsers() async throws -> FriendsResponse
-    /// 사용자 검색
     func searchUser(query: String) async throws -> SearchUsersResponse
-    /// 친구 요청 보내기
     func postFriendRequest(userId: String) async throws -> IdResponse
-    /// 받은 친구 요청 목록 조회
     func getPendingRequest() async throws -> FriendRequestsResponse
-    /// 친구 요청 수락
     func acceptFriendRequest(requestId: String) async throws -> IdResponse
 }
 
-/// SocialService는 앱의 소셜 기능과 관련된 네트워크 요청을 처리하는 서비스입니다.
-/// 친구 관리, 사용자 검색, 친구 요청 등의 기능을 제공합니다.
+/// 사용자 간 소셜 기능에 대한 원격 데이터 접근을 담당하는 DataSource입니다.
+///
+/// 서버와의 통신을 통해 다음 소셜 기능을 제공합니다:
+/// - 친구 검색 및 추가
+/// - 친구 요청 관리
+/// - 친구 목록 조회
+///
+/// ## 사용 예시
+/// ```swift
+/// let userDataSource = UserRemoteDataSource()
+///
+/// // 사용자 검색
+/// let searchResults = try await userDataSource.searchUser(
+///     query: "john"
+/// )
+///
+/// // 친구 요청 보내기
+/// let requestId = try await userDataSource.postFriendRequest(
+///     userId: "user-123"
+/// )
+/// ```
+///
+/// ## API Endpoints
+/// - GET /social: 친구 목록 조회
+/// - GET /social/search/{query}: 사용자 검색
+/// - POST /social/request/{userId}: 친구 요청
+/// - GET /social/requests/pending: 받은 요청 목록
+/// - PATCH /social/accept/{requestId}: 요청 수락
+///
+/// ## 관련 타입
+/// - ``NetworkAPI``
+/// - ``FriendsResponse``
+/// - ``SearchUsersResponse``
+/// - ``IdResponse``
+///
+/// - Note: 모든 요청에 인증이 필요합니다.
+/// - SeeAlso: ``UserRepository``, ``APIEndpoint``
 class UserRemoteDataSource: UserRemoteDataSourceProtocol {
-    /// 네트워크 요청을 처리하는 서비스
     private let networkAPI: NetworkAPI
     
-    /// SocialService 초기화
-    /// - Parameter NetworkAPI: 네트워크 요청을 처리할 서비스 인스턴스
     init(networkAPI: NetworkAPI = NetworkAPI()) {
         self.networkAPI = networkAPI
     }
     
-    /// 현재 사용자의 친구 목록을 조회합니다.
-    /// - Returns: 친구 목록 정보를 포함한 Publisher
     func getFriendUsers() async throws -> FriendsResponse {
         return try await networkAPI.request(.getFriends, method: .get, parameters: nil)
     }
     
-    /// 친구요청을 하기 위한 사용자를 검색합니다.
-    /// - Parameter query: 검색할 사용자의 이름 또는 이메일
-    /// - Returns: 검색된 사용자 목록을 포함한 Publisher
     func searchUser(query: String) async throws -> SearchUsersResponse {
         return try await networkAPI.request(.searchUser(query), method: .get, parameters: nil)
     }
     
-    /// 특정 사용자에게 친구 요청을 보냅니다.
-    /// - Parameter userId: 친구 요청을 보낼 사용자의 ID
-    /// - Returns: 생성된 친구 요청의 ID를 포함한 Publisher
     func postFriendRequest(userId: String) async throws -> IdResponse {
         return try await networkAPI.request(.requestFriend(userId), method: .post, parameters: nil)
     }
     
-    /// 현재 사용자가 받은 친구 요청 목록을 조회합니다.
-    /// - Returns: 대기 중인 친구 요청 목록을 포함한 Publisher
     func getPendingRequest() async throws -> FriendRequestsResponse {
         return try await networkAPI.request(.getPendingRequests, method: .get, parameters: nil)
     }
     
-    /// 받은 친구 요청을 수락합니다.
-    /// - Parameter requestId: 수락할 친구 요청의 ID
-    /// - Returns: 수락된 친구 요청의 ID를 포함한 Publisher
     func acceptFriendRequest(requestId: String) async throws -> IdResponse {
         return try await networkAPI.request(.acceptFriendRequest(requestId), method: .patch, parameters: nil)
     }

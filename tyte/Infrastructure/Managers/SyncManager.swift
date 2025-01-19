@@ -7,6 +7,31 @@ protocol SyncManagerProtocol {
     func stopSync()
 }
 
+/// 앱의 데이터 동기화를 관리하는 싱글톤 클래스입니다.
+///
+/// 다음과 같은 동기화 기능을 제공합니다:
+/// - 오프라인 작업 큐잉
+/// - 네트워크 재연결 시 자동 동기화
+/// - 재시도 정책 관리
+///
+/// ## 사용 예시
+/// ```swift
+/// // 오프라인 상태에서 작업 큐잉
+/// SyncManager.shared.enqueueOperation(
+///     .updateTodo(modifiedTodo)
+/// )
+///
+/// // 수동으로 동기화 시작
+/// SyncManager.shared.startSync()
+/// ```
+///
+/// ## 관련 타입
+/// - ``SyncOperation``
+/// - ``SyncStatus``
+/// - ``NetworkManager``
+///
+/// - Note: 작업별로 최대 3회까지 재시도합니다.
+/// - Important: 동기화는 30초 간격으로 자동 실행됩니다.
 class SyncManager: SyncManagerProtocol {
     private let coreDataStack: CoreDataStack
     
@@ -93,13 +118,11 @@ class SyncManager: SyncManagerProtocol {
                       let operation = try? JSONDecoder().decode(SyncOperation.self, from: data)
                 else { continue }
                 
-                // 재시도 횟수 초과 확인
                 if operation.retryCount >= maxRetries {
                     updateCommandStatus(entity, to: .maxRetriesExceeded)
                     continue
                 }
                 
-                // 작업 실행
                 Task {
                     do {
                         try await processOperation(operation)

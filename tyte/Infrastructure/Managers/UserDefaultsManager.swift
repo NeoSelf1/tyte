@@ -1,18 +1,7 @@
-/// 앱의 영구 데이터 저장소를 관리하는 싱글톤 클래스
-///
-/// UserDefaults를 사용하여 앱의 상태, 설정 및 사용자 데이터를 관리합니다.
-/// App Group을 통해 위젯과 데이터를 공유할 수 있도록 구성되어 있습니다.
-///
-/// - Important: 앱과 위젯 간의 데이터 동기화를 위해 group.com.neox.tyte App Group을 사용합니다.
-/// - Note: 데이터 무결성을 위해 private(set) 프로퍼티를 사용하여 외부 수정을 제한합니다.
 import Foundation
 import Combine
 import WidgetKit
 
-/// namespace로서의 역할만 필요한 경우:
-/// - struct와 enum 모두 namespace 역할을 할 수 있음
-/// - 이 경우 모든 프로퍼티가 static이므로 인스턴스화할 필요가 없음
-/// - enum은 case를 필요로 하지만, 이 경우 case가 필요없는 순수 네임스페이스임
 struct UserDefaultsConfiguration {
     static let suiteName = "group.com.neox.tyte"
     
@@ -24,6 +13,29 @@ struct UserDefaultsConfiguration {
     }
 }
 
+/// 앱의 영구 설정을 관리하는 싱글톤 클래스입니다.
+///
+/// 다음과 같은 설정 관리 기능을 제공합니다:
+/// - 로그인 상태 관리
+/// - 사용자 기본 설정 저장
+/// - 위젯과 데이터 공유
+///
+/// ## 사용 예시
+/// ```swift
+/// // 로그인 처리
+/// UserDefaultsManager.shared.login(userId)
+///
+/// // 다크모드 설정
+/// UserDefaultsManager.shared.setDarkMode(true)
+/// ```
+///
+/// ## 관련 타입
+/// - ``AppState``
+/// - ``WidgetManager``
+/// - ``KeychainManager``
+///
+/// - Note: App Group을 통해 위젯과 설정을 공유합니다.
+/// - SeeAlso: ``KeychainManager``, 보안이 필요한 데이터 관리에 사용
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     
@@ -62,7 +74,7 @@ final class UserDefaultsManager {
         set { defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.currentUserId) }
     }
 
-    // MARK: - Methods
+    // MARK: - 내부 변수 접근위한 메서드
     func saveAppleUserEmail(_ email: String, for userId: String) {
         appleUserEmails[userId] = email
     }
@@ -71,7 +83,6 @@ final class UserDefaultsManager {
         return appleUserEmails[userId]
     }
     
-    /// - UserDefaults 업데이트 -> AppState의 isLoggedIn 업데이트 -> UI 자동 갱신
     func login(_ userId: String) {
         currentUserId = userId
         isLoggedIn = true

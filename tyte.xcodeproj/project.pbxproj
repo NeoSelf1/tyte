@@ -65,7 +65,6 @@
 		E519BE452CC8CA8E00DD21B7 /* Social.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE432CC8CA8B00DD21B7 /* Social.swift */; };
 		E519BE472CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
 		E519BE482CC8CCA600DD21B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E519BE462CC8CCA400DD21B7 /* User.swift */; };
-		E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB62CE7576800E5657C /* APIResult.swift */; };
 		E5261BB92CE7578200E5657C /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5261BB82CE7578000E5657C /* APIResponse.swift */; };
 		E52628CF2CC38D42004B290C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52628CE2CC38D40004B290C /* AppState.swift */; };
 		E52628D92CC3A97F004B290C /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA920762C897FC000B9F8F1 /* Font+.swift */; };
@@ -250,7 +249,6 @@
 		E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRemoteDatasource.swift; sourceTree = "<group>"; };
 		E519BE432CC8CA8B00DD21B7 /* Social.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Social.swift; sourceTree = "<group>"; };
 		E519BE462CC8CCA400DD21B7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		E5261BB62CE7576800E5657C /* APIResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResult.swift; sourceTree = "<group>"; };
 		E5261BB82CE7578000E5657C /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		E52628CE2CC38D40004B290C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E5374F772D0180A20075427C /* MonthSelectSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthSelectSection.swift; sourceTree = "<group>"; };
@@ -447,7 +445,6 @@
 			children = (
 				E5DE68792CD35D040055CADB /* NetworkAPI.swift */,
 				E5261BB82CE7578000E5657C /* APIResponse.swift */,
-				E5261BB62CE7576800E5657C /* APIResult.swift */,
 				AB6A0F852C8EB02E00254299 /* APIError.swift */,
 				AB6A0F872C8EB03600254299 /* APIEndpoint.swift */,
 			);
@@ -516,13 +513,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		E526289C2CC35750004B290C /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		E5424D282D3549B10094E1A5 /* Section */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,7 +567,6 @@
 				AB84C5302C918EA9000164AC /* Utils.swift */,
 				E5E7EC862D3629A000527B91 /* Managers */,
 				AB6A0F812C8EB01300254299 /* Networking */,
-				E526289C2CC35750004B290C /* Services */,
 				AB6A495D2C86069B00B782A1 /* Extensions */,
 			);
 			path = Infrastructure;
@@ -605,11 +594,11 @@
 		E5424D302D357A6C0094E1A5 /* RepositoryInterfaces */ = {
 			isa = PBXGroup;
 			children = (
-				E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */,
 				E5424D312D357A770094E1A5 /* TodoRepositoryProtocol.swift */,
-				E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */,
-				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
 				E5E7EC942D36509400527B91 /* DailyStatRepositoryProtocol.swift */,
+				E5424D342D357A800094E1A5 /* TagRepositoryProtocol.swift */,
+				E5B00AAC2D3932F8008325A6 /* AuthRepositoryProtocol.swift */,
+				E5B00AA62D390B5C008325A6 /* UserRepositoryProtocol.swift */,
 			);
 			path = RepositoryInterfaces;
 			sourceTree = "<group>";
@@ -636,11 +625,11 @@
 		E5424D3B2D357B0E0094E1A5 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
-				E5B00AB02D39332B008325A6 /* AuthRemoteDataSource.swift */,
 				E5424D3C2D357B130094E1A5 /* TodoRemoteDataSource.swift */,
-				AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */,
-				E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */,
 				AB6A0F952C8EBBC400254299 /* DailyStatRemoteDataSource.swift */,
+				AB6A0F8E2C8EB68700254299 /* TagRemoteDataSource.swift */,
+				E5B00AB02D39332B008325A6 /* AuthRemoteDataSource.swift */,
+				E519BE412CC8CA4500DD21B7 /* UserRemoteDatasource.swift */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
@@ -875,13 +864,13 @@
 			isa = PBXGroup;
 			children = (
 				E5CA1C5F2CE4A14F004B3D87 /* UserDefaultsManager.swift */,
+				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
 				E573746C2D1ED7F000D65312 /* WidgetManager.swift */,
 				E57374692D1E5EED00D65312 /* NetworkManager.swift */,
-				AB2E88EA2C986C6400906446 /* KeychainManager.swift */,
+				E5E7EC842D36298D00527B91 /* SyncManager.swift */,
 				E57374702D1F6A2A00D65312 /* OfflineUIManager.swift */,
 				E55CE4262CFDE1AB00B61A4F /* PopupManager.swift */,
 				E55CE4242CFDD7ED00B61A4F /* ToastManager.swift */,
-				E5E7EC842D36298D00527B91 /* SyncManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1287,7 +1276,6 @@
 				AB688DC82CA3A71D00F6E699 /* CustomTextField.swift in Sources */,
 				E5BFE32F2D1C311300E558AD /* tyte.xcdatamodeld in Sources */,
 				ABDE8B942C86F2A900F3CB68 /* HomeView.swift in Sources */,
-				E5261BB72CE7576A00E5657C /* APIResult.swift in Sources */,
 				E58F1FD52CD0F408007940BB /* SettingsViewModel.swift in Sources */,
 				E5B00AA72D390B5C008325A6 /* UserRepositoryProtocol.swift in Sources */,
 				E5B00AB12D39332B008325A6 /* AuthRemoteDataSource.swift in Sources */,

@@ -8,18 +8,45 @@ protocol AuthenticationUseCaseProtocol {
     func checkVersion() async throws -> (newVersion: String, minVersion: String)
 }
 
+/// 사용자 인증 관련 비즈니스 로직을 처리하는 Use Case입니다.
+///
+/// 다음과 같은 인증 관련 기능을 제공합니다:
+/// - 이메일/패스워드 로그인
+/// - 소셜 로그인(Google, Apple)
+/// - 회원가입
+/// - 토큰 검증
+/// - 계정 삭제
+///
+/// ## 사용 예시
+/// ```swift
+/// let authUseCase = AuthenticationUseCase()
+///
+/// // 로그인
+/// let user = try await authUseCase.login(
+///     email: "user@example.com",
+///     password: "password"
+/// )
+///
+/// // 소셜 로그인
+/// let user = try await authUseCase.socialLogin(
+///     idToken: "token",
+///     provider: "google"
+/// )
+/// ```
+///
+/// ## 관련 타입
+/// - ``AuthRepository``
+/// - ``KeychainManager``
+/// - ``UserDefaultsManager``
+///
+/// - Note: 인증 성공 시 토큰은 KeychainManager에, 사용자 정보는 UserDefaultsManager에 저장됩니다.
+/// - SeeAlso: ``AuthRepositoryProtocol``
 class AuthenticationUseCase: AuthenticationUseCaseProtocol {
-    // MARK: - Dependencies
-    
     private let repository: AuthRepositoryProtocol
-    
-    // MARK: - Initialization
     
     init(repository: AuthRepositoryProtocol = AuthRepository()) {
         self.repository = repository
     }
-    
-    // MARK: - Authentication Methods
     
     func login(email: String, password: String) async throws -> User {
         let response = try await repository.login(email: email, password: password)
@@ -58,9 +85,9 @@ class AuthenticationUseCase: AuthenticationUseCaseProtocol {
         let response = try await repository.checkVersion()
         return (newVersion: response.newVersion, minVersion: response.minVersion)
     }
-    
-    // MARK: - Private Methods
-    
+}
+
+private extension AuthenticationUseCase {
     private func handleSuccessfulAuth(_ response: LoginResponse) {
         KeychainManager.shared.saveToken(response.token)
         UserDefaultsManager.shared.login(response.user.id)

@@ -1,10 +1,3 @@
-/// 보안이 필요한 데이터를 Keychain에 저장하고 관리하는 싱글톤 클래스
-///
-/// 액세스 토큰과 같은 민감한 인증 정보를 안전하게 저장하고 관리합니다.
-/// 개발 환경에서는 더미 토큰을 사용할 수 있도록 구성되어 있습니다.
-///
-/// - Important: 토큰은 기기 잠금 해제 시에만 접근 가능하도록 저장됩니다.
-/// - Warning: 키체인 작업 실패 시 적절한 에러 처리가 필요합니다.
 import Foundation
 import Security
 
@@ -24,13 +17,31 @@ struct KeychainConfiguration {
     }
 }
 
-protocol KeychainManaging {
-    func saveToken(_ accessToken: String)
-    func getAccessToken() -> String?
-    func clearToken()
-}
-
-final class KeychainManager:KeychainManaging {
+/// 민감한 인증 정보를 안전하게 관리하는 싱글톤 클래스입니다.
+///
+/// 다음과 같은 보안 기능을 제공합니다:
+/// - 인증 토큰 안전한 저장/조회
+/// - 기기 잠금 해제 시에만 접근 가능
+/// - 앱 삭제 시 데이터 자동 제거
+///
+/// ## 사용 예시
+/// ```swift
+/// // 토큰 저장
+/// KeychainManager.shared.saveToken(accessToken)
+///
+/// // 토큰 조회
+/// if let token = KeychainManager.shared.getAccessToken() {
+///     await validateToken(token)
+/// }
+/// ```
+///
+/// ## 관련 타입
+/// - ``UserDefaultsManager``
+/// - ``AuthenticationUseCase``
+///
+/// - Important: 키체인 접근 실패 시 적절한 에러 처리가 필요합니다.
+/// - SeeAlso: ``UserDefaultsManager``, 일반 설정 데이터 관리에 사용
+final class KeychainManager {
     static let shared = KeychainManager()
     
     private init() {}
@@ -61,7 +72,6 @@ final class KeychainManager:KeychainManaging {
     }
 }
 
-// MARK: - 내부용 핵심 함수
 private extension KeychainManager {
     func save(token: String, forKey key: String, service: String = KeychainConfiguration.serviceName) throws {
         guard let data = token.data(using: .utf8) else {
