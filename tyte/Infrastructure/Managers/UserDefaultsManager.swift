@@ -54,7 +54,11 @@ final class UserDefaultsManager {
         get { defaults.bool(forKey: UserDefaultsConfiguration.Keys.isLoggedIn) }
         set {
             defaults.set(newValue, forKey: UserDefaultsConfiguration.Keys.isLoggedIn)
-            AppState.shared.isLoggedIn = newValue // TODO: 다른 반응형 프레임워크로 환경객체 접근하는 방안 모색 필요
+            
+            DispatchQueue.main.async {
+                AppState.shared.isLoggedIn = newValue
+            }
+            
             widgetManager.updateWidget(.all)
         }
     }
