@@ -7,6 +7,35 @@ protocol DailyStatLocalDataSourceProtocol {
     func saveDailyStat(_ stat: DailyStat) throws
 }
 
+/// CoreData를 사용하여 일별 통계 데이터의 로컬 저장소 접근을 관리하는 DataSource입니다.
+///
+/// 다음과 같은 로컬 데이터 관리 기능을 제공합니다:
+/// - 일별/월별 통계 데이터 저장 및 조회
+/// - 태그 통계 관계 관리
+/// - 데이터 캐싱
+///
+/// ## 사용 예시
+/// ```swift
+/// let localDataSource = DailyStatLocalDataSource()
+///
+/// // 월간 통계 조회
+/// let monthlyStats = try localDataSource.getDailyStats(
+///     for: "2024-01"
+/// )
+///
+/// // 통계 데이터 저장
+/// try localDataSource.saveDailyStat(newStat)
+/// ```
+///
+/// ## 관련 타입
+/// - ``CoreDataStack``
+/// - ``DailyStatEntity``
+/// - ``TagStatEntity``
+/// - ``DailyStat``
+///
+/// - Note: TagStat 관계 설정 시 해당 Tag가 로컬에 존재하지 않으면 연결되지 않습니다.
+/// - Note: NSPredicate 사용을 위해 Foundation import가 필요합니다.
+/// - SeeAlso: ``DailyStatRemoteDataSource``
 class DailyStatLocalDataSource: DailyStatLocalDataSourceProtocol {
     private let coreDataStack: CoreDataStack
     
@@ -102,6 +131,31 @@ class DailyStatLocalDataSource: DailyStatLocalDataSourceProtocol {
         }
     }
     
+    /// DailyStat과 TagStat 간의 관계를 설정합니다.
+    ///
+    /// - Parameters:
+    ///   - statEntity: 관계를 설정할 DailyStatEntity
+    ///   - tagStats: 연결할 TagStat 배열
+    ///
+    /// 동작 과정:
+    /// 1. 기존 TagStat 관계 모두 제거
+    /// 2. 새로운 TagStatEntity 생성 및 관계 설정
+    /// 3. 로컬 저장소의 Tag 존재 여부 확인 후 연결
+    ///
+    /// ```swift
+    /// // 예시
+    /// let dailyStatEntity = DailyStatEntity(context: context)
+    /// try setupTagRelationship(
+    ///     for: dailyStatEntity,
+    ///     with: [tagStat1, tagStat2]
+    /// )
+    /// ```
+    ///
+    /// - Important: Tag가 로컬에 존재하지 않으면 해당 TagStat은 연결되지 않습니다.
+    /// 이는 나중에 UI에서 Tag 정보를 표시할 때 문제가 될 수 있으므로, Tag 동기화가 먼저 이루어져야 합니다.
+    ///
+    /// - Warning: 이 메서드는 트랜잭션 내에서 호출되어야 합니다.
+    /// - SeeAlso: ``TagLocalDataSource/saveTag(_:)``
     private func setupTagRelationship(for statEntity: DailyStatEntity, with tagStats: [TagStat]) throws {
         if let existingStats = statEntity.tagStats as? Set<TagStatEntity> {
             for stat in existingStats {

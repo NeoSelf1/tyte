@@ -1,5 +1,29 @@
 import Foundation
 
+/// 날짜 처리를 위한 Foundation.Date 확장입니다.
+///
+/// 다음과 같은 날짜 관련 기능을 제공합니다:
+/// - API 포맷 변환
+/// - 한국어 날짜 포맷팅
+/// - 날짜 컴포넌트 추출
+///
+/// ## 사용 예시
+/// ```swift
+/// let date = Date()
+///
+/// // API 포맷
+/// let apiDate = date.apiFormat  // "2024-01-20"
+///
+/// // 한국어 포맷
+/// let formatted = date.formattedDate  // "2024년 1월 20일"
+/// ```
+///
+/// ## 주요 프로퍼티
+/// - ``apiFormat``: "YYYY-MM-DD" 형식
+/// - ``formattedDate``: 전체 날짜
+/// - ``formattedMonthDate``: 월/일만 포함
+///
+/// - Note: 모든 날짜는 한국 시간대 기준으로 처리됩니다.
 extension Date {
     private static let koreanTimeZone = TimeZone(identifier: "Asia/Seoul")!
     

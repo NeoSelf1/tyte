@@ -1,12 +1,3 @@
-
-/// - Note:MainActor.run 또한 async 메서드로 내부적으로 선언되어있음.
-/// - 동기 메서드일 경우, 메인스레드가 다른 작업 수행으로 인해 전환이 지연될때, 스레드 전환 간 현재 스레드를 블록해야하는데, 이는 프로세스가 자원을 얻지 못해 다음 처리를 하지 못하는 상태인 데드락으로 이어질 수 있음.
-/// - 하지만 비동기로 설계하면 필요한 경우 실행을 일시 중단하고 나중에 재개 가능.
-/// - Note:``Task`` 블록은 백그라운드 스레드에서 실행될 수 있습니다.
-///  따라서,``Task`` 내부에서의 네트워크 호출 후 UI 업데이트를 위해서는 명시적으로 메인스레드로의 전환이 필요합니다.
-///
-/// - ``@MainActor``를 통해 선언된 클래스 내부 모든 UI 관련 작업이 메인 스레드에서 실행되도록 명시할 수 있음 =  UI 관련 작업의 직렬화된 실행을 보장하는 메커니즘
-
 import Foundation
 import SwiftUI
 
@@ -17,6 +8,21 @@ enum DataType {
     case monthlyStat(String) /// date.apiFormat
 }
 
+/// 홈 화면의 상태와 로직을 관리하는 ViewModel
+///
+/// 할 일 목록, 캘런더 데이터, 통계 데이터를 관리하고 업데이트합니다.
+///
+/// ## 주요 기능
+/// - 할 일 CRUD 작업 처리
+/// - 일별/월별 통계 데이터 관리
+/// - 캘린더 네비게이션 처리
+///
+/// ## 상태 프로퍼티
+/// ```swift
+/// @Published var todos: [Todo]             // 할 일 목록
+/// @Published var selectedDate: Date        // 선택된 날짜
+/// @Published var weekCalendarData: [DailyStat] // 주간 통계
+/// ```
 @MainActor
 class HomeViewModel: ObservableObject {
     

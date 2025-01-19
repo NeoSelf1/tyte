@@ -1,5 +1,6 @@
 import Foundation
 import Alamofire
+
 /// API 호출 시 발생할 수 있는 에러 타입들을 정의하는 파일입니다.
 /// Alamofire의 에러를 앱 내부에서 사용하는 에러 타입으로 매핑합니다.
 ///
@@ -12,7 +13,6 @@ import Alamofire
 ///
 /// - Important: 모든 에러는 사용자 친화적인 메시지를 포함합니다.
 /// - Note: Alamofire의 AFError를 이 타입으로 변환하는 이니셜라이저를 제공합니다.
-
 enum APIError: Error, Equatable {
     case invalidURL
     case decodingError

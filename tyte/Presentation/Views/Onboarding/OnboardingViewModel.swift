@@ -9,8 +9,24 @@ enum Field: Hashable {
     case username
 }
 
+/// 인증 관련 화면의 상태와 로직을 관리하는 ViewModel
+///
+/// 로그인, 회원가입, 소셜 로그인 프로세스를 처리하며 폼 상태와 검증을 관리합니다.
+///
+/// ## 주요 기능
+/// - 이메일/패스워드 폼 상태 관리
+/// - 입력 유효성 검증
+/// - 소셜 로그인 처리
+/// - 인증 상태 전환 처리
+///
+/// ## 상태 프로퍼티
+/// ```swift
+/// @Published var email: String              // 이메일 입력
+/// @Published var username: String           // 사용자명 입력
+/// @Published var isExistingUser: Bool      // 기존 사용자 여부
+/// ```
 @MainActor
-class AuthViewModel: ObservableObject {
+class OnboardingViewModel: ObservableObject {
     // MARK: - Form State
     
     @Published var email: String = ""

@@ -1,13 +1,21 @@
-//
-//  Untitled.swift
-//  tyte
-//
-//  Created by Neoself on 10/21/24.
-//
-
 import Foundation
 import SwiftUI
 
+/// 태그 관리 화면의 상태와 로직을 관리하는 ViewModel
+///
+/// 태그의 CRUD 작업과 관련 상태를 관리합니다.
+///
+/// ## 주요 기능
+/// - 태그 CRUD 작업 처리
+/// - 태그 색상 선택 처리
+/// - 태그 중복 검사
+///
+/// ## 상태 프로퍼티
+/// ```swift
+/// @Published var tags: [Tag]              // 태그 목록
+/// @Published var selectedColor: String    // 선택된 색상
+/// @Published var tagInput: String         // 태그명 입력
+/// ```
 @MainActor
 class TagEditViewModel: ObservableObject {
     

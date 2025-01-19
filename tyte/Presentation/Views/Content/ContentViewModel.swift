@@ -3,29 +3,19 @@ import SwiftUI
 
 @MainActor
 class ContentViewModel: ObservableObject {
-    // MARK: - UI State
-    
     @Published var isLoading: Bool = true
     
-    // MARK: - Dependencies
-    
     private let authUseCase: AuthenticationUseCaseProtocol
-    
-    // MARK: - Private Properties
     
     private var currentAppVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.2.5"
     }
-    
-    // MARK: - Initialization
     
     init(authUseCase: AuthenticationUseCaseProtocol = AuthenticationUseCase()) {
         self.authUseCase = authUseCase
         
         checkAppVersion()
     }
-    
-    // MARK: - Public Methods
     
     func checkAppVersion() {
         Task {
@@ -40,7 +30,7 @@ class ContentViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Private Methods
+    // MARK: - Private 메서드
     
     private func handleVersionCheck(newVersion: String, minVersion: String) {
         // 앱스토어로 이동하는 action 클로저

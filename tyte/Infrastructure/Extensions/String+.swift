@@ -12,26 +12,4 @@ extension String {
         }
         return date
     }
-    
-    var formattedRange: String {
-        switch(self){
-        case "week":
-            return "1주"
-        case "month":
-            return "1개월"
-        default:
-            return "6개월"
-        }
-    }
-    
-    var buttonText: String {
-        switch(self){
-        case "default":
-            return "마감 임박순"
-        case "recent":
-            return "최근 추가순"
-        default:
-            return "중요도순"
-        }
-    }
 }

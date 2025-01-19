@@ -1,16 +1,35 @@
-/// 일일 통계 정보를 나타내는 모델
-///
-/// 사용자의 일별 활동 통계와 균형 데이터를 표현합니다.
-/// - Properties:
-///   - id: 통계 데이터 고유 식별자
-///   - date: 해당 날짜
-///   - userId: 사용자 식별자
-///   - balanceData: 일과 균형 데이터
-///   - productivityNum: 생산성 지수
-///   - tagStats: 태그별 통계 정보
-///   - center: 메쉬 그라데이션 중심점 좌표
 import Foundation
 
+/// 일별 통계 정보를 나타내는 데이터 모델입니다.
+///
+/// 다음과 같은 통계 정보를 포함합니다:
+/// - 일과 균형 데이터
+/// - 태그별 사용 통계
+/// - 프리즘 시각화 데이터
+///
+/// ## 사용 예시
+/// ```swift
+/// // 통계 데이터 생성
+/// let stat = DailyStat(
+///     id: "stat-1",
+///     date: "2024-01-20",
+///     balanceData: balanceData,
+///     productivityNum: 85.0,
+///     tagStats: tagStats,
+///     center: center
+/// )
+///
+/// // 프리즘 색상 계산
+/// let colors = getColors(stat)
+/// ```
+///
+/// ## 관련 타입
+/// - ``BalanceData``
+/// - ``TagStat``
+/// - ``Tag``
+///
+/// - Note: productivityNum은 0-100 범위의 값을 가집니다.
+/// - SeeAlso: ``DailyStat_Graph``, 그래프 표시용 간소화 모델
 struct DailyStat: Codable, Identifiable {
     let id: String
     let date: String

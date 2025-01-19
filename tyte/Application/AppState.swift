@@ -44,7 +44,6 @@ import Foundation
 /// - Important: 이 클래스는 싱글톤으로 설계되었으며, SwiftUI의 환경 객체로 사용됩니다.
 /// - Note: 상태 변경은 자동으로 연결된 모든 뷰의 업데이트를 트리거합니다.
 /// - Warning: UserDefaultsManager를 접근해 초기 로그인 여부를 파악하고 있습니다.
-
 class AppState: ObservableObject {
     @Published var isLoggedIn: Bool = UserDefaultsManager.shared.isLoggedIn
     @Published var isGuestMode: Bool = false

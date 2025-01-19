@@ -9,6 +9,21 @@ enum SocialDataType {
     case friendTodos(String, String) // friendId, date
 }
 
+/// 소셜 기능 화면의 상태와 로직을 관리하는 ViewModel
+///
+/// 친구 관리, 검색, 통계 데이터 공유 기능을 제공합니다.
+///
+/// ## 주요 기능
+/// - 친구 검색 및 요청 관리
+/// - 친구 통계 데이터 조회
+/// - 친구 요청 수락/거절 처리
+///
+/// ## 상태 프로퍼티
+/// ```swift
+/// @Published var friends: [User]           // 친구 목록
+/// @Published var searchResults: [User]     // 검색 결과
+/// @Published var pendingRequests: [FriendRequest] // 대기중인 요청
+/// ```
 @MainActor
 class SocialViewModel: ObservableObject {
     @Published var navigationPath = NavigationPath()

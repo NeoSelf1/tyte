@@ -1,21 +1,35 @@
-/// Todo 항목을 나타내는 모델
-///
-/// 사용자의 할 일 항목을 표현하며, 작업의 상세 정보를 포함합니다.
-/// - Properties:
-///   - id: Todo 항목 고유 식별자
-///   - raw: 원본 입력 텍스트
-///   - title: 할 일 제목
-///   - isImportant: 중요 여부
-///   - isLife: 생활 관련 여부
-///   - tag: 연관된 태그 (선택사항)
-///   - difficulty: 난이도 (1-5)
-///   - estimatedTime: 예상 소요 시간 (분)
-///   - deadline: 마감 기한
-///   - isCompleted: 완료 여부
-///   - userId: 소유자 식별자
-///   - createdAt: 생성 시간
 import Foundation
 
+/// Todo 항목을 나타내는 데이터 모델입니다.
+///
+/// 다음과 같은 Todo 정보를 포함합니다:
+/// - 기본 정보 (제목, 생성일자, 마감일)
+/// - 세부 설정 (중요도, 난이도, 소요시간)
+/// - 태그 관계
+///
+/// ## 사용 예시
+/// ```swift
+/// // Todo 생성
+/// let todo = Todo(
+///     id: "todo-1",
+///     title: "회의 준비",
+///     isImportant: true,
+///     difficulty: 3,
+///     estimatedTime: 60,
+///     deadline: "2024-01-20"
+/// )
+///
+/// // 태그 연결
+/// todo.tag = projectTag
+/// ```
+///
+/// ## 관련 타입
+/// - ``Tag``
+/// - ``TodoRepository``
+/// - ``TodoEntity``
+///
+/// - Note: difficulty는 1-5 범위의 값을 가집니다.
+/// - SeeAlso: ``DailyStat``, Todo 완료에 따라 통계가 갱신됩니다.
 struct Todo: Identifiable, Codable {
     let id: String
     var raw: String

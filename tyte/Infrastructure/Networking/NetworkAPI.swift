@@ -1,15 +1,15 @@
-/// 인증이 필요한 요청과 불필요한 요청을 구분하여 처리합니다.
 import Foundation
 import Alamofire
 
 
-/// 인증이 필요한 API 요청을 처리합니다.
-/// - Parameters:
-///   - endpoint: API 엔드포인트
-///   - method: HTTP 메서드
-///   - parameters: 요청 파라미터
-/// - Returns: 디코딩된 응답 데이터를 포함하는 Publisher
+/// Alamofire 라이브러리를 사용해 인증이 필요한 요청과 불필요한 네트워크 요청을 처리합니다.
 class NetworkAPI {
+    /// 인증이 필요한 API 요청을 처리합니다.
+    /// - Parameters:
+    ///   - endpoint: API 엔드포인트
+    ///   - method: HTTP 메서드
+    ///   - parameters: 요청 파라미터
+    /// - Returns: 디코딩된 응답 데이터를 포함하는 Publisher
     func request<T: Decodable>(
         _ endpoint: APIEndpoint,
         method: HTTPMethod = .get,

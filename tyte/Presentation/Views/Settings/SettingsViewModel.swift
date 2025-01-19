@@ -2,6 +2,21 @@ import Foundation
 import GoogleSignIn
 import SwiftUI
 
+/// 설정 화면의 상태와 로직을 관리하는 ViewModel
+///
+/// 앱 설정과 사용자 계정 관리 기능을 제공합니다.
+///
+/// ## 주요 기능
+/// - 다크 모드 설정 관리
+/// - 계정 삭제 처리
+/// - 로그아웃 처리
+///
+/// ## 주요 메서드
+/// ```swift
+/// func setDarkMode(_:)    // 다크모드 설정
+/// func deleteAccount()    // 계정 삭제
+/// func logout()          // 로그아웃
+/// ```
 @MainActor
 class SettingsViewModel: ObservableObject {
     // MARK: - Dependencies
