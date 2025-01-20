@@ -55,7 +55,7 @@
 
 ## 아키텍처
 Clean Architecture 원칙과 MVVM 패턴을 따릅니다.
-![Group 26](https://github.com/user-attachments/assets/1acc5453-271f-4f7b-ad06-dc38cc9970ce)
+![Group 26](https://github.com/user-attachments/assets/9ac5231b-4072-4dd2-9490-fda190ddd421)
 * 실제 폴더 구조가 아닌 Xcode 그룹 사용으로 프로젝트 구성을 관리합니다.
 
 ## 뷰 구조
