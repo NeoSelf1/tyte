@@ -19,7 +19,7 @@
 ## 기술 스택
 <div>
   <a href="https://developer.apple.com/xcode/" target="_blank">
-    <img src="https://img.shields.io/badge/Xcode_14.3-147EFB?style=for-the-badge&logo=xcode&logoColor=white" alt="Xcode">
+    <img src="https://img.shields.io/badge/Xcode_16.2-147EFB?style=for-the-badge&logo=xcode&logoColor=white" alt="Xcode">
   </a>
   <a href="https://swift.org/" target="_blank">
     <img src="https://img.shields.io/badge/Swift_5.5-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift">
