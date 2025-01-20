@@ -28,7 +28,7 @@ class UserRepository: UserRepositoryProtocol {
     private let remoteDataSource: UserRemoteDataSourceProtocol
     
     init(
-        remoteDataSource: UserRemoteDataSource = UserRemoteDataSource()
+        remoteDataSource: UserRemoteDataSourceProtocol = UserRemoteDataSource()
     ) {
         self.remoteDataSource = remoteDataSource
     }

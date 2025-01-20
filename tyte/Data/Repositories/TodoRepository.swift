@@ -25,13 +25,13 @@
 /// - Note: NetworkManager를 통해 네트워크 상태를 감지하고 적절한 데이터 소스를 선택합니다.
 /// - SeeAlso: ``TagRepository``
 class TodoRepository: TodoRepositoryProtocol {
-    private let remoteDataSource: TodoRemoteDataSource
-    private let localDataSource: TodoLocalDataSource
+    private let remoteDataSource: TodoRemoteDataSourceProtocol
+    private let localDataSource: TodoLocalDataSourceProtocol
     private let syncManager: SyncManagerProtocol
     
     init(
-        remoteDataSource: TodoRemoteDataSource = TodoRemoteDataSource(),
-        localDataSource: TodoLocalDataSource = TodoLocalDataSource(),
+        remoteDataSource: TodoRemoteDataSourceProtocol = TodoRemoteDataSource(),
+        localDataSource: TodoLocalDataSourceProtocol = TodoLocalDataSource(),
         syncManager: SyncManagerProtocol = SyncManager.shared
     ) {
         self.remoteDataSource = remoteDataSource
