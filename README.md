@@ -37,20 +37,6 @@
   <a href="https://developer.apple.com/widgets/" target="_blank">
     <img src="https://img.shields.io/badge/WidgetKit-40C4FF?style=for-the-badge&logoColor=white" alt="WidgetKit">
   </a>
-  <br>
-  <a href="https://developers.google.com/identity/sign-in/ios" target="_blank">
-    <img src="https://img.shields.io/badge/Google_Sign_In-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Sign-In">
-  </a>
-  <a href="https://developer.apple.com/sign-in-with-apple/" target="_blank">
-    <img src="https://img.shields.io/badge/Sign_in_with_Apple-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Sign in with Apple">
-  </a>
-  <br>
-  <a href="https://www.chartjs.org/" target="_blank">
-    <img src="https://img.shields.io/badge/Charts-FF6384?style=for-the-badge&logo=chart.js&logoColor=white" alt="Charts">
-  </a>
-  <a href="https://github.com/" target="_blank">
-    <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
 </div>
 
 ## 아키텍처
