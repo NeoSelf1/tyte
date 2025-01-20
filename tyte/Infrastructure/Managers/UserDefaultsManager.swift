@@ -1,5 +1,4 @@
 import Foundation
-import Combine
 import WidgetKit
 
 struct UserDefaultsConfiguration {

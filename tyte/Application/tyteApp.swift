@@ -1,6 +1,5 @@
 import SwiftUI
 import GoogleSignIn
-import Combine
 
 /// TyTE 앱의 진입점과 메인 구조를 정의하는 파일입니다.
 ///
