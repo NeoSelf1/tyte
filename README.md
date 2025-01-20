@@ -16,6 +16,43 @@
 - 📱 실시간 오프라인 지원: 데이터 동기화 시스템
 - 🤖 스마트 작업 생성: 자연어 처리를 통한 작업 상세 정보 파악
 
+## 기술 스택
+<div>
+  <a href="https://developer.apple.com/xcode/" target="_blank">
+    <img src="https://img.shields.io/badge/Xcode_14.3-147EFB?style=for-the-badge&logo=xcode&logoColor=white" alt="Xcode">
+  </a>
+  <a href="https://swift.org/" target="_blank">
+    <img src="https://img.shields.io/badge/Swift_5.5-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift">
+  </a>
+  <a href="https://developer.apple.com/xcode/swiftui/" target="_blank">
+    <img src="https://img.shields.io/badge/SwiftUI-000000?style=for-the-badge&logo=swift&logoColor=blue" alt="SwiftUI">
+  </a>
+  <br>
+  <a href="https://developer.apple.com/documentation/combine" target="_blank">
+    <img src="https://img.shields.io/badge/Combine-FF9500?style=for-the-badge&logoColor=white" alt="Combine">
+  </a>
+  <a href="https://developer.apple.com/documentation/coredata" target="_blank">
+    <img src="https://img.shields.io/badge/CoreData-5856D6?style=for-the-badge&logoColor=white" alt="CoreData">
+  </a>
+  <a href="https://developer.apple.com/widgets/" target="_blank">
+    <img src="https://img.shields.io/badge/WidgetKit-40C4FF?style=for-the-badge&logoColor=white" alt="WidgetKit">
+  </a>
+  <br>
+  <a href="https://developers.google.com/identity/sign-in/ios" target="_blank">
+    <img src="https://img.shields.io/badge/Google_Sign_In-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Sign-In">
+  </a>
+  <a href="https://developer.apple.com/sign-in-with-apple/" target="_blank">
+    <img src="https://img.shields.io/badge/Sign_in_with_Apple-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Sign in with Apple">
+  </a>
+  <br>
+  <a href="https://www.chartjs.org/" target="_blank">
+    <img src="https://img.shields.io/badge/Charts-FF6384?style=for-the-badge&logo=chart.js&logoColor=white" alt="Charts">
+  </a>
+  <a href="https://github.com/" target="_blank">
+    <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+</div>
+
 ## 아키텍처
 Clean Architecture 원칙과 MVVM 패턴을 따릅니다.
 ![Group 26](https://github.com/user-attachments/assets/1acc5453-271f-4f7b-ad06-dc38cc9970ce)
