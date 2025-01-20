@@ -39,6 +39,16 @@
   </a>
 </div>
 
+## What I did
+- 토스트 메시지 표시 시 발생한 뷰 무한 재구성 이슈를 Time Profiler로 분석하고, ViewModifier 패턴을 활용해 해결하여 메인스레드 점유시간을 86% 단축했습니다.
+https://neoself.tistory.com/46
+- 오프라인 동기화 로직을 담당하는 CoreDataSyncService에 집중된 과도한 책임을 분산시켜, 유지보수성을 증대하기 위해 Clean Architecture로 리펙토링을 진행했습니다.
+https://neoself.tistory.com/60
+- XCTest 기반의 Unit Test로 회원가입 플로우의 Form Validation 오류를 파악 및 해결했습니다.
+https://neoself.tistory.com/45
+- WidgetKit을 활용해 월간 생산성 지수 확인과 오늘의 할일 확인이 가능한 위젯을 구현하였습니다.
+https://neoself.tistory.com/52
+
 ## 아키텍처
 Clean Architecture 원칙과 MVVM 패턴을 따릅니다.
 ![Group 26](https://github.com/user-attachments/assets/1acc5453-271f-4f7b-ad06-dc38cc9970ce)
